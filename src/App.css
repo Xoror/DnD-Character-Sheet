@@ -1,0 +1,129 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/*  This is all that's used for Darkmode */
+
+#darkmode{
+  display: flex;
+  justify-content: center;
+}
+
+#darkmode .dark {
+  background-color: #292c35;
+}
+#darkmode .checkbox {
+  opacity: 0;
+  position: absolute;
+}
+
+#darkmode .label {
+  width: 38px;
+  height: 14px;
+  background-color:#111;
+  display: flex;
+  border-radius:50px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+  position: relative;
+  transform: scale(1.5);
+  cursor: pointer;
+}
+
+#darkmode .ball {
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  border-radius: 50%;
+  transition: transform 0.2s linear;
+}
+
+#darkmode .checkbox:checked + .label .ball{
+  transform: translateX(24px);
+}
+.fancy-border {
+	border-image-slice: 42 42 42 42;
+	border-image-width: 42px 42px 42px 42px;
+	border-image-outset: 0px 0px 0px 0px;
+	border-image-repeat: round round;
+	border-image-source: url("https://mdn.github.io/css-examples/tools/border-image-generator/border-image-6.svg");
+	border-style: solid; 
+}
+
+.left-box {
+  background-color: #6c757d;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+
+  border-radius: 0em 0em 0em 0.5em;
+  border-left: 1px solid black;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+.middle-box {
+  background-color: #5c636a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: 1px solid black;
+}
+.right-box {
+  background-color: #6c757d;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding-bottom: 20px;
+
+  border-radius: 0em 0em 0.5em 0em;
+  border-right: 1px solid black;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
+.main-style {
+  color: #ffffff;
+  background-color: #704214; /*#007200;*/ /*#704214*/
+  font-size: 16px;
+  line-height: 1.4
+}

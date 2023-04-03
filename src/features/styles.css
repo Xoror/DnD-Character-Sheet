@@ -1,0 +1,245 @@
+.test {
+	background-color: green;
+}
+
+input[type="file"] {
+    display: none;
+}
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+/* #676f77 , #5c636a , #51585e
+
+/* Styling of the Attribute box */
+.AttributeBox {
+	height: 152px;
+	width:112px;
+    /*background-image: url("../images/AttributeBG.png");*/
+	background-size: 100% 100%;
+	text-align: center;
+	padding: 0em;
+}
+.AttributeBoxInside {
+	text-align: center;
+	height: 40%;
+	width: 60%; /*50% for when the arrows aren't there*/
+	padding: 0em;
+}
+
+/* Styling of the solo Attribute box */
+.AttributeBox2 {
+	/*background-image: url("../images/AttributeBG.png");*/
+	background-size: 100% 100%;
+	text-align: center;
+	justify-content: middle;
+	/*padding-bottom: 1em;*/
+}
+.AttributeBoxInside2 {
+	text-align: center;
+	height: 3.5em; /*50% of 8em*/
+	width: 3.5em; /*25% of 16em*/
+	padding-inline: 0;
+	padding: 0;
+	margin: 0.5em;
+}
+.hpBox {
+	/*background-image: url("../images/AttributeBG.png");*/
+	background-size: 100% 100%;
+	text-align: center;
+	margin: 0;
+	padding: 0;
+	padding-bottom: 1;
+}
+.hpBoxInside {
+	text-align: center;
+	height: 3.5em; /*50% of 8em*/
+	width: 3.5em; /*25% of 16em*/
+	padding: 0em;
+	margin: 0.5em;
+}
+
+.resourceBox {
+	margin-bottom: 2em;
+	/*background-image: url("../images/AttributeBG.png");*/
+	background-size: 100% 100%;
+	text-align: center;
+	margin: 0;
+	padding-bottom: 1em;
+}
+.resourceBoxInside {
+	text-align: center;
+	height: 4em; /*50% of 8em*/
+	width: 4em; /*25% of 16em*/
+	padding: 1em;
+}
+.resourceBoxInside2 {
+	text-align: center;
+	height:2.4em; /*10% of 8em*/
+	width: 2.4em; /*15% of 16em*/
+	padding-inline: 0;
+}
+
+/* SpellCard Stylings */
+.spellCard {
+	/*background-image: url("../images/AttributeBG.png");*/
+	background-size: 100% 100%;
+	margin: 0;
+	padding: 0;
+	padding: 0.5em 1em 1em 1em;
+}
+.spellCardInside {
+	text-align: center;
+	height: 4em; /*50% of 8em*/
+	width: 4em; /*25% of 16em*/
+	padding: 1em;
+	margin: 0.5em;
+}
+
+/* Styling of the Skills column */
+.skills-layout {
+	/*styling of the text and bonus of the skills*/
+	padding-right: 0.25em;
+	padding-left: 0.25em;
+}
+
+/* Styling of the skills text */
+.skills-text {
+	padding: 0 10px;
+	position: relative;
+	bottom: 0.25em;
+}
+
+/* Styling of the proficiency/expertise check boxes */
+.checkbox-wrapper input[type="checkbox"] {
+	/* removing default appearance */
+	-webkit-appearance: none;
+	appearance: none;
+	/* creating a custom design */
+	width: 1.2em;
+	height: 1.2em;
+	border-radius: 1.2em;
+	border: 0.15em solid #000000;
+	outline: none;
+	cursor: pointer;
+	margin-top: 0.25em;
+}
+.checkbox-wrapper input[id="Expertise"] {
+	margin-right: 0.25em;
+	margin-left: 0.5em;
+}
+.checkbox-wrapper input:checked {
+	background-color: #51585e;
+	position: relative;
+	;
+}
+.checkbox-wrapper input:after {
+	background-color: #858c925;
+	border: 0.15em solid lightgrey;
+}
+.checkbox-wrapper input[id="Proficiency"]:checked::before {
+	content: "P";
+	font-size: 0.8em;
+	color: #ffffff;
+	position: absolute;
+	right: 0.33em;
+	top: -0.25em;
+	/*align-content: auto;*/
+}
+.checkbox-wrapper input[id="Expertise"]:checked::before {
+	content: "E";
+	font-size: 0.8em;
+	color: #ffffff;
+	position: absolute;
+	right: 0.33em;
+	top: -0.25em;
+	/*align-content: auto;*/
+}
+
+/* Testing custom CSS */
+
+.test-button {
+	font-weight: 400;
+	color: white;
+	background: #551399;
+	border-radius: 0.5em;
+	border: solid 1px #551399;
+	box-shadow: none;
+	padding: 0.375em 0.75em;
+	display: inline-block;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.test-button:hover {
+	color:white ;
+	background: #5f16ac;
+	border-color: #5f16ac;
+}
+.test-button:active {
+	color: white;
+	background: #6a18bf;
+	border-color: #6a18bf;
+}
+
+.button-react-icons-style {
+	all: unset;
+}
+.button-react-icons-style :hover {
+	cursor: pointer;
+	background-color: #858c925;
+}
+
+.edit-button {
+	padding: 1px;
+	border-radius: 4px;
+	
+	border: solid 1px black;
+	float: left;
+	background-color: #198754
+}
+
+
+.prepared-check input[type="checkbox"] {
+	/* removing default appearance */
+	-webkit-appearance: none;
+	appearance: none;
+	/* creating a custom design */
+	width: 1.2em;
+	height: 1.2em;
+	border-radius: 1.2em;
+	border: 0.15em solid #000000;
+	outline: none;
+	cursor: pointer;
+	margin-top: 4px;
+}
+
+.prepared-check input[type="checkbox"]:checked {
+	background-color: #51585e;
+	position: relative;
+	;
+}
+.prepared-check input[type="checkbox"]:hover {
+	background-color: #858925;
+	border: 0.15em solid lightgrey;
+}
+.prepared-check input[type="checkbox"]:checked::before {
+	content: "P";
+	font-size: 0.8em;
+	color: #ffffff;
+	position: absolute;
+	right: 4px;
+	top: -3.5px;
+	/*align-content: auto;*/
+}
+.fancy-border {
+	border-image-slice: 42 42 42 42;
+	border-image-width: 21px 21px 21px 21px;
+	border-image-outset: 0px 0px 0px 0px;
+	border-image-repeat: round round;
+	border-image-source: url("https://mdn.github.io/css-examples/tools/border-image-generator/border-image-6.svg");
+	border-style: solid; 
+}
