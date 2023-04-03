@@ -14,7 +14,6 @@ import { buildSpelllist } from '../actions/ActionsSlice';
 
 export const ThirdColumn = () => {
 	const dispatch = useDispatch()
-    const casting = useSelector(state => state.attributes.casting)
     const actions = useSelector(state => state.actions.actions)
     const spells = useSelector(state => state.actions.spells)
     const charClass = useSelector(state => state.charDetails.charClass)

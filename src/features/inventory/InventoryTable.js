@@ -1,5 +1,5 @@
-import React, { useState} from 'react';
-import { useDispatch, useSelector } from "react-redux"
+import React from 'react';
+import { useDispatch } from "react-redux"
 
 import Table from 'react-bootstrap/Table';
 
@@ -12,8 +12,6 @@ import { deleteItem, equipItem } from './InventorySlice';
 
 export const InventoryTable = (props) => {
     const dispatch = useDispatch()
-	const charAttributes = useSelector(state => state.attributes.charAttributes)
-	const proficiency = useSelector(state => state.attributes.proficiency)
 	
 	const handleDelete = (event, type, index) => {
 		dispatch(deleteItem(type, index))

@@ -1,5 +1,4 @@
-import { configureStore, createAction, createReducer, } from "@reduxjs/toolkit";
-import { useStore} from "react-redux";
+import { configureStore } from "@reduxjs/toolkit";
 
 import actionsReducer from "../features/actions/ActionsSlice"
 import featuresReducer from "../features/classFeatures/FeaturesSlice"

@@ -20,16 +20,17 @@ export const InventoryBox = (props) => {
 	const [defaultValues, setDefaultValues] = useState({name: "", type: "", qty: "", worth: "", weight: "", isEquipped: ""})
 	const [oldData, setOldData] = useState({})
 	
+	var data = {}
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		if(editing) {
-			var data = {name: event.target[0].value, type: event.target[1].value, qty: event.target[2].value, worth: event.target[3].value, 
+			data = {name: event.target[0].value, type: event.target[1].value, qty: event.target[2].value, worth: event.target[3].value, 
 							weight: event.target[4].value, isEquipped: event.target[5].value === "true" ? true:false};
 			dispatch(editItem(data, oldData))
 			setEditing(false)
 		}
 		else {
-			var data = {name: event.target[0].value, type: event.target[1].value, qty: event.target[2].value, worth: event.target[3].value, 
+			data = {name: event.target[0].value, type: event.target[1].value, qty: event.target[2].value, worth: event.target[3].value, 
 							weight: event.target[4].value, isEquipped: event.target[5].value === "true" ? true:false};
 			dispatch(addItem(data))
 		}

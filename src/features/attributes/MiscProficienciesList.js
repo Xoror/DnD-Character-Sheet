@@ -1,5 +1,5 @@
-import React, { useState} from 'react';
-import { useDispatch, useSelector } from "react-redux"
+import React from 'react';
+import { useSelector } from "react-redux"
 
 import "../styles.css"
 import { SkillItem } from './AttributeSkills';

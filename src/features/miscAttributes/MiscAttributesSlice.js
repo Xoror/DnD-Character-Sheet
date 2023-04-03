@@ -1,5 +1,4 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit"
-import AttributesSlice from "../attributes/AttributesSlice"
 
 const initialState = {
 	speed: {name: "Speed", value: 30, ground: 30, swim: 15, climb: 15, fly: 0, displayed: "Ground"},

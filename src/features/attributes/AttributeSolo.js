@@ -1,10 +1,10 @@
-import React, { useEffect} from 'react';
-import { useDispatch, useSelector, useStore } from "react-redux"
+import React from 'react';
+import { useDispatch, useSelector } from "react-redux"
 
 import "../styles.css"
 
 import { SkillItem } from './AttributeSkills'
-import { attributeChange, updateProficiencies, computeAC } from './AttributesSlice'
+import { attributeChange } from './AttributesSlice'
 
 export const Attribute = (props) => {
 	const dispatch = useDispatch()
