@@ -4,6 +4,10 @@ import { createAction } from '@reduxjs/toolkit';
 
 import "../styles.css"
 
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+
 import { importActions } from '../actions/ActionsSlice';
 import { importAttributes } from '../attributes/AttributesSlice';
 import { importCharDetails } from '../charDetails/CharDetailsSlice';
@@ -87,9 +91,9 @@ export const NavBar = () => {
 	}
 	
 	return(
-		<nav className="navbar navbar-light bg-light">
-		  <div className="container-fluid">
-			<a className="navbar-brand" href="/">Navbar</a>
+		<Navbar style={{backgroundColor:"#212529"}} variant="dark">
+		  <Container fluid>
+			<Navbar.Brand href="/">Navbar</Navbar.Brand>
 			<form className="d-flex">
 				<label  htmlFor="file-upload" className="btn btn-outline-success">
 					 Import
@@ -97,7 +101,7 @@ export const NavBar = () => {
 				<input id="file-upload" type="file" onChange={(e)=>readFileOnUpload(e.target.files[0])}></input>
 				<button className="btn btn-outline-success" type="submit" onClick={exportToJson}>Export</button>
 			</form>
-		  </div>
-		</nav>
+		  </Container>
+		</Navbar>
 	)
 }

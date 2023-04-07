@@ -80,7 +80,7 @@ export const FeaturesBox = () => {
 				))}
 			</div>
 			<Button onClick={handleShow}>
-				Launch demo modal
+				Add a feature
 			</Button>
 		</Card>
 	)

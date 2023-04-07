@@ -9,6 +9,7 @@ import notesReducer from "../features/notes/NotesSlice"
 import charDetailsReducer from "../features/charDetails/CharDetailsSlice"
 import spellsReducer from "../features/spells/SpellSlice"
 import resourcesReducer from "../features/resources/ResourcesSlice"
+import conditionsReducer from "../features/conditions/ConditionsSlice"
 
 const store = configureStore({
     reducer: {
@@ -20,7 +21,8 @@ const store = configureStore({
 		notes: notesReducer,
 		charDetails: charDetailsReducer,
 		spells: spellsReducer,
-		resources: resourcesReducer
+		resources: resourcesReducer,
+        conditions: conditionsReducer
     },
 })
 

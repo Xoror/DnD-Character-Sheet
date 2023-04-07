@@ -1,23 +1,38 @@
-import { createSlice, nanoid } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, nanoid } from "@reduxjs/toolkit";
+import axios from "axios";
 
 import {spellList} from "../../data/spells.js";
 
-var isEqualsJson = (obj1,obj2)=>{
-    let keys1 = Object.keys(obj1);
-    let keys2 = Object.keys(obj2);
 
-    //return true when the two json has same length and all the properties has same value key by key
-    return keys1.length === keys2.length && Object.keys(obj1).every(key=>obj1[key]===obj2[key]);
-}
+export const getAPISPelllist = createAsyncThunk('actions/fetchAPISpelllist', async () => {
+    let spellListNames = []
+    let spellList = []
+    try {
+        let response = await axios.get("https://www.dnd5eapi.co/api/spells")
+         spellListNames = response.data.results
+        await axios.all(
+            spellListNames.map(name => (axios.get(`https://www.dnd5eapi.co${name.url}`)))
+        ).then((responses => {
+            responses.forEach((resp) => {
+                spellList.push(resp.data)
+            })
+        }))
+        return spellList
+    } catch (error) {
+        console.error(error)
+        return []
+    }
+})
 
 const initialState = {
     actions: [
-        {name: "Unarmed Attack", range: "Melee",  damage: 1, type: "Action", scaling: "Strength", isProficient: true, damageType:"Bludgeoning"},
+        {name: "Unarmed Attack", range: "Melee",  damage: 1, type: "Action", scaling: "Strength", isProficient: true, damageType:"Bludgeoning", description:"An attack with your fist, ellbow, head etc."},
     ],
     spells: [
 	],
 	sortedSpellList: [],
-    highestSpellSlot: "1st"
+    highestSpellSlot: "1st",
+    spellListAPI: []
 }
 
 const ActionsSlice = createSlice({
@@ -136,6 +151,10 @@ const ActionsSlice = createSlice({
                     if(action.payload[2]) {
                         let test = state.spells.filter(spell => {return spell.name === action.payload[0]})[0]
                         test.isPrepared=false
+                        let test2 = state.sortedSpellList.filter(spell => {return spell.name === action.payload[0]})[0]
+                        if(test2) {
+                            test2.isPrepared = action.payload[1]
+                        }
                         let index = state.spells.indexOf(test)
                         state.spells = state.spells.slice(0, index).concat(state.spells.slice(index + 1))
                         
@@ -181,13 +200,11 @@ const ActionsSlice = createSlice({
 						return listSlots[parseInt(number)]
 					}
 				}
-				
-				const artificerListUnformatted = spellList.filter((spell) => {return spell.classes[0] === "Artificer"})
-				var artificerList = []
-				artificerListUnformatted.map(spell => (
-					artificerList.push({name: spell.name, range: spell.range, damage: "", type: returnSpellslot(spell.level), scaling: action.payload[1], isPrepared: false, damageType: ""})
+				var spellLiistUnformatted = []
+				spellList.map(spell => (
+					spellLiistUnformatted.push({name: spell.name, range: spell.range, damage: "", type: returnSpellslot(spell.level), scaling: action.payload[1], isPrepared: false, damageType: "", description: spell.description, school: spell.school, ritual: spell.ritual, classes: spell.classes})
 				))
-				artificerList = artificerList.sort((a, b) => {
+				var spellLiistFormatted = spellLiistUnformatted.sort((a, b) => {
 					const nameA = a.name.toUpperCase(); // ignore upper and lowercase
 					const nameB = b.name.toUpperCase(); // ignore upper and lowercase
 					if (nameA < nameB) {
@@ -200,10 +217,11 @@ const ActionsSlice = createSlice({
 					// names must be equal
 					return 0;
 				});
-				state.sortedSpellList = structuredClone(artificerList)
+				state.sortedSpellList = spellLiistFormatted
 				console.log(state.sortedSpellList)
 			}
         },
+
         importActions(state, action) {
             let keys1 = Object.keys(state)
             keys1.map(key => 
@@ -211,8 +229,15 @@ const ActionsSlice = createSlice({
             )
         }
     },
+    extraReducers(builder) {
+        builder
+            .addCase(getAPISPelllist.fulfilled, (state, action) => {
+                state.spellListAPI = action.payload
+            })
+    }
 })
+
 
 export default ActionsSlice.reducer
 
-export const { addAction, editAction, deleteAction, setPrepared, buildSpelllist, importActions } = ActionsSlice.actions
+export const { addAction, editAction, deleteAction, setPrepared, buildSpelllist, buildSpelllistAPI, importActions } = ActionsSlice.actions

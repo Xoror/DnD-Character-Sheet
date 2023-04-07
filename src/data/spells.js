@@ -7199,7 +7199,6 @@ const spellList = [
     {
         "casting_time": "1 action",
         "classes": [
-			"Artificer",
             "bard",
             "sorcerer",
             "warlock",

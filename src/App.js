@@ -1,10 +1,13 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {MDBFooter, MDBContainer, MDBIcon, MDBBtn} from 'mdb-react-ui-kit';
 
 import "./App.css"
 
+import { AiFillTwitterCircle, AiFillGithub } from "react-icons/ai";
+
 import Container from 'react-bootstrap/Container';
+import Card from 'react-bootstrap/Card';
+import CardGroup from 'react-bootstrap/CardGroup';
 
 // Add code to import the components
 import { NavBar } from "./features/nav/NavBar"
@@ -16,6 +19,7 @@ import { MiscAttributes } from "./features/miscAttributes/MiscAttributes"
 import { ResourcesMiscProficiencies } from './features/resources/ResourcesMiscProficiencies'
 import { SpellCard } from "./features/spells/SpellCard.js"
 import { ThirdColumn } from './features/classFeatures/3rdColumn';
+import { ConditionsBox } from './features/conditions/ConditionsBox';
 
 
 const App = () => {
@@ -25,7 +29,7 @@ const App = () => {
 				<NavBar/>
 			</div>
 			<Container fluid className="main-style">
-				<div className='row justify-content-md-center' style={{paddingBottom:"12px"}}>
+				<div className='row justify-content-md-center' style={{paddingBottom:"6px"}}>
 					<div className='col col-lg-3 left-box'>
 						<CharacterName/>
 					</div>
@@ -35,6 +39,17 @@ const App = () => {
 					<div className='col col-lg-3 right-box'>
 						<CharacterClass />
 					</div>
+				</div>
+				<div className="row">
+					<CardGroup style={{paddingBottom:"6px"}}>
+						<ConditionsBox/>
+						<Card border="dark" bg="secondary">
+							
+						</Card>
+						<Card border="dark" bg="secondary">
+							
+						</Card>
+					</CardGroup>
 				</div>
 				<div className='row'>
 					<div className='col-md-auto' style={{paddingRight:"0"}}>
@@ -55,23 +70,19 @@ const App = () => {
 						<ThirdColumn/>
 					</div>
 				</div>
-				<h3 className='mt-3'>Change allocation</h3>
+
 				<div className='row mt-3'>
-					<div className='col-sm'>
-						
-					</div>
 				</div>
 			</Container>
-			<MDBFooter className='text-center' color='white' bgColor='dark'>
-				<MDBContainer className='p-4'>
+			<div style = {{textAlign:"center", color:"white", backgroundColor:"#212529"}}>
+				<Container className='p-4'>
 					<section className='mb-4'>
-					<MDBBtn outline color="light" floating className='m-1' href='#!' role='button'>
-						<MDBIcon fab icon='twitter' />
-					</MDBBtn>
-
-					<MDBBtn outline color="light" floating className='m-1' href='#!' role='button'>
-						<MDBIcon fab icon='github' />
-					</MDBBtn>
+						<button>
+							<AiFillTwitterCircle size="40px"/>
+						</button>
+						<button>
+							<AiFillGithub size="40px"/>
+						</button>
 					</section>
 
 					<section className='mb-4'>
@@ -82,12 +93,12 @@ const App = () => {
 					</p>
 					</section>
 
-				</MDBContainer>
+				</Container>
 
-				<div className='text-center p-3' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
-					© 2020 Copyright: Stargazer Works
+				<div className='text-center p-3' style={{ backgroundColor: '#1a1e21' }}>
+					© 2023 Copyright: Stargazer Works
 				</div>
-			</MDBFooter>
+			</div>
 		</>
     )
 }

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
+import Table from 'react-bootstrap/Table';
 
 import { Attribute } from './AttributeSolo';
 import { changeJackOfAllTrades } from './AttributesSlice';
@@ -23,7 +24,7 @@ export const Attributes = () => {
 	return (
 	<Card border ="dark" bg="secondary">
 		<Form.Check style={{paddingLeft:"2em", paddingTop:"0.3em"}} type="checkbox" checked={jackOfAllTrades} id="jack-of-all-trades-check" label="Jack of All Trades" onChange={handleChecked}></Form.Check>
-		<table className="table" style={{color: '#ffffff'}}>
+		<Table style={{color: '#ffffff'}}>
 			<thead>
 				<tr>
 				  <th scope="col">Attributes</th>
@@ -35,7 +36,7 @@ export const Attributes = () => {
 				<Attribute key={charAttribute.id} attribute={charAttribute}/>
 			))}
 			</tbody>
-		</table>
+		</Table>
 	</Card>
 	);
 }

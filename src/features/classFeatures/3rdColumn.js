@@ -1,16 +1,21 @@
 import React, { useState} from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
+
 import Card from 'react-bootstrap/Card';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 import { FeaturesBox } from './FeaturesBox';
 import { ActionsBox } from '../actions/ActionsBox'
 import { InventoryBox } from '../inventory/InventoryBox';
 import { Notes } from '../notes/Notes';
 
-import { buildSpelllist } from '../actions/ActionsSlice';
+import { buildSpelllist, getAPISPelllist } from '../actions/ActionsSlice';
+
 
 export const ThirdColumn = () => {
 	const dispatch = useDispatch()
@@ -20,20 +25,22 @@ export const ThirdColumn = () => {
     const castingAttribute = useSelector(state => state.attributes.casting.scaling)
     const highestSpellSlot = useSelector(state => state.actions.highestSpellSlot)
 	const [radioValue, setRadioValue] = useState("0");
-	
+	const spellListAPI = useSelector(state => state.actions.spellListAPI)
+
 	const handleSwitch = (event) => {
 		setRadioValue(event.target.value)
 		if(event.currentTarget.value === "2") {
 			dispatch(buildSpelllist([charClass, castingAttribute]))
+			//dispatch(getAPISPelllist())
 		}
 	}
-	
+
 	const radios = [
-    { name: "Features", value: "0" },
-    { name: "Actions", value: "1" },
-	{ name: "Spells", value: "2" },
-    { name: "Inventory", value: "3" },
-	{ name: "Notes", value: "4" },
+		{ name: "Features", value: "0" },
+		{ name: "Actions", value: "1" },
+		{ name: "Spells", value: "2" },
+		{ name: "Inventory", value: "3" },
+		{ name: "Notes", value: "4" },
 	];
 
 	const headersActions = ["Action", "Bonus Action", "Reaction", "Special"];
@@ -48,21 +55,11 @@ export const ThirdColumn = () => {
     ]
 	
 	return (
-		<Card bg="secondary" border="dark">
+		<Card bg="secondary"  style={{border:"1px solid black"}}>
 			<div>
-				<ButtonGroup>
+				<ButtonGroup style={{width:"100%"}}>
 					{radios.map((radio, idx) => (
-						<ToggleButton
-						
-						key={idx}
-						id={`radio-${idx}`}
-						type="radio"
-						variant='primary'
-						name="radio"
-						value={radio.value}
-						checked={radioValue === radio.value}
-						onChange={handleSwitch}
-						>
+						<ToggleButton key={`3rdColumnButton-${idx}`} id={`3rdColumnButton-${idx}`} type="radio" variant='primary' name="radio" value={radio.value} checked={radioValue === radio.value} onChange={handleSwitch} >
 							{radio.name}
 						</ToggleButton>
 					))}
@@ -74,3 +71,12 @@ export const ThirdColumn = () => {
 		</Card>
 	)
 }
+/*
+<ButtonGroup>
+	{radios.map((radio, idx) => (
+		<ToggleButton key={idx} id={`radio-${idx}`} type="radio" variant='primary' name="radio" value={radio.value} checked={radioValue === radio.value} onChange={handleSwitch} >
+			{radio.name}
+		</ToggleButton>
+	))}
+</ButtonGroup>
+*/

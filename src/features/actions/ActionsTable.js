@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
+import Overlay from 'react-bootstrap/Overlay';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
 import Table from 'react-bootstrap/Table';
 
 import "../styles.css"
@@ -37,37 +40,97 @@ export const ActionsTable = (props) => {
 		props.setOldData(body)
 		props.setEditing(true)
 	}
+
+	const checkFilters = (body, search) => {
+		if(props.offCanvas) {
+			console.log("build")
+			var test1
+			var test2
+			var test3
+			var test4 = false
+			// Testing spell tier and school
+			if(props.filters.spellslots.length != 0 && props.filters.schools.length != 0) {
+				test1 = props.filters.spellslots.find(spellslot => (spellslot === body.type)) ? true : false
+				test2 = props.filters.schools.find(school => (school === body.school)) ? true : false
+			}
+			else if(props.filters.spellslots.length === 0 && props.filters.schools.length != 0) {
+				test1 = true
+				test2 = props.filters.schools.find(school => (school === body.school)) ? true : false
+			}
+			else if(props.filters.spellslots.length != 0 && props.filters.schools.length === 0) {
+				test1 = props.filters.spellslots.find(spellslot => (spellslot === body.type)) ? true : false
+				test2 = true
+			}
+			else if(props.filters.spellslots.length === 0 && props.filters.schools.length === 0) {
+				test1 = true
+				test2 = true
+			}
+			// testing search
+			if(search != "") {
+				test3 = body.name.toLowerCase().includes(search.toLowerCase())
+			}
+			else {
+				test3 = true
+			}
+			// testing class
+			if(props.filters.classes.length != 0) {
+				props.filters.classes.map(class1 => (
+					body.classes.filter(class2 => (class2 === class1)).length === 0 ? null : test4 = true
+				))
+			} else {
+				test4 = true
+			}
+			return (test1 && test2 && test3 && test4)
+		}
+		else {
+			return true
+		}
+	}
 	return (
 		<div key={props.index} style={{marginLeft:"8px", marginRight:"8px"}}>
 			<h5> {props.header} {props.spells ? (props.header === "Cantrip" ? "": "Level") :""} </h5>
-			<Table size="sm" style={{color:"white", border:"black"}}>
+			<Table size="sm" style={{color:"white", border:"black"}}  className="table-hover">
 				<thead>
 					<tr>
 						{props.spells ? <td></td> : ""}
 						<td> Name </td>
 						{props.spells ? "" : <td> Hit </td>}
-						{props.spells ? "" : <td> Damage </td>}
+						{props.offCanvas ? "" : <td> Damage (Type) </td>}
 						<td> Range </td>
-						<td> </td>
+						{props.offCanvas ? "" : <td> </td>}
 					</tr>
 				</thead>
 				<tbody>
 					{props.bodies.map( (body, index) => (
-						<tr key={index}>
-							{props.spells ? 
-								<td className="prepared-check" style={{height:"1.5em", width:"1.5em"}}> 
-									<input type="checkbox" id={body.name} value="prepared"  onChange={handlePrepared} checked={body.isPrepared}></input>
-								</td> : ""}
-							<td>{body.name}</td>
-							{props.spells ? "" : <td>{body.isProficient ? proficiency.value + scalingBonus(body.scaling) : 0 + scalingBonus(body.scaling)} </td>}
-							{props.spells ? "" : <td>{body.damage} + {scalingBonus(body.scaling)} ({body.damageType}) </td>}
-							<td>{body.range}</td>
-							<td style={{paddingRight:"0",paddingLeft:"0", justifyItems:"end"}}> 
-								<RiFileEditFill type="button" color="black" size="23" id="edit-button" onClick={(event) => startEdit(event, body)} className="edit-button" />
-								<AiFillCloseSquare type="button" color="#dc3545" size="23" id="delete-button" onClick={(event) => handleDelete(event, props.header, index)} className="edit-button" style={{backgroundColor:"white", padding:"0px"}}/> 
-							</td>
-						</tr>
-					))}
+						checkFilters(body, props.searchField) ?
+						<OverlayTrigger  key={index} triger="hover" placement={props.offCanvas ? "right":"left"} overlay = {
+							<Popover style={{width:"50em !important"}} id="popover-basic">
+								<Popover.Header as="h3">{body.name}</Popover.Header>
+								<Popover.Body>
+									<span>Hit/Damage scale with: {body.scaling}</span>
+									<br></br>
+									<div /*</Popover.Body>style={{overflowY: 'scroll', height:'70vh'}}*/>
+										<p>Description: {body.description} </p>
+									</div>
+								</Popover.Body>
+							</Popover>
+						}> 
+							<tr> 
+								{props.spells ? 
+									<td className="prepared-check" style={{height:"1.5em", width:"1.5em"}}> 
+										<input type="checkbox" id={body.name} value="prepared"  onChange={handlePrepared} checked={body.isPrepared}></input>
+									</td> : ""}
+								<td>{body.name}</td>
+								{props.spells ? "" : <td>{body.isProficient ? proficiency.value + scalingBonus(body.scaling) : 0 + scalingBonus(body.scaling)} </td>}
+								{props.offCanvas ? "" : (props.spells ? <td>{body.damage ? body.damage : "N/A"} ({body.damageType ? body.damageType : "N/A"}) </td> : <td>{body.damage} + {scalingBonus(body.scaling)} ({body.damageType}) </td>)}
+								<td>{body.range}</td>
+								{props.offCanvas ? "" : <td style={{paddingRight:"0",paddingLeft:"0", justifyItems:"end"}}> 
+									<RiFileEditFill type="button" color="black" size="23" id="edit-button" onClick={(event) => startEdit(event, body)} className="edit-button" />
+									<AiFillCloseSquare type="button" color="#dc3545" size="23" id="delete-button" onClick={(event) => handleDelete(event, props.header, index)} className="edit-button" style={{backgroundColor:"white", padding:"0px"}}/> 
+								</td>}
+							</tr>
+						</OverlayTrigger>
+					: "" ))}
 				</tbody>
 			</Table>
 		</div>

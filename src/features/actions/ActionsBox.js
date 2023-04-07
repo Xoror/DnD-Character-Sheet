@@ -7,6 +7,8 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col'
 
 import "../styles.css"
 
@@ -23,11 +25,12 @@ const useFocus = () => {
 }
 export const ActionsBox = (props) => {
 	const dispatch = useDispatch()
+	var actionTemplate = props.id === "Spells" ? {id: "", name: "", range: "", damage: "", type: "", scaling: "", isPrepared: "", damageType: "", description: ""} : {id: "", name: "", range: "", damage: "", type: "", scaling: "", isProficient: "", damageType: "", description: ""}
 	const actions = useSelector(state => state.actions.actions)
 	const sortedSpellList = useSelector(state => state.actions.sortedSpellList)
 
 
-	const [defaultValues, setDefaultValues] = useState(props.id === "Spells" ? {id: "", name: "", range: "", damage: "", type: "", scaling: "", isPrepared: "", damageType: ""} : {id: "", name: "", range: "", damage: "", type: "", scaling: "", isProficient: "", damageType: ""})
+	const [defaultValues, setDefaultValues] = useState(actionTemplate)
 	const [oldData, setOldData] = useState({})
 	const [editing, setEditing] = useState(false)
 	const [show, setShow] = useState(false);
@@ -38,12 +41,10 @@ export const ActionsBox = (props) => {
 		event.preventDefault()
 		var data = {}
 		if (props.id === "Spells") {
-			data = {id: "", name: event.target[0].value, range: event.target[1].value, damage: event.target[2].value, type: event.target[3].value, 
-						scaling: event.target[4].value, isPrepared: true, damageType: event.target[6].value};
+			data = defaultValues
 		}
 		else {
-			data = {id: "", name: event.target[0].value, range: event.target[1].value, damage: event.target[2].value, type: event.target[3].value, 
-						scaling: event.target[4].value, isProficient: event.target[5].value, damageType: event.target[6].value};
+			data = defaultValues
 		}
 		if(editing) {
 			data.id = oldData.id
@@ -61,7 +62,7 @@ export const ActionsBox = (props) => {
 				dispatch(addAction(data, props.id))
 			}
 		}
-		setDefaultValues({id: "", name: "", range: "", damage: "", type: "", scaling: "", isProficient: "", damageType: ""})
+		setDefaultValues(actionTemplate)
 	}
 	const handleSelectValues = (event, id) => {
 		let copy = structuredClone(defaultValues)
@@ -71,21 +72,22 @@ export const ActionsBox = (props) => {
 	
 	return (
 		<Card bg="secondary" id="ActionsPart">
-			{props.id === "Spells" ? <SpellList /> : "" }
 			{props.headers.map((header, index) => (
 				<ActionsTable setOldData={setOldData} setEditing={setEditing} passState={setDefaultValues} offCanvas={props.offCanvas} id={props.id} key={index} header={header} bodies={props.actions.filter((action) => {return action.type === header})} spells={props.spells}/>
 			))}
-			<InputGroup.Text> {editing ? ("Currently editing: " + defaultValues.name) : (props.spells ? "Add New Spell" : "Add New Action/Bonus Action/etc:") } </InputGroup.Text>
+			{props.id === "Spells" ? <SpellList /> : "" }
+			<InputGroup>
+				<InputGroup.Text style={{flexGrow:"2"}}> {editing ? ("Currently editing: " + defaultValues.name) : (props.spells ? "Add New Spell" : "Add New Action/Bonus Action/etc:") } </InputGroup.Text>
+				{editing ? <Button onClick={() => (setEditing(false), setDefaultValues(actionTemplate))}>Cancel</Button> : "" }
+			</InputGroup>
 			<Form onSubmit={handleSubmit}>
 				<InputGroup>
-					
-						<Form.Control ref={inputRef} required value={defaultValues.name} placeholder="Name" aria-label="Name"onChange={event => handleSelectValues(event, "name")}/>
-						<Overlay target={inputRef.current} show={show} placement="top">
-						  <Tooltip id="overlay-example">
-								Please enter unique Name.
-						  </Tooltip>
-						</Overlay>
-					
+					<Form.Control ref={inputRef} required value={defaultValues.name} placeholder="Name" aria-label="Name"onChange={event => handleSelectValues(event, "name")}/>
+					<Overlay target={inputRef.current} show={show} placement="top">
+						<Tooltip id="overlay-example">
+							Please enter unique Name.
+						</Tooltip>
+					</Overlay>
 					<Form.Control required value={defaultValues.range} placeholder="Range" aria-label="Range" aria-describedby="range" onChange={event => handleSelectValues(event, "range")}/>
 					<Form.Control required value={defaultValues.damage} placeholder="Damage" aria-label="damage-dice" aria-describedby="damage-dice" onChange={event => handleSelectValues(event, "damage")}/>
 				</InputGroup>
@@ -133,6 +135,7 @@ export const ActionsBox = (props) => {
 					</Form.Select>
 					<Button variant="success" aria-label="submit" type="submit">Submit</Button>
 				</InputGroup>
+				<Form.Control as="textarea" aria-label="description" placeholder="Description" onChange={event => handleSelectValues(event, "description")}/>
 			</Form>
 		</Card>
 	)

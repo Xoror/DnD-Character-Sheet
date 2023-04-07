@@ -15,9 +15,9 @@ import { addItem, editItem } from './InventorySlice';
 export const InventoryBox = (props) => {
     const dispatch = useDispatch()
     const inventory = useSelector(state => state.inventory.inventory)
-	
+	var itemTemplate = {name: "", type: "", qty: "", worth: "", weight: "", isEquipped: ""}
 	const [editing, setEditing] = useState(false)
-	const [defaultValues, setDefaultValues] = useState({name: "", type: "", qty: "", worth: "", weight: "", isEquipped: ""})
+	const [defaultValues, setDefaultValues] = useState(itemTemplate)
 	const [oldData, setOldData] = useState({})
 	
 	var data = {}
@@ -34,7 +34,7 @@ export const InventoryBox = (props) => {
 							weight: event.target[4].value, isEquipped: event.target[5].value === "true" ? true:false};
 			dispatch(addItem(data))
 		}
-		setDefaultValues({name: "", type: "", qty: "", worth: "", weight: "", isEquipped: ""})
+		setDefaultValues(itemTemplate)
 	}
 	const handleSelectValues = (event, id) => {
 		let copy = structuredClone(defaultValues)
@@ -48,7 +48,10 @@ export const InventoryBox = (props) => {
 			{headers.map((header, index) => (
 				<InventoryTable setOldData={setOldData} setEditing={setEditing} setDefaultValues={setDefaultValues} key={index} header={header} bodies={inventory.filter((item) => {return item.type === header})}/>
 			))}
-			<InputGroup.Text> {editing ? ("Currently editing: " + defaultValues.name) : "Add New Item" } </InputGroup.Text> 
+			<InputGroup>
+				<InputGroup.Text style={{flexGrow:"2"}}> {editing ? ("Currently editing: " + defaultValues.name) : "Add New Item" } </InputGroup.Text> 
+				{editing ? <Button onClick={() => (setEditing(false), setDefaultValues(itemTemplate))}>Cancel</Button> : ""}
+			</InputGroup>
 			<Form onSubmit={handleSubmit}>
 				<InputGroup>
 					<Form.Control value={defaultValues.name} required placeholder="Name" aria-label="Name" aria-describedby="name" onChange={event => handleSelectValues(event, "name")}/>

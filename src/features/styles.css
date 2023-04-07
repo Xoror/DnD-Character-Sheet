@@ -243,3 +243,32 @@ input[type="file"] {
 	border-image-source: url("https://mdn.github.io/css-examples/tools/border-image-generator/border-image-6.svg");
 	border-style: solid; 
 }
+
+.button-empty {
+	all: unset;
+}
+
+.table-hover tbody tr:hover {
+	background-color: #6c7279;
+	color: #ffffff;
+}
+.filter-container {
+	border: 1px solid #000000;
+	border-radius: 0.5em;
+	padding: 0.375em;
+	margin: 1em 0 1em 0;
+}
+.filter-body {
+	width: max-content;
+	border: 1px solid black;
+	border-radius: 0.25em;
+	padding: 0em 0em 0em 0.25em;
+	margin: 0;
+	margin-right: 0.25em;
+	background-color: rgb(156, 156, 156);
+	color: black;
+}
+.filter-delete-button {
+	vertical-align: sub;
+	padding: 0;
+}
