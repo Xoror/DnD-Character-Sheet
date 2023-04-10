@@ -20,10 +20,10 @@ import { Attributes } from './features/attributes/AttributeBox'
 import { MiscAttributes } from "./features/miscAttributes/MiscAttributes"
 import { ResourcesMiscProficiencies } from './features/resources/ResourcesMiscProficiencies'
 import { SpellCard } from "./features/spells/SpellCard.js"
-import { ThirdColumn } from './features/classFeatures/3rdColumn';
-import { ConditionsBox } from './features/conditions/ConditionsBox';
-import { LanguageBox } from './features/charDetails/LanguageBox';
-import { SensesBox } from './features/charDetails/SensesBox';
+import { ThirdColumn } from './features/classFeatures/3rdColumn'
+import { ConditionsBox } from './features/conditions/ConditionsBox'
+import { LanguageBox } from './features/charDetails/LanguageBox'
+import { SensesBox } from './features/charDetails/SensesBox'
 
 
 const App = () => {
