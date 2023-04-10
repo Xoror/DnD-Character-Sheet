@@ -68,10 +68,10 @@ export const SpellList = (props) => {
 
 export const FilterItem = (props) => {
 	return (
-		<span className="filter-body">
+		<div className="filter-body">
 			{props.name} <AiOutlineCloseCircle type="button" color="black" size="20" id="delete-button" 
 							onClick={(event) => props.handleDelete(event, props.index, props.type)} className="filter-delete-button"/>
-		</span>
+		</div>
 	)
 }
 

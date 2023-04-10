@@ -37,9 +37,15 @@ const ConditionsSlice = createSlice({
             else if(action.payload === "dec") {
                 state.exhaustion.level = state.exhaustion.level === 0 ? state.exhaustion.level : state.exhaustion.level - 1
             }
+        },
+        importConditions(state, action) {
+            let keys1 = Object.keys(state)
+            keys1.map(key => 
+                state[key] = action.payload[key]
+            )
         }
     }
 })
 
 export default ConditionsSlice.reducer
-export const { addCondition, removeCondition, changeExhaustion } = ConditionsSlice.actions
+export const { addCondition, removeCondition, changeExhaustion, importConditions } = ConditionsSlice.actions

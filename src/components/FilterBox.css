@@ -1,0 +1,31 @@
+.filter-body {
+	width: max-content;
+	border: 1px solid black;
+	border-radius: 0.25em;
+	padding: 0em 0em 0em 0.25em;
+	margin: 0.0625em 0.125em 0.0625em 0.125em;
+	background-color: rgb(156, 156, 156);
+	color: black;
+}
+.filter-delete-button {
+	vertical-align: sub;
+	padding: 0;
+}
+
+.create-input {
+	width: max-content;
+	border: 1px solid black;
+	border-radius: 0.25em;
+	padding: 0em 0em 0em 0.25em;
+	margin: 0.0625em 0.125em 0.0625em 0.125em;
+	background-color: rgb(156, 156, 156);
+	color: black;
+}
+.create-input::placeholder {
+	color: black;
+	opacity: 0.6;
+}
+.create-input:focus {
+	outline: 0px white solid;
+	border: 1px white solid
+}

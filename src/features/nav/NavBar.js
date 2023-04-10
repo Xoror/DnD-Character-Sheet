@@ -5,7 +5,6 @@ import { createAction } from '@reduxjs/toolkit';
 import "../styles.css"
 
 import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
 import { importActions } from '../actions/ActionsSlice';
@@ -17,6 +16,7 @@ import { importMiscAttributes } from '../miscAttributes/MiscAttributesSlice';
 import { importNotes } from '../notes/NotesSlice';
 import { importResources } from '../resources/ResourcesSlice';
 import { importSpells } from '../spells/SpellSlice';
+import { importConditions } from '../conditions/ConditionsSlice';
 
 const importState = createAction(
 	"import/state",
@@ -30,6 +30,7 @@ const importState = createAction(
 		dispatch(importNotes(payload.notes))
 		dispatch(importResources(payload.resources))
 		dispatch(importSpells(payload.spells))
+		dispatch(importConditions(payload.conditions))
 	}
 )
 

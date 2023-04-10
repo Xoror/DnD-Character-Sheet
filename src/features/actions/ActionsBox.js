@@ -9,12 +9,14 @@ import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col'
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
 
 import "../styles.css"
 
 import { ActionsTable } from "./ActionsTable"
 import { addAction, editAction } from './ActionsSlice';
 import { SpellList } from '../spells/SpellList';
+
 
 
 const useFocus = () => {
@@ -69,7 +71,7 @@ export const ActionsBox = (props) => {
 		copy[id] = event.target.value
 		setDefaultValues(copy)
 	}
-	
+	//<FloatingLabel label="Name" style={{color:"black"}}>
 	return (
 		<Card bg="secondary" id="ActionsPart">
 			{props.headers.map((header, index) => (
@@ -82,7 +84,9 @@ export const ActionsBox = (props) => {
 			</InputGroup>
 			<Form onSubmit={handleSubmit}>
 				<InputGroup>
-					<Form.Control ref={inputRef} required value={defaultValues.name} placeholder="Name" aria-label="Name"onChange={event => handleSelectValues(event, "name")}/>
+					
+						<Form.Control ref={inputRef} required value={defaultValues.name} placeholder="Name" aria-label="Name"onChange={event => handleSelectValues(event, "name")}/>
+					
 					<Overlay target={inputRef.current} show={show} placement="top">
 						<Tooltip id="overlay-example">
 							Please enter unique Name.

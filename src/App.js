@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import "./App.css"
 
 import { AiFillTwitterCircle, AiFillGithub } from "react-icons/ai";
+import { MdUnfoldMoreDouble, MdUnfoldLessDouble } from "react-icons/md";
 
 import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
+import Button from 'react-bootstrap/Button';
 
 // Add code to import the components
 import { NavBar } from "./features/nav/NavBar"
@@ -20,9 +22,15 @@ import { ResourcesMiscProficiencies } from './features/resources/ResourcesMiscPr
 import { SpellCard } from "./features/spells/SpellCard.js"
 import { ThirdColumn } from './features/classFeatures/3rdColumn';
 import { ConditionsBox } from './features/conditions/ConditionsBox';
+import { LanguageBox } from './features/charDetails/LanguageBox';
+import { SensesBox } from './features/charDetails/SensesBox';
 
 
 const App = () => {
+	const [showMiscBar, setShowMiscBar] = useState(true)
+	const setShow = () => {
+		setShowMiscBar(!showMiscBar)
+	}
 	return (
 		<>
 			<div>
@@ -42,13 +50,12 @@ const App = () => {
 				</div>
 				<div className="row">
 					<CardGroup style={{paddingBottom:"6px"}}>
-						<ConditionsBox/>
-						<Card border="dark" bg="secondary">
-							
-						</Card>
-						<Card border="dark" bg="secondary">
-							
-						</Card>
+						<Button style={{paddingLeft:"0.25em", paddingRight:"0.25em", border:"1px solid black", borderRadius:"0.375em 0 0 0.375em"}} onClick={setShow}>
+							{showMiscBar ? <MdUnfoldLessDouble size="1.5em"/> : <MdUnfoldMoreDouble size="1.5em"/>}
+						</Button>
+						<ConditionsBox show={showMiscBar}/>
+						<LanguageBox show={showMiscBar}/>
+						<SensesBox show={showMiscBar}/>
 					</CardGroup>
 				</div>
 				<div className='row'>

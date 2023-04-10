@@ -257,14 +257,15 @@ input[type="file"] {
 	border-radius: 0.5em;
 	padding: 0.375em;
 	margin: 1em 0 1em 0;
+	display: flex;
+	flex-wrap: wrap;
 }
 .filter-body {
 	width: max-content;
 	border: 1px solid black;
 	border-radius: 0.25em;
 	padding: 0em 0em 0em 0.25em;
-	margin: 0;
-	margin-right: 0.25em;
+	margin: 0.0625em 0.125em 0.0625em 0.125em;
 	background-color: rgb(156, 156, 156);
 	color: black;
 }
@@ -272,3 +273,5 @@ input[type="file"] {
 	vertical-align: sub;
 	padding: 0;
 }
+
+/* Styling the Counterbox */

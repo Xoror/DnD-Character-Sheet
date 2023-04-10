@@ -1,0 +1,26 @@
+import React, { useState} from 'react';
+import { useDispatch, useSelector } from "react-redux"
+
+import Card from 'react-bootstrap/Card';
+
+import { changeDetails, deleteLanguage } from './CharDetailsSlice';
+import { FilterBox } from '../../components/FilterBox';
+
+export const LanguageBox = (props) => {
+    const dispatch = useDispatch()
+    const languages = useSelector(state => state.charDetails.languages)
+
+    const handleCreate = (event, id) => {
+        event.preventDefault()
+        dispatch(changeDetails([event.target[0].value, id]))
+    }
+    const handleDelete = (event, index, type) => {
+        event.preventDefault()
+        dispatch(deleteLanguage(index))
+    }
+    return(
+        <Card border="dark" bg="secondary" style={{paddingTop:"0.5em", paddingBottom:"0.5em"}}>
+            <FilterBox show={props.show} header="Languages" data={languages} test="knows" handleDelete={handleDelete} handleCreate={handleCreate} creatable="true"/>
+        </Card>
+    )
+}
