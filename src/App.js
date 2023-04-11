@@ -7,7 +7,6 @@ import { AiFillTwitterCircle, AiFillGithub } from "react-icons/ai";
 import { MdUnfoldMoreDouble, MdUnfoldLessDouble } from "react-icons/md";
 
 import Container from 'react-bootstrap/Container';
-import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
 import Button from 'react-bootstrap/Button';
 

@@ -15,6 +15,7 @@ import "../styles.css"
 
 import { ActionsTable } from "./ActionsTable"
 import { addAction, editAction } from './ActionsSlice';
+import { ActionsAdd } from './ActionsAdd';
 import { SpellList } from '../spells/SpellList';
 
 
