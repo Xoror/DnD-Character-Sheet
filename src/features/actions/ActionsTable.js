@@ -13,6 +13,7 @@ import { RiFileEditFill } from "react-icons/ri";
 
 import { deleteAction } from './ActionsSlice';
 import { setPrepared } from './ActionsSlice';
+import { SpellCard } from '../../components/SpellCard';
 
 export const ActionsTable = (props) => {
 	const dispatch = useDispatch()
@@ -86,10 +87,11 @@ export const ActionsTable = (props) => {
 			return true
 		}
 	}
+	
 	return (
 		<div key={props.index} style={{marginLeft:"8px", marginRight:"8px"}}>
 			<h5> {props.header} {props.spells ? (props.header === "Cantrip" ? "": "Level") :""} </h5>
-			<Table size="sm" style={{color:"white", border:"black"}}  className="table-hover">
+			<Table size="sm" style={{color:"white", border:"black"}} >
 				<thead>
 					<tr>
 						{props.spells ? <td></td> : ""}
@@ -103,24 +105,12 @@ export const ActionsTable = (props) => {
 				<tbody>
 					{props.bodies.map( (body, index) => (
 						checkFilters(body, props.searchField) ?
-						<OverlayTrigger  key={index} triger="hover" placement={props.offCanvas ? "right":"left"} overlay = {
-							<Popover style={{width:"50em !important"}} id="popover-basic">
-								<Popover.Header as="h3">{body.name}</Popover.Header>
-								<Popover.Body>
-									<span>Hit/Damage scale with: {body.scaling}</span>
-									<br></br>
-									<div /*</Popover.Body>style={{overflowY: 'scroll', height:'70vh'}}*/>
-										<p>Description: {body.description} </p>
-									</div>
-								</Popover.Body>
-							</Popover>
-						}> 
-							<tr> 
+							<tr key={``}> 
 								{props.spells ? 
-									<td className="prepared-check" style={{height:"1.5em", width:"1.5em"}}> 
+									<td className="prepared-check" style={{height:"1.5em", width:"1.5em"}}>
 										<input type="checkbox" id={body.name} value="prepared"  onChange={handlePrepared} checked={body.isPrepared}></input>
 									</td> : ""}
-								<td>{body.name}</td>
+								<td id="spellcard-trigger">{body.name}<SpellCard/></td>
 								{props.spells ? "" : <td>{body.isProficient ? proficiency.value + scalingBonus(body.scaling) : 0 + scalingBonus(body.scaling)} </td>}
 								{props.offCanvas ? "" : (props.spells ? <td>{body.damage ? body.damage : "N/A"} ({body.damageType ? body.damageType : "N/A"}) </td> : <td>{body.damage} + {scalingBonus(body.scaling)} ({body.damageType}) </td>)}
 								<td>{body.range}</td>
@@ -129,8 +119,8 @@ export const ActionsTable = (props) => {
 									<AiFillCloseSquare type="button" color="#dc3545" size="23" id="delete-button" onClick={(event) => handleDelete(event, props.header, index)} className="edit-button" style={{backgroundColor:"white", padding:"0px"}}/> 
 								</td>}
 							</tr>
-						</OverlayTrigger>
-					: "" ))}
+						: "" ))
+					}
 				</tbody>
 			</Table>
 		</div>

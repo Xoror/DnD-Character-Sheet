@@ -18,11 +18,12 @@ import { CharacterName } from "./features/charDetails/CharName"
 import { Attributes } from './features/attributes/AttributeBox'
 import { MiscAttributes } from "./features/miscAttributes/MiscAttributes"
 import { ResourcesMiscProficiencies } from './features/resources/ResourcesMiscProficiencies'
-import { SpellCard } from "./features/spells/SpellCard.js"
+import { SpellBox } from "./features/spells/SpellBox.js"
 import { ThirdColumn } from './features/classFeatures/3rdColumn'
 import { ConditionsBox } from './features/conditions/ConditionsBox'
 import { LanguageBox } from './features/charDetails/LanguageBox'
 import { SensesBox } from './features/charDetails/SensesBox'
+import { SpellCard } from './components/SpellCard';
 
 
 const App = () => {
@@ -55,6 +56,9 @@ const App = () => {
 						<ConditionsBox show={showMiscBar}/>
 						<LanguageBox show={showMiscBar}/>
 						<SensesBox show={showMiscBar}/>
+						<Button style={{paddingLeft:"0.25em", paddingRight:"0.25em", border:"1px solid black", borderRadius:"0 0.375em 0.375em 0"}} onClick={setShow}>
+							{showMiscBar ? <MdUnfoldLessDouble size="1.5em"/> : <MdUnfoldMoreDouble size="1.5em"/>}
+						</Button>
 					</CardGroup>
 				</div>
 				<div className='row'>
@@ -66,7 +70,7 @@ const App = () => {
 							<MiscAttributes/>
 						</div>
 						<div>
-							<SpellCard/>
+							<SpellBox/>
 						</div>
 						<div>
 							<ResourcesMiscProficiencies/>
@@ -76,10 +80,8 @@ const App = () => {
 						<ThirdColumn/>
 					</div>
 				</div>
-
-				<div className='row mt-3'>
-				</div>
 			</Container>
+
 			<div style = {{textAlign:"center", color:"white", backgroundColor:"#212529"}}>
 				<Container className='p-4'>
 					<section className='mb-4'>

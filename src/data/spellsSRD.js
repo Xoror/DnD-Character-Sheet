@@ -1,4 +1,4 @@
-const spellList = [
+export const spellList = [
 	{
 		"index": "acid-arrow",
 		"name": "Acid Arrow",

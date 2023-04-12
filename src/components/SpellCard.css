@@ -1,0 +1,14 @@
+.col-copy {
+    flex: 0 1;
+}
+
+.row-copy {
+    display: flex;
+    flex-wrap: wrap;
+}
+.row-copy::before {
+    box-sizing: border-box;
+}
+.row-copy::after {
+    box-sizing: border-box;
+}

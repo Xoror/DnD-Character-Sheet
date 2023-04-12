@@ -40,7 +40,7 @@ export const ThirdColumn = () => {
 		{ name: "Actions", value: "1" },
 		{ name: "Spells", value: "2" },
 		{ name: "Inventory", value: "3" },
-		{ name: "Notes", value: "4" },
+		{ name: "Notes", value: "4" }
 	];
 
 	const headersActions = ["Action", "Bonus Action", "Reaction", "Special"];

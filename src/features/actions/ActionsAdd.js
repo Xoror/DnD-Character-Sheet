@@ -1,16 +1,25 @@
 import React from "react";
 
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Overlay from 'react-bootstrap/Overlay';
+import Tooltip from 'react-bootstrap/Tooltip';
+
 export const ActionsAdd = (props) => {
-    var editing = props.editing
+    const editing = props.editing === undefined ? false : props.editing
     const setEditing = props.setEditing
-    var defaultValues = props.defaultValues
+    const defaultValues = props.defaultValues
     const setDefaultValues = props.setDefaultValues
+    const inputRef = props.inputRef
+
     var spells = props.spells
     const actionTemplate = props.actionTemplate
     const handleSubmit = props.handleSubmit
-    const inputRef = props.inputRef
     const handleSelectValues = props.handleSelectValues
     const options = props.options
+    const show = props.show
+    const schoolList = ["Abjuration", "Conjuration", "Divination", "Enchantment","Evocation", "Illusion", "Necromancy", "Transmutation"]
     return(
         <>
             <InputGroup>
@@ -32,7 +41,7 @@ export const ActionsAdd = (props) => {
                 </InputGroup>
                 <InputGroup>
                     <Form.Select required value={defaultValues.type} aria-label="action-type-select" onChange={event => handleSelectValues(event, "type")}>
-                        {!spells ? <option key="0" value="">Choose Action Type</option>:<option key="0" value="">Choose Spell Slot</option>}
+                        {!spells ? <option key="0" value="">Choose Action Type</option>:<option key="0" value="">Choose Spell Tier</option>}
                         {options.map((option1, index) => 
                             <option key={index+1} value={option1}>{option1}</option>
                         )}
@@ -48,6 +57,21 @@ export const ActionsAdd = (props) => {
                         <option value="None">None</option>
                     </Form.Select>
                 </InputGroup>
+                {spells ?
+                <InputGroup>
+                    <Form.Select required value={defaultValues.school} aria-label="spell-school" onChange={event => handleSelectValues(event, "school")}>
+                        <option value="">Choose school</option>
+                        {schoolList.map((school, index) => (
+                            <option key={`spell-shool-${index}`} value={school}>{school}</option>
+                        ))}
+                    </Form.Select>
+                    <Form.Select required value={defaultValues.ritual} type="boolean" aria-label="is-ritual" onChange={event => handleSelectValues(event, "ritual")}>
+                        <option value=""> Is ritual? </option>
+                        <option value={true}>Yes</option>
+                        <option value={false}>No</option>
+                    </Form.Select>
+                </InputGroup>
+                : ""}
                 <InputGroup>
                     {spells ? 
                     ""
@@ -74,7 +98,7 @@ export const ActionsAdd = (props) => {
                     </Form.Select>
                     <Button variant="success" aria-label="submit" type="submit">Submit</Button>
                 </InputGroup>
-                <Form.Control as="textarea" aria-label="description" placeholder="Description" onChange={event => handleSelectValues(event, "description")}/>
+                <Form.Control as="textarea" aria-label="description" placeholder="Description" value={defaultValues.description} onChange={event => handleSelectValues(event, "description")}/>
             </Form>
         </>
     )

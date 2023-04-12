@@ -15,7 +15,7 @@ import { HiOutlineInformationCircle } from "react-icons/hi";
 import { changeCasterType, changeCastingAttribute, computeHitDC } from '../attributes/AttributesSlice';
 import { SpellSlotTable } from "./SpellSlotTable.js"
 
-export const SpellCard = () => {
+export const SpellBox = () => {
 	const dispatch = useDispatch()
     const casting = useSelector(state => state.attributes.casting)
     const charLevel = useSelector(state => state.charDetails.charLevel)
