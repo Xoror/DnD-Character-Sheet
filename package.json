@@ -7,6 +7,7 @@
   "description": "Interactive DnD 5e character sheet made in reach and with electron",
   "private": true,
   "dependencies": {
+    "@popperjs/core": "^2.11.7",
     "@reduxjs/toolkit": "^1.9.3",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
@@ -21,6 +22,7 @@
     "react-bootstrap": "^2.7.2",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
+    "react-popper": "^2.3.0",
     "react-redux": "^8.0.5",
     "react-scripts": "^5.0.1",
     "react-select": "^5.7.2",

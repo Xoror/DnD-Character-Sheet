@@ -1,10 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
-import Overlay from 'react-bootstrap/Overlay';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Popover from 'react-bootstrap/Popover';
 import Table from 'react-bootstrap/Table';
+import { usePopper } from 'react-popper';
 
 import "../styles.css"
 
@@ -14,11 +12,15 @@ import { RiFileEditFill } from "react-icons/ri";
 import { deleteAction } from './ActionsSlice';
 import { setPrepared } from './ActionsSlice';
 import { SpellCard } from '../../components/SpellCard';
+import { updateSpellCardShow } from './ActionsSlice';
+import { reference } from '@popperjs/core';
+
 
 export const ActionsTable = (props) => {
 	const dispatch = useDispatch()
 	const charAttributes = useSelector(state => state.attributes.charAttributes)
 	const proficiency = useSelector(state => state.attributes.proficiency)
+	const spells = useSelector(state => state.actions.spells)
 	const scalingBonus = (scale) => {
 		if(scale === "None") {
 			return ""
@@ -41,55 +43,60 @@ export const ActionsTable = (props) => {
 		props.setOldData(body)
 		props.setEditing(true)
 	}
-
-	const checkFilters = (body, search) => {
-		if(props.offCanvas) {
-			console.log("build")
-			var test1
-			var test2
-			var test3
-			var test4 = false
-			// Testing spell tier and school
-			if(props.filters.spellslots.length != 0 && props.filters.schools.length != 0) {
-				test1 = props.filters.spellslots.find(spellslot => (spellslot === body.type)) ? true : false
-				test2 = props.filters.schools.find(school => (school === body.school)) ? true : false
+	/*
+	const [showSpellCard, setShowSpellCard] = useState(false)
+	const [show, setShow] = useState(false);
+  	const target = useRef(null);
+	
+	const useOutsideClick = (callback) => {
+		const ref = useRef();
+		useEffect(() => {
+		  const handleClick = (event) => {
+			if (ref.current && !ref.current.contains(event.target)) {
+			  callback();
 			}
-			else if(props.filters.spellslots.length === 0 && props.filters.schools.length != 0) {
-				test1 = true
-				test2 = props.filters.schools.find(school => (school === body.school)) ? true : false
-			}
-			else if(props.filters.spellslots.length != 0 && props.filters.schools.length === 0) {
-				test1 = props.filters.spellslots.find(spellslot => (spellslot === body.type)) ? true : false
-				test2 = true
-			}
-			else if(props.filters.spellslots.length === 0 && props.filters.schools.length === 0) {
-				test1 = true
-				test2 = true
-			}
-			// testing search
-			if(search != "") {
-				test3 = body.name.toLowerCase().includes(search.toLowerCase())
-			}
-			else {
-				test3 = true
-			}
-			// testing class
-			if(props.filters.classes.length != 0) {
-				props.filters.classes.map(class1 => (
-					body.classes.filter(class2 => (class2 === class1)).length === 0 ? null : test4 = true
-				))
-			} else {
-				test4 = true
-			}
-			return (test1 && test2 && test3 && test4)
+		  }
+	  
+		  document.addEventListener('click', handleClick);
+	  
+		  return () => {
+			document.removeEventListener('click', handleClick);
+		  };
+		}, [ref])
+	  
+		return ref
+	}
+	*/
+	let place = props.offCanvas ? "left" : "right"
+	const [showPopover, setShowPopover] = useState([])
+	const handleRowClick = (event, id, index) => {
+		
+		let test = `${props.offCanvas}-action-table-row-${index}`
+		setReferenceElement(document.getElementById(test))
+		dispatch(updateSpellCardShow([id, props.offCanvas]))
+		if(showPopover[1] === index) {
+			setShowPopover([!showPopover[0], index])
 		}
 		else {
-			return true
+			if(showPopover[0]) {
+				setShowPopover([showPopover[0], index])
+			}
+			else {
+				setShowPopover([!showPopover[0], index])
+			}
 		}
 	}
-	
+	const [referenceElement, setReferenceElement] = useState(null);
+	const [popperElement, setPopperElement] = useState(null);
+	const [arrowElement, setArrowElement] = useState(null);
+	const { styles, attributes } = usePopper(referenceElement, popperElement, {
+		placement: place,
+    	modifiers: [{ name: 'arrow', options: { element: arrowElement } },
+					{ name: "offset", options: { offset: [ 0,10]} }],
+  	});
+	//const ref = useOutsideClick(handleRowClick)
 	return (
-		<div key={props.index} style={{marginLeft:"8px", marginRight:"8px"}}>
+		<div key={props.index} style={{marginLeft:"0.5em", marginRight:"0.5em"}}>
 			<h5> {props.header} {props.spells ? (props.header === "Cantrip" ? "": "Level") :""} </h5>
 			<Table size="sm" style={{color:"white", border:"black"}} >
 				<thead>
@@ -104,15 +111,27 @@ export const ActionsTable = (props) => {
 				</thead>
 				<tbody>
 					{props.bodies.map( (body, index) => (
-						checkFilters(body, props.searchField) ?
-							<tr key={``}> 
+						(props.offCanvas ? body.filtered :true) ?
+							<tr className="action-table" key={`action-table-row-${index}`} id={`${props.offCanvas}-action-table-row-${index}`} onClick={(event) => handleRowClick(event, body.id, index)}>
 								{props.spells ? 
-									<td className="prepared-check" style={{height:"1.5em", width:"1.5em"}}>
-										<input type="checkbox" id={body.name} value="prepared"  onChange={handlePrepared} checked={body.isPrepared}></input>
+									<td className="prepared-check" style={{height:"1.5em", width:"1.5em", zIndex:"2"}}>
+										<input type="checkbox" id={body.name} value="prepared" onChange={handlePrepared} checked={body.isPrepared}></input>
 									</td> : ""}
-								<td id="spellcard-trigger">{body.name}<SpellCard/></td>
+								<td>
+									{body.name}
+									{props.spells && showPopover[0] && showPopover[1] === index ?
+									<div className="popover-test" ref={setPopperElement} style={styles.popper} {...attributes.popper}>
+										<SpellCard id={`spellcard-${index}`} data={body}/>
+										<span
+											ref={setArrowElement}
+											style={styles.arrow}
+											{...attributes.arrow}
+											className={`arrow arrow-${place}`}
+										/>
+									</div> : null}
+								</td>
 								{props.spells ? "" : <td>{body.isProficient ? proficiency.value + scalingBonus(body.scaling) : 0 + scalingBonus(body.scaling)} </td>}
-								{props.offCanvas ? "" : (props.spells ? <td>{body.damage ? body.damage : "N/A"} ({body.damageType ? body.damageType : "N/A"}) </td> : <td>{body.damage} + {scalingBonus(body.scaling)} ({body.damageType}) </td>)}
+								{props.offCanvas ? "" : (props.spells ? <td>{body.damage != "" ? body.damage : "N/A"} ({body.damageType != "" ? body.damageType : "N/A"}) </td> : <td>{body.damage} + {scalingBonus(body.scaling)} ({body.damageType}) </td>)}
 								<td>{body.range}</td>
 								{props.offCanvas ? "" : <td style={{paddingRight:"0",paddingLeft:"0", justifyItems:"end"}}> 
 									<RiFileEditFill type="button" color="black" size="23" id="edit-button" onClick={(event) => startEdit(event, body)} className="edit-button" />

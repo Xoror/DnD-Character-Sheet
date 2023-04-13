@@ -1,5 +1,5 @@
 import React, { useState} from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
@@ -9,11 +9,13 @@ import Form from 'react-bootstrap/Form';
 
 
 import { ActionsTable } from '../actions/ActionsTable';
+import { filterSpells } from '../actions/ActionsSlice';
 import "../styles.css"
 
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
 export const SpellList = (props) => {
+	const dispatch = useDispatch()
 	const sortedSpellList= useSelector(state => state.actions.sortedSpellList)
 	const charClass = useSelector(state => state.charDetails.charClass)
 	const [show, setShow] = useState(false);
@@ -26,14 +28,16 @@ export const SpellList = (props) => {
 		setShow(true)
 	}
 	
-	const [filters, setFilters] = useState({spellslots: [], schools: [], ritual: [], classes: ["wizard"]})
+	const [filters, setFilters] = useState({spellslots: [], schools: [], ritual: [], classes: []})
 	const [searchField, setSearchField] = useState("")
 	const filterKeys = Object.keys(filters)
 	const handleDelete = (event, index, type) => {
 		var copy = structuredClone(filters)
 		copy[type] = copy[type].slice(0,index).concat(copy[type].slice(index+1))
 		setFilters(copy)
+		dispatch(filterSpells([copy, searchField]))
 	}
+
 	
 	let headers = ["Cantrip","1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th"]
 	return(
@@ -48,7 +52,7 @@ export const SpellList = (props) => {
 					<Offcanvas.Title style={{color:"white"}}>Spell List</Offcanvas.Title>
 				</Offcanvas.Header>
 				<Offcanvas.Body style={{color:"white"}}>
-					<FilterSelection filters={filters} setFilters={setFilters} setSearchField={setSearchField}/>
+					<FilterSelection filters={filters} searchField={searchField} setFilters={setFilters} setSearchField={setSearchField}/>
 					<Container fluid className="filter-container">
 						<span>Filters: </span>
 						{filterKeys.map(key => (
@@ -76,11 +80,13 @@ export const FilterItem = (props) => {
 }
 
 const FilterSelection = (props) => {
+	const dispatch = useDispatch()
 	var defaultValue = ""
 	const handleAdd = (event, type) => {
 		var copy = structuredClone(props.filters)
 		copy[type].push(event.target.value)
 		props.setFilters(copy)
+		dispatch(filterSpells([copy, props.searchField]))
 	}
 	const slotList = ["Cantrip","1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th"]
 	const classList = ["Artificer", "Bard", "Cleric", "Druid", "Paladin", "Ranger", "Sorcerer", "Warlock", "Wizard"]

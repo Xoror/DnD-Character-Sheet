@@ -1,3 +1,16 @@
+.spellcard {
+    /*position: absolute;
+    top:-20px;
+    left: -360px;
+    z-index: 4;
+    */
+    border: 2px groove black;
+    border-radius: 0.375em;
+    width: 350px;
+    padding: 0.25em 0.75em 0em 0.75em;
+    background-color: #343a40;
+}
+
 .col-copy {
     flex: 0 1;
 }

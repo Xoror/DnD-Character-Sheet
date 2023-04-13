@@ -14,6 +14,7 @@ import "../styles.css"
 import { HiOutlineInformationCircle } from "react-icons/hi";
 import { changeCasterType, changeCastingAttribute, computeHitDC } from '../attributes/AttributesSlice';
 import { SpellSlotTable } from "./SpellSlotTable.js"
+import { updateSpellListScaling } from '../actions/ActionsSlice';
 
 export const SpellBox = () => {
 	const dispatch = useDispatch()
@@ -21,6 +22,7 @@ export const SpellBox = () => {
     const charLevel = useSelector(state => state.charDetails.charLevel)
 	const handleCastingAttributeSelect = (event) => {
 		dispatch(changeCastingAttribute(event.target.value))
+		dispatch(updateSpellListScaling(event.target.value))
 		dispatch(computeHitDC())
 	}
 	const handleCasterTypeChange = (event) => {

@@ -27,7 +27,7 @@ const useFocus = () => {
 export const ActionsBox = (props) => {
 	const dispatch = useDispatch()
 	var actionTemplate = props.id === "Spells" ? 
-		{id: "", name: "", range: "", damage: "", type: "", scaling: "", isPrepared: "", damageType: "", description: "", school: "", ritual: "", classes: ""} : 
+		{id: "", name: "", range: "", damage: "", type: "", scaling: "", isPrepared: "", damageType: "", description: "", school: "", ritual: "", classes: "", components: "", duration: "", castingTime: ""} : 
 		{id: "", name: "", range: "", damage: "", type: "", scaling: "", isProficient: "", damageType: "", description: ""}
 	const actions = useSelector(state => state.actions.actions)
 	const sortedSpellList = useSelector(state => state.actions.sortedSpellList)
@@ -76,7 +76,7 @@ export const ActionsBox = (props) => {
 			{props.headers.map((header, index) => (
 				<ActionsTable setOldData={setOldData} setEditing={setEditing} passState={setDefaultValues} offCanvas={props.offCanvas} id={props.id} key={index} header={header} bodies={props.actions.filter((action) => {return action.type === header})} spells={props.spells}/>
 			))}
-			{props.id === "Spells" ? <SpellList /> : "" }
+			{props.id === "Spells" ? <SpellList offCanvas={props.offCanvas} /> : "" }
 			<ActionsAdd editing={editing} setEditing={setEditing} defaultValues={defaultValues} setDefaultValues={setDefaultValues} inputRef={inputRef} spells={props.spells} actionTemplate={actionTemplate} handleSubmit={handleSubmit} handleSelectValues={handleSelectValues} options={props.options}/>
 		</Card>
 	)

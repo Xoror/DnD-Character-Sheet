@@ -146,7 +146,7 @@ input[type="file"] {
 	color: #ffffff;
 	position: absolute;
 	right: 0.33em;
-	top: -0.25em;
+	top: -0.15em;
 	/*align-content: auto;*/
 }
 .checkbox-wrapper input[id="Expertise"]:checked::before {
@@ -155,7 +155,7 @@ input[type="file"] {
 	color: #ffffff;
 	position: absolute;
 	right: 0.33em;
-	top: -0.25em;
+	top: -0.15em;
 	/*align-content: auto;*/
 }
 
@@ -232,7 +232,7 @@ input[type="file"] {
 	color: #ffffff;
 	position: absolute;
 	right: 4px;
-	top: -3.5px;
+	top: -2.5px;
 	/*align-content: auto;*/
 }
 .fancy-border {
@@ -248,10 +248,6 @@ input[type="file"] {
 	all: unset;
 }
 
-.table-hover tbody tr:hover {
-	background-color: #6c7279;
-	color: #ffffff;
-}
 .filter-container {
 	border: 1px solid #000000;
 	border-radius: 0.5em;
@@ -274,4 +270,31 @@ input[type="file"] {
 	padding: 0;
 }
 
-/* Styling the Counterbox */
+/* table styling */
+.action-table:hover {
+	cursor: pointer;
+	background-color: #555a5f;
+}
+
+/* popover testing */
+.popover-test {
+	position: relative;
+	z-index: 4;
+}
+.arrow, .arrow::before {
+	position: absolute;
+	width: 8px;
+	height: 8px;
+	background: black;
+	transition: top 0.3s ease-in, bottom 0.3s ease-in, left 0.3s ease-in, right 0.3s ease-in;
+	content: " ";
+	transform: rotate(45deg);
+	z-index: 5;
+	background-color:"black";
+ }
+ .arrow-right, .arrow-right::before {
+	right: -4px;
+ }
+ .arrow-left, .arrow-left::before {
+	left: -4px;
+ }
