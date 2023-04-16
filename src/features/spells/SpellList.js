@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Button from 'react-bootstrap/Button';
@@ -19,6 +19,7 @@ export const SpellList = (props) => {
 	const sortedSpellList= useSelector(state => state.actions.sortedSpellList)
 	const charClass = useSelector(state => state.charDetails.charClass)
 	const [show, setShow] = useState(false);
+	const [spellCardID, setSpellCardID] = useState("0")
 
 	const handleClose = () => {
 		setShow(false)
@@ -37,7 +38,6 @@ export const SpellList = (props) => {
 		setFilters(copy)
 		dispatch(filterSpells([copy, searchField]))
 	}
-
 	
 	let headers = ["Cantrip","1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th"]
 	return(
@@ -62,13 +62,40 @@ export const SpellList = (props) => {
 						))}
 					</Container>
 					{headers.map((header, index) => (
-						<ActionsTable offCanvas={true} id={props.id} key={index} header={header} searchField={searchField} filters={filters} bodies={sortedSpellList.filter((action) => {return action.type === header})} spells="true"/>
+						<ActionsTable 
+							spellCardID={spellCardID}
+							setSpellCardID={setSpellCardID} 
+							offCanvas={true} 
+							id={props.id} 
+							key={index} 
+							header={header} 
+							searchField={searchField} 
+							filters={filters} 
+							bodies={sortedSpellList.filter((action) => {return action.type === header})} 
+							spells="true"
+						/>
 					))}
 				</Offcanvas.Body>
 			</Offcanvas>
 		</>
 	)
 }
+/*
+{headers.map((header, index) => (
+	<ActionsTable 
+		spellCardID={spellCardID}
+		setSpellCardID={setSpellCardID} 
+		offCanvas={true} 
+		id={props.id} 
+		key={index} 
+		header={header} 
+		searchField={searchField} 
+		filters={filters} 
+		bodies={sortedSpellList.filter((action) => {return action.type === header})} 
+		spells="true"
+	/>
+))}
+*/
 
 export const FilterItem = (props) => {
 	return (
@@ -84,21 +111,33 @@ const FilterSelection = (props) => {
 	var defaultValue = ""
 	const handleAdd = (event, type) => {
 		var copy = structuredClone(props.filters)
-		copy[type].push(event.target.value)
-		props.setFilters(copy)
-		dispatch(filterSpells([copy, props.searchField]))
+		var search = ""
+		if(type != "search") {
+			copy[type].push(event.target.value)
+			props.setFilters(copy)
+		}
+		else if(type === "search") {
+			search = event.target.value
+		}
+		dispatch(filterSpells([copy, search]))
 	}
 	const slotList = ["Cantrip","1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th"]
-	const classList = ["Artificer", "Bard", "Cleric", "Druid", "Paladin", "Ranger", "Sorcerer", "Warlock", "Wizard"]
+	const classList = ["Bard", "Cleric", "Druid", "Paladin", "Ranger", "Sorcerer", "Warlock", "Wizard"]
 	const schoolList = ["Abjuration", "Conjuration", "Divination", "Enchantment","Evocation", "Illusion", "Necromancy", "Transmutation"]
 	return (
 		<>
+			<Form.Control placeholder="Search" type="search" onChange={(e) => (props.setSearchField(e.target.value), handleAdd(e, "search"))}></Form.Control>
 			<InputGroup>
-				<Form.Control placeholder="Search" type="search" onChange={(e) => props.setSearchField(e.target.value)}></Form.Control>
+			<Form.Select value={defaultValue} aria-label="Choose spell school" onChange={(e) => (defaultValue = e.target.value, handleAdd(e, "schools"))}>
+					<option value="">Filter schools</option>
+					{schoolList.map((class1, index) => (
+						props.filters.schools.filter(item => item === class1).length === 0 ? <option key={index} value={class1}>{class1}</option> : ""
+					))}
+				</Form.Select>
 				<Form.Select value={defaultValue} aria-label="Choose class" onChange={(e) => (defaultValue = e.target.value, handleAdd(e, "classes"))}>
 					<option value="">Filter classes</option>
 					{classList.map((class1, index) => (
-						props.filters.classes.filter(item => item === class1).length === 0 ? <option key={index} value={class1 === "Artificer" ? class1 : class1.toLowerCase()}>{class1}</option> : ""
+						props.filters.classes.filter(item => item === class1).length === 0 ? <option key={index} value={class1}>{class1}</option> : ""
 					))}
 				</Form.Select>
 			</InputGroup>

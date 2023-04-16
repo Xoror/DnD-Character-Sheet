@@ -67,24 +67,44 @@ export const ActionsTable = (props) => {
 		return ref
 	}
 	*/
+	
+
 	let place = props.offCanvas ? "left" : "right"
-	const [showPopover, setShowPopover] = useState([])
-	const handleRowClick = (event, id, index) => {
-		
-		let test = `${props.offCanvas}-action-table-row-${index}`
+	let spellCardID = props.spellCardID
+	const [showPopover, setShowPopover] = useState([false,spellCardID])
+	useEffect(() => {
+		if(showPopover[1] != spellCardID) {
+			setShowPopover([showPopover[0], spellCardID])
+		}
+	}, [showPopover, props.spellCardID])
+	const handleRowClick = (event, id) => {
+		let test
+		spellCardID = props.spellCardID
+		/*
+		if(showPopover=== "0") {
+			setShowPopover([showPopover[0], id])
+		}
+		*/
+		test = `action-table-row-id-${id}`
 		setReferenceElement(document.getElementById(test))
+		props.setSpellCardID(id)
+		spellCardID = id
+		
 		dispatch(updateSpellCardShow([id, props.offCanvas]))
-		if(showPopover[1] === index) {
-			setShowPopover([!showPopover[0], index])
+		if(showPopover[1] === id) {
+			setShowPopover([!showPopover[0], id])
 		}
 		else {
+
 			if(showPopover[0]) {
-				setShowPopover([showPopover[0], index])
+				setShowPopover([showPopover[0], id])
+				props.setSpellCardID(id)
 			}
 			else {
-				setShowPopover([!showPopover[0], index])
+				setShowPopover([!showPopover[0], id])
 			}
 		}
+		
 	}
 	const [referenceElement, setReferenceElement] = useState(null);
 	const [popperElement, setPopperElement] = useState(null);
@@ -111,17 +131,17 @@ export const ActionsTable = (props) => {
 				</thead>
 				<tbody>
 					{props.bodies.map( (body, index) => (
-						(props.offCanvas ? body.filtered :true) ?
-							<tr className="action-table" key={`action-table-row-${index}`} id={`${props.offCanvas}-action-table-row-${index}`} onClick={(event) => handleRowClick(event, body.id, index)}>
+						(props.offCanvas ? body.filtered : true) ?
+							<tr className="action-table" key={`action-table-row-id-${body.id}`} id={`action-table-row-id-${body.id}`} onClick={(event) => handleRowClick(event, body.id)}>
 								{props.spells ? 
 									<td className="prepared-check" style={{height:"1.5em", width:"1.5em", zIndex:"2"}}>
 										<input type="checkbox" id={body.name} value="prepared" onChange={handlePrepared} checked={body.isPrepared}></input>
 									</td> : ""}
 								<td>
 									{body.name}
-									{props.spells && showPopover[0] && showPopover[1] === index ?
+									{props.spells && showPopover[0] && showPopover[1] === body.id && spellCardID === body.id ?
 									<div className="popover-test" ref={setPopperElement} style={styles.popper} {...attributes.popper}>
-										<SpellCard id={`spellcard-${index}`} data={body}/>
+										<SpellCard id={`spellcard-${index}`} offCanvas={props.offCanvas} data={body}/>
 										<span
 											ref={setArrowElement}
 											style={styles.arrow}

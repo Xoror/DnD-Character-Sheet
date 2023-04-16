@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, nanoid } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, nanoid, current } from "@reduxjs/toolkit";
 import axios from "axios";
 
 import {spellList} from "../../data/spellsSRD.js";
@@ -48,7 +48,7 @@ const ActionsSlice = createSlice({
                     let slots = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th"]
                     let test1 = slots.indexOf(action.payload[0].type)
                     let test2 = slots.indexOf(state.highestSpellSlot)
-                    if(test1 > test2) {
+                    if(test1 > test2) { 
                         state.highestSpellSlot = action.payload[0].type
                     }
                     state.spells.push(action.payload[0])
@@ -206,7 +206,7 @@ const ActionsSlice = createSlice({
                         {
                             showCard:false,
                             filtered:true, 
-                            id:nanoid(), 
+                            id: nanoid(), 
                             name: spell.name, 
                             range: spell.range, 
                             damage: spell.damage === undefined ? "None" : (spell.level === 0 ? spell.damage.damage_at_character_level[spell.level+1] : spell.damage.damage_at_slot_level[spell.level]), 
@@ -253,15 +253,16 @@ const ActionsSlice = createSlice({
         },
         filterSpells(state, action) {
             let filters = action.payload[0]
-            console.log(filters)
             let search = action.payload[1]
-
+            
             var test1
 			var test2
 			var test3
-			var test4 = false
+			var test4
             var test5
+            var count = 0
             for(let i=0; i<state.sortedSpellList.length; i++) {
+                test4 = false
                 let body = state.sortedSpellList[i]
                 // Testing spell tier and school
                 if(filters.spellslots.length != 0 && filters.schools.length != 0) {
@@ -291,9 +292,13 @@ const ActionsSlice = createSlice({
 
                 // testing class
                 if(filters.classes.length != 0) {
-                    filters.classes.map(class1 => (
-                        body.classes.filter(class2 => (class2 === class1)).length === 0 ? null : test4 = true
-                    ))
+                    for(let j=0; j<filters.classes.length;j++) {
+                        for(let k=0; k<body.classes.length;k++) {
+                            if(filters.classes[j] === body.classes[k].name) {
+                                test4 = true
+                            }
+                        }
+                    }
                 } else {
                     test4 = true
                 }
@@ -317,7 +322,8 @@ const ActionsSlice = createSlice({
                 else {
                     test5 = true
                 }
-                body.filtered = test1 && test2 && test3 && test4 && test5
+                
+                state.sortedSpellList[i].filtered = test1 && test2 && test3 && test4 && test5
             }
         },
         importActions(state, action) {

@@ -27,7 +27,26 @@ const useFocus = () => {
 export const ActionsBox = (props) => {
 	const dispatch = useDispatch()
 	var actionTemplate = props.id === "Spells" ? 
-		{id: "", name: "", range: "", damage: "", type: "", scaling: "", isPrepared: "", damageType: "", description: "", school: "", ritual: "", classes: "", components: "", duration: "", castingTime: ""} : 
+		{
+			showCard:false,
+			filtered:true, 
+			id: "", 
+			name: "", 
+			range: "", 
+			damage: "", 
+			type: "", 
+			scaling: "", 
+			isPrepared: false, 
+			damageType: "", 
+			description: "", 
+			school: "", 
+			ritual: "", 
+			classes: "", 
+			components: "",
+			duration: "", 
+			castingTime: ""
+		}
+		: 
 		{id: "", name: "", range: "", damage: "", type: "", scaling: "", isProficient: "", damageType: "", description: ""}
 	const actions = useSelector(state => state.actions.actions)
 	const sortedSpellList = useSelector(state => state.actions.sortedSpellList)
@@ -37,16 +56,18 @@ export const ActionsBox = (props) => {
 	const [oldData, setOldData] = useState({})
 	const [editing, setEditing] = useState(false)
 	const [show, setShow] = useState(false);
+	const [spellCardID, setSpellCardID] = useState("0")
 	const [inputRef, setInputFocus] = useFocus()
 
 	//could maybe be more efficient?
 	const handleSubmit = (event) => {
 		event.preventDefault()
 		var data = defaultValues
+		var sameName = false
 		if(editing) {
 			if (!isEqualsJson(data, oldData)) {
 				data.id = oldData.id
-				dispatch(editAction(data, oldData, props.id))
+				dispatch(editAction(data, props.id))
 				setEditing(false)
 			}
 			else {
@@ -58,12 +79,16 @@ export const ActionsBox = (props) => {
 				event.stopPropagation()
 				setShow(true)
 				setInputFocus()
+				sameName = true
 			}
 			else {
 				dispatch(addAction(data, props.id))
 			}
 		}
-		setDefaultValues(actionTemplate)
+		if(!sameName) {
+			setDefaultValues(actionTemplate)
+			setShow(false)
+		}
 	}
 	const handleSelectValues = (event, id) => {
 		let copy = structuredClone(defaultValues)
@@ -74,10 +99,22 @@ export const ActionsBox = (props) => {
 	return (
 		<Card bg="secondary" id="ActionsPart">
 			{props.headers.map((header, index) => (
-				<ActionsTable setOldData={setOldData} setEditing={setEditing} passState={setDefaultValues} offCanvas={props.offCanvas} id={props.id} key={index} header={header} bodies={props.actions.filter((action) => {return action.type === header})} spells={props.spells}/>
+				<ActionsTable 
+					spellCardID={spellCardID}
+					setSpellCardID={setSpellCardID}
+					setOldData={setOldData} 
+					setEditing={setEditing} 
+					passState={setDefaultValues} 
+					offCanvas={props.offCanvas} 
+					id={props.id} 
+					key={index} 
+					header={header} 
+					bodies={props.actions.filter((action) => {return action.type === header})} 
+					spells={props.spells}
+				/>
 			))}
 			{props.id === "Spells" ? <SpellList offCanvas={props.offCanvas} /> : "" }
-			<ActionsAdd editing={editing} setEditing={setEditing} defaultValues={defaultValues} setDefaultValues={setDefaultValues} inputRef={inputRef} spells={props.spells} actionTemplate={actionTemplate} handleSubmit={handleSubmit} handleSelectValues={handleSelectValues} options={props.options}/>
+			<ActionsAdd show={show} editing={editing} setEditing={setEditing} defaultValues={defaultValues} setDefaultValues={setDefaultValues} inputRef={inputRef} spells={props.spells} actionTemplate={actionTemplate} handleSubmit={handleSubmit} handleSelectValues={handleSelectValues} options={props.options}/>
 		</Card>
 	)
 }
