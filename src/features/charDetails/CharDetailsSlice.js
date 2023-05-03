@@ -1,4 +1,4 @@
-import { createSlice, nanoid } from "@reduxjs/toolkit"
+import { createSlice, nanoid, current } from "@reduxjs/toolkit"
 
 
 const initialState = {
@@ -13,10 +13,19 @@ const initialState = {
         {name:"Common", knows: true},
     ],
     senses: [
-        {name:"Darkvision", has: true, distance: 30},
+        {name:"Darkvision", has: true, distance: 60},
         {name:"Blindsight", has: false, distance: 30},
         {name:"Truesight", has: false, distance: 20},
         {name:"Tremor Sense", has: false, distance: 20 }
+    ],
+    resistances: [
+
+    ],
+    immunities: [
+
+    ],
+    vulnerabilities: [
+        
     ]
 }
 
@@ -47,11 +56,20 @@ const CharDetailsSlice = createSlice({
             else if( id === "Experience Points") {
                 state.charExperience = action.payload[0]
             }
-            else if( id === "Language") {
+            else if( id === "Languages") {
                 state.languages.push({name: action.payload[0], knows: true})
             }
             else if (id === "Senses") {
                 state.senses[action.payload[0]].has = true
+            }
+            else if (id === "Resistances") {
+                state.resistances.push({name: action.payload[0], has: true})
+            }
+            else if (id === "Immunities") {
+                state.immunities.push({name: action.payload[0], has: true})
+            }
+            else if (id === "Vulnerabilities") {
+                state.vulnerabilities.push({name: action.payload[0], has: true})
             }
         },
         importCharDetails(state, action) {
@@ -68,10 +86,13 @@ const CharDetailsSlice = createSlice({
         },
         changeSenseValue(state, action) {
             state.senses[action.payload[1]].distance = action.payload[0]
+        },
+        deleteResistances(state, action) {
+            state[action.payload[0]] = state[action.payload[0]].slice(0, action.payload[1]).concat(state[action.payload[0]].slice(action.payload[1]+1))
         }
     },
     //extraReducers: (builder) => builder.addCase(revertAll, () => initialState)
 })
 
 export default CharDetailsSlice.reducer
-export const { changeDetails, importCharDetails, addLanguage, deleteLanguage, deleteSense, changeSenseValue } = CharDetailsSlice.actions
+export const { changeDetails, importCharDetails, addLanguage, deleteLanguage, deleteSense, changeSenseValue, deleteResistances } = CharDetailsSlice.actions

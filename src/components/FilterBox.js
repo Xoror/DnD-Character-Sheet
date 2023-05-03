@@ -1,11 +1,11 @@
 import React, { useState } from "react";
+
 import Container from 'react-bootstrap/Container';
 import Form from "react-bootstrap/Form";
 import Button from 'react-bootstrap/Button';
 
 import "./FilterBox.css"
 import { FilterItem } from "./FilterItem";
-import { InputGroup } from "react-bootstrap";
 
 
 export const FilterBox = (props) => {
@@ -23,17 +23,14 @@ export const FilterBox = (props) => {
     var creatable = props.creatable === undefined ? false : props.creatable
     var hasValue = props.hasValue === undefined ? false : props.hasValue
     var show = props.show === undefined ? true : props.show
+    var type = props.type === undefined ? "placeholder" : props.type
 
-    const options = [{value: "", label: `Add ${header}`}]
-    data.map((item, index) => (
-        item[test] ? "" : options.push({value:index, label: item.name})
-    ))
 
     return (
         <Container style={{display:"flex", flexWrap:"wrap"}} fluid>
-            <span>{header}: </span>
+            <span style={{paddingRight:"0.125em"}}>{header}: </span>
             {show ? data.map((item, index) => (
-                item[test] ? <FilterItem key={`${header}-list-nr-${index}`} hasValue={hasValue} name={item.name} value={item.distance} handleDelete={handleDelete} handleInputChange={handleInputChange} index={index} type="placeholder"/> : ""
+                item[test] ? <FilterItem key={`${header}-list-nr-${index}`} hasValue={hasValue} name={item.name} value={item.distance} handleDelete={handleDelete} handleInputChange={handleInputChange} index={index} type={type}/> : ""
             )): <span style={{marginLeft:"0.5em"}}>[...]</span>}
             { show ? (!creatable ? 
             <select value={defaultSelectValue} className="filter-body" style={{paddingRight:"0.25em", backgroundColor:bgColor}} onChange={handleAdd}>

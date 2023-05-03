@@ -3,6 +3,7 @@ import { useSelector } from "react-redux"
 
 import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
+import Container from 'react-bootstrap/Container';
 
 import "../styles.css"
 
@@ -17,7 +18,7 @@ export const MiscAttributes = () => {
 	const charHP = useSelector(state => state.miscAttributes.charHP)
 
 	return (
-		<div className="container-fluid">
+		<Container fluid>
 			<CardGroup style={{marginBottom: "-1em"}}>
 				<Card bg="secondary" border="dark" className="mb-3" style={{borderRadius:"0.375em 0em 0em 0em"}}>
 					<AttributeBox name="Initiative" attribute={initiative} />
@@ -37,6 +38,6 @@ export const MiscAttributes = () => {
 					<AttributeBox name="Speed" attribute={speed} />
 				</Card>			
 			</CardGroup>
-		</div>
+		</Container>
 	)
 }

@@ -23,7 +23,7 @@ import { ThirdColumn } from './features/classFeatures/3rdColumn'
 import { ConditionsBox } from './features/conditions/ConditionsBox'
 import { LanguageBox } from './features/charDetails/LanguageBox'
 import { SensesBox } from './features/charDetails/SensesBox'
-import { SpellCard } from './components/SpellCard';
+import { ResistancesBox } from './features/charDetails/ResistancesBox';
 
 
 const App = () => {
@@ -77,6 +77,7 @@ const App = () => {
 						</div>
 					</div>
 					<div className='col-md' style={{paddingLeft:"0"}}>
+						<ResistancesBox/>
 						<ThirdColumn/>
 					</div>
 				</div>
