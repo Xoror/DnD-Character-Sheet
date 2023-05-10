@@ -7,19 +7,12 @@ import Col from 'react-bootstrap/Col'
 
 export const SpellCard = (props) => {
     let data = props.data
-    let classes = ""
-    for(let i=0; i<data.classes.length; i++) {
-        if(i === data.classes.length - 1) {
-            classes += `${data.classes[i].name}`
-        } else {
-            classes += `${data.classes[i].name}, `
-        }
-    }
+
     return(
-        <div key={props.id} className={`${props.show} spellcard`}>
+        <div key={props.id} className={`${props.show} itemcard`}>
             <h4>{data.name}</h4>
             {props.offCanvas ? <h6> Classes: {classes} </h6> : null}
-            <Row className="spellcard-row">
+            <Row className="itemcard-row">
                 <Col>
                     Casting Time: 
                 </Col>
@@ -27,7 +20,7 @@ export const SpellCard = (props) => {
                     {data.castingTime+" or "} {data.ritual ? "Ritual": ""}
                 </Col>
             </Row>
-            <Row className="spellcard-row">
+            <Row className="itemcard-row">
                 <Col>
                     Range: 
                 </Col>
@@ -35,7 +28,7 @@ export const SpellCard = (props) => {
                     {data.range}
                 </Col>
             </Row>
-            <Row className="spellcard-row">
+            <Row className="itemcard-row">
                 <Col>
                     Components: 
                 </Col>
@@ -43,7 +36,7 @@ export const SpellCard = (props) => {
                     {data.components[0]+", "+data.components[1]+", "+data.components[2]}
                 </Col>
             </Row>
-            <Row className="spellcard-row">
+            <Row className="itemcard-row">
                 <Col>
                     Duration: 
                 </Col>
@@ -51,7 +44,7 @@ export const SpellCard = (props) => {
                     {data.duration[0]} {data.duration[1] ? "(Concentration)" : null}
                 </Col>
             </Row>
-            <section className="spellcard-section">
+            <section className="itemcard-section">
             {data.type === "Cantrip" ?
                 <>
                     <p>{data.description[0][0]}</p>
@@ -64,14 +57,8 @@ export const SpellCard = (props) => {
             }
             </section>
             <section>
-                <p className="spellcard-footer">{data.type} level {data.school} spell</p>
+                <p className="itemcard-footer">{data.type} level {data.school} spell</p>
             </section>
         </div>
     )
 }
-
-/*
-<div className="collapse" >
-    <TbArrowBigRightFilled color="black" size="24px" style={{position:"absolute", zIndex:"3"}}/>
-</div>
-*/

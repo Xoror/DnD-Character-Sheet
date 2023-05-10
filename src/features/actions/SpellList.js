@@ -8,8 +8,8 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 
 
-import { ActionsTable } from '../actions/ActionsTable';
-import { filterSpells } from '../actions/ActionsSlice';
+import { ActionsTable } from './ActionsTable';
+import { filterSpells } from './ActionsSlice';
 import "../styles.css"
 
 import { AiOutlineCloseCircle } from "react-icons/ai";
@@ -47,11 +47,11 @@ export const SpellList = (props) => {
 				Open Spell List 
 			</Button>
 
-			<Offcanvas border="dark" style={{backgroundColor:"#6c757d", width:"40%"}} show={show} onHide={handleClose} placement="start" scroll="true">
-				<Offcanvas.Header closeButton>
-					<Offcanvas.Title style={{color:"white"}}>Spell List</Offcanvas.Title>
+			<Offcanvas border="dark" style={{color:"white", backgroundColor:"#6c757d", width:"40%"}} show={show} onHide={handleClose} placement="start" scroll="true">
+				<Offcanvas.Header closeButton onCLick={handleClose}>
+					<Offcanvas.Title>Spell List</Offcanvas.Title>
 				</Offcanvas.Header>
-				<Offcanvas.Body style={{color:"white"}}>
+				<Offcanvas.Body>
 					<FilterSelection filters={filters} searchField={searchField} setFilters={setFilters} setSearchField={setSearchField}/>
 					<Container fluid className="filter-container">
 						<span>Filters: </span>

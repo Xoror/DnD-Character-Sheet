@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
 import "../styles.css"
@@ -8,9 +8,18 @@ import { changeIsCaster } from '../attributes/AttributesSlice';
 
 export const CharacterName = () => {
 	const dispatch  = useDispatch()
+	var [width, setWidth]= useState(window.innerWidth)
 	const charName = useSelector(state => state.charDetails.charName)
     const casting = useSelector(state => state.attributes.casting)
-	
+	const handleResize = useCallback(()=>{
+		setWidth(window.innerWidth)
+	},[setWidth])
+	useEffect(() => {
+		window.addEventListener("resize", handleResize, true)
+		return function cleanup() {
+			window.removeEventListener("resize", handleResize, true)
+		}
+	}, [handleResize])
 	
 	const handleNameChange = (event) => {
 		const name_change = event.target.value;
@@ -21,7 +30,7 @@ export const CharacterName = () => {
 	}
 	return (
 		<div id="CharacterName" /*className='alert alert-secondary'*/>
-			<span>Character Name: </span>
+			<span>Character Name: {width} </span>
 			<br></br>
 			<input required='required' type='text' id='characterName' value={charName} placeholder="Insert Character name here" onChange={handleNameChange}></input>
 			<br></br>

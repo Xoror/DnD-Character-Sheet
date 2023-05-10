@@ -48,7 +48,7 @@ export const ThirdColumn = () => {
 	const headersSpells = listSlots.slice(0,listSlots.indexOf(highestSpellSlot)+1)
 	const sections = [
         <FeaturesBox/>, 
-        <ActionsBox actions={actions} id="Actions" options={headersActions} headers={headersActions}/>, 
+        <ActionsBox offCanvas={false} actions={actions} id="Actions" options={headersActions} headers={headersActions}/>, 
         <ActionsBox offCanvas={false} actions={spells} id="Spells" options={listSlots} headers={headersSpells} spells={true}/>, 
         <InventoryBox/>, 
         <Notes/>

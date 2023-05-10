@@ -7,6 +7,7 @@ import CardGroup from 'react-bootstrap/CardGroup';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Modal from 'react-bootstrap/Modal';
+import Container from 'react-bootstrap/Container';
 
 import "../styles.css"
 
@@ -52,7 +53,7 @@ export const ResourcesMiscProficiencies = () => {
 
 	return (
 	<div>
-		<div className="container-fluid">
+		<Container fluid style={{padding:"0"}}>
 			<Modal show={showAddResource}>
 				<Form onSubmit={handleAddResource}>
 					<Modal.Header>
@@ -131,7 +132,7 @@ export const ResourcesMiscProficiencies = () => {
 				</div>
 			</CardGroup>
 			
-		</div>
+		</Container>
 	</div>
 	)
 }

@@ -8,7 +8,7 @@ import "../styles.css"
 import { ActionsTable } from "./ActionsTable"
 import { addAction, editAction } from './ActionsSlice';
 import { ActionsAdd } from './ActionsAdd';
-import { SpellList } from '../spells/SpellList';
+import { SpellList } from './SpellList';
 
 var isEqualsJson = (obj1,obj2)=>{
     let keys1 = Object.keys(obj1);
@@ -45,9 +45,18 @@ export const ActionsBox = (props) => {
 			components: "",
 			duration: "", 
 			castingTime: ""
+		} : 
+		{
+			id: "", 
+			name: "", 
+			range: "", 
+			damage: "", 
+			type: "", 
+			scaling: "", 
+			isProficient: "", 
+			damageType: "", 
+			description: ""
 		}
-		: 
-		{id: "", name: "", range: "", damage: "", type: "", scaling: "", isProficient: "", damageType: "", description: ""}
 	const actions = useSelector(state => state.actions.actions)
 	const sortedSpellList = useSelector(state => state.actions.sortedSpellList)
 

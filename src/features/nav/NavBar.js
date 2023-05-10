@@ -6,6 +6,7 @@ import "../styles.css"
 
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
+import { VscChromeMinimize, VscChromeMaximize, VscChromeClose } from "react-icons/vsc";
 
 import { importActions } from '../actions/ActionsSlice';
 import { importAttributes } from '../attributes/AttributesSlice';
@@ -75,8 +76,6 @@ export const NavBar = () => {
 		})
 	}
 	
-
-	
 	const readFileOnUpload = (uploadedFile) => {
 	   const fileReader = new FileReader();
 	   fileReader.onloadend = () => {
@@ -90,18 +89,31 @@ export const NavBar = () => {
 		  fileReader.readAsText(uploadedFile);
 		}
 	}
+
+	const handleMaximize = () => {
+		window.api.buttonInteraction("max")
+	}
 	
 	return(
-		<Navbar style={{backgroundColor:"#212529"}} variant="dark">
-		  <Container fluid>
-			<Navbar.Brand href="/">Navbar</Navbar.Brand>
-			<form className="d-flex">
-				<label  htmlFor="file-upload" className="btn btn-outline-success">
-					 Import
-				</label>
-				<input id="file-upload" type="file" onChange={(e)=>readFileOnUpload(e.target.files[0])}></input>
-				<button className="btn btn-outline-success" type="submit" onClick={exportToJson}>Export</button>
-			</form>
+		<Navbar style={{backgroundColor:"#212529", padding:"0"}} variant="dark" className="titlebar">
+		  <Container fluid className="draggable">
+			<Navbar.Brand href="/">{document.title}</Navbar.Brand>
+			<div className="controls">
+				<form className="d-flex">
+					<label  htmlFor="file-upload" className="btn btn-outline-success" style={{padding:"0.25em 0.375em 0.25em 0.375em"}}>
+						Import
+					</label>
+					<input id="file-upload" type="file" onChange={(e)=>readFileOnUpload(e.target.files[0])}></input>
+					<button className="btn btn-outline-success" style={{padding:"0.25em 0.375em 0.25em 0.375em"}} type="submit" onClick={exportToJson}>Export</button>
+					{ true ?
+						<>
+							<div onClick={() => window.api.buttonInteraction("min")} className="button2 minimize"><VscChromeMinimize size="2em" color="white"/></div>
+							<div onClick={handleMaximize} className="button2 maximize"><VscChromeMaximize size="2em" color="white"/></div>
+							<div onClick={() => window.api.buttonInteraction("close")} className="button2 close"><VscChromeClose size="2em" color="white"/></div>
+						</>
+					: null }
+				</form>
+			</div>
 		  </Container>
 		</Navbar>
 	)

@@ -5,9 +5,8 @@ import "../styles.css"
 
 import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
+import Col from 'react-bootstrap/Col';
 
-
-import { FilterItem } from '../spells/SpellList';
 import { changeExhaustion, addCondition, removeCondition } from './ConditionsSlice';
 import { CounterBox } from './CounterBox';
 import { FilterBox } from '../../components/FilterBox';
@@ -32,22 +31,38 @@ export const ConditionsBox = (props) => {
     let colors=["#198754", "#6a9b39", "#aead22", "#ffc107", "#f3901d", "#e8662f", "#DC3545"]
     return(
         <>
-            <Card border="dark" bg="secondary" style={{paddingTop:"0.5em", paddingBottom:"0.5em"}}>
+            <Col className="miscbar-col"  style={{borderRight:"1px solid black"}}>
                 <FilterBox show={props.show} header="Conditions" data={conditions} test="has" handleAdd={handleAdd} handleDelete={handleDelete} defaultSelectValue={defaultSelectValue}/>
-            </Card>
-            <Card border="dark" bg="secondary" style={{padding:"0.5em", paddingBottom:"0"}}>
+            </Col>
+            <Col className="miscbar-col" style={{borderRight:"1px solid black"}}>
                 <div style={{display:"flex"}}> <span style={{paddingRight:"0.5em"}}>Exhaustion Level:  </span> <CounterBox colors={colors} handleChange={handleChange} number={exhaustion.level}/> </div>
                 {exhaustion.level != 0 && props.show ?
                     <>
-                        <br></br>
-                        <ol>
+                        <ol style={{paddingLeft:"1.5em"}}>
                             {exhaustion.effects.map((effect, index) => (
                                 index > exhaustion.level-1 ? "" : <li key={`exhaustion-effect-level-${index+1}`}> {exhaustion.effects[index]} </li>
                             ))}
                         </ol>
                     </> : null}
-            </Card>
+            </Col>
         </>
     )
 }
 
+/*
+<Card border="dark" bg="secondary" style={{minWidth:"4em", paddingTop:"0.5em", paddingBottom:"0.5em"}}>
+    <FilterBox show={props.show} header="Conditions" data={conditions} test="has" handleAdd={handleAdd} handleDelete={handleDelete} defaultSelectValue={defaultSelectValue}/>
+</Card>
+<Card border="dark" bg="secondary" style={{minWidth:"4em", padding:"0.5em", paddingBottom:"0"}}>
+    <div style={{display:"flex"}}> <span style={{paddingRight:"0.5em"}}>Exhaustion Level:  </span> <CounterBox colors={colors} handleChange={handleChange} number={exhaustion.level}/> </div>
+    {exhaustion.level != 0 && props.show ?
+        <>
+            <br></br>
+            <ol>
+                {exhaustion.effects.map((effect, index) => (
+                    index > exhaustion.level-1 ? "" : <li key={`exhaustion-effect-level-${index+1}`}> {exhaustion.effects[index]} </li>
+                ))}
+            </ol>
+        </> : null}
+</Card>
+*/

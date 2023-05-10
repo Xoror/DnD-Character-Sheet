@@ -12,8 +12,8 @@ import { RiFileEditFill } from "react-icons/ri";
 import { deleteAction } from './ActionsSlice';
 import { setPrepared } from './ActionsSlice';
 import { SpellCard } from '../../components/SpellCard';
+import { ActionCard } from '../../components/ActionCard';
 import { updateSpellCardShow } from './ActionsSlice';
-import { reference } from '@popperjs/core';
 
 
 export const ActionsTable = (props) => {
@@ -85,7 +85,7 @@ export const ActionsTable = (props) => {
 			setShowPopover([showPopover[0], id])
 		}
 		*/
-		test = `action-table-row-id-${id}`
+		test = `${props.offCanvas}-action-table-row-id-${id}`
 		setReferenceElement(document.getElementById(test))
 		props.setSpellCardID(id)
 		spellCardID = id
@@ -121,7 +121,7 @@ export const ActionsTable = (props) => {
 			<Table size="sm" style={{color:"white", border:"black"}} >
 				<thead>
 					<tr>
-						{props.spells ? <td></td> : ""}
+						{props.spells ? <td>{props.offCanvas ? "Knows" : ""}</td> : ""}
 						<td> Name </td>
 						{props.spells ? "" : <td> Hit </td>}
 						{props.offCanvas ? "" : <td> Damage (Type) </td>}
@@ -132,16 +132,19 @@ export const ActionsTable = (props) => {
 				<tbody>
 					{props.bodies.map( (body, index) => (
 						(props.offCanvas ? body.filtered : true) ?
-							<tr className="action-table" key={`action-table-row-id-${body.id}`} id={`action-table-row-id-${body.id}`} onClick={(event) => handleRowClick(event, body.id)}>
+							<tr className="action-table" key={`${props.offCanvas}-action-table-row-id-${body.id}`} id={`${props.offCanvas}-action-table-row-id-${body.id}`} onClick={(event) => handleRowClick(event, body.id)}>
 								{props.spells ? 
-									<td className="prepared-check" style={{height:"1.5em", width:"1.5em", zIndex:"2"}}>
+									<td className="prepared-check letter-k" style={{height:"1.5em", width:"1.5em", zIndex:"2"}}>
 										<input type="checkbox" id={body.name} value="prepared" onChange={handlePrepared} checked={body.isPrepared}></input>
 									</td> : ""}
 								<td>
 									{body.name}
-									{props.spells && showPopover[0] && showPopover[1] === body.id && spellCardID === body.id ?
+									{showPopover[0] && showPopover[1] === body.id && spellCardID === body.id ?
 									<div className="popover-test" ref={setPopperElement} style={styles.popper} {...attributes.popper}>
-										<SpellCard id={`spellcard-${index}`} offCanvas={props.offCanvas} data={body}/>
+										{props.spells ? 
+											<SpellCard id={`spellcard-${body.id}`} offCanvas={props.offCanvas} data={body}/> :
+											<ActionCard id ={`actioncard-${body.id}`} data={body}/>
+										}
 										<span
 											ref={setArrowElement}
 											style={styles.arrow}

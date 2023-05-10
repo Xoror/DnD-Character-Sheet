@@ -48,7 +48,7 @@ export const SpellBox = () => {
 	if(casting.isCaster)
 		doesShow = "collapse show"
 	return (
-		<Container fluid className={doesShow}>
+		<Container fluid className={doesShow} style={{padding:"0"}}>
 			<Card bg="secondary" border="dark">
 				<InputGroup>
 					<InputGroup.Text style={{padding:"0"}}>

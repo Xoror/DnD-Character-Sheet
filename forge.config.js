@@ -1,5 +1,8 @@
 module.exports = {
-  packagerConfig: {},
+  packagerConfig: {
+    "asar": true,
+    "ignore": ["^(\/src$)", "^(\/public$)", "^(\/node_modules$)", ".gitignore", "forge.config.js", "LICENSE", "README.md"],
+  },
   rebuildConfig: {},
   makers: [
     {

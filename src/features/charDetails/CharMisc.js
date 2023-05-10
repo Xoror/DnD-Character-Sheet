@@ -29,26 +29,21 @@ export const MiscInfo = () => {
 	
 	return (
 		<Container>
-			<Row>
-				<Col>
+			<Row className="justify-content-md-center">
+				<Col style={{justifyContent:"right"}}>
 					<span>Lineage: </span>
 					<br></br>
 					<input required="required" type="text" id="Lineage" value={charLineage} onChange={handleChange}></input> 
-				</Col>
-				<Col>
-					<span>Background: </span>
 					<br></br>
-					<input required="required" type="text" id="Background" value={charBackground} onChange={handleChange}></input> 
-				</Col>
-			</Row>
-			
-			<Row>
-				<Col>
 					<input required="required" type="number" min="1" max="20" id="Level" value={charLevel} onChange={handleChange}></input> 
 					<br></br>
 					<span>Character Level: </span>
 				</Col>
 				<Col>
+					<span>Background: </span>
+					<br></br>
+					<input required="required" type="text" id="Background" value={charBackground} onChange={handleChange}></input> 
+					<br></br>
 					<input required="required" type="text" id="Experience Points" value={charExperience} onChange={handleChange}></input> 
 					<br></br>
 					<span>Experience Points: </span>

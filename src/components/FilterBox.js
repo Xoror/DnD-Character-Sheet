@@ -27,7 +27,7 @@ export const FilterBox = (props) => {
 
 
     return (
-        <Container style={{display:"flex", flexWrap:"wrap"}} fluid>
+        <Container style={{padding:"0", display:"flex", flexWrap:"wrap"}} fluid>
             <span style={{paddingRight:"0.125em"}}>{header}: </span>
             {show ? data.map((item, index) => (
                 item[test] ? <FilterItem key={`${header}-list-nr-${index}`} hasValue={hasValue} name={item.name} value={item.distance} handleDelete={handleDelete} handleInputChange={handleInputChange} index={index} type={type}/> : ""

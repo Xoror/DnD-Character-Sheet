@@ -18,7 +18,7 @@ export const MiscAttributes = () => {
 	const charHP = useSelector(state => state.miscAttributes.charHP)
 
 	return (
-		<Container fluid>
+		<Container fluid style={{padding:"0"}}>
 			<CardGroup style={{marginBottom: "-1em"}}>
 				<Card bg="secondary" border="dark" className="mb-3" style={{borderRadius:"0.375em 0em 0em 0em"}}>
 					<AttributeBox name="Initiative" attribute={initiative} />

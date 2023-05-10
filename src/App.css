@@ -1,43 +1,11 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
 
 /*  This is all that's used for Darkmode */
+.main-style {
+  color: #ffffff;
+  background-color: #343a40; /*#007200;*/ /*#704214*/ /*#212529*/
+  font-size: 16px;
+  line-height: 1.4
+}
 
 #darkmode{
   display: flex;
@@ -88,42 +56,110 @@
 	border-image-source: url("https://mdn.github.io/css-examples/tools/border-image-generator/border-image-6.svg");
 	border-style: solid; 
 }
+/*Character Details*/
+@media (min-width: 992px) {
+  .left-box {
+    background-color: #6c757d;
+    display: flex;
+    justify-content: right;
+    align-items: center;
 
-.left-box {
-  background-color: #6c757d;
-  display: flex;
-  justify-content: right;
-  align-items: center;
+    border-radius: 0em 0em 0em 0.5em;
+    border-left: 1px solid black;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+  }
+  .middle-box {
+    background-color: #5c636a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-  border-radius: 0em 0em 0em 0.5em;
-  border-left: 1px solid black;
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
+    border: 1px solid black;
+  }
+  .right-box {
+    background-color: #6c757d;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    padding-bottom: 1.25em;
+
+    border-radius: 0em 0em 0.5em 0em;
+    border-right: 1px solid black;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+  }
 }
-.middle-box {
-  background-color: #5c636a;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+@media (max-width: 991px) {
+  .left-box {
+    background-color: #6c757d;
+    display: flex;
+    justify-content: right;
+    align-items: center;
 
-  border: 1px solid black;
+    border: 1px solid black;
+  }
+  .middle-box {
+    background-color: #5c636a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 0em 0em 0.5em 0.5em;
+    border: 1px solid black;
+  }
+  .right-box {
+    background-color: #6c757d;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    padding-bottom: 20px;
+    border-right: 1px solid black;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+  }
 }
-.right-box {
-  background-color: #6c757d;
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  padding-bottom: 20px;
-
-  border-radius: 0em 0em 0.5em 0em;
-  border-right: 1px solid black;
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
+/*Main columns*/
+@media (min-width:1200px) {
+  .left-column {
+    padding-right: 0.25em;
+  }
+  .middle-column {
+    padding-right: 0.25em;
+    padding-left: 0.25em
+  }
+  .right-column {
+    padding-left: 0.25em;
+    padding-right: 1.25em;
+  }
 }
-
-.main-style {
-  color: #ffffff;
-  background-color: #343a40; /*#007200;*/ /*#704214*/ /*#212529*/
-  font-size: 16px;
-  line-height: 1.4
+@media (max-width:1199px) and (min-width:768px) {
+  .left-column {
+    padding-right: 0.5em;
+  }
+  .middle-column {
+    padding-left: 0em;
+    padding-right: 1.25em;
+  }
+  .right-column {
+    padding-top: 0.5em;
+    padding-left: 0.75em;
+    padding-right: 1.25em;
+  }
+}
+@media (max-width:767px) {
+  .left-column {
+    padding-left: 0.75em;
+    padding-right: 1.25em;
+  }
+  .middle-column {
+    padding-top: 0.5em;
+    padding-left: 0.75em;
+    padding-right: 1.25em;
+  }
+  .right-column {
+    padding-top: 0.5em;
+    padding-left: 0.75em;
+    padding-right: 1.25em;
+  }
 }

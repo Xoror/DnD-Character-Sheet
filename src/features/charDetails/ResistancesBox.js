@@ -25,9 +25,9 @@ export const ResistancesBox = () => {
     const [showDetails, setShowDetails] = useState(true)
 
     return(
-        <Container fluid style={{paddingLeft:"0", paddingRight:"0"}}>
+        <Container fluid style={{minWidth:"4em",paddingLeft:"0", paddingRight:"0"}}>
             <CardGroup>
-                <Card bg="secondary" border="dark" style={{paddingTop:"0.5em", paddingBottom:"0.5em"}}> 
+                <Card bg="secondary" border="dark" style={{padding:"0.5em"}}> 
                     { showDetails ? 
                     <>
                         <FilterBox

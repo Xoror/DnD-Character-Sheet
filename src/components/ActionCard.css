@@ -1,19 +1,19 @@
-.spellcard {
+.actioncard {
     border: 2px groove black;
     border-radius: 0.375em;
     width: 350px;
     padding: 0.25em 0.75em 0em 0.75em;
     background-color: #343a40;
 }
-.spellcard-row {
+.actioncard-row {
     border-top: 1px solid black; 
     padding-bottom: 0.25em;
 }
-.spellcard-section {
+.actioncard-section {
     border-top: 1px solid black;
     padding-top: 0.25em;
 }
-.spellcard-footer {
+.actioncard-footer {
     background-color: #212529;
     margin: -0.25em -0.75em 0em -0.75em; 
     padding: 0.25em 0.75em 0.5em 0.75em;
