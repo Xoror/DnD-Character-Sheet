@@ -54,7 +54,7 @@ export const ResourcesMiscProficiencies = () => {
 	return (
 	<div>
 		<Container fluid style={{padding:"0"}}>
-			<Modal show={showAddResource}>
+			<Modal contentClassName="modal-custom" show={showAddResource}>
 				<Form onSubmit={handleAddResource}>
 					<Modal.Header>
 						<Modal.Title> Add Resource </Modal.Title>
@@ -84,7 +84,7 @@ export const ResourcesMiscProficiencies = () => {
 				</Form>
 			</Modal>
 			
-			<Modal show={showAddMiscProf}>
+			<Modal contentClassName="modal-custom" show={showAddMiscProf}>
 				<Form onSubmit={(event) => handleAddMiscProficiency(event)}>
 					<Modal.Header>
 						<Modal.Title> Add Misc Proficiency </Modal.Title>

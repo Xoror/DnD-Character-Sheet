@@ -26,7 +26,7 @@ export const getAPISPelllist = createAsyncThunk('actions/fetchAPISpelllist', asy
 
 const initialState = {
     actions: [
-        {name: "Unarmed Attack", range: "Melee",  damage: 1, type: "Action", scaling: "Strength", isProficient: true, damageType:"Bludgeoning", description:"An attack with your fist, ellbow, head etc."},
+        {id:nanoid(), name: "Unarmed Attack", range: "Melee",  damage: 1, type: "Action", scaling: "Strength", isProficient: true, damageType:"Bludgeoning", description:"An attack with your fist, ellbow, head etc."},
     ],
     spells: [
 	],
@@ -63,8 +63,9 @@ const ActionsSlice = createSlice({
         },
         editAction: {
             reducer(state, action) {
-                if(action.payload[2] === "Actions") {				
-                    let testIndex = state.actions.indexOf(state.actions.find(action1 => {return action1.id === action.payload[1].id}))
+                if(action.payload[1] === "Actions") {
+                    console.log(action.payload[0])
+                    let testIndex = state.actions.indexOf(state.actions.find(action1 => {return action1.id === action.payload[0].id}))
                     state.actions[testIndex] = action.payload[0]
                 }
                 else if(action.payload[2] === "Spells") {
@@ -79,9 +80,9 @@ const ActionsSlice = createSlice({
                     state.spells[testIndex] = action.payload[0]
                 }
             },
-            prepare(data, oldData, id) {
+            prepare(data, id) {
                 return {
-                    payload: [data, oldData, id]
+                    payload: [data, id]
                 }
             }
         },

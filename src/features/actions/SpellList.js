@@ -48,7 +48,7 @@ export const SpellList = (props) => {
 			</Button>
 
 			<Offcanvas border="dark" style={{color:"white", backgroundColor:"#6c757d", width:"40%"}} show={show} onHide={handleClose} placement="start" scroll="true">
-				<Offcanvas.Header closeButton onCLick={handleClose}>
+				<Offcanvas.Header closeButton onClick={handleClose}>
 					<Offcanvas.Title>Spell List</Offcanvas.Title>
 				</Offcanvas.Header>
 				<Offcanvas.Body>

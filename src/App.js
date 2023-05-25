@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import "./App.css"
@@ -29,11 +30,16 @@ import { LanguageBox } from './features/charDetails/LanguageBox'
 import { SensesBox } from './features/charDetails/SensesBox'
 import { ResistancesBox } from './features/charDetails/ResistancesBox';
 
+
 const App = () => {
+	const full_state = useSelector(state => state)
 	const [showMiscBar, setShowMiscBar] = useState(true)
 	const setShow = () => {
 		setShowMiscBar(!showMiscBar)
 	}
+	useEffect(() => {
+		//console.log(full_state)
+	},[full_state])
 	return (
 		<>
 			<ScrollBar>

@@ -10,6 +10,7 @@ import charDetailsReducer from "../features/charDetails/CharDetailsSlice"
 import spellsReducer from "../features/spells/SpellSlice"
 import resourcesReducer from "../features/resources/ResourcesSlice"
 import conditionsReducer from "../features/conditions/ConditionsSlice"
+import navBarReducer from "../features/nav/NavBarSlice"
 
 const store = configureStore({
     reducer: {
@@ -22,7 +23,8 @@ const store = configureStore({
 		charDetails: charDetailsReducer,
 		spells: spellsReducer,
 		resources: resourcesReducer,
-        conditions: conditionsReducer
+        conditions: conditionsReducer,
+        navBar: navBarReducer
     },
 })
 

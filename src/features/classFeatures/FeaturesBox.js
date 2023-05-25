@@ -34,7 +34,7 @@ export const FeaturesBox = () => {
 	
 	return (
 		<Card bg="secondary" >
-			<Modal size="lg" show={show} onHide={(event) => handleSubmit(event)}>
+			<Modal contentClassName="modal-custom" size="lg" show={show} onHide={(event) => handleSubmit(event)}>
 				<Modal.Header closeButton onClick={handleClose}>
 					<Modal.Title>
 						Adding a Class feature

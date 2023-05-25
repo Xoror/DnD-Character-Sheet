@@ -84,8 +84,8 @@ export const FeatureList = (props) => {
 									<Row>
 										<Col md="auto" style={{paddingRight:"6px",paddingLeft:"0"}}> <span>Level: {props.feature.level}</span> </Col>
 										<Col md="auto" style={{paddingRight:"0em",paddingLeft:"0"}}> 
-											<RiFileEditFill type="button" color="black" size="23" id="edit-button" onClick={startEdit} className="edit-button" />
-											<AiFillCloseSquare type="button" color="#dc3545" size="23" id="delete-button" onClick={handleDelete} className="edit-button" style={{backgroundColor:"white", padding:"0px"}}/> 
+											<RiFileEditFill type="button" size="1.5em" id="edit-button" onClick={startEdit} className="edit-button" />
+											<AiFillCloseSquare type="button" size="1.5em" id="delete-button" onClick={handleDelete} className="delete-button"/> 
 										</Col>
 									</Row>
 								</Col>

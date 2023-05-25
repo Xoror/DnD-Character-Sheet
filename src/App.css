@@ -1,11 +1,6 @@
 
+
 /*  This is all that's used for Darkmode */
-.main-style {
-  color: #ffffff;
-  background-color: #343a40; /*#007200;*/ /*#704214*/ /*#212529*/
-  font-size: 16px;
-  line-height: 1.4
-}
 
 #darkmode{
   display: flex;

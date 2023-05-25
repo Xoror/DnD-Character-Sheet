@@ -47,7 +47,7 @@ export const AttributeBox = (props) => {
 	}
 	return (
 		<div className="AttributeBox2">
-			<Modal size="lg" show={show} onHide={handleClose}>
+			<Modal contentClassName="modal-custom" size="lg" show={show} onHide={handleClose}>
 				<Modal.Header closeButton>
 					<Modal.Title> Edit {props.name} </Modal.Title>
 				</Modal.Header>

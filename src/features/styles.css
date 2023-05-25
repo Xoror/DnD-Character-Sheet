@@ -1,9 +1,29 @@
-body {
-	padding-top: 3em;
+:root {
+	--background-color: #343a40;
+	--main-element-color: #6c757d;
+	--secondary-element-color: #5c636a;
+	--tertiary-element-color: #51585e;
+	--main-border-color: #000000;
+	--text-color: #ffffff;
+	--edit-primary-color: #198754;
+	--edit-secondary-color: black;
+	--delete-primary-color: #dc3545;
+	--delete-secondary-color: white;
+	--delete-border-color: black;
 }
 
-input[type="file"] {
-    display: none;
+body {
+	padding-top: 3em;
+	color: var(--text-color);
+	background-color: var(--background-color);
+	font-size: 16px;
+	line-height: 1.4
+}
+.custom-upload {
+	display: none;
+}
+.custom-upload::before {
+	content: "Test";
 }
 .custom-file-upload {
     border: 1px solid #ccc;
@@ -122,7 +142,7 @@ input[type="file"] {
 	width: 1.2em;
 	height: 1.2em;
 	border-radius: 1.2em;
-	border: 0.15em solid #000000;
+	border: 0.15em solid var(--main-border-color);
 	outline: none;
 	cursor: pointer;
 	margin-top: 0.25em;
@@ -132,18 +152,18 @@ input[type="file"] {
 	margin-left: 0.5em;
 }
 .checkbox-wrapper input:checked {
-	background-color: #51585e;
+	background-color: var(--tertiary-element-color);
 	position: relative;
-	;
 }
-.checkbox-wrapper input:after {
-	background-color: #858c925;
-	border: 0.15em solid lightgrey;
+.checkbox-wrapper input:hover {
+	background-color: var(--secondary-element-color);
+	position: relative;
 }
+
 .checkbox-wrapper input[id="Proficiency"]:checked::before {
 	content: "P";
 	font-size: 0.8em;
-	color: #ffffff;
+	color: var(--text-color);
 	position: absolute;
 	right: 0.33em;
 	top: -0.15em;
@@ -152,7 +172,7 @@ input[type="file"] {
 .checkbox-wrapper input[id="Expertise"]:checked::before {
 	content: "E";
 	font-size: 0.8em;
-	color: #ffffff;
+	color: var(--text-color);
 	position: absolute;
 	right: 0.33em;
 	top: -0.15em;
@@ -188,19 +208,29 @@ input[type="file"] {
 .button-react-icons-style {
 	all: unset;
 }
-.button-react-icons-style :hover {
+.button-react-icons-style:hover {
 	cursor: pointer;
-	background-color: #858c925;
+	background-color: #858c92;
 }
 
 .edit-button {
 	padding: 1px;
 	border-radius: 4px;
 	
-	border: solid 1px black;
+	border: solid 1px var(--edit-secondary-color);
 	float: left;
-	background-color: #198754
+	background-color: var(--edit-primary-color);
+	color: var(--edit-secondary-color);
 }
+.delete-button {
+	padding: 0;
+	border-radius: 4px;
+	
+	border: solid 1px var(--delete-border-color);
+	float: left;
+	background-color: var(--delete-secondary-color);
+	color: var(--delete-primary-color);
+}#dc3545
 
 
 .prepared-check input[type="checkbox"] {
@@ -314,8 +344,11 @@ input[type="file"] {
 }
 .draggable {
     display: flex;
-    justify-content: space-between;
+    
     -webkit-app-region: drag;
+}
+.not-draggable {
+	-webkit-app-region: no-drag;
 }
 .controls {
     -webkit-app-region: no-drag;
@@ -338,8 +371,13 @@ input[type="file"] {
 /* Misc Bar */
 
 .miscbar-col {
-	background-color: #6c757d;
+	background-color: var(--main-element-color);
 	padding: 0.5em;
-	border-top: 1px solid black;
-	border-bottom: 1px solid black;
+	border-top: 1px solid var(--main-border-color);
+	border-bottom: 1px solid var(--main-border-color);
+}
+
+.modal-custom {
+	background-color: var(--main-element-color);
+	border: 1px solid var(--main-border-color)
 }
