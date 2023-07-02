@@ -210,14 +210,14 @@ export const NavBar = () => {
 				<Navbar.Brand href="/">
 					{document.title}
 				</Navbar.Brand>
-				{!desktop ? <Nav className="not-draggable">
+				{desktop ? <Nav className="not-draggable">
 					<NavDropdown id="character-choice-menu" title="Menu" menuVariant="dark" onClick={getCharacterNames}>
 						<NavDropdown.Item onClick={(event) => handleNavDropdownClick(event, "new", "new")}>New</NavDropdown.Item>
 						<NavDropdown.Item onClick={(event) => handleSave(event)}>Save</NavDropdown.Item>
 						<NavDropdown.Item onClick={(event) => (setModalType("save-as"), setShowSafetyBox(true))}>Save As</NavDropdown.Item>
 						<NavDropdown.Item onClick={(event) => exportToJson(event, charName, currentState)}>Export to file</NavDropdown.Item>
 						<NavDropdown.Item className="custom-upload" id="file-upload" as="input" type="file" onChange={(e)=>readFileOnUpload(e.target.files[0], dispatch)}></NavDropdown.Item>
-						<NavDropdown.Item as="label" htmlFor="file-upload">Import from File</NavDropdown.Item>
+						<NavDropdown.Item as="label" htmlFor="file-upload">Import from file</NavDropdown.Item>
 						
 						<NavDropdown.Divider />
 						{
@@ -237,9 +237,9 @@ export const NavBar = () => {
 					</NavDropdown>
 					<Navbar.Text>Last saved{star ? "*" : null}: {navBarSlice.lastSaved} (currently editing: {navBarSlice.currentlyEditing.name})</Navbar.Text>
 				</Nav>: null}
-				{ !desktop ? 
+				{ desktop ? 
 					<div className="controls" style={{marginLeft:"auto"}}>
-						<Button variant="link" onClick={handleSQL}>SQL get test</Button>
+						{false ? <Button variant="link" onClick={handleSQL}>SQL get test</Button> : null}
 						<div onClick={() => window.api.buttonInteraction("min")} className="button2 minimize"><VscChromeMinimize size="2em" color="white"/></div>
 						<div onClick={() => window.api.buttonInteraction("max")} className="button2 maximize"><VscChromeMaximize size="2em" color="white"/></div>
 						<div onClick={() => window.api.buttonInteraction("close")} className="button2 close"><VscChromeClose size="2em" color="white"/></div>

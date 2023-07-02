@@ -82,7 +82,7 @@ export const ScrollBar = ({children, className, ...restProps}) => {
     }, [scrollBoxTop, scrollBoxHeight])
 
     const debouncedHandleScroll = useMemo(
-		() => debounce(handleScroll, 100)
+		() => debounce(handleScroll, 1)
 	, [handleScroll])
 
     useEffect(() => {

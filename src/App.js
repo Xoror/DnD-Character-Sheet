@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import version from '../package.json'
+
 import "./App.css"
 
 import { AiFillTwitterCircle, AiFillGithub } from "react-icons/ai";
@@ -116,7 +118,7 @@ const App = () => {
 						</Container>
 
 						<div className='text-center p-3' style={{ backgroundColor: '#1a1e21' }}>
-							© 2023 Copyright: Stargazer Works
+							© 2023 Copyright: Stargazer Works, Version {version.version}
 						</div>
 					</div>
 				</div>

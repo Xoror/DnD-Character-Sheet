@@ -15,11 +15,11 @@ function createWindow () {
     }
   })
 
-  //win.loadFile('./build/index.html')
-  win.loadURL('http://localhost:3000')
+  win.loadFile('./build/index.html')
+  //win.loadURL('http://localhost:3000')
 }
 
-const database = new sqlite3.Database(appRoot + "./database.db", sqlite3.OPEN_READWRITE, (err) => {
+const database = new sqlite3.Database("./resources/database.db", sqlite3.OPEN_READWRITE, (err) => {
   if (err) {console.log(err)}
   else console.log("Connected to database")
 })

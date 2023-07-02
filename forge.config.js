@@ -1,8 +1,9 @@
 module.exports = {
   packagerConfig: {
     "asar": true,
-    "ignore": ["^(\/src$)", "^(\/public$)", "^(\/node_modules$)", ".gitignore", "forge.config.js", "LICENSE", "README.md"],
-    "icon" : "./public/StargazerLogo"
+    "ignore": ["^(\/src$)", "^(\/public$)", ".gitignore", "forge.config.js", "LICENSE", "README.md"],
+    "icon" : "./public/StargazerLogo",
+    "extraResource": ["./Electron/database.db"]
   },
   rebuildConfig: {},
   makers: [
