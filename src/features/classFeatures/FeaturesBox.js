@@ -43,28 +43,28 @@ export const FeaturesBox = () => {
 				
 				<Form onSubmit={handleSubmit}>
 					<Modal.Body>
-						<InputGroup className="mb-6">
-							<InputGroup.Text id="FeatureName">Feature: </InputGroup.Text>
+						<InputGroup>
+							<InputGroup.Text className="top-left-group" id="FeatureName">Feature: </InputGroup.Text>
 							<Form.Control placeholder="Feature" aria-label="Feature Name" aria-describedby="feature-name"/>
 
 							<InputGroup.Text id="FeatureLevel">Level: </InputGroup.Text>
-							<Form.Control placeholder="Level" aria-label="Feature Level" aria-describedby="feature-level"/>
-						</InputGroup>
-						<InputGroup className="mb-3">
-							<InputGroup.Text id="FeatureClass">Class: </InputGroup.Text>
-							<Form.Control placeholder="Class" aria-label="Feature Class" aria-describedby="feature-class"/>
-
-							<InputGroup.Text id="FeatureSubclass">Level: </InputGroup.Text>
-							<Form.Control placeholder="Subclass" aria-label="Feature Subclass" aria-describedby="feature-subclass"/>
+							<Form.Control className="top-right-group" placeholder="Level" aria-label="Feature Level" aria-describedby="feature-level"/>
 						</InputGroup>
 						<InputGroup>
-							<InputGroup.Text>Feature Description: </InputGroup.Text>
-							<Form.Control as="textarea" aria-label="feature-description" />
+							<InputGroup.Text className="middle-left-group" id="FeatureClass">Class: </InputGroup.Text>
+							<Form.Control placeholder="Class" aria-label="Feature Class" aria-describedby="feature-class"/>
+
+							<InputGroup.Text id="FeatureSubclass">Sub Class: </InputGroup.Text>
+							<Form.Control className="middle-right-group" placeholder="Subclass" aria-label="Feature Subclass" aria-describedby="feature-subclass"/>
+						</InputGroup>
+						<InputGroup>
+							<InputGroup.Text className="bottom-left-group">Feature Description: </InputGroup.Text>
+							<Form.Control className="bottom-right-group" as="textarea" aria-label="feature-description" />
 						</InputGroup>
 					</Modal.Body>
 						
 					<Modal.Footer>
-						<Button variant="secondary" onClick={handleClose}>
+						<Button variant="danger" onClick={handleClose}>
 							Close
 						</Button>
 						<Button variant="primary" type="submit">

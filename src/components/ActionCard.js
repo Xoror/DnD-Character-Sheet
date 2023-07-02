@@ -4,11 +4,12 @@ import "./ActionCard.css"
 
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Card from 'react-bootstrap/Card'
 
 export const ActionCard = (props) => {
     let data = props.data
     return(
-            <div key={`${props.id}-action-card`} className={`${props.show} actioncard`}>
+            <Card key={`${props.id}-action-card`} className={`${props.show} actioncard`}>
                 <h4>{data.name}</h4>
                 <Row className="actioncard-row">
                     <Col>
@@ -28,7 +29,7 @@ export const ActionCard = (props) => {
                 </Row>
                 <Row className="actioncard-row">
                     <Col>
-                    <span>Damage: </span>
+                        <span>Damage: </span>
                     </Col>
                     <Col md="auto">
                         {data.damage} ({data.damageType})
@@ -48,7 +49,7 @@ export const ActionCard = (props) => {
                 <section>
                     <p className="actioncard-footer"> {data.isProficient ? "Is proficient." : "Is not proficient."}</p>
                 </section>
-            </div>
+            </Card>
     )
 }
 

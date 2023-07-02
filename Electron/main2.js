@@ -9,7 +9,7 @@ function createWindow () {
 		height: 900,
     frame: false,
     webPreferences: {
-      //Sandbox: true,
+      Sandbox: true,
       contextIsolation: true,
       preload: path.join(__dirname, 'preload.js')
     }
@@ -38,10 +38,10 @@ const getFullDB = async (event, arg) => {
 }
 
 const addRowDB = async (event, arg) => {
-  console.log(arg)
+  //console.log(arg)
   const queryAddRow = async (event, arg) => {
     return new Promise((resolve, reject) => {
-      database.run("INSERT INTO characters(name, state, lastSaved) VALUES(?,?,?)", [arg[0].charDetails.charName,JSON.stringify(arg[0], null), arg[1]], (err, rows) => {
+      database.run(arg[0], arg[1], (err, rows) => {
         if(err) {reject(err)}
         else {resolve(rows)}
       })
@@ -65,29 +65,20 @@ const loadRowDB = async (event, arg) => {
 }
 
 const changeRowDB = async (event, arg) => {
-  let characterName
-  if(arg[3] === "auto") {
-    characterName = "Autosave"
-  }
-  else {
-    if( arg[0].charDetails.charName === "") {
-      characterName = "character"
-    }
-    else { 
-      characterName = arg[0].charDetails.charName 
-    }
-  }
+  let sql = arg[0]
+  let data = arg[1]
   const queryChangeRow = async (event1, arg1) => {
     return new Promise((resolve, reject) => {
-      database.run("update characters set name = ?, state = ?, lastSaved = ? where id = ?", [characterName, JSON.stringify(arg1[0], null), arg1[2], arg[1]], (err, rows) => {
+      database.run(sql, data, (err, rows) => {
         if(err) {reject(err)}
         else {resolve(rows)}
       })
     })
   }
-  const bla = await queryChangeRow(event, arg)
+  const bla = await queryChangeRow(event, data)
   return bla
 }
+
 
 app.whenReady().then(() => {
   ipcMain.handle("get-full-db", async (event, arg) => getFullDB(event, arg))

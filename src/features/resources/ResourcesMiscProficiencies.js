@@ -15,11 +15,12 @@ import { ResourcesList } from './ResourcesList';
 import { MiscProficiencies} from "../attributes/MiscProficiencies"
 
 import { addResource } from './ResourcesSlice';
-import { addMiscProficiency } from '../attributes/AttributesSlice';
+import { addMiscProficiency, addProficiencyType } from '../attributes/AttributesSlice';
 
 export const ResourcesMiscProficiencies = () => {
 	const dispatch = useDispatch()
     const proficienciesTypes = useSelector(state => state.attributes.proficienciesTypes)
+	const [selectedType, setSelectedType] = useState("");
     
 	const handleAddResource = (event) => {
 		event.preventDefault();
@@ -34,6 +35,12 @@ export const ResourcesMiscProficiencies = () => {
             [event.target[0].value, selectedType, event.target[2].value, event.target[3].value]
         ))
 	}
+	const handleCreateOption = (createdOption) => {
+		let option = {value: createdOption.toLowerCase(), label: createdOption}
+		setSelectedType(option)
+		dispatch(addProficiencyType(option))
+	}
+
 	const [showAddResource, setShowAddResource] = useState(false);
 	const handleShowAddResource = () => setShowAddResource(true);
 	const handleCloseAddResource = () => setShowAddResource(false);
@@ -41,14 +48,16 @@ export const ResourcesMiscProficiencies = () => {
 	const [showAddMiscProf, setShowAddMiscProf] = useState(false);
 	const handleShowAddMiscProf = () => setShowAddMiscProf(true);
 	const handleCloseAddMiscProf = () => setShowAddMiscProf(false);
-	
-	const [selectedType, setSelectedType] = useState("");
-	
+	//0.25em 0.25em rgba(13, 110, 253, 0.5), -0.25em 0.25em rgba(13, 110, 253, 0.5), 0.25em -0.25em rgba(13, 110, 253, 0.5), -0.25em -0.25em rgba(13, 110, 253, 0.5)
 	const customStyles = {
 		option: (defaultStyles) => ({
 			...defaultStyles,
 			color: "#000000",
 		}),
+		menu: provided => ({ ...provided, zIndex: 1055, marginTop: 0}),
+		input: provided => ({ ...provided, minWidth:"13em"}), 
+		container:provided => ({ ...provided, maxWidth:"13em",}),
+		control: (provided, {data, isFocused} )=> ({...provided, zIndex:"2", borderTopLeftRadius:"0", borderBottomLeftRadius:"0", boxShadow: isFocused ? "0 0 0 0.25em rgba(13, 110, 253, 0.25)" : provided.boxShadow, border: isFocused ? "1px solid rgba(13, 110, 253, 0.5)":provided.border, ":hover":{border: isFocused ? "1px solid rgba(13, 110, 253, 0.5)" : "1px solid #ced4da"}})
 	}
 
 	return (
@@ -90,11 +99,11 @@ export const ResourcesMiscProficiencies = () => {
 						<Modal.Title> Add Misc Proficiency </Modal.Title>
 					</Modal.Header>
 					<Modal.Body>
-						<InputGroup>
+						<InputGroup >
 							<InputGroup.Text>Name</InputGroup.Text>
 							<Form.Control required name="Name" placeholder="Name" aria-label="Name"/>
 							<InputGroup.Text>Type</InputGroup.Text>
-							<CreatableSelect required styles={customStyles} isClearable options={proficienciesTypes} onChange={(value) => setSelectedType(value)}/>
+							<CreatableSelect value={selectedType} onChange={(value) => setSelectedType(value)} onCreateOption={(value) => handleCreateOption(value)} isClearable options={proficienciesTypes} styles={customStyles} required placeholder="Select or create type..." /> 
 						</InputGroup>
 						<InputGroup>
 							<InputGroup.Text htmlFor="proficiencyInput">Proficient</InputGroup.Text>
@@ -107,11 +116,10 @@ export const ResourcesMiscProficiencies = () => {
 								<option value="True">Yes</option>
 								<option value="False">No</option>
 							</Form.Select>
-							<Button variant="success" type="submit">Submit</Button>
 						</InputGroup>
 					</Modal.Body>
 					<Modal.Footer>
-						<Button variant="secondary" onClick={handleCloseAddMiscProf}>
+						<Button variant="danger" onClick={handleCloseAddMiscProf}>
 							Close
 						</Button>
 						<Button variant="primary" type="submit">
@@ -123,11 +131,11 @@ export const ResourcesMiscProficiencies = () => {
 			
 			<CardGroup>
 				<div className="card bg-secondary border-dark justify-content-middle">
-					<Button variant="primary" onClick={handleShowAddResource}> Add Resource </Button>
+					<Button variant="primary" onClick={handleShowAddResource} style={{borderTopRightRadius:"0", borderBottomRightRadius:"0"}}> Add Resource </Button>
 					<ResourcesList/>
 				</div>
 				<div className="card bg-secondary border-dark justify-content-middle">
-					<Button variant="primary" onClick={handleShowAddMiscProf}> Add Misc Proficiency</Button>
+					<Button variant="primary" onClick={handleShowAddMiscProf} style={{borderTopLeftRadius:"0", borderBottomLeftRadius:"0"}}> Add Misc Proficiency</Button>
 					<MiscProficiencies/>
 				</div>
 			</CardGroup>

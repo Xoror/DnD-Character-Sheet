@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { act } from "react-dom/test-utils";
 
-export const importCharacterNames = createAsyncThunk('navBar/importCharacterNames', async () => {
+export const importCharacterNames = createAsyncThunk('navBar/importCharacterNames', async (payload) => {
     try {
-        let result = await window.api.getFullDB("select id, name from characters")
+        let result = await window.api.getFullDB(payload)
         return result
     } catch (error) {
         console.log(error)
@@ -13,7 +14,7 @@ export const importCharacter = createAsyncThunk("navBar/importCharacter", async 
     let character = payload[0]
     let id = payload[1]
     try {
-        let result = await window.api.loadRow(["select * from characters where id = ?", id])
+        let result = await window.api.loadRow(payload)
         return result[0]
     } catch(error) {
         console.log(error)
@@ -24,7 +25,7 @@ export const importCharacterReadOnly = createAsyncThunk("navBar/importCharacterR
     let character = payload[0]
     let id = payload[1]
     try {
-        let result = await window.api.loadRow(["select * from characters where id = ?", id])
+        let result = await window.api.loadRow(payload)
         return result[0]
     } catch(error) {
         console.log(error)
@@ -32,11 +33,10 @@ export const importCharacterReadOnly = createAsyncThunk("navBar/importCharacterR
     }
 })
 export const addCharacterToDatabase = createAsyncThunk('navBar/addCharacterToDatabase', async (payload) => {
-    //console.log(payload)
     try {
         let result = await window.api.addRow(payload)
         console.log("Row added!")
-        return payload
+        return payload[1]
     } catch (error) {
         console.log(error)
         return ""
@@ -45,7 +45,7 @@ export const addCharacterToDatabase = createAsyncThunk('navBar/addCharacterToDat
 export const changeCharacterIndDB = createAsyncThunk("navbar/changeRowInDB", async (payload) => {
     try {
         let result = await window.api.changeRow(payload)
-        return payload
+        return payload[1]
     } catch (error) {
         console.log(error)
         return ""
@@ -61,6 +61,7 @@ const initialState = {
     lastSaved: "Never",
     compareState: {},
     autoSaveTimer: 15,
+    desktop: false,
 }
 
 const NavBarSlice = createSlice({
@@ -113,9 +114,10 @@ const NavBarSlice = createSlice({
             })
             .addCase(addCharacterToDatabase.fulfilled, (state, action) => {
                 //console.log(action.payload)
-                state.currentlyEditing = state.characters.id[state.characters.id.length -1] + 1
-                state.lastSaved = action.payload[1]
-                state.compareState = action.payload[0]
+                state.currentlyEditing.id = state.characters.id[state.characters.id.length -1] + 1
+                state.currentlyEditing.name = action.payload[0]
+                state.lastSaved = action.payload[2]
+                state.compareState = JSON.parse(action.payload[1])
                 state.addCharactertoDBStatus = "succeeded"
             })
             .addCase(addCharacterToDatabase.rejected, (state, action) => {
@@ -126,11 +128,12 @@ const NavBarSlice = createSlice({
                 state.changeCharacterInDBStatus = "pending"
             })
             .addCase(changeCharacterIndDB.fulfilled, (state, action) => {
-                if( action.payload[3] != "auto" && action.payload[3] != undefined) {
-                    state.currentlyEditing.name = state.characters.names[action.payload[1]]
-                    state.currentlyEditing.id = action.payload[1]
+                //console.log(action.payload)
+                if( action.payload[0] != "Autosave" && action.payload[0] != undefined) {
+                    state.currentlyEditing.name = state.characters.names[action.payload[3]]
+                    state.currentlyEditing.id = action.payload[3]
                     state.lastSaved = action.payload[2]
-                    state.compareState = action.payload[0]
+                    state.compareState = JSON.parse(action.payload[1])
                 }
                 state.changeCharacterInDBStatus = "succeeded"
             })

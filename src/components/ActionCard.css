@@ -1,7 +1,7 @@
 .actioncard {
     border: 2px groove black;
     border-radius: 0.375em;
-    width: 350px;
+    width: 22em;
     padding: 0.25em 0.75em 0em 0.75em;
     background-color: #343a40;
 }

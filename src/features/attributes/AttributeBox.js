@@ -24,7 +24,7 @@ export const Attributes = () => {
 	return (
 	<Card border ="dark" bg="secondary">
 		<Form.Check style={{paddingLeft:"2em", paddingTop:"0.3em"}} type="checkbox" checked={jackOfAllTrades} id="jack-of-all-trades-check" label="Jack of All Trades" onChange={handleChecked}></Form.Check>
-		<Table style={{color: '#ffffff'}}>
+		<Table style={{color: '#ffffff', border:"black"}}>
 			<thead>
 				<tr>
 				  <th scope="col">Attributes</th>

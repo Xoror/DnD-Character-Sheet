@@ -30,7 +30,6 @@ import { importCharacterNames, addCharacterToDatabase,
 	importCharacter, changeCharacterIndDB } from './NavBarSlice';
 
 var _ = require('lodash')
-var desktop = false
 
 export const importState = createAction(
 	"import/state",
@@ -49,21 +48,13 @@ export const importState = createAction(
 	}
 )
 
-const importCharacterReadOnly = async (id) => {
-	try {
-        let result = await window.api.loadRow(["select * from characters where id = ?", id])
-        return result[0]
-    } catch(error) {
-        console.log(error)
-        return []
-    }
-}
-
 export const NavBar = () => {
 	const currentState= useSelector(state => state)
 	const dispatch = useDispatch()
     const charName= useSelector(state => state.charDetails.charName)
 	const navBarSlice = useSelector(state => state.navBar)
+	const desktop = useSelector(state => state.desktop)
+
 	const [star, setStar] = useState(false)
 	const [modalType, setModalType] = useState("safety")
 	const [showSafetyBox, setShowSafetyBox] = useState(false)
@@ -93,19 +84,24 @@ export const NavBar = () => {
 				} else {setStar(false)}
 			}
 		}
-	}, [currentState, navBarSlice.compareState, navBarSlice.currentlyEditing.name])
+	}, [currentState, navBarSlice.compareState, navBarSlice.currentlyEditing.name, navBarSlice.currentlyEditing.id, desktop])
 
 
 	useAutosave(() => {
 		if( !desktop ) {
 			setShowAutoSave(true)
-			dispatch(changeCharacterIndDB([currentState, 1, new Date().toLocaleString(), "auto"]))
+			dispatch(changeCharacterIndDB(
+				[
+					"update characters set name = ?, state = ?, lastSaved = ? where id = ?",
+					["Autosave", JSON.stringify(currentState, null), new Date().toLocaleString(), 1]
+				]
+			))
 		}
-	}, 10*1000)
+	}, navBarSlice.autoSaveTimer*60*1000)
 
 
 	const getCharacterNames = async () => {
-		dispatch(importCharacterNames())
+		dispatch(importCharacterNames("select id, name from characters"))
 	}
 	const handleSave = async (event, arg) => {
 		if(currentState.navBar.currentlyEditing.name === "None" && arg != "auto") {
@@ -113,11 +109,28 @@ export const NavBar = () => {
 			setShowSafetyBox(true)
 		}
 		else {
-			dispatch(changeCharacterIndDB([currentState, navBarSlice.currentlyEditing, new Date().toLocaleString(), "save"]))
+			let name
+			if( currentState.charDetails.charName === "") {
+				name = "character"
+			  }
+			else { 
+				name = currentState.charDetails.charName 
+			}
+			dispatch(changeCharacterIndDB(
+				[
+					"update characters set name = ?, state = ?, lastSaved = ? where id = ?",
+					[name, JSON.stringify(currentState, null), new Date().toLocaleString(), navBarSlice.currentlyEditing.id]
+				]
+			))
 		}
 	}
 	const handleSaveAs = (event) => {
-		dispatch(addCharacterToDatabase([currentState, new Date().toLocaleString()]))
+		dispatch(addCharacterToDatabase(
+			[
+				"INSERT INTO characters(name, state, lastSaved) VALUES(?,?,?)", 
+				[currentState.charDetails.charName,JSON.stringify(currentState, null), new Date().toLocaleString()]
+			]
+		))
 		setShowSafetyBox(false)
 		setModalType("safety")
 	}
@@ -131,7 +144,9 @@ export const NavBar = () => {
 			dispatch(importState(initialState, dispatch))
 		}
 		else {
-			let test = await dispatch(importCharacter([tempSave[1], tempSave[2]]))
+			let test = await dispatch(importCharacter(
+				["select * from characters where id = ?", tempSave[2]]
+			))
 			dispatch(importState(JSON.parse(test.payload.state), dispatch))
 		}
 	}
@@ -140,7 +155,7 @@ export const NavBar = () => {
 		<>
 			{ !desktop ? 
 				<>
-					<ToastContainer style={{zIndex:"105", position:"absolute", right:"1em", top:"0.25em", width:"10em"}}>
+					<ToastContainer style={{zIndex:"3", position:"absolute", right:"1em", top:"0.25em", width:"10em"}}>
 						<Toast onClose={() => setShowAutoSave(false)} show={showAutoSave} delay={3000} bg="success" autohide>
 							<Toast.Body>Autosave complete!</Toast.Body>
 						</Toast>
@@ -152,8 +167,10 @@ export const NavBar = () => {
 									<Modal.Title>Are you sure you want to import a different character?</Modal.Title>
 								</Modal.Header>
 								<Modal.Body>
-									You're about to import a different character. THIS WILL ERASE YOUR CURRENT CHARACTER UNLESS IT WAS SAVED!
-									Make sure to save progress if you want to before clicking yes!
+									<p>
+										You're about to import a different character. THIS WILL ERASE YOUR CURRENT CHARACTER UNLESS IT WAS SAVED!
+										Make sure to save progress if you want to before clicking yes!
+									</p>
 								</Modal.Body>
 								<Modal.Footer>
 									<Button variant="danger" onClick={() => setShowSafetyBox(false)}>
@@ -226,7 +243,15 @@ export const NavBar = () => {
 						<div onClick={() => window.api.buttonInteraction("min")} className="button2 minimize"><VscChromeMinimize size="2em" color="white"/></div>
 						<div onClick={() => window.api.buttonInteraction("max")} className="button2 maximize"><VscChromeMaximize size="2em" color="white"/></div>
 						<div onClick={() => window.api.buttonInteraction("close")} className="button2 close"><VscChromeClose size="2em" color="white"/></div>
-					</div> : null }
+					</div> :
+					<div className="controls" style={{marginLeft:"auto"}}>
+						<label  htmlFor="file-upload" className="btn btn-outline-success" style={{padding:"0.25em 0.375em 0.25em 0.375em", marginRight:"0.5em"}}>
+							Import from file
+						</label>
+						<input className="custom-upload" id="file-upload" type="file" onChange={(e)=>readFileOnUpload(e.target.files[0], dispatch)}></input>
+						<button className="btn btn-outline-success" style={{padding:"0.25em 0.375em 0.25em 0.375em"}} type="submit" onClick={(event) => exportToJson(event, charName, currentState)}>Export to file</button>
+					</div>
+					}
 			</Container>
 			</Navbar>
 		</>

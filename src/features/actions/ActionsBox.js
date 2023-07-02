@@ -65,7 +65,7 @@ export const ActionsBox = (props) => {
 	const [oldData, setOldData] = useState({})
 	const [editing, setEditing] = useState(false)
 	const [show, setShow] = useState(false);
-	const [spellCardID, setSpellCardID] = useState("0")
+	const [cardID, setCardID] = useState("0")
 	const [inputRef, setInputFocus] = useFocus()
 
 	//could maybe be more efficient?
@@ -109,11 +109,11 @@ export const ActionsBox = (props) => {
 		<Card bg="secondary" id="ActionsPart">
 			{props.headers.map((header, index) => (
 				<ActionsTable 
-					spellCardID={spellCardID}
-					setSpellCardID={setSpellCardID}
+					cardID={cardID}
+					setCardID={setCardID}
 					setOldData={setOldData} 
 					setEditing={setEditing} 
-					passState={setDefaultValues} 
+					setDefaultValues={setDefaultValues} 
 					offCanvas={props.offCanvas} 
 					id={props.id} 
 					key={index} 

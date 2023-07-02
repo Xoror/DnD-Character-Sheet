@@ -1,4 +1,5 @@
-import React, { useState, useCallback, useRef, useEffect } from "react";
+import React, { useState, useCallback, useRef, useEffect, useMemo } from "react";
+import debounce from 'lodash.debounce'
 import "./ScrollBar.css";
 
 const SCROLL_BOX_MIN_HEIGHT = 20    
@@ -31,7 +32,7 @@ export const ScrollBar = ({children, className, ...restProps}) => {
             setLastScrollThumbPosition(event.clientY)
             window.scrollBy({left: 0, top: percentage, behavior: "instant"})// Math.min(window.scrollY+percentage, scrollHeight - clientHeight))
         }
-    }, [isDragging, lastScrollThumbPosition, scrollBoxHeight, scrollBoxTop])
+    }, [isDragging, lastScrollThumbPosition])
     const handleScrollThumbMouseDown = useCallback(event => {
         event.preventDefault()
         event.stopPropagation()
@@ -79,6 +80,11 @@ export const ScrollBar = ({children, className, ...restProps}) => {
         }
         setScrollBoxTop(newTop)
     }, [scrollBoxTop, scrollBoxHeight])
+
+    const debouncedHandleScroll = useMemo(
+		() => debounce(handleScroll, 100)
+	, [handleScroll])
+
     useEffect(() => {
         const scrollHostElement = scrollHostRef.current
         const clientHeight = window.innerHeight - 3*getEmSize()
@@ -87,13 +93,14 @@ export const ScrollBar = ({children, className, ...restProps}) => {
         const scrollbarHeight = Math.max((clientHeight)*scrollBoxPercentage, SCROLL_BOX_MIN_HEIGHT)
         setScrollBoxHeight(scrollbarHeight)
         
-        window.addEventListener("scroll", handleScroll, true)
-        window.addEventListener("resize", handleScroll, true)
+        window.addEventListener("scroll", debouncedHandleScroll, true)
+        window.addEventListener("resize", debouncedHandleScroll, true)
         return function cleanup() {
-            window.removeEventListener("scroll", handleScroll, true)
-            window.removeEventListener("resize", handleScroll, true)
+            window.removeEventListener("scroll", debouncedHandleScroll, true)
+            window.removeEventListener("resize", debouncedHandleScroll, true)
         }
-    }, [handleScroll])
+    }, [debouncedHandleScroll])
+
     useEffect(() => {
         //this is handle the dragging on scroll-thumb
         document.addEventListener("mousemove", handleDocumentMouseMove);

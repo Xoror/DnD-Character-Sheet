@@ -63,8 +63,8 @@ export const SpellList = (props) => {
 					</Container>
 					{headers.map((header, index) => (
 						<ActionsTable 
-							spellCardID={spellCardID}
-							setSpellCardID={setSpellCardID} 
+							cardID={spellCardID}
+							setCardID={setSpellCardID} 
 							offCanvas={true} 
 							id={props.id} 
 							key={index} 

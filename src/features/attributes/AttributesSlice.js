@@ -1,4 +1,4 @@
-import { createSlice, nanoid, createAction } from "@reduxjs/toolkit"
+import { createSlice, nanoid, current, createAction } from "@reduxjs/toolkit"
 
 
 export const attributeChange = createAction(
@@ -56,10 +56,10 @@ const initialState = {
 		{id: "HeavyArmor", name: "Heavy Armor", shortName: "Heavy Armor", supSkill: "Armor", bonus: "", proficient: false, expertise: false},
 	],
 	proficienciesTypes: [
-		{value: "Weapon", label: "Weapon"}, 
-		{value: "Armor", label: "Armor"}, 
-		{value: "Tool", label: "Tool"}, 
-		{value: "Instrument", label: "Instrument"},
+		{value: "weapon", label: "Weapon"}, 
+		{value: "armor", label: "Armor"}, 
+		{value: "tool", label: "Tool"}, 
+		{value: "instrument", label: "Instrument"},
 	],
 	proficiency: {id: "proficiency", name: "Proficiency", value: 2},
     charAC: {id: "AC", name: "AC", value: 10, baseAC: 10, scalingPrimary: "Dexterity", unarmoredDefense: true, scalingSecondary: "None", wearsArmor: false, maxBonus: 100, stealthDisadvantage: false},
@@ -101,13 +101,13 @@ const AttributeSlice = createSlice({
 			}
         },
 		addMiscProficiency(state, action) {
-			if(action.payload[1].__isNew__ === true) {
-				state.proficienciesTypes.push({value: action.payload[1].value, label: action.payload[1].label})
-				console.log("new entry")
-			}
 			state.skills.push( 
 				{id: action.payload[0], name: action.payload[0], shortName: action.payload[0], supSkill: action.payload[1].value, bonus: "", proficient: action.payload[2], expertise: action.payload[3]}, 
 			)
+		},
+		addProficiencyType(state, action) {
+			state.proficienciesTypes.push(action.payload)
+			//console.log(current(state.proficienciesTypes))
 		},
 		updateProficiency(state, action) {
 			state.proficiency.value =  Math.floor( 2 + ((action.payload-1)/4) );
@@ -224,6 +224,6 @@ const AttributeSlice = createSlice({
 export default AttributeSlice.reducer
 export const {changeAC, computeAC, 
 	changeJackOfAllTrades, attributeChange2,
-	proficiencyChange, addMiscProficiency, updateProficiency, updateProficiencies, 
+	proficiencyChange, addMiscProficiency, addProficiencyType, updateProficiency, updateProficiencies, 
 	changeInitiative, computeInitiative,
 	computeHitDC, changeIsCaster, changeCasterType, changeCastingAttribute, importAttributes} = AttributeSlice.actions

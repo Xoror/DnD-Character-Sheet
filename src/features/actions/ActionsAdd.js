@@ -23,30 +23,28 @@ export const ActionsAdd = (props) => {
     return(
         <>
             <InputGroup>
-                <InputGroup.Text style={{flexGrow:"2"}}> {editing ? ("Currently editing: " + defaultValues.name) : (spells ? "Add New Spell" : "Add New Action/Bonus Action/etc:") } </InputGroup.Text>
+                <InputGroup.Text className="top-left-group top-right-group" style={{flexGrow:"2"}}> {editing ? ("Currently editing: " + defaultValues.name) : (spells ? "Add New Spell" : "Add New Action/Bonus Action/etc:") } </InputGroup.Text>
                 {editing ? <Button onClick={() => (setEditing(false), setDefaultValues(actionTemplate))}>Cancel</Button> : "" }
             </InputGroup>
             <Form onSubmit={handleSubmit}>
                 <InputGroup>
-                    
-                        <Form.Control ref={inputRef} required value={defaultValues.name} placeholder="Name" aria-label="Name"onChange={event => handleSelectValues(event, "name")}/>
-                    
+                    <Form.Control ref={inputRef} required value={defaultValues.name} className="middle-left-group" placeholder="Name" aria-label="Name" onChange={event => handleSelectValues(event, "name")}/>
                     <Overlay target={inputRef.current} show={show} placement="top">
                         <Tooltip id="overlay-example">
                             Please enter unique Name.
                         </Tooltip>
                     </Overlay>
                     <Form.Control required value={defaultValues.range} placeholder="Range" aria-label="Range" aria-describedby="range" onChange={event => handleSelectValues(event, "range")}/>
-                    <Form.Control required value={defaultValues.damage} placeholder="Damage" aria-label="damage-dice" aria-describedby="damage-dice" onChange={event => handleSelectValues(event, "damage")}/>
+                    <Form.Control required value={defaultValues.damage} className="middle-right-group" placeholder="Damage" aria-label="damage-dice" aria-describedby="damage-dice" onChange={event => handleSelectValues(event, "damage")}/>
                 </InputGroup>
                 <InputGroup>
-                    <Form.Select required value={defaultValues.type} aria-label="action-type-select" onChange={event => handleSelectValues(event, "type")}>
+                    <Form.Select required value={defaultValues.type} className="middle-left-group" aria-label="action-type-select" onChange={event => handleSelectValues(event, "type")}>
                         {!spells ? <option key="0" value="">Choose Action Type</option>:<option key="0" value="">Choose Spell Tier</option>}
                         {options.map((option1, index) => 
                             <option key={index+1} value={option1}>{option1}</option>
                         )}
                     </Form.Select>
-                    <Form.Select required value={defaultValues.scaling} aria-label="scaling-attribute" onChange={event => handleSelectValues(event, "scaling")}>
+                    <Form.Select required value={defaultValues.scaling} className="middle-right-group" aria-label="scaling-attribute" onChange={event => handleSelectValues(event, "scaling")}>
                         <option value="">Choose Scaling Attribute</option>
                         <option value="Strength">Strength</option>
                         <option value="Dexterity">Dexterity</option>
@@ -59,13 +57,13 @@ export const ActionsAdd = (props) => {
                 </InputGroup>
                 {spells ?
                 <InputGroup>
-                    <Form.Select required value={defaultValues.school} aria-label="spell-school" onChange={event => handleSelectValues(event, "school")}>
+                    <Form.Select required value={defaultValues.school} className="middle-left-group" aria-label="spell-school" onChange={event => handleSelectValues(event, "school")}>
                         <option value="">Choose school</option>
                         {schoolList.map((school, index) => (
                             <option key={`spell-shool-${index}`} value={school}>{school}</option>
                         ))}
                     </Form.Select>
-                    <Form.Select required value={defaultValues.ritual} type="boolean" aria-label="is-ritual" onChange={event => handleSelectValues(event, "ritual")}>
+                    <Form.Select required value={defaultValues.ritual} className="middle-right-group" type="boolean" aria-label="is-ritual" onChange={event => handleSelectValues(event, "ritual")}>
                         <option value=""> Is ritual? </option>
                         <option value={true}>Yes</option>
                         <option value={false}>No</option>
@@ -75,12 +73,12 @@ export const ActionsAdd = (props) => {
                 <InputGroup>
                     {spells ? 
                     ""
-                    : <Form.Select required value={defaultValues.isProficient} type="boolean" aria-label="is-proficient" onChange={event => handleSelectValues(event, "isProficient")}> 
+                    : <Form.Select required value={defaultValues.isProficient} className="middle-left-group" type="boolean" aria-label="is-proficient" onChange={event => handleSelectValues(event, "isProficient")}> 
                         <option value="">Is proficient?</option>
                         <option value={true}>Yes</option>
                         <option value={false}>No</option>
                     </Form.Select> }
-                    <Form.Select required value={defaultValues.damageType} aria-label="damage-type" onChange={event => handleSelectValues(event, "damageType")}>
+                    <Form.Select required value={defaultValues.damageType} className="middle-left-group" aria-label="damage-type" onChange={event => handleSelectValues(event, "damageType")}>
                         <option value="">Choose Damage Type</option>
                         <option value="Bludgeoning">Bludgeoning</option>
                         <option value="Slashing">Slashing</option>
@@ -96,9 +94,9 @@ export const ActionsAdd = (props) => {
                         <option value="Psychic">Psychic</option>
                         <option value="Force">Force</option>
                     </Form.Select>
-                    <Button variant="success" aria-label="submit" type="submit">Submit</Button>
+                    <Button variant="success" className="middle-right-group" aria-label="submit" type="submit">Submit</Button>
                 </InputGroup>
-                <Form.Control as="textarea" aria-label="description" placeholder="Description" value={defaultValues.description} onChange={event => handleSelectValues(event, "description")}/>
+                <Form.Control as="textarea" className="bottom-left-group bottom-right-group" aria-label="description" placeholder="Description" value={defaultValues.description} onChange={event => handleSelectValues(event, "description")}/>
             </Form>
         </>
     )

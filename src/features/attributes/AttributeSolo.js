@@ -25,7 +25,7 @@ export const Attribute = (props) => {
 				<div /*style={{paddingTop:"10%"}}*/>
 					<span>Bonus: </span>
 					<br></br>
-					<span style={{paddingTop:"20px"}}>{props.attribute.bonus}</span>
+					<span style={{paddingTop:"1.25em"}}>{props.attribute.bonus}</span>
 				</div>
 			</td>
 			<td >

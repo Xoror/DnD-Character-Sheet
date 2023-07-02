@@ -1,63 +1,52 @@
 import React, {useRef} from "react";
 
-import "./SpellCard.css"
+import "./ItemCard.css"
 
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
-export const SpellCard = (props) => {
+export const ItemCard = (props) => {
     let data = props.data
+    var itemTemplate = {
 
+		worth: "", 
+		weight: "", 
+		description: ""
+	}
     return(
         <div key={props.id} className={`${props.show} itemcard`}>
             <h4>{data.name}</h4>
-            {props.offCanvas ? <h6> Classes: {classes} </h6> : null}
+            <h6> ({data.category}, {data.rarity}) </h6>
+           
             <Row className="itemcard-row">
                 <Col>
-                    Casting Time: 
+                    <span> Quantity: </span>
                 </Col>
                 <Col md="auto">
-                    {data.castingTime+" or "} {data.ritual ? "Ritual": ""}
+                    {data.qty}
                 </Col>
             </Row>
             <Row className="itemcard-row">
                 <Col>
-                    Range: 
+                    <span> Worth: </span>
                 </Col>
                 <Col md="auto">
-                    {data.range}
+                    {parseInt(data.qty)*parseFloat(data.worth)} {parseInt(data.qty) > 1 ? <span>({data.worth}) </span> : null} gp
                 </Col>
             </Row>
             <Row className="itemcard-row">
                 <Col>
-                    Components: 
+                    <span> Weight: </span>
                 </Col>
                 <Col md="auto">
-                    {data.components[0]+", "+data.components[1]+", "+data.components[2]}
-                </Col>
-            </Row>
-            <Row className="itemcard-row">
-                <Col>
-                    Duration: 
-                </Col>
-                <Col md="auto">
-                    {data.duration[0]} {data.duration[1] ? "(Concentration)" : null}
+                    {parseInt(data.qty)*parseFloat(data.weight)} {parseInt(data.qty) > 1 ? <span>({data.weight})  </span> : null} lbs
                 </Col>
             </Row>
             <section className="itemcard-section">
-            {data.type === "Cantrip" ?
-                <>
-                    <p>{data.description[0][0]}</p>
-                    <p> <b>At higher levels: </b> {data.description[0][1] ? data.description[0][1] : "-"}</p> 
-                </> :
-                <>
-                    <p>{data.description[0]}</p>
-                    <p> <b>At higher levels: </b> {data.description[1] != undefined ? data.description[1] : "-"}</p>
-                </>
-            }
+                <p> {data.description} </p>
             </section>
             <section>
-                <p className="itemcard-footer">{data.type} level {data.school} spell</p>
+                {data.attunable ? <p className="actioncard-footer"> (Attunement: {data.attuneRequirement}) </p> : <p className="actioncard-footer"> No attunement required </p>}
             </section>
         </div>
     )

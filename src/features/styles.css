@@ -178,6 +178,14 @@ body {
 	top: -0.15em;
 	/*align-content: auto;*/
 }
+.letter-k input[type="checkbox"]:checked::before {
+	content: "K";
+	font-size: 0.8em;
+	color: #ffffff;
+	position: absolute;
+	right: 0.25em;
+	top: -0.15em;
+}
 
 /* Testing custom CSS */
 
@@ -221,6 +229,8 @@ body {
 	float: left;
 	background-color: var(--edit-primary-color);
 	color: var(--edit-secondary-color);
+
+	z-index: 3;
 }
 .delete-button {
 	padding: 0;
@@ -230,44 +240,10 @@ body {
 	float: left;
 	background-color: var(--delete-secondary-color);
 	color: var(--delete-primary-color);
+
+	z-index: 3;
 }#dc3545
 
-
-.prepared-check input[type="checkbox"] {
-	/* removing default appearance */
-	-webkit-appearance: none;
-	appearance: none;
-	/* creating a custom design */
-	width: 1.2em;
-	height: 1.2em;
-	border-radius: 1.2em;
-	border: 0.15em solid #000000;
-	outline: none;
-	cursor: pointer;
-	margin-top: 4px;
-}
-
-.prepared-check input[type="checkbox"]:checked {
-	background-color: #51585e;
-	position: relative;
-	;
-}
-.prepared-check input[type="checkbox"]:hover {
-	background-color: #858925;
-	border: 0.15em solid lightgrey;
-}
-.prepared-check input[type="checkbox"]:checked::before {
-	content: "P";
-	font-size: 0.8em;
-	color: #ffffff;
-	position: absolute;
-	right: 4px;
-	top: -2.5px;
-	/*align-content: auto;*/
-}
-.letter-k input[type="checkbox"]:checked::before {
-	content: "K";
-}
 .fancy-border {
 	border-image-slice: 42 42 42 42;
 	border-image-width: 21px 21px 21px 21px;
@@ -380,4 +356,26 @@ body {
 .modal-custom {
 	background-color: var(--main-element-color);
 	border: 1px solid var(--main-border-color)
+}
+
+/* Input Groups */
+.top-left-group {
+	border-bottom-left-radius: 0;
+}
+.middle-left-group {
+	border-bottom-left-radius: 0;
+	border-top-left-radius: 0;
+}
+.bottom-left-group {
+	border-top-left-radius: 0;
+}
+.top-right-group {
+	border-bottom-right-radius: 0;
+}
+.middle-right-group {
+	border-bottom-right-radius: 0;
+	border-top-right-radius: 0;
+}
+.bottom-right-group {
+	border-top-right-radius: 0;
 }

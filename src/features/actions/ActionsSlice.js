@@ -23,6 +23,15 @@ export const getAPISPelllist = createAsyncThunk('actions/fetchAPISpelllist', asy
         return []
     }
 })
+export const buildSpelllistFromDB = createAsyncThunk("actions/buildSpellListFromDB", async (payload) => {
+    try {
+        let result = await window.api.getFullDB(payload)
+        return result
+    } catch (error) {
+        console.log(error)
+        return []
+    }
+})
 
 const initialState = {
     actions: [
@@ -30,6 +39,7 @@ const initialState = {
     ],
     spells: [
 	],
+    spellListImportStatues: "idle",
 	sortedSpellList: [],
     highestSpellSlot: "1st",
     spellListAPI: []
@@ -193,7 +203,7 @@ const ActionsSlice = createSlice({
         buildSpelllist(state, action) {
             if(state.sortedSpellList.length === 0) {
 				const listSlots = ["cantrip", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th"]
-				function returnSpellslot(number) {
+				const returnSpellslot = (number) => {
 					if(number === 0) {
 						return "Cantrip"
 					}
@@ -201,8 +211,10 @@ const ActionsSlice = createSlice({
 						return listSlots[parseInt(number)]
 					}
 				}
-				var spellLiistUnformatted = []
-				spellList.map(spell => (
+                var spellLiistUnformatted = []
+                var spellLiistFormatted
+
+				spellList.map((spell, index) => (
 					spellLiistUnformatted.push(
                         {
                             showCard:false,
@@ -224,7 +236,9 @@ const ActionsSlice = createSlice({
                             castingTime: spell.casting_time
                         }
                     )
+                    //window.api.addRow(["update spells set data = ? where id = ?", [JSON.stringify(spellLiistUnformatted[index], null), index + 1]])
 				))
+                
 				var spellLiistFormatted = spellLiistUnformatted.sort((a, b) => {
 					const nameA = a.name.toUpperCase(); // ignore upper and lowercase
 					const nameB = b.name.toUpperCase(); // ignore upper and lowercase
@@ -338,6 +352,47 @@ const ActionsSlice = createSlice({
         builder
             .addCase(getAPISPelllist.fulfilled, (state, action) => {
                 state.spellListAPI = action.payload
+            })
+
+            .addCase(buildSpelllistFromDB.pending, (state, action) => {
+
+            })
+            .addCase(buildSpelllistFromDB.fulfilled, (state, action) => {
+                if(state.sortedSpellList.length === 0) {
+                    const listSlots = ["cantrip", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th"]
+                    const returnSpellslot = (number) => {
+                        if(number === 0) {
+                            return "Cantrip"
+                        }
+                        else {
+                            return listSlots[parseInt(number)]
+                        }
+                    }
+                    var spellLiistUnformatted = []
+                    action.payload.map((data, index) => (
+                        spellLiistUnformatted.push(JSON.parse(data.data))
+                    ))
+                    
+                    var spellLiistFormatted = spellLiistUnformatted.sort((a, b) => {
+                        const nameA = a.name.toUpperCase(); // ignore upper and lowercase
+                        const nameB = b.name.toUpperCase(); // ignore upper and lowercase
+                        if (nameA < nameB) {
+                            return -1;
+                        }
+                        if (nameA > nameB) {
+                            return 1;
+                        }
+    
+                        // names must be equal
+                        return 0;
+                    });
+                    state.sortedSpellList = spellLiistFormatted
+                    console.log(state.sortedSpellList)
+                    
+                }
+            })
+            .addCase(buildSpelllistFromDB.rejected, (state, action) => {
+
             })
     }
 })

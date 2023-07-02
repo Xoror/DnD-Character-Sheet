@@ -13,8 +13,10 @@ import { FeaturesBox } from './FeaturesBox';
 import { ActionsBox } from '../actions/ActionsBox'
 import { InventoryBox } from '../inventory/InventoryBox';
 import { Notes } from '../notes/Notes';
+import { ActionCard } from '../../components/ActionCard';
 
-import { buildSpelllist, getAPISPelllist } from '../actions/ActionsSlice';
+import { buildSpelllist, buildSpelllistFromDB } from '../actions/ActionsSlice';
+import { importCharacterNames } from '../nav/NavBarSlice';
 
 
 export const ThirdColumn = () => {
@@ -25,12 +27,17 @@ export const ThirdColumn = () => {
     const castingAttribute = useSelector(state => state.attributes.casting.scaling)
     const highestSpellSlot = useSelector(state => state.actions.highestSpellSlot)
 	const [radioValue, setRadioValue] = useState("0");
-	const spellListAPI = useSelector(state => state.actions.spellListAPI)
+	const desktop = useSelector(state => state.desktop)
 
 	const handleSwitch = (event) => {
 		setRadioValue(event.target.value)
 		if(event.currentTarget.value === "2") {
-			dispatch(buildSpelllist([charClass, castingAttribute]))
+			if(!desktop) {
+				dispatch(buildSpelllist([charClass, castingAttribute]))
+			}
+			else if(desktop) {
+				dispatch(buildSpelllistFromDB("SELECT data FROM spells")).then(result => console.log(result))
+			}
 			//dispatch(getAPISPelllist())
 		}
 	}
@@ -51,7 +58,7 @@ export const ThirdColumn = () => {
         <ActionsBox offCanvas={false} actions={actions} id="Actions" options={headersActions} headers={headersActions}/>, 
         <ActionsBox offCanvas={false} actions={spells} id="Spells" options={listSlots} headers={headersSpells} spells={true}/>, 
         <InventoryBox/>, 
-        <Notes/>
+        <Notes/>,
     ]
 	
 	return (
