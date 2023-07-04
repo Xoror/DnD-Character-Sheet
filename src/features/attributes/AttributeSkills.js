@@ -1,7 +1,6 @@
 import React from 'react';
 import { useDispatch } from "react-redux"
 
-import "../styles.css"
 
 import { proficiencyChange, updateProficiencies } from "./AttributesSlice"
 

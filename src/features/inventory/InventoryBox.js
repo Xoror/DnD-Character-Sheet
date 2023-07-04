@@ -1,13 +1,13 @@
-import React, { useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
 import Card from 'react-bootstrap/Card'
 
-import "../styles.css"
 
 import { InventoryTable } from './InventoryTable'
 import { addItem, editItem, getClassStartingItems } from './InventorySlice';
 import { InventoryAdd } from './InventoryAdd';
+import { ItemList } from './ItemList';
 
 var _ = require('lodash')
 
@@ -103,6 +103,7 @@ export const InventoryBox = (props) => {
 				handleSelectValues = {handleSelectValues}
 				itemTemplate = {itemTemplate}
 			/>
+			<ItemList/>
 		</Card>
 	)
 }

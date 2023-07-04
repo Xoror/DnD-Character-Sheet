@@ -7,7 +7,6 @@ import InputGroup from 'react-bootstrap/InputGroup';
 
 import { changeNotes } from './NotesSlice';
 
-import "../styles.css"
 
 export const Notes = () => {
 	const notes = useSelector(state => state.notes.data)

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux"
 import { createAction } from '@reduxjs/toolkit';
 
-import "../styles.css"
 
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav'
@@ -27,7 +26,7 @@ import { importResources } from '../resources/ResourcesSlice';
 import { importSpells } from '../spells/SpellSlice';
 import { importConditions } from '../conditions/ConditionsSlice';
 import { importCharacterNames, addCharacterToDatabase, 
-	importCharacter, changeCharacterIndDB } from './NavBarSlice';
+	importCharacter, changeCharacterIndDB, importNavBar } from './NavBarSlice';
 
 var _ = require('lodash')
 
@@ -53,7 +52,7 @@ export const NavBar = () => {
 	const dispatch = useDispatch()
     const charName= useSelector(state => state.charDetails.charName)
 	const navBarSlice = useSelector(state => state.navBar)
-	const desktop = useSelector(state => state.desktop)
+	const desktop = useSelector(state => state.navBar.desktop)
 
 	const [star, setStar] = useState(false)
 	const [modalType, setModalType] = useState("safety")
@@ -62,7 +61,7 @@ export const NavBar = () => {
 	const [showAutoSave, setShowAutoSave] = useState(false)
 
 	useEffect(() => {
-		if( !desktop ) {
+		if( desktop ) {
 			if( !(navBarSlice.currentlyEditing.id === 0) ) {
 				//let compareState = (importCharacterReadOnly([navBarSlice.currentlyEditing.id, navBarSlice.currentlyEditing.name]))
 				let compareState = navBarSlice.compareState
@@ -88,7 +87,7 @@ export const NavBar = () => {
 
 
 	useAutosave(() => {
-		if( !desktop ) {
+		if( desktop ) {
 			setShowAutoSave(true)
 			dispatch(changeCharacterIndDB(
 				[
@@ -142,6 +141,7 @@ export const NavBar = () => {
 		setShowSafetyBox(false)
 		if(tempSave[2] === "new") {
 			dispatch(importState(initialState, dispatch))
+			dispatch(importNavBar(initialState.navBar))
 		}
 		else {
 			let test = await dispatch(importCharacter(
@@ -153,7 +153,7 @@ export const NavBar = () => {
 	
 	return(
 		<>
-			{ !desktop ? 
+			{ desktop ? 
 				<>
 					<ToastContainer style={{zIndex:"3", position:"absolute", right:"1em", top:"0.25em", width:"10em"}}>
 						<Toast onClose={() => setShowAutoSave(false)} show={showAutoSave} delay={3000} bg="success" autohide>
@@ -935,5 +935,6 @@ const initialState = {
 		"lastSaved": "Never",
 		"compareState": {},
 		"autoSaveTimer": 15,
+		"desktop": true,
 	}
 }

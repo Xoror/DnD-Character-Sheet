@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux"
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
 
-import "../styles.css"
 
 import { editResource, deleteResource } from './ResourcesSlice';
 

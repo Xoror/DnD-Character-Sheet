@@ -10,7 +10,6 @@ import Form from 'react-bootstrap/Form';
 
 import { ActionsTable } from './ActionsTable';
 import { filterSpells } from './ActionsSlice';
-import "../styles.css"
 
 import { AiOutlineCloseCircle } from "react-icons/ai";
 

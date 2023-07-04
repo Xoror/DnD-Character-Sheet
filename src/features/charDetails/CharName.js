@@ -2,7 +2,6 @@ import React, {useMemo} from 'react';
 import { useDispatch, useSelector } from "react-redux"
 import debounce from 'lodash.debounce'
 
-import "../styles.css"
 import Form from 'react-bootstrap/Form';
 import { changeDetails } from './CharDetailsSlice';
 import { changeIsCaster } from '../attributes/AttributesSlice';

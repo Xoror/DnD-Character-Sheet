@@ -1,23 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 import version from '../package.json'
 
 import "./App.css"
+import "./features/styles.css"
 
-import { AiFillTwitterCircle, AiFillGithub } from "react-icons/ai";
-import { MdUnfoldMoreDouble, MdUnfoldLessDouble } from "react-icons/md";
+import { AiFillTwitterCircle, AiFillGithub } from "react-icons/ai"
 
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-
-import CardGroup from 'react-bootstrap/CardGroup';
-import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
 // Add code to import the components
-import { ScrollBar } from './features/scrollbar/ScrollBar';
+import { ScrollBar } from './features/scrollbar/ScrollBar'
 import { NavBar } from "./features/nav/NavBar"
 import { MiscInfo } from './features/charDetails/CharMisc'
 import { CharacterClass } from "./features/charDetails/CharClass"
@@ -27,18 +24,12 @@ import { MiscAttributes } from "./features/miscAttributes/MiscAttributes"
 import { ResourcesMiscProficiencies } from './features/resources/ResourcesMiscProficiencies'
 import { SpellBox } from "./features/spells/SpellBox.js"
 import { ThirdColumn } from './features/classFeatures/3rdColumn'
-import { ConditionsBox } from './features/conditions/ConditionsBox'
-import { LanguageBox } from './features/charDetails/LanguageBox'
-import { SensesBox } from './features/charDetails/SensesBox'
-import { ResistancesBox } from './features/charDetails/ResistancesBox';
+import { ResistancesBox } from './features/charDetails/ResistancesBox'
+import { MiscBar } from './features/conditions/MiscBar'
 
 
 const App = () => {
 	const full_state = useSelector(state => state)
-	const [showMiscBar, setShowMiscBar] = useState(true)
-	const setShow = () => {
-		setShowMiscBar(!showMiscBar)
-	}
 	useEffect(() => {
 		//console.log(full_state)
 	},[full_state])
@@ -60,19 +51,7 @@ const App = () => {
 							</Col>
 						</Row>
 						<Row style={{paddingBottom:"0.5em", paddingRight:"1.25em"}}>
-							<Col sm="auto" style={{paddingRight:"0"}}>
-								<Button style={{paddingLeft:"0.25em", paddingRight:"0.25em", border:"1px solid black", borderRadius:"0.375em 0 0 0.375em", height:"100%"}} onClick={setShow}>
-									{showMiscBar ? <MdUnfoldLessDouble size="1.5em"/> : <MdUnfoldMoreDouble size="1.5em"/>}
-								</Button>
-							</Col>
-								<ConditionsBox show={showMiscBar}/>
-								<LanguageBox show={showMiscBar}/>
-								<SensesBox show={showMiscBar}/>
-							<Col sm="auto" style={{padding:"0"}}>
-								<Button style={{paddingLeft:"0.25em", paddingRight:"0.25em", border:"1px solid black", borderRadius:"0 0.375em 0.375em 0", height:"100%"}} onClick={setShow}>
-									{showMiscBar ? <MdUnfoldLessDouble size="1.5em"/> : <MdUnfoldMoreDouble size="1.5em"/>}
-								</Button>
-							</Col>
+							<MiscBar/>
 						</Row>
 						<Row>
 							<Col xl="auto" lg={6} md="auto" className="left-column">

@@ -13,6 +13,7 @@ export const ItemCard = (props) => {
 		weight: "", 
 		description: ""
 	}
+    console.log(data.category)
     return(
         <div key={props.id} className={`${props.show} itemcard`}>
             <h4>{data.name}</h4>
@@ -31,7 +32,7 @@ export const ItemCard = (props) => {
                     <span> Worth: </span>
                 </Col>
                 <Col md="auto">
-                    {parseInt(data.qty)*parseFloat(data.worth)} {parseInt(data.qty) > 1 ? <span>({data.worth}) </span> : null} gp
+                    {data.worth === "-" ?  "-" : parseInt(data.qty)*parseFloat(data.worth)} {parseInt(data.qty) > 1 ? <span>({data.worth}) </span> : null} gp
                 </Col>
             </Row>
             <Row className="itemcard-row">
@@ -39,7 +40,7 @@ export const ItemCard = (props) => {
                     <span> Weight: </span>
                 </Col>
                 <Col md="auto">
-                    {parseInt(data.qty)*parseFloat(data.weight)} {parseInt(data.qty) > 1 ? <span>({data.weight})  </span> : null} lbs
+                    {data.weight === "-" ?  "-" : parseInt(data.qty)*parseFloat(data.weight)} {parseInt(data.qty) > 1 ? <span>({data.weight})  </span> : null} lbs
                 </Col>
             </Row>
             <section className="itemcard-section">

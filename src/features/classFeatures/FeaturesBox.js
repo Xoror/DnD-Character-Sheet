@@ -7,7 +7,6 @@ import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 
-import "../styles.css"
 
 import { FeatureList } from "./FeaturesList";
 import { addFeature } from './FeaturesSlice';

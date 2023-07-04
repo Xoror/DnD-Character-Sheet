@@ -1,7 +1,6 @@
 import React from 'react';
 import { useDispatch } from "react-redux"
 
-import "../styles.css"
 import { RiFileEditFill } from "react-icons/ri";
 
 import { changeHP } from './MiscAttributesSlice';

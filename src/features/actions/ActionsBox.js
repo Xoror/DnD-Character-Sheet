@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux"
 
 import Card from 'react-bootstrap/Card';
 
-import "../styles.css"
 
 import { ActionsTable } from "./ActionsTable"
 import { addAction, editAction } from './ActionsSlice';

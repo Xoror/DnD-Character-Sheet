@@ -1,7 +1,6 @@
 import React, { useState} from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
-import "../styles.css"
 
 import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';

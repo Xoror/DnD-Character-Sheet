@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 
 function useAutosave(callback, delay = 1000, deps = []) {
-    const savedCallback =useRef(); // to save the current "fresh" callback
+    const savedCallback = useRef(); // to save the current "fresh" callback
 
     // keep callback ref up to date
     useEffect(() => {
@@ -21,6 +21,6 @@ function useAutosave(callback, delay = 1000, deps = []) {
             return () => clearInterval(interval)
         }
     }, [delay, ...deps])
-};
+}
 
 export default useAutosave;

@@ -9,7 +9,6 @@ import { Attribute } from './AttributeSolo';
 import { changeJackOfAllTrades } from './AttributesSlice';
 import { updateProficiencies } from './AttributesSlice';
 
-import "../styles.css"
 
 
 export const Attributes = () => {

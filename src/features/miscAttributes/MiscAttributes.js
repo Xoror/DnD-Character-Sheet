@@ -5,7 +5,6 @@ import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
 import Container from 'react-bootstrap/Container';
 
-import "../styles.css"
 
 import { HPBox } from "./HPBox";
 import { AttributeBox } from './SoloAttributeBox';

@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import { act } from "react-dom/test-utils";
 
 export const importCharacterNames = createAsyncThunk('navBar/importCharacterNames', async (payload) => {
@@ -61,7 +61,7 @@ const initialState = {
     lastSaved: "Never",
     compareState: {},
     autoSaveTimer: 15,
-    desktop: false,
+    desktop: true,
 }
 
 const NavBarSlice = createSlice({
@@ -81,6 +81,7 @@ const NavBarSlice = createSlice({
                 state.characters.status = "pending"
             })
             .addCase(importCharacterNames.fulfilled, (state, action) => {
+                console.log(action.payload)
                 state.characters.status = "succeeded"
                 let bla = []
                 let bla2 = []
@@ -100,7 +101,7 @@ const NavBarSlice = createSlice({
             })
             .addCase(importCharacter.fulfilled, (state, action) => {
                 state.currentlyEditing.id = action.payload.id
-                state.currentlyEditing.name = state.characters.names[action.payload[1]]
+                state.currentlyEditing.name = state.characters.names[action.payload.id - 1]
                 state.lastSaved = new Date().toLocaleString()
                 state.compareState = JSON.parse(action.payload.state)
                 state.importFromDbStatus = "succeeded"
@@ -128,9 +129,9 @@ const NavBarSlice = createSlice({
                 state.changeCharacterInDBStatus = "pending"
             })
             .addCase(changeCharacterIndDB.fulfilled, (state, action) => {
-                //console.log(action.payload)
+                console.log(action.payload)
                 if( action.payload[0] != "Autosave" && action.payload[0] != undefined) {
-                    state.currentlyEditing.name = state.characters.names[action.payload[3]]
+                    state.currentlyEditing.name = state.characters.names[action.payload[3] - 1]
                     state.currentlyEditing.id = action.payload[3]
                     state.lastSaved = action.payload[2]
                     state.compareState = JSON.parse(action.payload[1])

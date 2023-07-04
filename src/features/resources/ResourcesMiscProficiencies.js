@@ -9,7 +9,6 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Modal from 'react-bootstrap/Modal';
 import Container from 'react-bootstrap/Container';
 
-import "../styles.css"
 
 import { ResourcesList } from './ResourcesList';
 import { MiscProficiencies} from "../attributes/MiscProficiencies"

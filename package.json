@@ -47,6 +47,7 @@
     "@redux-devtools/core": "^3.13.1",
     "electron": "^23.1.2",
 
+    "@electron-forge/maker-wix": "^6.2.1",
     "@popperjs/core": "^2.11.7",
     "@reduxjs/toolkit": "^1.9.3",
     "@testing-library/jest-dom": "^5.14.1",

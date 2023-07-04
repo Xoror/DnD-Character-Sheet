@@ -6,7 +6,6 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Modal from 'react-bootstrap/Modal';
 
-import "../styles.css"
 import { RiFileEditFill } from "react-icons/ri";
 
 import { changeMiscAttribute } from './MiscAttributesSlice';

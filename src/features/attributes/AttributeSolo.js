@@ -1,7 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
-import "../styles.css"
 
 import { SkillItem } from './AttributeSkills'
 import { attributeChange } from './AttributesSlice'

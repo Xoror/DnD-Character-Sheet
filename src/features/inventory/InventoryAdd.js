@@ -43,7 +43,7 @@ export const InventoryAdd = (props) => {
 	}
     
     let category_options = ["Adventuring Gear", "Ammunition", "Arcane Focus", "Armor", "Artisan's Tools", "Druidic Focus", "Gaming Set", "Heavy Armor", "Holy Symbol", "Instrument", "Light Armor", "Martial Melee Weapon", "Martial Ranged Weapon", "Medium Armor", "Poison", "Potion", "Other", "Ring", "Rod", "Scroll", "Shield", "Simple Melee Weapon", "Simple Ranged Weapon", "Spellcasting Focus", "Staff", "Vehicle (Air)", "Vehicle (Land)", "Vehicle (Water)", "Wand", "Wondrous Item"]
-    let rarities = ["Common", "Uncommon", "Rare", "Very Rare", "Legendary", "Artifact", "Unknown"]
+    let rarities = ["Mundane", "Common", "Uncommon", "Rare", "Very Rare", "Legendary", "Artifact", "Unknown"]
     return (
         <>
             <InputGroup>

@@ -1,7 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
-import "../styles.css"
 import {fullCaster, halfCaster, thirdCaster, pactCaster, halfPactCaster} from "../../data/spellSlots.js";
 import { changeSpellslot } from './SpellSlice';
 

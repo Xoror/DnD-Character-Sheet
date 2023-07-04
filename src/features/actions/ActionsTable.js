@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux"
 import Table from 'react-bootstrap/Table';
 import { usePopper } from 'react-popper';
 
-import "../styles.css"
 
 import { AiFillCloseSquare } from "react-icons/ai";
 import { RiFileEditFill } from "react-icons/ri";

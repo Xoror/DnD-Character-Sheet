@@ -10,7 +10,6 @@ import Container from 'react-bootstrap/Container';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 
-import "../styles.css"
 import { HiOutlineInformationCircle } from "react-icons/hi";
 import { changeCasterType, changeCastingAttribute, computeHitDC } from '../attributes/AttributesSlice';
 import { SpellSlotTable } from "./SpellSlotTable.js"
