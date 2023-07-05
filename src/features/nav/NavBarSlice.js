@@ -60,8 +60,6 @@ const initialState = {
     currentlyEditing: {id: 0, name: "None"},
     lastSaved: "Never",
     compareState: {},
-    autoSaveTimer: 15,
-    desktop: true,
 }
 
 const NavBarSlice = createSlice({

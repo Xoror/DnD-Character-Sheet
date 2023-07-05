@@ -11,6 +11,7 @@ import spellsReducer from "../features/spells/SpellSlice"
 import resourcesReducer from "../features/resources/ResourcesSlice"
 import conditionsReducer from "../features/conditions/ConditionsSlice"
 import navBarReducer from "../features/nav/NavBarSlice"
+import settingsReducer from "../features/settings/SettingsSlice"
 
 const store = configureStore({
     reducer: {
@@ -24,7 +25,8 @@ const store = configureStore({
 		spells: spellsReducer,
 		resources: resourcesReducer,
         conditions: conditionsReducer,
-        navBar: navBarReducer
+        navBar: navBarReducer,
+        settings: settingsReducer
     },
 })
 

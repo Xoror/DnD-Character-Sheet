@@ -27,6 +27,7 @@ import { importSpells } from '../spells/SpellSlice';
 import { importConditions } from '../conditions/ConditionsSlice';
 import { importCharacterNames, addCharacterToDatabase, 
 	importCharacter, changeCharacterIndDB, importNavBar } from './NavBarSlice';
+import { importSettings } from '../settings/SettingsSlice';
 
 var _ = require('lodash')
 
@@ -43,6 +44,7 @@ export const importState = createAction(
 		dispatch(importResources(payload.resources))
 		dispatch(importSpells(payload.spells))
 		dispatch(importConditions(payload.conditions))
+		dispatch(importSettings(payload.settings))
 		//dispatch(importNavBar(payload.navBar))
 	}
 )
@@ -52,7 +54,8 @@ export const NavBar = () => {
 	const dispatch = useDispatch()
     const charName= useSelector(state => state.charDetails.charName)
 	const navBarSlice = useSelector(state => state.navBar)
-	const desktop = useSelector(state => state.navBar.desktop)
+	const settingsSlice = useSelector(state => state.settings)
+	const desktop = settingsSlice.desktop
 
 	const [star, setStar] = useState(false)
 	const [modalType, setModalType] = useState("safety")
@@ -96,7 +99,7 @@ export const NavBar = () => {
 				]
 			))
 		}
-	}, navBarSlice.autoSaveTimer*60*1000)
+	}, settingsSlice.autoSaveTimer*60*1000)
 
 
 	const getCharacterNames = async () => {
