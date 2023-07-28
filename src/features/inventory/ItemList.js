@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from '@reduxjs/toolkit';
 
-import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Container from 'react-bootstrap/Container';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -20,6 +19,8 @@ export const ItemList = (props) => {
 	const [cardID, setCardID] = useState("0")
     const [itemList, setItemList] = useState([])
     const [magicItemList, setMagicItemList] = useState([])
+	const inheritShow = props.inheritShow
+	const setInheritShow = props.setInheritShow
 
 	const fetchItems = async () => {
         const response = await fetch('https://www.dnd5eapi.co/api/equipment')
@@ -59,17 +60,23 @@ export const ItemList = (props) => {
 
 	const handleClose = () => {
 		setShow(false)
-		//setFilters({spellslots: [], schools: [], ritual: [], classes: ["wizard"]})
+		setSearchField("")
+		setInheritShow(!inheritShow)
 	}
 	const handleShow = () => {
 		setShow(true)
 	}
+	useEffect(() => {
+		if(inheritShow) {
+			handleShow()
+		}
+	}, [inheritShow])
 	
 	const [filters, setFilters] = useState({spellslots: [], schools: [], ritual: [], classes: []})
 	const [searchField, setSearchField] = useState("")
 	const filterKeys = Object.keys(filters)
 	const handleDelete = (event, index, type) => {
-		var copy = structuredClone(filters)
+		let copy = structuredClone(filters)
 		copy[type] = copy[type].slice(0,index).concat(copy[type].slice(index+1))
 		setFilters(copy)
 		//dispatch(filterSpells([copy, searchField]))
@@ -79,11 +86,6 @@ export const ItemList = (props) => {
     let bodies = [itemList, magicItemList]
 	return(
 		<>
-			{false ? <span style={{justifyContent:"end", textAlign:"right"}}> testing</span> : null }
-			<Button variant="primary" onClick={handleShow} className="md-2">
-				Open Item List 
-			</Button>
-
 			<Offcanvas border="dark" style={{color:"white", backgroundColor:"#6c757d", width:"40%"}} show={show} onHide={handleClose} placement="start" scroll="true">
 				<Offcanvas.Header closeButton onClick={handleClose}>
 					<Offcanvas.Title>Spell List</Offcanvas.Title>
@@ -94,7 +96,7 @@ export const ItemList = (props) => {
 						<span>Filters: </span>
 						{filterKeys.map(key => (
 							filters[key].map((filter, index) => (
-								<FilterItem key={index} index={index} type={key} name={filter} handleDelete={handleDelete}/>
+								<FilterItem key={`filter-item-${filter}`} index={index} type={key} name={filter} handleDelete={handleDelete}/>
 							))
 						))}
 					</Container> : null}
@@ -104,11 +106,10 @@ export const ItemList = (props) => {
                             setCardID={setCardID}
                             header={header}
                             bodies={bodies[index].filter(item => {return item.name.toLowerCase().includes(searchField.toLowerCase()) === true})}
-                            key={index}
+                            key={`inventory-table-${header}`}
 							offCanvas={true} 
 							searchField={searchField} 
 							filters={filters} 
-
 						/>
 					))}
 				</Offcanvas.Body>
@@ -143,11 +144,10 @@ export const FilterItem = (props) => {
 }
 
 const FilterSelection = (props) => {
-	const dispatch = useDispatch()
-	var defaultValue = ""
+	let defaultValue = ""
 	const handleAdd = (event, type) => {
-		var copy = structuredClone(props.filters)
-		var search = ""
+		let copy = structuredClone(props.filters)
+		let search = ""
 		if(type != "search") {
 			copy[type].push(event.target.value)
 			props.setFilters(copy)

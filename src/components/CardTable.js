@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
 import Table from 'react-bootstrap/Table';
@@ -8,14 +8,12 @@ import { usePopper } from 'react-popper';
 import { AiFillCloseSquare } from "react-icons/ai";
 import { RiFileEditFill } from "react-icons/ri";
 
-import { deleteAction } from './ActionsSlice';
-import { setPrepared } from './ActionsSlice';
+import { deleteAction, setPrepared } from './ActionsSlice';
 import { SpellCard } from '../../components/SpellCard';
 import { ActionCard } from '../../components/ActionCard';
-import { updateSpellCardShow } from './ActionsSlice';
 
 export const CardTable = (props) => {
-    const cardID = props.cardID
+    let cardID = props.cardID
     const setCardID = props.setCardID
     const setOldData = props.setOldData
     const setEditing = props.setEditing

@@ -29,7 +29,7 @@ import { importCharacterNames, addCharacterToDatabase,
 	importCharacter, changeCharacterIndDB, importNavBar } from './NavBarSlice';
 import { importSettings } from '../settings/SettingsSlice';
 
-var _ = require('lodash')
+let _ = require('lodash')
 
 export const importState = createAction(
 	"import/state",

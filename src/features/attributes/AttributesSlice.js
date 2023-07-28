@@ -74,18 +74,18 @@ const AttributeSlice = createSlice({
             state.jackOfAllTrades = action.payload
         },
         attributeChange2(state, action) {
-            var id = action.payload[1];
+            let id = action.payload[1];
             const bonus = (value) => {
                 return Math.floor( (value - 10)/2);
             }
             /* Dangerous bc "change" IS the state.charattribute object, so change that directly and not a copy like in python!! */
-            var change = state.charAttributes.filter(attribute => attribute.id=== id)[0]
+            let change = state.charAttributes.filter(attribute => attribute.id=== id)[0]
             change.value = action.payload[0]
             change.bonus = bonus(action.payload[0])
         },
         proficiencyChange(state, action) {
-            var id2 = action.payload[2];
-			var name2 = action.payload[1];
+            let id2 = action.payload[2];
+			let name2 = action.payload[1];
 			let skill = state.skills.filter((skill) => {return skill.name === name2})[0]
 			if(id2 === "Proficiency") {
 				skill.proficient = action.payload[0]

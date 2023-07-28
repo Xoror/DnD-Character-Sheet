@@ -4,11 +4,13 @@ import { useDispatch } from "react-redux"
 import Table from 'react-bootstrap/Table';
 import { usePopper } from 'react-popper';
 
+import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 import { AiFillCloseSquare } from "react-icons/ai";
 import { RiFileEditFill } from "react-icons/ri";
 
-import { deleteItem, equipItem, editContainer, deleteContainer } from './InventorySlice';
+import { deleteItem, equipItem, addItem, editContainer, deleteContainer } from './InventorySlice';
 import { ItemCard } from '../../components/ItemCard';
 
 export const InventoryTable = (props) => {
@@ -28,9 +30,10 @@ export const InventoryTable = (props) => {
 			attunable: "",
 			attuned: "",
 			attuneRequirement: "",
-			description: ""
+			description: []
 		}
 	)
+	const [addItemCounter, setAddItemCounter] = useState(1)
 	const offCanvas = props.offCanvas === undefined ? false : true
 
 	const fetchItem = async (body) => {
@@ -42,9 +45,9 @@ export const InventoryTable = (props) => {
             return response.json()
         }
     }
-	const saveItem = (item, id) => {
+	const saveItem = (item, id, add = "") => {
 		console.log(item)
-		var temp = {}
+		let temp = {}
 		if (props.header === "Mundane Items") {
 			temp["id"] = id
 			temp["name"] = item.name
@@ -58,7 +61,7 @@ export const InventoryTable = (props) => {
 			else if(item.cost.unit === "cp") {
 				temp["worth"] = item.cost.quantity/100
 			}
-			temp["weight"] = item.weight
+			temp["weight"] = item.weight != undefined ? item.weight : 0
 			temp["rarity"] = "Mundane"
 			temp["attunable"] = false
 			temp["description"] = item.desc
@@ -68,30 +71,61 @@ export const InventoryTable = (props) => {
 			else if(item.equipment_category.index === "kits") {
 				temp["category"] = "Other"
 			}
-			else if(item.equipment_category.index === "land-vehicles") {
-				temp["category"] = "Vehicle (Land)"
-			}
-			else if(item.equipment_category.index === "waterborne-vehicles") {
-				temp["category"] = "Vehicle (Water)"
-			}
 			else if(item.equipment_category.index === "weapon") {
-				temp["category"] = item.weapon_category + " " + item.weapon_range + " Weapon"
+				temp["category"] = item.weapon_category + " " + item.weapon_range + " Weapon";
 			}
 			else if(item.equipment_category.index === "armor") {
-				temp["category"] = item.armor_category === "Shield" ? "Shield" : item.armor_category + " Armor"
+				temp["category"] = item.armor_category === "Shield" ? "Shield" : item.armor_category + " Armor";
 			}
-			else if(item.equipment_category.index === "mounts-and-other-animals" || item.equipment_category.index === "mounts-and-vehicles") {
-				temp["category"] = "Other"
-			}
-			else if(item.equipment_category.index === "musical-instruments") {
-				temp["category"] = "Instrument"
+
+			else if(item.equipment_category.index === "mounts-and-vehicles") {
+				if(item.vehicle_category === "mounts-and-other-animals") {
+					temp["category"] = "Vehicle (Land)";
+				}
+				else if(item.vehicle_category === "Waterborne Vehicles") {
+					temp["category"] = "Vehicle (Water)";
+				}
+				else {
+					temp["category"] = "Vehicle (Land)";
+				}
+			  }
+
+			else if(item.equipment_category.index === "mounts-and-other-animals") {
+				temp["category"] = "Other";
 			}
 			else if(item.equipment_category.index === "other-tools") {
-				temp["category"] = "Other"
+				temp["category"] = "Other";
 			}
 			else if(item.equipment_category.index === "shields") {
-				temp["category"] = "Shield"
+				temp["category"] = "Shield";
 			}
+			else if(item.equipment_category.index === "tools") {
+				if(item.tool_category === "Gaming Sets") {
+					temp["category"] = "Gaming Set";
+				}
+				else if(item.tool_category === "Musical Instrument") {
+					temp["category"] = "Instrument";
+				}
+				else {
+					temp["category"] = item.tool_category;
+				}
+			  }
+			else {
+				temp["category"] = item.equipment_category.name
+			}
+			if(item.gear_category != undefined ? item.gear_category.name === "Ammunition" : false) {
+				temp["category"] = "Ammunition";
+			}
+			if(item.gear_category != undefined ? item.gear_category.name === "Arcane Foci" : false) {
+				temp["category"] = "Arcane Focus";
+			}
+			if(item.gear_category != undefined ? item.gear_category.name === "Druidic Foci" : false) {
+				temp["category"] = "Druidic Focus";
+			}
+			if(item.gear_category != undefined ? item.gear_category.name === "Holy Symbols" : false) {
+				temp["category"] = "Holy Symbol";
+			}
+			console.log(temp["category"])
 		}
 		else if (props.header === "Wondrous Items") {
 			temp["id"] = id
@@ -99,13 +133,28 @@ export const InventoryTable = (props) => {
 			temp["qty"] = item.quantity === undefined ? 1 : item.quantity
 			temp["worth"] = "-"
 			temp["weight"] = "-"
-			temp["rarity"] = item.desc[0]
+			let descSplit = item.desc[0].split(",")
+			let descSplitSpace = descSplit[1].split(" ")
+			let paranthesisIndex1 = descSplit[1].indexOf("(")
+			let paranthesisIndex2 = descSplit[1].indexOf(")")
+			temp["rarity"] = item.rarity.name
 			temp["attunable"] = item.desc[0].includes("requires attunement") ? true : false
-			temp["attuneRequirement"] = !temp["attunable"] ? "bla" : "See above"
-			temp["description"] = item.desc.slice(1)
+			temp["attuneRequirement"] = !temp["attunable"] ? "bla" : descSplit[1].slice(paranthesisIndex1 + 1, paranthesisIndex2)
+			temp["description"] = item.desc
 			temp["category"] = "Wondrous Item"
 		}
 		setCurrentItem(temp)
+		if(add === "addItemList") {
+			temp["container"] = "equipment"
+			temp["qty"] = addItemCounter
+			if(temp["worth"] === "-") {
+				temp["worth"] = 0
+			}
+			if(temp["weight"] === "-") {
+				temp["weight"] = 0
+			}
+			dispatch(addItem(temp))
+		}
 	}
 	
 	const handleDelete = (event, id) => {
@@ -116,7 +165,7 @@ export const InventoryTable = (props) => {
 		event.stopPropagation()
 		props.setDefaultValues(body)
 		props.setOldData(body)
-		props.setEditing(true)
+		props.changeEditing(true)
 	}
 	const handleEquipped = (event, id) => {
 		event.stopPropagation()
@@ -167,6 +216,26 @@ export const InventoryTable = (props) => {
 			}
 		}
 	}
+	
+	const handleCounter = (event, id) => {
+		event.stopPropagation()
+		if(id === "inc") {
+			setAddItemCounter(addItemCounter + 1)
+		}
+		else if(id === "dec") {
+			setAddItemCounter(addItemCounter - 1)
+		}
+		else {
+			fetchItem(props.bodies.find(body => body.id === id))
+			.then((res) => {
+				saveItem(res, id, "addItemList")
+			})
+			.catch((e) => {
+				console.log(e.message)
+			})
+		}
+	}
+
 	const [referenceElement, setReferenceElement] = useState(null);
 	const [popperElement, setPopperElement] = useState(null);
 	const [arrowElement, setArrowElement] = useState(null);
@@ -205,7 +274,7 @@ export const InventoryTable = (props) => {
 					{offCanvas ? 
 						<tr>
 							<td> Name </td>
-							<td></td>
+							<td> </td>
 						</tr> :
 						<tr>
 							<td></td>
@@ -230,21 +299,23 @@ export const InventoryTable = (props) => {
 								</td>
 							}
 							{ offCanvas ? 
-								<td>
-									{body.name}
-									{ showPopover[0] && showPopover[1] === body.id && cardID === body.id  ?
-										<div className="popover-test" ref={setPopperElement} style={styles.popper} {...attributes.popper}>
-											<ItemCard id ={`itemcard-${body.id}`} data={currentItem}/>
-											<span
-												ref={setArrowElement}
-												style={styles.arrow}
-												{...attributes.arrow}
-												className={`arrow arrow-${place}`}
-											/>
-										</div> : 
-										null
-									}
-								</td> :
+								<>
+									<td>
+										{body.name}
+										{ showPopover[0] && showPopover[1] === body.id && cardID === body.id  ?
+											<div className="popover-test" ref={setPopperElement} style={styles.popper} {...attributes.popper}>
+												<ItemCard id ={`itemcard-${body.id}`} data={currentItem}/>
+												<span
+													ref={setArrowElement}
+													style={styles.arrow}
+													{...attributes.arrow}
+													className={`arrow arrow-${place}`}
+												/>
+											</div> : 
+											null
+										}
+									</td>
+								</> :
 								<td> 
 									{body.name}
 									{ showPopover[0] && showPopover[1] === body.id && cardID === body.id  ?
@@ -263,13 +334,17 @@ export const InventoryTable = (props) => {
 							}
 							{offCanvas ?
 								<td>
-
+									<ButtonGroup style={{float:"right", minWidth:"110px",zIndex:"5"}} aria-label="Basic example">
+										<Button style={{padding:"0 0.25em 0 0.25em", border:"1px solid black"}} variant="danger" onClick={event => handleCounter(event, "dec")}>-</Button>
+										<Button style={{padding:"0 0.25em 0 0.25em", border:"1px solid black"}} variant="dark" onClick={event => handleCounter(event, body.id)}>Add {addItemCounter}</Button>
+										<Button style={{padding:"0 0.25em 0 0.25em", border:"1px solid black"}} variant="success" onClick={event => handleCounter(event, "inc")}>+</Button>
+									</ButtonGroup>
 								</td> : 
 								<>
 									<td> {body.qty} </td>
 									<td> {body.qty*body.weight} </td>
 									<td> {body.qty*parseFloat(body.worth)} </td>
-									<td style={{ alignItems:"center", zIndex:"2" }}>
+									<td style={{ alignItems:"center", zIndex:"2", minWidth:"60px" }}>
 										<div style={{float:"right", marginTop:"2.5px"}}>
 											<RiFileEditFill type="button" color="black" size="23" id="edit-button" onClick={(event) => startEdit(event, body)} className="edit-button" /> 
 											<AiFillCloseSquare type="button" color="#dc3545" size="23" id="delete-button" onClick={(event) => handleDelete(event, body.id)} className="edit-button" style={{backgroundColor:"white", padding:"0px"}}/>

@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
 
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'

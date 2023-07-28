@@ -6,14 +6,14 @@ import Form from 'react-bootstrap/Form';
 import Table from 'react-bootstrap/Table';
 
 import { Attribute } from './AttributeSolo';
-import { changeJackOfAllTrades } from './AttributesSlice';
-import { updateProficiencies } from './AttributesSlice';
+import { changeJackOfAllTrades, updateProficiencies } from './AttributesSlice';
 
 
 
 export const Attributes = () => {
 	const dispatch = useDispatch()
     const charAttributes = useSelector(state => state.attributes.charAttributes)
+	const skills = useSelector(state => state.attributes.skills)
     const jackOfAllTrades = useSelector(state => state.attributes.jackOfAllTrades)
 
 	const handleChecked = (event) => {
@@ -32,7 +32,7 @@ export const Attributes = () => {
 			</thead>
 			<tbody>
 			{charAttributes.map((charAttribute) => (
-				<Attribute key={charAttribute.id} attribute={charAttribute}/>
+				<Attribute key={charAttribute.id} attribute={charAttribute} skills={skills.filter((skill) => {return skill.supSkill === charAttribute.name})}/>
 			))}
 			</tbody>
 		</Table>

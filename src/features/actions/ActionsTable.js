@@ -8,18 +8,15 @@ import { usePopper } from 'react-popper';
 import { AiFillCloseSquare } from "react-icons/ai";
 import { RiFileEditFill } from "react-icons/ri";
 
-import { deleteAction } from './ActionsSlice';
-import { setPrepared } from './ActionsSlice';
+import { deleteAction, setPrepared, updateSpellCardShow } from './ActionsSlice';
 import { SpellCard } from '../../components/SpellCard';
 import { ActionCard } from '../../components/ActionCard';
-import { updateSpellCardShow } from './ActionsSlice';
 
 
 export const ActionsTable = (props) => {
 	const dispatch = useDispatch()
 	const charAttributes = useSelector(state => state.attributes.charAttributes)
 	const proficiency = useSelector(state => state.attributes.proficiency)
-	const spells = useSelector(state => state.actions.spells)
 	const scalingBonus = (scale) => {
 		if(scale === "None") {
 			return ""
@@ -45,32 +42,6 @@ export const ActionsTable = (props) => {
 		props.setOldData(body)
 		props.setEditing(true)
 	}
-	/*
-	const [showSpellCard, setShowSpellCard] = useState(false)
-	const [show, setShow] = useState(false);
-  	const target = useRef(null);
-	
-	const useOutsideClick = (callback) => {
-		const ref = useRef();
-		useEffect(() => {
-		  const handleClick = (event) => {
-			if (ref.current && !ref.current.contains(event.target)) {
-			  callback();
-			}
-		  }
-	  
-		  document.addEventListener('click', handleClick);
-	  
-		  return () => {
-			document.removeEventListener('click', handleClick);
-		  };
-		}, [ref])
-	  
-		return ref
-	}
-	*/
-	
-
 	let place = props.offCanvas ? "left" : "right"
 	let cardID = props.cardID
 	const [showPopover, setShowPopover] = useState([false,cardID])
@@ -82,11 +53,6 @@ export const ActionsTable = (props) => {
 	const handleRowClick = (event, id) => {
 		let test
 		cardID = props.cardID
-		/*
-		if(showPopover=== "0") {
-			setShowPopover([showPopover[0], id])
-		}
-		*/
 		test = `${props.offCanvas}-action-table-row-id-${id}`
 		setReferenceElement(document.getElementById(test))
 		props.setCardID(id)

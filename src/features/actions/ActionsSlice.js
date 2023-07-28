@@ -115,8 +115,8 @@ const ActionsSlice = createSlice({
                     
                     state.spells = state.spells.slice(0, index).concat(state.spells.slice(index + 1))
                     
-                    var slots = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th"]
-                    var maxIndex = slots.indexOf(state.highestSpellSlot)
+                    let slots = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th"]
+                    let maxIndex = slots.indexOf(state.highestSpellSlot)
                     
                     for(let i=maxIndex; i>=0; i--) {
                         if(i > 0) {
@@ -170,8 +170,8 @@ const ActionsSlice = createSlice({
                         state.spells = state.spells.slice(0, index).concat(state.spells.slice(index + 1))
                         
                         
-                        var slots = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th"]
-                        var maxIndex = slots.indexOf(state.highestSpellSlot)
+                        let slots = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th"]
+                        let maxIndex = slots.indexOf(state.highestSpellSlot)
                         
                         for(let i=maxIndex; i>=0; i--) {
                             if(i > 0) {
@@ -211,8 +211,8 @@ const ActionsSlice = createSlice({
 						return listSlots[parseInt(number)]
 					}
 				}
-                var spellLiistUnformatted = []
-                var spellLiistFormatted
+                let spellLiistUnformatted = []
+                let spellLiistFormatted
 
 				spellList.map((spell, index) => (
 					spellLiistUnformatted.push(
@@ -239,7 +239,7 @@ const ActionsSlice = createSlice({
                     //window.api.addRow(["update spells set data = ? where id = ?", [JSON.stringify(spellLiistUnformatted[index], null), index + 1]])
 				))
                 
-				var spellLiistFormatted = spellLiistUnformatted.sort((a, b) => {
+				spellLiistFormatted = spellLiistUnformatted.sort((a, b) => {
 					const nameA = a.name.toUpperCase(); // ignore upper and lowercase
 					const nameB = b.name.toUpperCase(); // ignore upper and lowercase
 					if (nameA < nameB) {
@@ -270,12 +270,12 @@ const ActionsSlice = createSlice({
             let filters = action.payload[0]
             let search = action.payload[1]
             
-            var test1
-			var test2
-			var test3
-			var test4
-            var test5
-            var count = 0
+            let test1
+			let test2
+			let test3
+			let test4
+            let test5
+            let count = 0
             for(let i=0; i<state.sortedSpellList.length; i++) {
                 test4 = false
                 let body = state.sortedSpellList[i]
@@ -368,12 +368,12 @@ const ActionsSlice = createSlice({
                             return listSlots[parseInt(number)]
                         }
                     }
-                    var spellLiistUnformatted = []
+                    let spellLiistUnformatted = []
                     action.payload.map((data, index) => (
                         spellLiistUnformatted.push(JSON.parse(data.data))
                     ))
                     
-                    var spellLiistFormatted = spellLiistUnformatted.sort((a, b) => {
+                    let spellLiistFormatted = spellLiistUnformatted.sort((a, b) => {
                         const nameA = a.name.toUpperCase(); // ignore upper and lowercase
                         const nameB = b.name.toUpperCase(); // ignore upper and lowercase
                         if (nameA < nameB) {

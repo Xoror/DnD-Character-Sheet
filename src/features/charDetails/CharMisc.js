@@ -5,8 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { changeDetails } from './CharDetailsSlice'
-import { updateProficiency } from '../attributes/AttributesSlice';
-import { updateProficiencies, computeHitDC } from '../attributes/AttributesSlice';
+import { updateProficiency, updateProficiencies, computeHitDC } from '../attributes/AttributesSlice';
 
 export const MiscInfo = () => {
 	const dispatch = useDispatch()

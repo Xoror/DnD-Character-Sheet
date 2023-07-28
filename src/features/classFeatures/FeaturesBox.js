@@ -22,6 +22,7 @@ export const FeaturesBox = () => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
+		console.log(event.target)
 		dispatch(addFeature({
             name: event.target[0].value, 
             level: event.target[1].value, 
@@ -33,7 +34,7 @@ export const FeaturesBox = () => {
 	
 	return (
 		<Card bg="secondary" >
-			<Modal contentClassName="modal-custom" size="lg" show={show} onHide={(event) => handleSubmit(event)}>
+			<Modal contentClassName="modal-custom" size="lg" show={show} onHide={handleClose}>
 				<Modal.Header closeButton onClick={handleClose}>
 					<Modal.Title>
 						Adding a Class feature
@@ -75,7 +76,7 @@ export const FeaturesBox = () => {
 			</Modal>
 			<div>
 				{features.map((feature, index) => (
-					<FeatureList feature={feature} id={index} key={index}/>
+					<FeatureList feature={feature} id={index} key={`features-list-feature-${feature.name}-${index}`}/>
 				))}
 			</div>
 			<Button onClick={handleShow}>

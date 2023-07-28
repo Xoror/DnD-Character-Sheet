@@ -42,7 +42,7 @@ const initialState = {
                 attunable: false,
                 attuned: false,
                 attuneRequirement: "requires attunment by a druid",
-                description: "This is a test, a meddle of strength"
+                description: ["This is a test, a meddle of strength"]
             }
         ],
         containers: [

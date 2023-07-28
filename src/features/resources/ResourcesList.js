@@ -9,7 +9,7 @@ export const ResourcesList = () => {
 	return(
 		<div>
 			{resources.map((resource, index) => (
-					<ResourceBox resource={resource} id={index} key={index}/>
+					<ResourceBox resource={resource} id={index} key={`resource-box-${resource.name}`}/>
 				))}
 		</div>
 	)

@@ -7,13 +7,7 @@ import Col from 'react-bootstrap/Col'
 
 export const ItemCard = (props) => {
     let data = props.data
-    var itemTemplate = {
-
-		worth: "", 
-		weight: "", 
-		description: ""
-	}
-    console.log(data.category)
+    //console.log(data.category)
     return(
         <div key={props.id} className={`${props.show} itemcard`}>
             <h4>{data.name}</h4>
@@ -43,11 +37,13 @@ export const ItemCard = (props) => {
                     {data.weight === "-" ?  "-" : parseInt(data.qty)*parseFloat(data.weight)} {parseInt(data.qty) > 1 ? <span>({data.weight})  </span> : null} lbs
                 </Col>
             </Row>
-            <section className="itemcard-section">
-                <p> {data.description} </p>
+            <section className="itemcard-section overflow">
+                {data.description.map((desc, index) => (
+                    <p key={`item-description-paragraph-${index}`} style={{paddingRight:"0.5em", textAlign:"justify"}}> {desc} </p> 
+                ))}
             </section>
             <section>
-                {data.attunable ? <p className="actioncard-footer"> (Attunement: {data.attuneRequirement}) </p> : <p className="actioncard-footer"> No attunement required </p>}
+                {data.attunable ? <p className="actioncard-footer"> Attunement: {data.attuneRequirement} </p> : <p className="actioncard-footer"> No attunement required </p>}
             </section>
         </div>
     )

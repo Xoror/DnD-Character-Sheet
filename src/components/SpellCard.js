@@ -15,6 +15,14 @@ export const SpellCard = (props) => {
             classes += `${data.classes[i].name}, `
         }
     }
+    let components = ""
+    for(let i=0; i<data.components.length; i++) {
+        if(i === data.components.length - 1) {
+            components += `${data.components[i]}`
+        } else {
+            components += `${data.components[i]}, `
+        }
+    }
     return(
         <div key={props.id} className={`${props.show} spellcard`}>
             <h4>{data.name}</h4>
@@ -24,7 +32,7 @@ export const SpellCard = (props) => {
                     Casting Time: 
                 </Col>
                 <Col md="auto">
-                    {data.castingTime+" or "} {data.ritual ? "Ritual": ""}
+                    {data.castingTime} {data.ritual ? " or Ritual": ""}
                 </Col>
             </Row>
             <Row className="spellcard-row">
@@ -40,7 +48,7 @@ export const SpellCard = (props) => {
                     Components: 
                 </Col>
                 <Col md="auto">
-                    {data.components[0]+", "+data.components[1]+", "+data.components[2]}
+                    {components}
                 </Col>
             </Row>
             <Row className="spellcard-row">
@@ -51,15 +59,15 @@ export const SpellCard = (props) => {
                     {data.duration[0]} {data.duration[1] ? "(Concentration)" : null}
                 </Col>
             </Row>
-            <section className="spellcard-section">
+            <section className="spellcard-section overflow">
             {data.type === "Cantrip" ?
                 <>
-                    <p>{data.description[0][0]}</p>
-                    <p> <b>At higher levels: </b> {data.description[0][1] ? data.description[0][1] : "-"}</p> 
+                    <p style={{paddingRight:"0.5em", textAlign:"justify"}}>{data.description[0][0]}</p>
+                    <p style={{paddingRight:"0.5em", textAlign:"justify"}}> <b>At higher levels: </b> {data.description[0][1] ? data.description[0][1] : "-"}</p> 
                 </> :
                 <>
-                    <p>{data.description[0]}</p>
-                    <p> <b>At higher levels: </b> {data.description[1] != undefined ? data.description[1] : "-"}</p>
+                    <p style={{paddingRight:"0.5em", textAlign:"justify"}}>{data.description[0]}</p>
+                    <p style={{paddingRight:"0.5em", textAlign:"justify"}}> <b>At higher levels: </b> {data.description[1] != undefined ? data.description[1] : "-"}</p>
                 </>
             }
             </section>

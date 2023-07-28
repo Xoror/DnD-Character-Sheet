@@ -5,12 +5,12 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import InputGroup from 'react-bootstrap/InputGroup'
 import CreatableSelect from 'react-select/creatable'
+import Modal from "react-bootstrap/Modal";
 
 import { addContainer, updateTotals } from "./InventorySlice";
 
 export const InventoryAdd = (props) => {
     const dispatch = useDispatch()
-    const [selectedType, setSelectedType] = useState("")
     const containers = useSelector(state => state.inventory.containers)
 
     const handleSubmit = props.handleSubmit
@@ -28,6 +28,8 @@ export const InventoryAdd = (props) => {
 	}
     const handleClick = (event) => {
         event.preventDefault()
+        props.setShowAddItem(false)
+        props.setShowQuickAddItem(false)
         handleSubmit(event)
     }
 
@@ -46,62 +48,139 @@ export const InventoryAdd = (props) => {
     let rarities = ["Mundane", "Common", "Uncommon", "Rare", "Very Rare", "Legendary", "Artifact", "Unknown"]
     return (
         <>
-            <InputGroup>
-                <InputGroup.Text style={{flexGrow:"2"}}> {editing ? ("Currently editing: " + defaultValues.name) : "Add New Item" } </InputGroup.Text> 
-                {editing ? <Button onClick={() => (setEditing(false), setDefaultValues(itemTemplate))}>Cancel</Button> : ""}
-            </InputGroup>
-            <Form>
+            <div style={props.showQuickAddItem ? null:{display:"none"}}>
                 <InputGroup>
-                    <Form.Control value={defaultValues.name} required placeholder="Name" id="item-name" aria-label="Name" onChange={event => handleSelectValues(event, "name")}/>
-                    <Form.Select value={defaultValues.category} required aria-label="item-category-select" onChange={event => handleSelectValues(event, "category")}>
-                        <option value="">Choose Item Category</option>
-                        {category_options.map((category, index) => (
-                            <option key={`category-option-${index}`} value={category.toLowerCase()}>{category}</option>
-                        ))}
-                    </Form.Select>
-                    <CreatableSelect 
-                        value={defaultValues.container} onChange={(value) => (handleSelectValues(value, "container"))} 
-                        onCreateOption={(value) => handleCreateOption(value)} isClearable 
-                        options={containers} styles={customStyles} required 
-                        placeholder="Select or create Container..."
-                    /> 
+                    <InputGroup.Text className="top-left-group top-right-group" style={{flexGrow:"2"}}> {editing ? ("Currently editing: " + defaultValues.name) : "Add New Item" } </InputGroup.Text> 
+                    {editing ? <Button className="top-right-group" onClick={() => (setEditing(false), setDefaultValues(itemTemplate))}>Cancel</Button> : ""}
                 </InputGroup>
-                <InputGroup>
-                    <Form.Control value={defaultValues.qty} onChange={event => handleSelectValues(event, "qty")} required type="number" min="0" placeholder="Qty" aria-label="Quantity" aria-describedby="quantity"/>
-                    <Form.Control value={defaultValues.worth} onChange={event => handleSelectValues(event, "worth")} required placeholder="Worth" aria-label="worth" aria-describedby="worth"/>
-                    <Form.Control value={defaultValues.weight} onChange={event => handleSelectValues(event, "weight")} required type="number" placeholder="Weight (lbs)" aria-label="Weight" aria-describedby="Weight"/>
-                </InputGroup>
-                <InputGroup>
-                    <Form.Select type="boolean" value={defaultValues.isEquipped} required aria-label="is-wearing" onChange={event => handleSelectValues(event, "isEquipped")}>
-                        <option value="">Is wearing?</option>
-                        <option value="true">Yes</option>
-                        <option value="false">No</option>
-                    </Form.Select>
-                    <Form.Select type="text" value={defaultValues.rarity} required aria-label="rarity" onChange={event => handleSelectValues(event, "rarity")}>
-                        <option value="">Choose Rarity</option>
-                        {rarities.map((rarity, index) => (
-                            <option key={`rarity-option-${index}`} value={rarity}>{rarity}</option>
-                        ))}
-                    </Form.Select>
-                </InputGroup>
-                <InputGroup>
-                    <Form.Select type="boolean" value={defaultValues.attunable} required aria-label="is-attunable" onChange={event => handleSelectValues(event, "attunable")}>
-                        <option value="">Is attunable?</option>
-                        <option value="true">Yes</option>
-                        <option value="false">No</option>
-                    </Form.Select>
-                    {defaultValues.attunable === true ?
-                        <Form.Select type="boolean" value={defaultValues.attuned} required aria-label="is-attuned" onChange={event => handleSelectValues(event, "attuned")}>
-                            <option value="">Is attuned?</option>
+                <Form>
+                    <InputGroup>
+                        <Form.Control className="middle-left-group" value={defaultValues.name} required placeholder="Name" id="item-name" aria-label="Name" onChange={event => handleSelectValues(event, "name")}/>
+                        <Form.Select value={defaultValues.category} required aria-label="item-category-select" onChange={event => handleSelectValues(event, "category")}>
+                            <option value="">Choose Item Category</option>
+                            {category_options.map((category, index) => (
+                                <option key={`category-option-${category}`} value={category.toLowerCase()}>{category}</option>
+                            ))}
+                        </Form.Select>
+                        <CreatableSelect className="middle-right-group"
+                            value={defaultValues.container} onChange={(value) => (handleSelectValues(value, "container"))} 
+                            onCreateOption={(value) => handleCreateOption(value)} isClearable 
+                            options={containers} styles={customStyles} required 
+                            placeholder="Select or create Container..."
+                        /> 
+                    </InputGroup>
+                    <InputGroup>
+                        <Form.Control className="middle-left-group" value={defaultValues.qty} onChange={event => handleSelectValues(event, "qty")} required type="number" min="0" placeholder="Qty" aria-label="Quantity" aria-describedby="quantity"/>
+                        <Form.Control value={defaultValues.worth} onChange={event => handleSelectValues(event, "worth")} required placeholder="Worth" aria-label="worth" aria-describedby="worth"/>
+                        <Form.Control className="middle-right-group" value={defaultValues.weight} onChange={event => handleSelectValues(event, "weight")} required type="number" placeholder="Weight (lbs)" aria-label="Weight" aria-describedby="Weight"/>
+                    </InputGroup>
+                    <InputGroup>
+                        <Form.Select className="middle-left-group" type="boolean" value={defaultValues.isEquipped} required aria-label="is-wearing" onChange={event => handleSelectValues(event, "isEquipped")}>
+                            <option value="">Is wearing?</option>
                             <option value="true">Yes</option>
                             <option value="false">No</option>
-                        </Form.Select> : null
-                    }
-                    <Button variant="success" aria-label="submit" type="submit" onClick={(event) => handleClick(event)}>Submit</Button>
-                </InputGroup>
-                {defaultValues.attunable ? <Form.Control as="textarea" aria-label="attunement-requirement" placeholder="Attunement Requirement (e.g. 'requires attunement by a druid')" value={defaultValues.attuneRequirement} onChange={event => handleSelectValues(event, "attuneRequirement")}/> : null }
-                <Form.Control as="textarea" aria-label="item-description" placeholder="Item Description" value={defaultValues.description} onChange={event => handleSelectValues(event, "description")}/>
-            </Form>
+                        </Form.Select>
+                        <Form.Select className="middle-right-group" type="text" value={defaultValues.rarity} required aria-label="rarity" onChange={event => handleSelectValues(event, "rarity")}>
+                            <option value="">Choose Rarity</option>
+                            {rarities.map((rarity, index) => (
+                                <option key={`rarity-option-${rarity}`} value={rarity}>{rarity}</option>
+                            ))}
+                        </Form.Select>
+                    </InputGroup>
+                    <InputGroup>
+                        <Form.Select className="middle-left-group" type="boolean" value={defaultValues.attunable} required aria-label="is-attunable" onChange={event => handleSelectValues(event, "attunable")}>
+                            <option value="">Is attunable?</option>
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </Form.Select>
+                        {defaultValues.attunable === true ?
+                            <Form.Select type="boolean" value={defaultValues.attuned} required aria-label="is-attuned" onChange={event => handleSelectValues(event, "attuned")}>
+                                <option value="">Is attuned?</option>
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </Form.Select> : null
+                        }
+                        <Button className="middle-right-group" variant="success" aria-label="submit" type="submit" onClick={(event) => handleClick(event)}>Submit</Button>
+                    </InputGroup>
+                    {defaultValues.attunable ? <Form.Control as="textarea" aria-label="attunement-requirement" placeholder="Attunement Requirement (e.g. 'requires attunement by a druid')" value={defaultValues.attuneRequirement} onChange={event => handleSelectValues(event, "attuneRequirement")}/> : null }
+                    <Form.Control className="bottom-left-group bottom-right-group" as="textarea" aria-label="item-description" placeholder="Item Description" value={defaultValues.description} onChange={event => handleSelectValues(event, "description")}/>
+                </Form>
+            </div>
+            <Modal contentClassName="modal-custom" size="lg" show={props.showAddItem} onHide={() => props.setShowAddItem(false)}>
+                <Modal.Header closeButton onClick={() => props.setShowAddItem(false)}>
+					<Modal.Title>
+						Adding a new Item
+					</Modal.Title>
+				</Modal.Header>
+
+                
+                <Form>
+                    <Modal.Body>
+                        <InputGroup>
+                            <InputGroup.Text className="top-left-group top-right-group" style={{flexGrow:"2"}}> {editing ? ("Currently editing: " + defaultValues.name) : "Add New Item" } </InputGroup.Text> 
+                            {editing ? <Button className="top-right-group" onClick={() => (setEditing(false), setDefaultValues(itemTemplate))}>Cancel</Button> : ""}
+                        </InputGroup>
+                        <InputGroup>
+                            <Form.Control className="middle-left-group" value={defaultValues.name} required placeholder="Name" id="item-name" aria-label="Name" onChange={event => handleSelectValues(event, "name")}/>
+                            <Form.Select value={defaultValues.category} required aria-label="item-category-select" onChange={event => handleSelectValues(event, "category")}>
+                                <option value="">Choose Item Category</option>
+                                {category_options.map((category, index) => (
+                                    <option key={`category-option-${category}`} value={category.toLowerCase()}>{category}</option>
+                                ))}
+                            </Form.Select>
+                            <CreatableSelect className="middle-right-group"
+                                value={defaultValues.container} onChange={(value) => (handleSelectValues(value, "container"))} 
+                                onCreateOption={(value) => handleCreateOption(value)} isClearable 
+                                options={containers} styles={customStyles} required 
+                                placeholder="Select or create Container..."
+                            /> 
+                        </InputGroup>
+                        <InputGroup>
+                            <Form.Control className="middle-left-group" value={defaultValues.qty} onChange={event => handleSelectValues(event, "qty")} required type="number" min="0" placeholder="Qty" aria-label="Quantity" aria-describedby="quantity"/>
+                            <Form.Control value={defaultValues.worth} onChange={event => handleSelectValues(event, "worth")} required placeholder="Worth" aria-label="worth" aria-describedby="worth"/>
+                            <Form.Control className="middle-right-group" value={defaultValues.weight} onChange={event => handleSelectValues(event, "weight")} required type="number" placeholder="Weight (lbs)" aria-label="Weight" aria-describedby="Weight"/>
+                        </InputGroup>
+                        <InputGroup>
+                            <Form.Select className="middle-left-group" type="boolean" value={defaultValues.isEquipped} required aria-label="is-wearing" onChange={event => handleSelectValues(event, "isEquipped")}>
+                                <option value="">Is wearing?</option>
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </Form.Select>
+                            <Form.Select className="middle-right-group" type="text" value={defaultValues.rarity} required aria-label="rarity" onChange={event => handleSelectValues(event, "rarity")}>
+                                <option value="">Choose Rarity</option>
+                                {rarities.map((rarity, index) => (
+                                    <option key={`rarity-option-${rarity}`} value={rarity}>{rarity}</option>
+                                ))}
+                            </Form.Select>
+                        </InputGroup>
+                        <InputGroup>
+                            <Form.Select className="middle-left-group" type="boolean" value={defaultValues.attunable} required aria-label="is-attunable" onChange={event => handleSelectValues(event, "attunable")}>
+                                <option value="">Is attunable?</option>
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </Form.Select>
+                            {defaultValues.attunable === true ?
+                                <Form.Select type="boolean" value={defaultValues.attuned} required aria-label="is-attuned" onChange={event => handleSelectValues(event, "attuned")}>
+                                    <option value="">Is attuned?</option>
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </Form.Select> : null
+                            }
+                            <Button className="middle-right-group" variant="success" aria-label="submit" type="submit" onClick={(event) => handleClick(event)}>Submit</Button>
+                        </InputGroup>
+                        {defaultValues.attunable ? <Form.Control as="textarea" aria-label="attunement-requirement" placeholder="Attunement Requirement (e.g. 'requires attunement by a druid')" value={defaultValues.attuneRequirement} onChange={event => handleSelectValues(event, "attuneRequirement")}/> : null }
+                        <Form.Control className="bottom-left-group bottom-right-group" as="textarea" aria-label="item-description" placeholder="Item Description" value={defaultValues.description} onChange={event => handleSelectValues(event, "description")}/>
+                    </Modal.Body>
+                    <Modal.Footer>
+						<Button variant="danger" onClick={() => props.setShowAddItem(false)}>
+							Close
+						</Button>
+						<Button variant="primary" type="submit" onClick={() => (handleClick())}>
+							Save Changes
+						</Button>
+					</Modal.Footer>
+                </Form>
+            </Modal>
         </>
     )
 }

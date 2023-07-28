@@ -27,7 +27,7 @@ export const FeatureList = (props) => {
 		setOpen(true)
 	}
 	
-	var color;
+	let color;
 	if (props.id%2 === 0) {
 		color = "#51585e";
 	}

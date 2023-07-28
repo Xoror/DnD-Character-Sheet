@@ -7,10 +7,8 @@ import { attributeChange } from './AttributesSlice'
 
 export const Attribute = (props) => {
 	const dispatch = useDispatch()
-	const skills = useSelector(state => state.attributes.skills)
 	
 	const handleAttrChange = (event) => {
-		
 		dispatch(attributeChange([event.target.value,  props.attribute.name], dispatch))
 	}
 	return (
@@ -29,7 +27,7 @@ export const Attribute = (props) => {
 			</td>
 			<td >
 				
-				{skills.filter((skill) => {return skill.supSkill === props.attribute.name}).map((skill3) => (
+				{props.skills.map((skill3) => (
 					<SkillItem key={skill3.id} skill2={skill3}/>
 				))}
 			</td>

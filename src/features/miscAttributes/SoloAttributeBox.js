@@ -92,7 +92,7 @@ const InitiativeModal = (props) => {
 				<Form.Select required aria-label="choose-primary-scaling" aria-describedby="primary-scaling">
 					<option value={props.attribute.scalingPrimary}>{props.attribute.scalingPrimary}</option>
 					{["None","Strength","Dexterity","Constitution","Intelligence","Wisdom","Charisma"].map((attribute, index) => (
-						attribute != props.attribute.scalingPrimary ? <option key={index} value={attribute}> {attribute} </option> : ""
+						attribute != props.attribute.scalingPrimary ? <option key={`scaling-primary-option-${attribute}`} value={attribute}> {attribute} </option> : ""
 					))}
 				</Form.Select>
 			</InputGroup>
@@ -101,7 +101,7 @@ const InitiativeModal = (props) => {
 				<Form.Select required aria-label="choose-secondary-scaling" aria-describedby="secondary-scaling">
 					<option value={props.attribute.scalingSecondary}>{props.attribute.scalingSecondary}</option>
 					{["None", "Strength","Dexterity","Constitution","Intelligence","Wisdom","Charisma"].map((attribute, index) => (
-						attribute != props.attribute.scalingSecondary ? <option key={index} value={attribute}> {attribute} </option> : ""
+						attribute != props.attribute.scalingSecondary ? <option key={`scaling-secondary-option-${attribute}`} value={attribute}> {attribute} </option> : ""
 					))}
 				</Form.Select>
 			</InputGroup>
@@ -183,7 +183,7 @@ const SpeedModal = (props) => {
 				<Form.Select required aria-label="choose-displayed-speed" aria-describedby="primary-displayed-speed">
 					<option value={props.attribute.displayed}>{props.attribute.displayed}</option>
 					{["Ground", "Swim", "Climb", "Fly"].map((attribute, index) => (
-						attribute != props.attribute.displayed ? <option key={index} value={attribute}> {attribute} </option> : ""
+						attribute != props.attribute.displayed ? <option key={`displayed-speed-option-${attribute}`} value={attribute}> {attribute} </option> : ""
 					))}
 				</Form.Select>
 			</InputGroup>

@@ -11,19 +11,19 @@ import { FilterItem } from "./FilterItem";
 export const FilterBox = (props) => {
     const [defaultInput, setDefaultInput] = useState("")
 
-    var header = props.header
-    var data = props.data
-    var test = props.test
-    var bgColor = props.bg ? props.bg : "#198754"
+    let header = props.header
+    let data = props.data
+    let test = props.test
+    let bgColor = props.bg ? props.bg : "#198754"
     const handleDelete = props.handleDelete
     const handleAdd = props.handleAdd
     const handleCreate = props.handleCreate
     const handleInputChange = props.handleInputChange
-    var defaultSelectValue = props.defaultSelectValue
-    var creatable = props.creatable === undefined ? false : props.creatable
-    var hasValue = props.hasValue === undefined ? false : props.hasValue
-    var show = props.show === undefined ? true : props.show
-    var type = props.type === undefined ? "placeholder" : props.type
+    let defaultSelectValue = props.defaultSelectValue
+    let creatable = props.creatable === undefined ? false : props.creatable
+    let hasValue = props.hasValue === undefined ? false : props.hasValue
+    let show = props.show === undefined ? true : props.show
+    let type = props.type === undefined ? "placeholder" : props.type
 
 
     return (

@@ -12,6 +12,7 @@ import { AiFillTwitterCircle, AiFillGithub } from "react-icons/ai"
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Card from 'react-bootstrap/Card'
 
 // Add code to import the components
 import { ScrollBar } from './features/scrollbar/ScrollBar'

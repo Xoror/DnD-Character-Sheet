@@ -2,6 +2,8 @@ import React, { useEffect, useState} from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
 import Card from 'react-bootstrap/Card'
+import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 
 import { InventoryTable } from './InventoryTable'
@@ -9,7 +11,7 @@ import { addItem, editItem, getClassStartingItems } from './InventorySlice';
 import { InventoryAdd } from './InventoryAdd';
 import { ItemList } from './ItemList';
 
-var _ = require('lodash')
+const _ = require('lodash')
 
 export const InventoryBox = (props) => {
     const dispatch = useDispatch()
@@ -17,7 +19,7 @@ export const InventoryBox = (props) => {
 
 	//dispatch(getClassStartingItems())
 
-	var itemTemplate = {
+	let itemTemplate = {
 		filtered:true, 
 		id: "", 
 		name: "", 
@@ -31,9 +33,12 @@ export const InventoryBox = (props) => {
 		attunable: "",
 		attuned: "",
 		attuneRequirement: "",
-		description: ""
+		description: [""]
 	}
 
+	const [showItemList, setShowItemList] = useState(false)
+	const [showAddItem, setShowAddItem] = useState(false)
+	const [showQuickAddItem, setShowQuickAddItem] = useState(false)
 	const [editing, setEditing] = useState(false)
 	const [defaultValues, setDefaultValues] = useState(itemTemplate)
 	const [oldData, setOldData] = useState({})
@@ -42,7 +47,7 @@ export const InventoryBox = (props) => {
 	
 	const handleSubmit = (event) => {
 		event.preventDefault()
-		var data = defaultValues
+		let data = defaultValues
 		data["container"] = data.container.id
 		//data["container"] = selectedType.value
 		if(editing) {
@@ -60,6 +65,10 @@ export const InventoryBox = (props) => {
 		}
 		setDefaultValues(itemTemplate)
 	}
+	const changeEditing = (editChange) => {
+		setEditing(editChange)
+		setShowQuickAddItem(editChange)
+	}
 	const handleSelectValues = (event, id) => {
 		let copy = structuredClone(defaultValues)
 		let testValue
@@ -75,6 +84,9 @@ export const InventoryBox = (props) => {
 		else if(testValue === "false") {
 			testValue = false
 		}
+		if(id==="description") {
+			testValue = [testValue]
+		}
 		copy[id] = testValue
 		setDefaultValues(copy)
 	}
@@ -87,13 +99,19 @@ export const InventoryBox = (props) => {
 						cardID={cardID}
 						setCardID={setCardID}
 						setOldData={setOldData} 
-						setEditing={setEditing} 
+						changeEditing={changeEditing} 
 						setDefaultValues={setDefaultValues} 
-						key={index} 
+						key={`inventory-table-${container.value}`} 
 						container={container} 
 						bodies={inventory.filter((item) => {return item.container === container.id})}
 					/> : null
 			))}
+			<ButtonGroup>
+				<Button onClick={(event) => (setShowAddItem(!showAddItem))}>Add Item</Button>
+				<Button onClick={(event) => (setShowQuickAddItem(!showQuickAddItem))}>Quick Add Item</Button>
+				<Button onClick={(event) => (setShowItemList(!showItemList))}>Browse Item List</Button>
+			</ButtonGroup>
+			<ItemList inheritShow={showItemList} setInheritShow={setShowItemList}/>
 			<InventoryAdd
 				handleSubmit = {handleSubmit}
 				editing = {editing}
@@ -102,8 +120,12 @@ export const InventoryBox = (props) => {
 				setDefaultValues = {setDefaultValues}
 				handleSelectValues = {handleSelectValues}
 				itemTemplate = {itemTemplate}
+
+				showAddItem={showAddItem}
+				setShowAddItem={setShowAddItem}
+				showQuickAddItem={showQuickAddItem}
+				setShowQuickAddItem={setShowQuickAddItem}
 			/>
-			<ItemList/>
 		</Card>
 	)
 }

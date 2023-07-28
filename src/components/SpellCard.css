@@ -19,3 +19,7 @@
     padding: 0.25em 0.75em 0.5em 0.75em;
     text-align: end;
 }
+.overflow {
+    max-height: 20em;
+    overflow-y: scroll;
+}
