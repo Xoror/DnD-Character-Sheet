@@ -1,16 +1,67 @@
+:focus-visible {
+	/*border: 2px solid #0d6efd;*/
+	box-shadow: 0 0 0 3px white;
+	outline: 2px solid #0d6efd;
+}
+
+.filter-container {
+	border: 1px solid #000000;
+	border-radius: 0.5em;
+	padding: 0.375em;
+	margin: 1em 0 1em 0;
+	display: flex;
+	flex-wrap: wrap;
+}
 .filter-body {
 	width: max-content;
 	border: 1px solid black;
 	border-radius: 0.25em;
-	padding: 0em 0.25em 0em 0.25em;
+	padding: 0em 0em 0em 0.25em;
 	margin: 0.0625em 0.125em 0.0625em 0.125em;
 	background-color: rgb(156, 156, 156);
 	color: black;
 }
+.filter-body-button {
+	line-height: 1.5;
+	width: max-content;
+	border: 1px solid black;
+	border-radius: 0 0.25em 0.25em 0;
+	padding: 0em 0.25em 0em 0.25em;
+	margin: 0.0625em 0.125em 0.0625em 0;
+	color: black;
+}
+.filter-body-select {
+	width: max-content;
+	border: 1px solid black;
+	border-radius: 0.25em;
+	padding: 0em 0em 0em 0.25em;
+	margin: 0.0625em 0.125em 0.0625em 0.125em;
+	background-color: rgb(156, 156, 156);
+	color: black;
+}
+.filter-body-button:hover {
+	border: 1px solid white;
+	cursor: pointer;
+	color: white;
+}
+.filter-body-button:focus-visible {
+	box-shadow: 0 0 0 3px white;
+	outline: 2px solid #0d6efd;
+	color: black;
+	border-color: black;
+}
+.filter-body-select:hover {
+	border: 1px solid white;
+	cursor: pointer;
+}
 .filter-delete-button {
-	vertical-align: text-bottom; /*sub;*/
+	vertical-align: sub;
 	padding: 0;
 }
+.filter-delete-button:hover {
+	color: white;
+}
+
 
 .create-input {
 	width: max-content;
@@ -24,8 +75,4 @@
 .create-input::placeholder {
 	color: black;
 	opacity: 0.6;
-}
-.create-input:focus {
-	outline: 0px white solid;
-	border: 1px white solid
 }

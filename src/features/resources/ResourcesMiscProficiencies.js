@@ -8,31 +8,54 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Modal from 'react-bootstrap/Modal';
 import Container from 'react-bootstrap/Container';
-
+import Overlay from 'react-bootstrap/Overlay';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 import { ResourcesList } from './ResourcesList';
 import { MiscProficiencies} from "../attributes/MiscProficiencies"
 
 import { addResource } from './ResourcesSlice';
 import { addMiscProficiency, addProficiencyType } from '../attributes/AttributesSlice';
+import { useFocus } from '../../components/CustomHooks';
 
 export const ResourcesMiscProficiencies = () => {
 	const dispatch = useDispatch()
-    const proficienciesTypes = useSelector(state => state.attributes.proficienciesTypes)
+	const proficienciesTypes = useSelector(state => state.attributes.proficienciesTypes)
+	const skills = useSelector(state => state.attributes.skills)
+	const resources = useSelector(state => state.resources.data)
+
+	const [inputRef, setInputFocus] = useFocus()
+	const [show, setShow] = useState("none")
 	const [selectedType, setSelectedType] = useState("");
     
 	const handleAddResource = (event) => {
 		event.preventDefault();
-		dispatch(addResource(
-            {name: event.target[0].value, current: event.target[2].value, maximum: event.target[3].value, dice: event.target[1].value}
-        ))
+		let isSameName = resources.find(resource => resource.name === event.target[0].value) ? true : false
+		if(isSameName) {
+			setShow("resource")
+			setInputFocus()
+		}
+		else {
+			dispatch(addResource(
+				{name: event.target[0].value, current: event.target[2].value, maximum: event.target[3].value, dice: event.target[1].value}
+			))
+			handleCloseAddResource()
+		}
 	}
 	const handleAddMiscProficiency = (event) => {
 		event.preventDefault();
 		console.log([event.target[0].value, selectedType, event.target[2].value, event.target[3].value])
-		dispatch(addMiscProficiency(
-            [event.target[0].value, selectedType, event.target[2].value, event.target[3].value]
-        ))
+		let isSameName = skills.find(skill => skill.name === event.target[0].value) ? true : false
+		if(isSameName) {
+			setShow("miscProf")
+			setInputFocus()
+		}
+		else {
+			dispatch(addMiscProficiency(
+				[event.target[0].value, selectedType, event.target[2].value, event.target[3].value]
+			))
+			handleCloseAddMiscProf()
+		}
 	}
 	const handleCreateOption = (createdOption) => {
 		let option = {value: createdOption.toLowerCase(), label: createdOption}
@@ -70,7 +93,12 @@ export const ResourcesMiscProficiencies = () => {
 					<Modal.Body>
 						<InputGroup>
 							<InputGroup.Text>Name</InputGroup.Text>
-							<Form.Control required name="Name" placeholder="Name" aria-label="Name"/>
+								<Overlay target={inputRef.current} show={show === "resource"} placement="top">
+									<Tooltip id="overlay-example">
+										Please enter unique Name.
+									</Tooltip>
+								</Overlay>
+							<Form.Control ref={inputRef} required name="Name" placeholder="Name" aria-label="Name"/>
 							<InputGroup.Text>Dice</InputGroup.Text>
 							<Form.Control required name="Dice" placeholder="Dice" aria-label="Dice"/>
 						</InputGroup>
@@ -100,18 +128,25 @@ export const ResourcesMiscProficiencies = () => {
 					<Modal.Body>
 						<InputGroup >
 							<InputGroup.Text>Name</InputGroup.Text>
-							<Form.Control required name="Name" placeholder="Name" aria-label="Name"/>
+								<Overlay target={inputRef.current} show={show === "miscProf"} placement="top">
+									<Tooltip id="overlay-example">
+										Please enter unique Name.
+									</Tooltip>
+								</Overlay>
+							<Form.Control ref={inputRef} required name="Name" placeholder="Name" aria-label="Name"/>
 							<InputGroup.Text>Type</InputGroup.Text>
 							<CreatableSelect value={selectedType} onChange={(value) => setSelectedType(value)} onCreateOption={(value) => handleCreateOption(value)} isClearable options={proficienciesTypes} styles={customStyles} required placeholder="Select or create type..." /> 
 						</InputGroup>
 						<InputGroup>
 							<InputGroup.Text htmlFor="proficiencyInput">Proficient</InputGroup.Text>
-							<Form.Select id="proficiencyInput">
+							<Form.Select required id="proficiencyInput">
+								<option value="">Choose...</option>
 								<option value="True">Yes</option>
 								<option value="False">No</option>
 							</Form.Select>
 							<InputGroup.Text htmlFor="expertiseInput">Expertise</InputGroup.Text>
-							<Form.Select id="expertiseInput">
+							<Form.Select required id="expertiseInput">
+								<option value="">Choose...</option>
 								<option value="True">Yes</option>
 								<option value="False">No</option>
 							</Form.Select>
@@ -131,11 +166,11 @@ export const ResourcesMiscProficiencies = () => {
 			<CardGroup>
 				<div className="card bg-secondary border-dark justify-content-middle">
 					<Button variant="primary" onClick={handleShowAddResource} style={{borderTopRightRadius:"0", borderBottomRightRadius:"0"}}> Add Resource </Button>
-					<ResourcesList/>
+					<ResourcesList resources={resources}/>
 				</div>
 				<div className="card bg-secondary border-dark justify-content-middle">
 					<Button variant="primary" onClick={handleShowAddMiscProf} style={{borderTopLeftRadius:"0", borderBottomLeftRadius:"0"}}> Add Misc Proficiency</Button>
-					<MiscProficiencies/>
+					<MiscProficiencies proficienciesTypes={proficienciesTypes} skills={skills}/>
 				</div>
 			</CardGroup>
 			

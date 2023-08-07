@@ -1,0 +1,17 @@
+.counter-button {
+    border: 1px solid black;
+    text-align: center;
+    display: inline-block;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+.left {
+    border-radius:0.375em 0 0 0.375em;
+}
+.right {
+    border-radius:0 0.375em 0.375em 0;
+}
+.counter-button:hover {
+    color: white;
+    border-color: white;
+}

@@ -20,8 +20,8 @@ export const ResourceBox = (props) => {
 	return (
 		<div key={props.id} className="resourceBox">
 			<InputGroup>
-				<InputGroup.Text>{props.resource.name}</InputGroup.Text>
-				<Button variant="danger" aria-label="Remove" onClick={delResource}>Remove</Button>
+				<InputGroup.Text  style={{width:"50%"}}>{props.resource.name}</InputGroup.Text>
+				<Button style={{width:"50%"}} variant="danger" aria-label="Remove" onClick={delResource}>Remove</Button>
 			</InputGroup>
 		
 			<br></br>

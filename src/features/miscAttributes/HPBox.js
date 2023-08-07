@@ -13,7 +13,7 @@ export const HPBox = (props) => {
 	}
 	return (
 		<div className="hpBox">
-			<div style={{display:"flex", flexWrap:"wrap", justifyContent:"center"}}>
+			<div style={{display:"flex", flexWrap:"wrap", justifyContent:"center", marginTop:"0.25em"}}>
 				<div id="current-hp" >
 					<div style={{textAlign:"center"}}> <label id="current-hp-label">Current</label> </div>
 					<div> <input id="currentHP" aria-label="current-hp-input" aria-labelledby="current-hp-label" type='number' value={props.charHP.current} className= "hpBoxInside" onChange={handleHPChange}></input> </div>
@@ -27,7 +27,7 @@ export const HPBox = (props) => {
 					<div> <input id="tempHP" aria-label="temporary-hp-input" aria-labelledby="temporary-hp-label" type='number' value={props.charHP.temp} className= "hpBoxInside" onChange={handleHPChange}></input> </div>
 				</div>
 			</div>
-			<RiFileEditFill type="button" color="black" size="23" /*onClick={handleShow}*/ className="edit-button" />
+			<RiFileEditFill tabIndex="0" type="button" size="23" /*onClick={handleShow}*/ className="edit-button" />
 		</div>
 	);
 }

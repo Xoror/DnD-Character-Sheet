@@ -17,6 +17,17 @@ export const ActionsTable = (props) => {
 	const dispatch = useDispatch()
 	const charAttributes = useSelector(state => state.attributes.charAttributes)
 	const proficiency = useSelector(state => state.attributes.proficiency)
+	const handleKeyUp = (event, body, index) => {
+		if(event.code === "Space" || event.code === "Enter") {
+			event.preventDefault()
+			if(event.target.id === "edit-button") {
+				startEdit(event, body)
+			}
+			else {
+				handleDelete(event, body, index)
+			}
+		}
+	}
 	const scalingBonus = (scale) => {
 		if(scale === "None") {
 			return ""
@@ -25,9 +36,9 @@ export const ActionsTable = (props) => {
 			return charAttributes.filter((charAttribute) => scale === charAttribute.name)[0].bonus
 		}
 	}
-	const handleDelete = (event, type, index) => {
+	const handleDelete = (event, id, index) => {
 		event.stopPropagation()
-		dispatch(deleteAction(type, index, props.id))
+		dispatch(deleteAction(id, props.id))
 	}
 	const handlePrepared = (event) => {
 		event.stopPropagation()
@@ -41,6 +52,7 @@ export const ActionsTable = (props) => {
 		props.setDefaultValues(body)
 		props.setOldData(body)
 		props.setEditing(true)
+		props.setShowQuickAddAction(true)
 	}
 	let place = props.offCanvas ? "left" : "right"
 	let cardID = props.cardID
@@ -63,7 +75,6 @@ export const ActionsTable = (props) => {
 			setShowPopover([!showPopover[0], id])
 		}
 		else {
-
 			if(showPopover[0]) {
 				setShowPopover([showPopover[0], id])
 				props.setCardID(id)
@@ -130,8 +141,8 @@ export const ActionsTable = (props) => {
 									{props.offCanvas ? <td>{body.school}</td> : <td>{body.range}</td> }
 									{props.offCanvas ? "" : 
 									<td style={{paddingRight:"0",paddingLeft:"0", justifyItems:"end", zIndex:"2" }}> 
-										<RiFileEditFill type="button" color="black" size="23" id="edit-button" onClick={(event) => startEdit(event, body)} className="edit-button" />
-										<AiFillCloseSquare type="button" color="#dc3545" size="23" id="delete-button" onClick={(event) => handleDelete(event, props.header, index)} className="edit-button" style={{backgroundColor:"white", padding:"0px"}}/> 
+										<RiFileEditFill tabIndex="0" type="button" size="23" id="edit-button" onClick={(event) => startEdit(event, body)} onKeyUp={(event) => handleKeyUp(event, body)} className="edit-button" />
+										<AiFillCloseSquare tabIndex="0" type="button" size="23" id="delete-button" onClick={(event) => handleDelete(event, body.id, index)} onKeyUp={(event) => handleKeyUp(event, body.id, index)} className="delete-button" /> 
 									</td>
 									}
 								</>

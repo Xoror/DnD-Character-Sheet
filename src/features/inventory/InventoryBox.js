@@ -7,15 +7,17 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 
 import { InventoryTable } from './InventoryTable'
-import { addItem, editItem, getClassStartingItems } from './InventorySlice';
+import { addItem, editItem, updateMoney, getClassStartingItems } from './InventorySlice';
 import { InventoryAdd } from './InventoryAdd';
 import { ItemList } from './ItemList';
+import { MoneyPouch } from '../../components/MoneyPouch';
 
 const _ = require('lodash')
 
 export const InventoryBox = (props) => {
     const dispatch = useDispatch()
     const inventory = useSelector(state => state.inventory.inventory)
+	const currency = useSelector(state => state.inventory.currency)
 
 	//dispatch(getClassStartingItems())
 
@@ -90,9 +92,20 @@ export const InventoryBox = (props) => {
 		copy[id] = testValue
 		setDefaultValues(copy)
 	}
-	
+	const handleCounter = (event, id, currency) => {
+		if(id === "change") {
+			console.log(currency)
+		}
+		else {
+			dispatch(updateMoney([id, currency]))
+		}
+	}
+	const currencies_shortnames = {platinum:"pt", electrum:"ep", gold:"gp", silver:"sp", copper:"cp"}
 	return (
 		<Card bg="secondary" id="Inventory">
+			<div>
+				<MoneyPouch moneyPouch={currency} currencies_shortnames={currencies_shortnames} handleCounter={handleCounter}/>
+			</div>
 			{containers.map((container, index) => (
 				inventory.filter((item) => {return item.container === container.id}).length != 0 || index === 0 ? 
 					<InventoryTable

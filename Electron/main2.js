@@ -1,7 +1,12 @@
-const { app, BrowserWindow, ipcMain, dialog} = require('electron')
+const { app, BrowserWindow, ipcMain, dialog, shell} = require('electron')
 const path = require('path')
 const sqlite3 = require("sqlite3").verbose()
+
 global.appRoot = path.resolve(__dirname)
+
+
+
+
 
 function createWindow () {
   const win = new BrowserWindow({
@@ -17,6 +22,10 @@ function createWindow () {
 
   //win.loadFile('./build/index.html')
   win.loadURL('http://localhost:3000')
+  win.webContents.setWindowOpenHandler((details) => {
+    shell.openExternal(details.url)
+    return { action: "deny" }
+  })
 }
 
 const database = new sqlite3.Database(appRoot+"./resources/database.db", sqlite3.OPEN_READWRITE, (err) => {

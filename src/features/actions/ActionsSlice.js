@@ -55,7 +55,7 @@ const ActionsSlice = createSlice({
                     state.actions.push(action.payload[0])
                 }
                 else if(action.payload[1] === "Spells") {
-                    let slots = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th"]
+                    let slots = ["Cantrip", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th"]
                     let test1 = slots.indexOf(action.payload[0].type)
                     let test2 = slots.indexOf(state.highestSpellSlot)
                     if(test1 > test2) { 
@@ -78,34 +78,41 @@ const ActionsSlice = createSlice({
                     let testIndex = state.actions.indexOf(state.actions.find(action1 => {return action1.id === action.payload[0].id}))
                     state.actions[testIndex] = action.payload[0]
                 }
-                else if(action.payload[2] === "Spells") {
-                    let slots = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th"]
+                else if(action.payload[1] === "Spells") {
+                    let slots = ["Cantrip", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th"]
                     let test1 = slots.indexOf(action.payload[0].type)
                     let test2 = slots.indexOf(state.highestSpellSlot)
                     if(test1 > test2) {
                         state.highestSpellSlot = action.payload[0].type
                     }
+                    let test3 = state.sortedSpellList.filter(spell => {return spell.name === action.payload[2]})[0]
+                    if(test3) {
+                        test3.isPrepared = false
+                    }
                     
-                    let testIndex = state.spells.indexOf(state.spells.find(action1 => {return action1.id === action.payload[1].id }))
+                    let testIndex = state.spells.indexOf(state.spells.find(action1 => {return action1.id === action.payload[0].id }))
+                    if(action.payload[0].name != action.payload[2]) {
+                        action.payload[0].id = nanoid()
+                    }
                     state.spells[testIndex] = action.payload[0]
                 }
             },
-            prepare(data, id) {
+            prepare(data, id, oldName) {
                 return {
-                    payload: [data, id]
+                    payload: [data, id, oldName]
                 }
             }
         },
         deleteAction: {
             reducer(state, action) {
-                if(action.payload[2] === "Actions") {
-                    let test = state.actions.filter((action1) => {return action1.type === action.payload[0]})[action.payload[1]]
+                if(action.payload[1] === "Actions") {
+                    let test = state.actions.filter((action1) => {return action1.id === action.payload[0]})[0]
                     let index = state.actions.indexOf(test)
                     
                     state.actions = state.actions.slice(0, index).concat(state.actions.slice(index + 1))		
                 }
-                else if(action.payload[2] === "Spells") {
-                    let test = state.spells.filter((action1) => {return action1.type === action.payload[0]})[action.payload[1]]
+                else if(action.payload[1] === "Spells") {
+                    let test = state.spells.filter((action1) => {return action1.id === action.payload[0]})[0]
                     let index = state.spells.indexOf(test)
                     
                     let test2 = state.sortedSpellList.filter(spell => {return spell.name === test.name})[0]
@@ -134,9 +141,10 @@ const ActionsSlice = createSlice({
                     }
                 }
             },
-            prepare(type, index, id){
+            prepare(action_id, id){
+                console.log([action_id, id] )
                 return {
-                    payload: [type, index, id] 
+                    payload: [action_id, id] 
                 }
             }
         },

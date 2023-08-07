@@ -9,7 +9,7 @@ export const Attribute = (props) => {
 	const dispatch = useDispatch()
 	
 	const handleAttrChange = (event) => {
-		dispatch(attributeChange([event.target.value,  props.attribute.name], dispatch))
+		dispatch(attributeChange([event.target.value,  props.attribute.id], dispatch))
 	}
 	return (
 		<tr>
@@ -25,10 +25,10 @@ export const Attribute = (props) => {
 					<span style={{paddingTop:"1.25em"}}>{props.attribute.bonus}</span>
 				</div>
 			</td>
-			<td >
+			<td>
 				
 				{props.skills.map((skill3) => (
-					<SkillItem key={skill3.id} skill2={skill3}/>
+					<SkillItem attrSkills={true} key={skill3.id} skill2={skill3}/>
 				))}
 			</td>
 		</tr>

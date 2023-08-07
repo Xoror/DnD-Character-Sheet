@@ -9,6 +9,9 @@ import { ActionsTable } from "./ActionsTable"
 import { addAction, editAction } from './ActionsSlice';
 import { ActionsAdd } from './ActionsAdd';
 import { SpellList } from './SpellList';
+import { useFocus } from '../../components/CustomHooks';
+
+const _ = require('lodash')
 
 const isEqualsJson = (obj1,obj2)=>{
     let keys1 = Object.keys(obj1);
@@ -18,12 +21,7 @@ const isEqualsJson = (obj1,obj2)=>{
     return keys1.length === keys2.length && Object.keys(obj1).every(key=>obj1[key]==obj2[key]);
 }
 
-const useFocus = () => {
-    const htmlElRef = useRef(null)
-    const setFocus = () => {htmlElRef.current &&  htmlElRef.current.focus()}
 
-    return [ htmlElRef, setFocus ] 
-}
 export const ActionsBox = (props) => {
 	const dispatch = useDispatch()
 	let actionTemplate = props.id === "Spells" ? 
@@ -76,9 +74,9 @@ export const ActionsBox = (props) => {
 		let data = defaultValues
 		let sameName = false
 		if(editing) {
-			if (!isEqualsJson(data, oldData)) {
+			if (!_.isEqual(data, oldData)) {
 				data.id = oldData.id
-				dispatch(editAction(data, props.id))
+				dispatch(editAction(data, props.id, oldData.name))
 				setEditing(false)
 			}
 			else {
@@ -115,7 +113,8 @@ export const ActionsBox = (props) => {
 					cardID={cardID}
 					setCardID={setCardID}
 					setOldData={setOldData} 
-					setEditing={setEditing} 
+					setEditing={setEditing}
+					setShowQuickAddAction={setShowQuickAddAction}
 					setDefaultValues={setDefaultValues} 
 					offCanvas={props.offCanvas} 
 					id={props.id} 

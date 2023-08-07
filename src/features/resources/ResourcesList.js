@@ -4,8 +4,8 @@ import { useSelector } from "react-redux"
 
 import { ResourceBox } from './ResourceBox';
 
-export const ResourcesList = () => {
-	const resources = useSelector(state => state.resources.data)
+export const ResourcesList = (props) => {
+	const resources = props.resources
 	return(
 		<div>
 			{resources.map((resource, index) => (

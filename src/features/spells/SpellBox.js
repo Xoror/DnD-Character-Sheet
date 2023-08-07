@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
+
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -28,9 +29,9 @@ export const SpellBox = () => {
 		dispatch(changeCasterType(event.target.value))
 	}
 	const popover = (
-		<Popover id="popover-basic">
-			<Popover.Header as="h3">Legend</Popover.Header>
-			<Popover.Body>
+		<Popover style={{border:"1px solid white"}} id="popover-basic">
+			<Popover.Header style={{backgroundColor:"#212529", color:"white"}} as="h3">Legend</Popover.Header>
+			<Popover.Body style={{backgroundColor:"#343a40", color:"white", borderBottomRightRadius:"0.5em", borderBottomLeftRadius:"0.5em"}}>
 				<span> <b>Full Caster:</b> Casters like Wizards, Sorcerers, Bards that get spellslots up to 9th level.</span>
 				<br></br>
 				<span> <b>Half Caster:</b> Casters like Rangers, Paladins that get spellslots up to 5th level</span>
@@ -42,12 +43,10 @@ export const SpellBox = () => {
 				<span> <b>Half Pact Caster:</b> Casters that have Pact Spellcasting from a subclass like Blood Hunter: Order of the Profane Soul </span>
 			</Popover.Body>
 		</Popover>
-	);
-	let doesShow = "collapse"
-	if(casting.isCaster)
-		doesShow = "collapse show"
+	)
+
 	return (
-		<Container fluid className={doesShow} style={{padding:"0"}}>
+		<Container fluid className={casting.isCaster ? "collapse show" : "collapse"} style={{padding:"0"}}>
 			<Card bg="secondary" border="dark">
 				<InputGroup>
 					<InputGroup.Text style={{padding:"0"}}>
@@ -76,12 +75,24 @@ export const SpellBox = () => {
 					<Col md="auto" style={{paddingRight:"0"}}>
 						<div className="spellCard">
 							<Row>
-								<Col style={{paddingRight:"0", alignText:"center"}}>Spell Hit</Col>
-								<Col style={{paddingLeft:"0", alignText:"center"}}>Spell DC</Col>
+								<Col style={{paddingRight:"0", textAlign:"center"}}> <label id="spellHitLabel">Spell Hit</label></Col>
+								<Col style={{paddingLeft:"0", textAlign:"center"}}> <label id="spellDCLabel">Spell DC</label></Col>
 							</Row>
 							<Row>
-								<Col style={{paddingRight:"0"}}><input readOnly required='required' type='text' className= "spellCardInside" value={casting.spellHit}></input></Col>
-								<Col style={{paddingLeft:"0"}}><input readOnly required='required' type='text' className= "spellCardInside" value={casting.spellDC}></input></Col>
+								<Col style={{paddingRight:"0"}}>
+									{false ? 
+										<input readOnly required='required' type='text' className= "spellCardInside" value={casting.spellHit}></input>
+										:
+										<div className="AttributeBoxNotInput" aria-labelledby="spellHitLabel">{casting.spellHit}</div>
+									}
+								</Col>
+								<Col style={{paddingLeft:"0"}}>
+									{false ? 
+										<input readOnly required='required' type='text' className= "spellCardInside" value={casting.spellDC}></input>
+										:
+										<div className="AttributeBoxNotInput" aria-labelledby="spellDCLabel">{casting.spellDC}</div>
+									}
+								</Col>
 							</Row>
 						</div>
 					</Col>

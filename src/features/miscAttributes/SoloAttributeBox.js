@@ -18,6 +18,12 @@ export const AttributeBox = (props) => {
 
 	const handleClose = () => setShow(false)
 	const handleShow = () => setShow(true)
+
+	const handleKeyDown = (event) => {
+		if(event.code === "Space" || event.code === "Enter") {
+			handleShow()
+		}
+	}
 	
 	let testName = props.name
 	const handleSubmit = (event) => {
@@ -65,21 +71,37 @@ export const AttributeBox = (props) => {
 					</Modal.Body>
 
 					<Modal.Footer>
-						<Button variant="secondary" onClick={handleClose}>
+						<Button variant="danger" onClick={handleClose}>
 							Close
 						</Button>
-						<Button type="submit" variant="primary">
+						<Button type="submit" variant="primary" onClick={handleClose}>
 							Submit
 						</Button>
 					</Modal.Footer>
 				</Form>
 			</Modal>
 		
-			<span>{props.name}</span>
-			<br></br>
-			<input readOnly type='text' value={props.attribute.value} className= "AttributeBoxInside2" ></input>
-			<br></br>
-			{props.name != "Proficiency Bonus" ? <RiFileEditFill type="button" color="black" size="23" onClick={handleShow} className="edit-button" /> : ""}
+			
+			{false ? 
+				<>
+					<span>{props.name}</span>
+					<br></br>
+					<input readOnly type='text' value={props.attribute.value} className= "AttributeBoxInside2" ></input>
+					<br></br>
+					{props.name != "Proficiency Bonus" ? <RiFileEditFill type="button" color="black" size="23" onClick={handleShow} className="edit-button" /> : ""}	
+				</> :
+				<div className="hpBox">
+					<div  style={{display:"flex", flexWrap:"wrap", justifyContent:"center"}}>
+						<div style={{textAlign:"center", marginTop:"0.25em"}}> <label> {props.name} {props.name === "Speed" ? "(" + props.attribute.displayed + ")" : null} </label> </div>
+					</div>
+					<div style={{display:"flex", flexWrap:"wrap",justifyContent:"center"}}>
+						<div className="AttributeBoxNotInput"> {props.attribute.value}</div>
+					</div>
+					{props.name != "Proficiency Bonus" ?
+						<RiFileEditFill tabIndex="0" title="edit button" type="button" size="23" onKeyDown={handleKeyDown} onClick={handleShow} className="edit-button" /> 
+						: null}
+				</div>
+			}
 		</div>
 	)
 }
@@ -113,13 +135,13 @@ const InitiativeModal = (props) => {
 	)
 }
 const ACModal = (props) => {
-	const [showOptions, setShowOptions] = useState("0")
+	const [showOptions, setShowOptions] = useState(props.attribute.wearsArmor ? "1" : (props.attribute.unarmoredDefense ? "2" : "0"))
 	const handleShowOptions = (event) => setShowOptions(event.target.value)
 	return(
 		<div>
 			<InputGroup>
 				<InputGroup.Text id="armor-type"> Armor Type </InputGroup.Text>
-				<Form.Select required aria-label="choose-armor-type" aria-describedby="armor-type" onChange={handleShowOptions}>
+				<Form.Select defaultValue={props.attribute.wearsArmor ? "1" : "2"} required aria-label="choose-armor-type" aria-describedby="armor-type" onChange={handleShowOptions}>
 					<option value=""> Choose Armor Type </option>
 					<option value="1" id="wearsArmor"> Equippable Armor </option>
 					<option value="2" id="unarmoredDefense"> Unarmored Defense </option>

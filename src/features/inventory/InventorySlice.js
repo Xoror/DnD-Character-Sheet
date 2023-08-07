@@ -49,7 +49,7 @@ const initialState = {
             {id: "equipment", value: "equipment", label: "Equipment", weight:0}
         ],
         weight: 0,
-	    currency: {platinum: 0, electrum: 0, gold: 0, silver: 0, copper: 0},
+	    currency: {platinum: 0, gold: 0, electrum: 0, silver: 0, copper: 0},
         startingItems: {}
     }
 
@@ -123,6 +123,19 @@ const InventorySlice = createSlice({
             if(state.weight != testWeight) {
                 state.weight = testWeight
             }
+        },
+        updateMoney(state, action) {
+            let id = action.payload[0]
+            let currency = action.payload[1]
+            if(id === "inc") {
+                state.currency[currency] += 1
+            }
+            else if(id === "dec") {
+                state.currency[currency] -= 1
+            }
+            else {
+                state.currency[action.payload[0]] = parseFloat(action.payload[1])
+            }
         }
     },
     extraReducers(builder) {
@@ -136,4 +149,4 @@ const InventorySlice = createSlice({
 
 export default InventorySlice.reducer
 export const { addItem, editItem, deleteItem, equipItem, importInventory, 
-    addContainer, editContainer, deleteContainer, updateTotals} = InventorySlice.actions
+    addContainer, editContainer, deleteContainer, updateTotals, updateMoney} = InventorySlice.actions

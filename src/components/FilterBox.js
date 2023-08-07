@@ -32,8 +32,9 @@ export const FilterBox = (props) => {
             {show ? data.map((item, index) => (
                 item[test] ? <FilterItem key={`${header}-list-nr-${index}`} hasValue={hasValue} name={item.name} value={item.distance} handleDelete={handleDelete} handleInputChange={handleInputChange} index={index} type={type}/> : ""
             )): <span style={{marginLeft:"0.5em"}}>[...]</span>}
+            
             { show ? (!creatable ? 
-            <select value={defaultSelectValue} className="filter-body" style={{paddingRight:"0.25em", backgroundColor:bgColor}} onChange={handleAdd}>
+            <select value={defaultSelectValue} className="filter-body-select" style={{paddingRight:"0.25em", backgroundColor:bgColor}} onChange={handleAdd}>
                 <option value=""> Add {header} </option>
                 {data.map((item, index) => (
                     item[test] ? "" : <option key={`${header}-choice-${item.name}`} value={index}>{item.name}</option>
@@ -42,7 +43,7 @@ export const FilterBox = (props) => {
             <Form onSubmit={(event) => (handleCreate(event, header), setDefaultInput(""))}>
                 <div style={{display:"flex"}}>
                     <input value={defaultInput} onChange={(e) => setDefaultInput(e.target.value)} aria-label={`input-create-${header}`} style={{width:"8em",paddingRight:"0.25em", marginRight:"0", borderRadius:"0.25em 0 0 0.25em"}} className="create-input" placeholder={`Add ${header}`}></input>
-                    <Button className="filter-body" style={{ paddingRight:"0.25em", backgroundColor:bgColor, marginLeft:"0", borderRadius:"0 0.25em 0.25em 0"}} variant="success" aria-label="submit" type="submit">Add</Button>
+                    <button className="filter-body-button" style={{ backgroundColor:bgColor}} aria-label="submit" type="submit">Add</button>
                 </div>
             </Form>) : null}
         </Container>

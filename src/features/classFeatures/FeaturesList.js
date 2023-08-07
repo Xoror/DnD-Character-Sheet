@@ -26,6 +26,18 @@ export const FeatureList = (props) => {
 		event.preventDefault()
 		setOpen(true)
 	}
+
+	const handleKeyDown = (event) => {
+		if(event.code === "Space" || event.code === "Enter") {
+			event.preventDefault()
+			if(event.target.id === "edit-button") {
+				startEdit()
+			}
+			else {
+				handleDelete(event)
+			}
+		}
+	}
 	
 	let color;
 	if (props.id%2 === 0) {
@@ -83,8 +95,8 @@ export const FeatureList = (props) => {
 									<Row>
 										<Col md="auto" style={{paddingRight:"6px",paddingLeft:"0"}}> <span>Level: {props.feature.level}</span> </Col>
 										<Col md="auto" style={{paddingRight:"0em",paddingLeft:"0"}}> 
-											<RiFileEditFill type="button" size="1.5em" id="edit-button" onClick={startEdit} className="edit-button" />
-											<AiFillCloseSquare type="button" size="1.5em" id="delete-button" onClick={handleDelete} className="delete-button"/> 
+											<RiFileEditFill onKeyDown={handleKeyDown} tabIndex="0" type="button" size="1.5em" id="edit-button" onClick={startEdit} className="edit-button" />
+											<AiFillCloseSquare onKeyDown={handleKeyDown} tabIndex="0" type="button" size="1.5em" id="delete-button" onClick={handleDelete} className="delete-button"/> 
 										</Col>
 									</Row>
 								</Col>

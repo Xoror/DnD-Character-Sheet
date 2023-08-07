@@ -11,32 +11,32 @@ const miscAttributesSlice = createSlice({
     reducers: {
         changeMiscAttribute: {
             reducer(state, action) {
-                if(action.id === "Speed") {
+                console.log(action.payload)
+                if(action.payload[1] === "Speed") {
                     /*{displayed: event.target[0].value, ground: event.target[1].value, swim: event.target[2].value, climb: event.target[3].value, fly: event.target[4].value}*/
                     /*{name: "Speed", value: 30, ground: 30, swim: 15, climb: 15, fly: 0, displayed: "Ground"}*/
-                    state.speed.displayed = action.payload.displayed
-                    state.speed.ground = action.payload.ground
-                    state.speed.swim = action.payload.swim
-                    state.speed.climb = action.payload.climb
-                    state.speed.fly = action.payload.fly 
-                    if (action.payload.displayed === "Ground") {
-                        state.speed.value = action.payload.ground
+                    state.speed.displayed = action.payload[0].displayed
+                    state.speed.ground = action.payload[0].ground
+                    state.speed.swim = action.payload[0].swim
+                    state.speed.climb = action.payload[0].climb
+                    state.speed.fly = action.payload[0].fly 
+                    if (action.payload[0].displayed === "Ground") {
+                        state.speed.value = action.payload[0].ground
                     }
-                    else if (action.payload.displayed === "Swim") {
-                        state.speed.value = action.payload.swim
+                    else if (action.payload[0].displayed === "Swim") {
+                        state.speed.value = action.payload[0].swim
                     }
-                    else if (action.payload.displayed === "Climb") {
-                        state.speed.value = action.payload.climb
+                    else if (action.payload[0].displayed === "Climb") {
+                        state.speed.value = action.payload[0].climb
                     }
-                    else if (action.payload.displayed === "Fly") {
-                        state.speed.value = action.payload.fly
+                    else if (action.payload[0].displayed === "Fly") {
+                        state.speed.value = action.payload[0].fly
                     }
                 }
             },
             prepare (data, id) {
                 return {
-                    payload: data,
-                    id: id
+                    payload: [data, id]
                 }
             }
         },

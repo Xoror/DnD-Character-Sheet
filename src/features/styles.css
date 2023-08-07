@@ -175,6 +175,15 @@ body {
 	padding: 0;
 	margin: 0.5em;
 }
+.AttributeBoxNotInput {
+	text-align: center;
+	height: 3.5em; /*50% of 8em*/
+	width: 3.5em; /*25% of 16em*/
+	margin: 0.5em;
+	line-height: 3.25em;
+	box-sizing: border-box;
+	border: 1px white solid;
+}
 .hpBox {
 	/*background-image: url("../images/AttributeBG.png");*/
 	background-size: 100% 100%;
@@ -192,11 +201,11 @@ body {
 }
 
 .resourceBox {
+	margin: 0;
 	margin-bottom: 2em;
 	/*background-image: url("../images/AttributeBG.png");*/
 	background-size: 100% 100%;
 	text-align: center;
-	margin: 0;
 	padding-bottom: 1em;
 }
 .resourceBoxInside {
@@ -258,7 +267,11 @@ body {
 }
 .checkbox-wrapper input[id="Expertise"] {
 	margin-right: 0.25em;
-	margin-left: 0.5em;
+}
+.checkbox-wrapper input:focus-visible {
+	box-shadow: 0 0 0 3px white;
+	outline: 2px solid #0d6efd;
+	position: relative;
 }
 .checkbox-wrapper input:checked {
 	background-color: var(--tertiary-element-color);
@@ -267,6 +280,28 @@ body {
 .checkbox-wrapper input:hover {
 	background-color: var(--secondary-element-color);
 	position: relative;
+}
+.checkbox-wrapper input[id="1"]:checked {
+	background-color: #198754;
+}
+.checkbox-wrapper input[id="2"]:checked {
+	background-color: #dc3545;
+}
+.checkbox-wrapper input[id="1"]:checked::before {
+	content: "A";
+	font-size: 0.8em;
+	color: var(--text-color);
+	position: absolute;
+	left: 0.25em;
+	top: -0.15em;
+}
+.checkbox-wrapper input[id="2"]:checked::before {
+	content: "D";
+	font-size: 0.8em;
+	color: var(--text-color);
+	position: absolute;
+	left: 0.25em;
+	top: -0.15em;
 }
 
 .checkbox-wrapper input[id="Proficiency"]:checked::before {
@@ -341,6 +376,17 @@ body {
 
 	z-index: 3;
 }
+.edit-button:hover {
+	border: solid 1px var(--edit-secondary-color);
+	background-color: var(--edit-secondary-color);
+	color: var(--edit-primary-color);
+}
+.edit-button:focus-visible {
+	outline: none;
+	border: solid 1px var(--edit-secondary-color);
+	background-color: var(--edit-secondary-color);
+	color: var(--edit-primary-color);
+}
 .delete-button {
 	padding: 0;
 	border-radius: 4px;
@@ -351,7 +397,18 @@ body {
 	color: var(--delete-primary-color);
 
 	z-index: 3;
-}#dc3545
+}
+.delete-button:hover {
+	border: solid 1px var(--delete-border-color);
+	background-color: var(--delete-primary-color);
+	color: var(--delete-secondary-color);
+}
+.delete-button:focus-visible {
+	outline: none;
+	border: solid 1px var(--delete-border-color);
+	background-color: var(--delete-primary-color);
+	color: var(--delete-secondary-color);
+}
 
 .fancy-border {
 	border-image-slice: 42 42 42 42;
@@ -364,28 +421,6 @@ body {
 
 .button-empty {
 	all: unset;
-}
-
-.filter-container {
-	border: 1px solid #000000;
-	border-radius: 0.5em;
-	padding: 0.375em;
-	margin: 1em 0 1em 0;
-	display: flex;
-	flex-wrap: wrap;
-}
-.filter-body {
-	width: max-content;
-	border: 1px solid black;
-	border-radius: 0.25em;
-	padding: 0em 0em 0em 0.25em;
-	margin: 0.0625em 0.125em 0.0625em 0.125em;
-	background-color: rgb(156, 156, 156);
-	color: black;
-}
-.filter-delete-button {
-	vertical-align: sub;
-	padding: 0;
 }
 
 /* table styling */
@@ -401,8 +436,8 @@ body {
 }
 .arrow, .arrow::before {
 	position: absolute;
-	width: 8px;
-	height: 8px;
+	width: 0.5em;
+	height: 0.5em;
 	background: black;
 	transition: top 0.3s ease-in, bottom 0.3s ease-in, left 0.3s ease-in, right 0.3s ease-in;
 	content: " ";
@@ -411,11 +446,15 @@ body {
 	background-color:"black";
  }
  .arrow-right, .arrow-right::before {
-	right: -4px;
+	right: -0.25em;
  }
  .arrow-left, .arrow-left::before {
-	left: -4px;
+	left: -0.25em;
  }
+ .popover-arrow::after {
+	border-left-color: #f7f7f7;
+ }
+ 
 
  /* Nav bar*/
 
@@ -453,6 +492,39 @@ body {
 .button2.minimize:hover { background: #30363b; color: "#212529";} 
 .button2.maximize:hover { background: #30363b; color: "#212529";}
 
+.home-button {
+	border: 1px solid #212529;
+	width: 2.5em;
+	height: 2.5em;
+	padding: 0.25em;
+	color: white;
+}
+.home-button:hover {
+	border: 1px solid white;
+	border-radius: 100%;
+	padding: 0.25em;
+	color: #212529;
+	background-color: white;
+}
+.sheet-button {
+	border: 1px solid #212529;
+	border-radius: 0.375em;
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+}
+.sheet-button:hover {
+	border: 1px solid white;
+	border-radius: 0.375em;
+}
+.character-menu {
+	margin-right: 0.25em;
+}
+.character-menu:hover {
+	background-color: #30363b;
+	border-radius: 0.375em;
+}
 /* Misc Bar */
 
 .miscbar-col {

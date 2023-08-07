@@ -32,7 +32,7 @@ export const Attributes = () => {
 			</thead>
 			<tbody>
 			{charAttributes.map((charAttribute) => (
-				<Attribute key={charAttribute.id} attribute={charAttribute} skills={skills.filter((skill) => {return skill.supSkill === charAttribute.name})}/>
+				<Attribute key={charAttribute.id} id={charAttribute.id} attribute={charAttribute} skills={skills.filter((skill) => {return skill.supSkill === charAttribute.name})}/>
 			))}
 			</tbody>
 		</Table>

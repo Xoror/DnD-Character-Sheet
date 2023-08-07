@@ -12,6 +12,8 @@ import Modal from 'react-bootstrap/Modal';
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 import Form from 'react-bootstrap/Form';
+
+import { MdHome} from "react-icons/md";
 import { VscChromeMinimize, VscChromeMaximize, VscChromeClose } from "react-icons/vsc";
 
 import useAutosave from "../../components/autoSaveHook"
@@ -28,6 +30,7 @@ import { importConditions } from '../conditions/ConditionsSlice';
 import { importCharacterNames, addCharacterToDatabase, 
 	importCharacter, changeCharacterIndDB, importNavBar } from './NavBarSlice';
 import { importSettings } from '../settings/SettingsSlice';
+import { useLocation } from 'react-router-dom';
 
 let _ = require('lodash')
 
@@ -63,9 +66,11 @@ export const NavBar = () => {
 	const [tempSave, setTempSave] = useState([])
 	const [showAutoSave, setShowAutoSave] = useState(false)
 
+	const location = useLocation()
+
 	useEffect(() => {
 		if( desktop ) {
-			if( !(navBarSlice.currentlyEditing.id === 0) ) {
+			if( (navBarSlice.currentlyEditing.id != 0) ) {
 				//let compareState = (importCharacterReadOnly([navBarSlice.currentlyEditing.id, navBarSlice.currentlyEditing.name]))
 				let compareState = navBarSlice.compareState
 				let statesSame = _.isEqual(currentState, compareState)
@@ -210,11 +215,14 @@ export const NavBar = () => {
 				</> : null }
 			<Navbar style={{backgroundColor:"#212529", padding:"0"}} variant="dark" className="titlebar">
 			<Container fluid className="draggable" style={{alignItems:"normal", justifyContent:"normal"}}>
-				<Navbar.Brand href="/">
+				<a tabIndex="0" className="home-button not-draggable" id="home-button" href="/" aria-label="home button that leads to landing page">
+					<MdHome size="2em" style={{position: "relative", right: "1px", bottom: "1px"}}/>
+				</a>	
+				<Navbar.Brand id="character-sheet-link" href="/sheet" className="sheet-button not-draggable" aria-label="link that leads to the sheet">
 					{document.title}
 				</Navbar.Brand>
-				{desktop ? <Nav className="not-draggable">
-					<NavDropdown id="character-choice-menu" title="Menu" menuVariant="dark" onClick={getCharacterNames}>
+				{desktop && location.pathname === "/sheet" ? <Nav className="not-draggable">
+					<NavDropdown className="character-menu" id="character-choice-menu" title="Menu" menuVariant="dark" onClick={getCharacterNames}>
 						<NavDropdown.Item onClick={(event) => handleNavDropdownClick(event, "new", "new")}>New</NavDropdown.Item>
 						<NavDropdown.Item onClick={(event) => handleSave(event)}>Save</NavDropdown.Item>
 						<NavDropdown.Item onClick={(event) => (setModalType("save-as"), setShowSafetyBox(true))}>Save As</NavDropdown.Item>
@@ -247,14 +255,16 @@ export const NavBar = () => {
 						<div onClick={() => window.api.buttonInteraction("max")} className="button2 maximize"><VscChromeMaximize size="2em" color="white"/></div>
 						<div onClick={() => window.api.buttonInteraction("close")} className="button2 close"><VscChromeClose size="2em" color="white"/></div>
 					</div> :
-					<div className="controls" style={{marginLeft:"auto"}}>
-						<label  htmlFor="file-upload" className="btn btn-outline-success" style={{padding:"0.25em 0.375em 0.25em 0.375em", marginRight:"0.5em"}}>
-							Import from file
-						</label>
-						<input className="custom-upload" id="file-upload" type="file" onChange={(e)=>readFileOnUpload(e.target.files[0], dispatch)}></input>
-						<button className="btn btn-outline-success" style={{padding:"0.25em 0.375em 0.25em 0.375em"}} type="submit" onClick={(event) => exportToJson(event, charName, currentState)}>Export to file</button>
-					</div>
-					}
+					(location.pathname === "/sheet" ?
+						<div className="controls" style={{marginLeft:"auto"}}>
+							<label  htmlFor="file-upload" className="btn btn-outline-success" style={{padding:"0.25em 0.375em 0.25em 0.375em", marginRight:"0.5em"}}>
+								Import from file
+							</label>
+							<input className="custom-upload" id="file-upload" type="file" onChange={(e)=>readFileOnUpload(e.target.files[0], dispatch)}></input>
+							<button className="btn btn-outline-success" style={{padding:"0.25em 0.375em 0.25em 0.375em"}} type="submit" onClick={(event) => exportToJson(event, charName, currentState)}>Export to file</button>
+						</div> : null
+					)
+				}
 			</Container>
 			</Navbar>
 		</>
@@ -333,6 +343,7 @@ const initialState = {
 	"actions": {
 		"actions": [
 			{
+				"id": "FNFfZHK2dshHVa3C9dxgq",
 				"name": "Unarmed Attack",
 				"range": "Melee",
 				"damage": 1,
@@ -344,6 +355,7 @@ const initialState = {
 			}
 		],
 		"spells": [],
+		"spellListImportStatues": "idle",
 		"sortedSpellList": [],
 		"highestSpellSlot": "1st",
 		"spellListAPI": []
@@ -415,223 +427,271 @@ const initialState = {
 		"jackOfAllTrades": false,
 		"skills": [
 			{
-				"id": "StrenghtSave",
+				"id": "bzujDZVL9ZaaU35K_-eru",
 				"name": "Strength Saving Throw",
 				"shortName": "Saving Throw",
 				"supSkill": "Strength",
 				"bonus": 0,
 				"proficient": false,
-				"expertise": false
+				"expertise": false,
+				"advantage": false,
+				"disadvantage": false
 			},
 			{
-				"id": "Athletics",
+				"id": "cBn6WJcupF5s-TBa1r3dv",
 				"name": "Athletics",
 				"shortName": "Athletic",
 				"supSkill": "Strength",
 				"bonus": 0,
 				"proficient": false,
-				"expertise": false
+				"expertise": false,
+				"advantage": false,
+				"disadvantage": false
 			},
 			{
-				"id": "DexteritySave",
+				"id": "NJvgYNdChBVAhyo-2vTmD",
 				"name": "Dexterity Saving Throw",
 				"shortName": "Saving Throw",
 				"supSkill": "Dexterity",
 				"bonus": 0,
 				"proficient": false,
-				"expertise": false
+				"expertise": false,
+				"advantage": false,
+				"disadvantage": false
 			},
 			{
-				"id": "Acrobatics",
+				"id": "N_Gtq-tuLnbTOG8kRyMPy",
 				"name": "Acrobatics",
 				"shortName": "Acrobatics",
 				"supSkill": "Dexterity",
 				"bonus": 0,
 				"proficient": false,
-				"expertise": false
+				"expertise": false,
+				"advantage": false,
+				"disadvantage": false
 			},
 			{
-				"id": "SlightOfHand",
+				"id": "2GQyDSky1o6h-e3nKrzmF",
 				"name": "Slight of Hand",
 				"shortName": "Slight of Hand",
 				"supSkill": "Dexterity",
 				"bonus": 0,
 				"proficient": false,
-				"expertise": false
+				"expertise": false,
+				"advantage": false,
+				"disadvantage": false
 			},
 			{
-				"id": "Stealth",
+				"id": "pBop8n8cpMGC_ghMAGWrX",
 				"name": "Stealth",
 				"shortName": "Stealth",
 				"supSkill": "Dexterity",
 				"bonus": 0,
 				"proficient": false,
-				"expertise": false
+				"expertise": false,
+				"advantage": false,
+				"disadvantage": false
 			},
 			{
-				"id": "ConstitutionSave",
+				"id": "Ys5gswel9dZ55IBDwbeBd",
 				"name": "Constitution Saving Throw",
 				"shortName": "Saving Throw",
 				"supSkill": "Constitution",
 				"bonus": 0,
 				"proficient": false,
-				"expertise": false
+				"expertise": false,
+				"advantage": false,
+				"disadvantage": false
 			},
 			{
-				"id": "IntelligenceSave",
+				"id": "bNrbnawHfI-sMLol3jR3N",
 				"name": "Intelligence Saving Throw",
 				"shortName": "Saving Throw",
 				"supSkill": "Intelligence",
 				"bonus": 0,
 				"proficient": false,
-				"expertise": false
+				"expertise": false,
+				"advantage": false,
+				"disadvantage": false
 			},
 			{
-				"id": "Arcana",
+				"id": "QSP5eQHAt1Ta1zf9nP-f7",
 				"name": "Arcana",
 				"shortName": "Arcana",
 				"supSkill": "Intelligence",
 				"bonus": 0,
 				"proficient": false,
-				"expertise": false
+				"expertise": false,
+				"advantage": false,
+				"disadvantage": false
 			},
 			{
-				"id": "History",
+				"id": "T6h0hrH3MusQpfbu9aEzj",
 				"name": "History",
 				"shortName": "History",
 				"supSkill": "Intelligence",
 				"bonus": 0,
 				"proficient": false,
-				"expertise": false
+				"expertise": false,
+				"advantage": false,
+				"disadvantage": false
 			},
 			{
-				"id": "Investigation",
+				"id": "6oIW8D9NK-3JIZFWF484w",
 				"name": "Investigation",
 				"shortName": "Investigation",
 				"supSkill": "Intelligence",
 				"bonus": 0,
 				"proficient": false,
-				"expertise": false
+				"expertise": false,
+				"advantage": false,
+				"disadvantage": false
 			},
 			{
-				"id": "Nature",
+				"id": "NfWRRFiFBScSUHme486X-",
 				"name": "Nature",
 				"shortName": "Nature",
 				"supSkill": "Intelligence",
 				"bonus": 0,
 				"proficient": false,
-				"expertise": false
+				"expertise": false,
+				"advantage": false,
+				"disadvantage": false
 			},
 			{
-				"id": "Religion",
+				"id": "r99jqaxb0tvR4wS5SVWpZ",
 				"name": "Religion",
 				"shortName": "Religion",
 				"supSkill": "Intelligence",
 				"bonus": 0,
 				"proficient": false,
-				"expertise": false
+				"expertise": false,
+				"advantage": false,
+				"disadvantage": false
 			},
 			{
-				"id": "WisdomSave",
+				"id": "P_fd9BCftsPSmGcqak4J8",
 				"name": "Wisdom Saving Throw",
 				"shortName": "Saving Throw",
 				"supSkill": "Wisdom",
 				"bonus": 0,
 				"proficient": false,
-				"expertise": false
+				"expertise": false,
+				"advantage": false,
+				"disadvantage": false
 			},
 			{
-				"id": "AnimalHandling",
+				"id": "4xmcMCmpVB_yWz4L_7XRL",
 				"name": "Animal Handling",
 				"shortName": "Animal Handling",
 				"supSkill": "Wisdom",
 				"bonus": 0,
 				"proficient": false,
-				"expertise": false
+				"expertise": false,
+				"advantage": false,
+				"disadvantage": false
 			},
 			{
-				"id": "Insight",
+				"id": "-hBRJsovkVst2_8h6vCwO",
 				"name": "Insight",
 				"shortName": "Insight",
 				"supSkill": "Wisdom",
 				"bonus": 0,
 				"proficient": false,
-				"expertise": false
+				"expertise": false,
+				"advantage": false,
+				"disadvantage": false
 			},
 			{
-				"id": "Medicine",
+				"id": "Nt61nubGlRregyWeNKHgx",
 				"name": "Medicine",
 				"shortName": "Medicine",
 				"supSkill": "Wisdom",
 				"bonus": 0,
 				"proficient": false,
-				"expertise": false
+				"expertise": false,
+				"advantage": false,
+				"disadvantage": false
 			},
 			{
-				"id": "Perception",
+				"id": "BiE768YPd2aEnD8ypZ87N",
 				"name": "Perception",
 				"shortName": "Perception",
 				"supSkill": "Wisdom",
 				"bonus": 0,
 				"proficient": false,
-				"expertise": false
+				"expertise": false,
+				"advantage": false,
+				"disadvantage": false
 			},
 			{
-				"id": "Survival",
+				"id": "0-APfWJD2P_XwKP_WLZ7w",
 				"name": "Survival",
 				"shortName": "Survival",
 				"supSkill": "Wisdom",
 				"bonus": 0,
 				"proficient": false,
-				"expertise": false
+				"expertise": false,
+				"advantage": false,
+				"disadvantage": false
 			},
 			{
-				"id": "CharismaSave",
+				"id": "4Es_K8h5BTRrruhNu2AqU",
 				"name": "Charisma Saving Throw",
 				"shortName": "Saving Throw",
 				"supSkill": "Charisma",
 				"bonus": 0,
 				"proficient": false,
-				"expertise": false
+				"expertise": false,
+				"advantage": false,
+				"disadvantage": false
 			},
 			{
-				"id": "Deception",
+				"id": "Rn8pUVUeid5yGUvGz4wDV",
 				"name": "Deception",
 				"shortName": "Deception",
 				"supSkill": "Charisma",
 				"bonus": 0,
 				"proficient": false,
-				"expertise": false
+				"expertise": false,
+				"advantage": false,
+				"disadvantage": false
 			},
 			{
-				"id": "Intimidation",
+				"id": "eR8gNlpLwJxWd2tF3oJ42",
 				"name": "Intimidation",
 				"shortName": "Intimidation",
 				"supSkill": "Charisma",
 				"bonus": 0,
 				"proficient": false,
-				"expertise": false
+				"expertise": false,
+				"advantage": false,
+				"disadvantage": false
 			},
 			{
-				"id": "Performance",
+				"id": "1Miu62apbAxcLpXtA1jBn",
 				"name": "Performance",
 				"shortName": "Performance",
 				"supSkill": "Charisma",
 				"bonus": 0,
 				"proficient": false,
-				"expertise": false
+				"expertise": false,
+				"advantage": false,
+				"disadvantage": false
 			},
 			{
-				"id": "Persuasion",
+				"id": "Ef1E2gA8T8WlsajETqFI5",
 				"name": "Persuasion",
 				"shortName": "Persuasion",
 				"supSkill": "Charisma",
 				"bonus": 0,
 				"proficient": false,
-				"expertise": false
+				"expertise": false,
+				"advantage": false,
+				"disadvantage": false
 			},
 			{
-				"id": "SimpleWeapons",
+				"id": "4adeMgBioQ8YpYxAutvXe",
 				"name": "Simple Weapons",
 				"shortName": "Simple Weapons",
 				"supSkill": "Weapon",
@@ -640,7 +700,7 @@ const initialState = {
 				"expertise": false
 			},
 			{
-				"id": "MartialWeapons",
+				"id": "jJPAfXeVHBz18x6cLOG1V",
 				"name": "Martial Weapons",
 				"shortName": "Martial Weapons",
 				"supSkill": "Weapon",
@@ -649,7 +709,7 @@ const initialState = {
 				"expertise": false
 			},
 			{
-				"id": "Shield",
+				"id": "Q3knEF--OH3V4pS6NjNiX",
 				"name": "Shield",
 				"shortName": "Shield",
 				"supSkill": "Weapon",
@@ -658,7 +718,7 @@ const initialState = {
 				"expertise": false
 			},
 			{
-				"id": "LightArmor",
+				"id": "A9FJ7bG6sTuhWpMJ0t3Ju",
 				"name": "Light Armor",
 				"shortName": "Light Armor",
 				"supSkill": "Armor",
@@ -667,7 +727,7 @@ const initialState = {
 				"expertise": false
 			},
 			{
-				"id": "MediumArmor",
+				"id": "qLGY0MThjliisi_UIqN3i",
 				"name": "Medium Armor",
 				"shortName": "Medium Armor",
 				"supSkill": "Armor",
@@ -676,7 +736,7 @@ const initialState = {
 				"expertise": false
 			},
 			{
-				"id": "HeavyArmor",
+				"id": "bCOviZhfqQGrKaufiiliN",
 				"name": "Heavy Armor",
 				"shortName": "Heavy Armor",
 				"supSkill": "Armor",
@@ -687,19 +747,19 @@ const initialState = {
 		],
 		"proficienciesTypes": [
 			{
-				"value": "Weapon",
+				"value": "weapon",
 				"label": "Weapon"
 			},
 			{
-				"value": "Armor",
+				"value": "armor",
 				"label": "Armor"
 			},
 			{
-				"value": "Tool",
+				"value": "tool",
 				"label": "Tool"
 			},
 			{
-				"value": "Instrument",
+				"value": "instrument",
 				"label": "Instrument"
 			}
 		],
@@ -730,15 +790,43 @@ const initialState = {
 		}
 	},
 	"inventory": {
-		"inventory": [],
+		"inventory": [
+			{
+				"filtered": true,
+				"id": "DmoeW03tijUylgbKnSAix",
+				"name": "Test",
+				"container": "equipment",
+				"category": "Weapon",
+				"qty": 1,
+				"worth": 2,
+				"weight": 3,
+				"isEquipped": false,
+				"rarity": "Common",
+				"attunable": false,
+				"attuned": false,
+				"attuneRequirement": "requires attunment by a druid",
+				"description": [
+					"This is a test, a meddle of strength"
+				]
+			}
+		],
+		"containers": [
+			{
+				"id": "equipment",
+				"value": "equipment",
+				"label": "Equipment",
+				"weight": 0
+			}
+		],
 		"weight": 0,
 		"currency": {
 			"platinum": 0,
-			"electrum": 0,
 			"gold": 0,
+			"electrum": 0,
 			"silver": 0,
 			"copper": 0
-		}
+		},
+		"startingItems": {}
 	},
 	"miscAttributes": {
 		"speed": {
@@ -930,14 +1018,27 @@ const initialState = {
 		}
 	},
 	"navBar": {
-		"characters": {"names": [""], "id": [""], "status": "idle"},
+		"characters": {
+			"names": [
+				""
+			],
+			"id": [
+				""
+			],
+			"status": "idle"
+		},
 		"importFromDbStatus": "idle",
 		"addCharactertoDBStatus": "idle",
 		"changeCharacterInDBStatus": "idle",
-		"currentlyEditing": {"id": 0, "name": "None"},
+		"currentlyEditing": {
+			"id": 0,
+			"name": "None"
+		},
 		"lastSaved": "Never",
-		"compareState": {},
+		"compareState": {}
+	},
+	"settings": {
 		"autoSaveTimer": 15,
-		"desktop": true,
+		"desktop": false
 	}
 }

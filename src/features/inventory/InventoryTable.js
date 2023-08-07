@@ -15,6 +15,19 @@ import { ItemCard } from '../../components/ItemCard';
 
 export const InventoryTable = (props) => {
     const dispatch = useDispatch()
+
+	const handleKeyUp = (event, body) => {
+		if(event.code === "Space" || event.code === "Enter") {
+			event.preventDefault()
+			if(event.target.id === "edit-button") {
+				startEdit(event, body)
+			}
+			else {
+				handleDelete(event, body)
+			}
+		}
+	}
+
 	const [currentItem, setCurrentItem] = useState(
 		{
 			filtered:true, 
@@ -158,11 +171,11 @@ export const InventoryTable = (props) => {
 	}
 	
 	const handleDelete = (event, id) => {
-		event.stopPropagation()
+		//event.stopPropagation()
 		dispatch(deleteItem(id))
 	}
 	const startEdit = (event, body) => {
-		event.stopPropagation()
+		//event.stopPropagation()
 		props.setDefaultValues(body)
 		props.setOldData(body)
 		props.changeEditing(true)
@@ -173,7 +186,7 @@ export const InventoryTable = (props) => {
 		dispatch(equipItem(id, checked))
 	}
 
-	let place = "left"
+	let place = "right"
 	let cardID = props.cardID
 	const [showPopover, setShowPopover] = useState([false,cardID])
 	useEffect(() => {
@@ -334,7 +347,7 @@ export const InventoryTable = (props) => {
 							}
 							{offCanvas ?
 								<td>
-									<ButtonGroup style={{float:"right", minWidth:"110px",zIndex:"5"}} aria-label="Basic example">
+									<ButtonGroup style={{float:"right", minWidth:"110px",zIndex:"5"}} aria-label="adjust quantity of items to add">
 										<Button style={{padding:"0 0.25em 0 0.25em", border:"1px solid black"}} variant="danger" onClick={event => handleCounter(event, "dec")}>-</Button>
 										<Button style={{padding:"0 0.25em 0 0.25em", border:"1px solid black"}} variant="dark" onClick={event => handleCounter(event, body.id)}>Add {addItemCounter}</Button>
 										<Button style={{padding:"0 0.25em 0 0.25em", border:"1px solid black"}} variant="success" onClick={event => handleCounter(event, "inc")}>+</Button>
@@ -346,8 +359,8 @@ export const InventoryTable = (props) => {
 									<td> {body.qty*parseFloat(body.worth)} </td>
 									<td style={{ alignItems:"center", zIndex:"2", minWidth:"60px" }}>
 										<div style={{float:"right", marginTop:"2.5px"}}>
-											<RiFileEditFill type="button" color="black" size="23" id="edit-button" onClick={(event) => startEdit(event, body)} className="edit-button" /> 
-											<AiFillCloseSquare type="button" color="#dc3545" size="23" id="delete-button" onClick={(event) => handleDelete(event, body.id)} className="edit-button" style={{backgroundColor:"white", padding:"0px"}}/>
+											<RiFileEditFill tabIndex="0" type="button" size="23" id="edit-button" onClick={(event) => startEdit(event, body)} onKeyUp={(event) => handleKeyUp(event, body)} className="edit-button" /> 
+											<AiFillCloseSquare tabIndex="0" type="button" size="23" id="delete-button" onClick={(event) => handleDelete(event, body.id)} onKeyUp={(event) => handleKeyUp(event, body.id)} className="delete-button" />
 										</div>
 									</td>
 								</>
