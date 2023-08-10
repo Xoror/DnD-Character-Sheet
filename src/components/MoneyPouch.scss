@@ -1,0 +1,66 @@
+:focus-visible {
+    /*border: 2px solid #0d6efd;*/
+    box-shadow: 0 0 0 3px white;
+    outline: 2px solid #0d6efd;
+}
+
+.end {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0.375em;
+    border-bottom-right-radius: 0.375em;
+}
+.end-edit-submit {
+    border-top-right-radius: 0.375em;
+}
+.end-edit-cancel {
+    border-bottom-right-radius: 0.375;
+}
+.middle {
+    border-radius: 0;
+}
+.start {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.display-button {
+    margin-top: 0;
+    padding: 0 0.5em 0 0.5em;
+    border: 1px solid black;
+    color: black;
+}
+.money-edit-button {
+    margin-top: 0;
+    padding: 0 0.5em 0 0.5em;
+    border: 1px solid black;
+    color: black;
+}
+.submit-button {
+    padding: 0 0.25em 0 0.25em;
+    border: 1px solid black;
+    border-bottom: none;
+    width: 100%;
+    height: 100%;
+    background-color: #198754;
+    &:hover {
+        color: white;
+        border-color: white;
+    }
+}
+.cancel-button {
+    padding: 0 0.25em 0 0.25em;
+    border: 1px solid black;
+    border-top: none;
+    width: 100%;
+    height: 100%;
+    background-color: #dc3545;
+    &:hover {
+        color: white;
+        border-color: white;
+    }
+}
+.edit-input {
+    height: 1.75em;
+    border: 1px solid black;
+    width: 5em;
+}

@@ -10,6 +10,16 @@
 	--delete-primary-color: #dc3545;
 	--delete-secondary-color: white;
 	--delete-border-color: black;
+	--focus-outline: #0d6efd;
+	--focus-box-shadow: white;
+	--table-hover: #555a5f;
+	--nav-color: #212529;
+	--nav-hover-border: white;
+}
+:focus-visible {
+	/*border: 2px solid #0d6efd;*/
+	box-shadow: 0 0 0 3px var(--focus-box-shadow);
+	outline: 2px solid var(--focus-outline);
 }
 
 body {
@@ -23,7 +33,7 @@ body {
 /*Character Details*/
 @media (min-width: 992px) {
 	.left-box {
-	  background-color: #6c757d;
+	  background-color: var(--main-element-color);
 	  display: flex;
 	  justify-content: right;
 	  align-items: center;
@@ -34,7 +44,7 @@ body {
 	  border-bottom: 1px solid black;
 	}
 	.middle-box {
-	  background-color: #5c636a;
+	  background-color: var(--secondary-element-color);
 	  display: flex;
 	  justify-content: center;
 	  align-items: center;
@@ -42,7 +52,7 @@ body {
 	  border: 1px solid black;
 	}
 	.right-box {
-	  background-color: #6c757d;
+	  background-color: var(--main-element-color);
 	  display: flex;
 	  justify-content: left;
 	  align-items: center;
@@ -56,7 +66,7 @@ body {
   }
   @media (max-width: 991px) {
 	.left-box {
-	  background-color: #6c757d;
+	  background-color: var(--main-element-color);
 	  display: flex;
 	  justify-content: right;
 	  align-items: center;
@@ -64,7 +74,7 @@ body {
 	  border: 1px solid black;
 	}
 	.middle-box {
-	  background-color: #5c636a;
+	  background-color: var(--secondary-element-color);
 	  display: flex;
 	  justify-content: center;
 	  align-items: center;
@@ -73,7 +83,7 @@ body {
 	  border: 1px solid black;
 	}
 	.right-box {
-	  background-color: #6c757d;
+	  background-color: var(--main-element-color);
 	  display: flex;
 	  justify-content: left;
 	  align-items: center;
@@ -265,43 +275,49 @@ body {
 	cursor: pointer;
 	margin-top: 0.25em;
 }
-.checkbox-wrapper input[id="Expertise"] {
+.checkbox-wrapper [id="Expertise"] {
 	margin-right: 0.25em;
 }
-.checkbox-wrapper input:focus-visible {
-	box-shadow: 0 0 0 3px white;
-	outline: 2px solid #0d6efd;
-	position: relative;
+.checkbox-wrapper input {
+	&:focus-visible {
+		box-shadow: 0 0 0 3px var(--focus-box-shadow);
+		outline: 2px solid var(--focus-outline);
+		position: relative;
+	}
+	&:checked {
+		background-color: var(--tertiary-element-color);
+		position: relative;
+	}
+	&:hover {
+		background-color: var(--secondary-element-color);
+		position: relative;
+	}
 }
-.checkbox-wrapper input:checked {
-	background-color: var(--tertiary-element-color);
-	position: relative;
+.checkbox-wrapper input[id="advantage"] {
+	&:checked {
+		background-color: var(--edit-primary-color);
+	}
+	&:checked::before {
+		content: "A";
+		font-size: 0.8em;
+		color: var(--text-color);
+		position: absolute;
+		left: 0.25em;
+		top: -0.15em;
+	}
 }
-.checkbox-wrapper input:hover {
-	background-color: var(--secondary-element-color);
-	position: relative;
-}
-.checkbox-wrapper input[id="1"]:checked {
-	background-color: #198754;
-}
-.checkbox-wrapper input[id="2"]:checked {
-	background-color: #dc3545;
-}
-.checkbox-wrapper input[id="1"]:checked::before {
-	content: "A";
-	font-size: 0.8em;
-	color: var(--text-color);
-	position: absolute;
-	left: 0.25em;
-	top: -0.15em;
-}
-.checkbox-wrapper input[id="2"]:checked::before {
-	content: "D";
-	font-size: 0.8em;
-	color: var(--text-color);
-	position: absolute;
-	left: 0.25em;
-	top: -0.15em;
+.checkbox-wrapper input[id="disadvantage"] {
+	&:checked {
+		background-color: var(--delete-primary-color);
+	}
+	&:checked::before {
+		content: "D";
+		font-size: 0.8em;
+		color: var(--text-color);
+		position: absolute;
+		left: 0.25em;
+		top: -0.15em;
+	}
 }
 
 .checkbox-wrapper input[id="Proficiency"]:checked::before {
@@ -325,7 +341,7 @@ body {
 .letter-k input[type="checkbox"]:checked::before {
 	content: "K";
 	font-size: 0.8em;
-	color: #ffffff;
+	color: var(--text-color);
 	position: absolute;
 	right: 0.25em;
 	top: -0.15em;
@@ -375,18 +391,17 @@ body {
 	color: var(--edit-secondary-color);
 
 	z-index: 3;
+	&:hover {
+		border: solid 1px var(--edit-secondary-color);
+		background-color: var(--edit-secondary-color);
+		color: var(--edit-primary-color);
+	}
+	&:focus-visible{
+		box-shadow: 0 0 0 3px black;
+		outline: 2px solid white;
+	}
 }
-.edit-button:hover {
-	border: solid 1px var(--edit-secondary-color);
-	background-color: var(--edit-secondary-color);
-	color: var(--edit-primary-color);
-}
-.edit-button:focus-visible {
-	outline: none;
-	border: solid 1px var(--edit-secondary-color);
-	background-color: var(--edit-secondary-color);
-	color: var(--edit-primary-color);
-}
+
 .delete-button {
 	padding: 0;
 	border-radius: 4px;
@@ -397,17 +412,17 @@ body {
 	color: var(--delete-primary-color);
 
 	z-index: 3;
-}
-.delete-button:hover {
-	border: solid 1px var(--delete-border-color);
-	background-color: var(--delete-primary-color);
-	color: var(--delete-secondary-color);
-}
-.delete-button:focus-visible {
-	outline: none;
-	border: solid 1px var(--delete-border-color);
-	background-color: var(--delete-primary-color);
-	color: var(--delete-secondary-color);
+	&:hover {
+		border: solid 1px var(--delete-border-color);
+		background-color: var(--delete-primary-color);
+		color: var(--delete-secondary-color);
+	}
+	&:focus-visible {
+		background-color: var(--bs-danger);
+		color: white;
+		box-shadow: 0 0 0 3px black;
+		outline: 2px solid white;
+	}
 }
 
 .fancy-border {
@@ -426,7 +441,7 @@ body {
 /* table styling */
 .action-table:hover {
 	cursor: pointer;
-	background-color: #555a5f;
+	background-color: var(--table-hover);
 }
 
 /* popover testing */
@@ -479,52 +494,73 @@ body {
     user-select: none;
 }
 
-.button2 {
+.button {
     display: inline-block;
-    cursor: pointer;
+	border: 1px solid var(--nav-color);
+	border-radius: 0.375em;
+    width: 2.5em;
+	height: 2.5em;
+	padding: 0.25em;
+	color: var(--nav-hover-border);
 }
 
-.button2.close { margin: 0 0 0 0.25em; }
-.button2.minimize { margin: 0 0.25em; }
-.button2.maximize { margin: 0 0.25em; }
-
-.button2.close:hover { background: #dc3545;}
-.button2.minimize:hover { background: #30363b; color: "#212529";} 
-.button2.maximize:hover { background: #30363b; color: "#212529";}
+.button.close { 
+	margin: 0 0 0 0.25em;
+	&:hover { 
+		background: var(--bs-danger); 
+		border: 1px solid var(--nav-hover-border);
+	}
+}
+.button.minimize { 
+	margin: 0 0.25em;
+	&:hover { 
+		border: 1px solid var(--nav-hover-border);
+	}
+}
+.button.maximize { 
+	margin: 0 0.25em;
+	&:hover { 
+		border: 1px solid var(--nav-hover-border);
+	}
+}
 
 .home-button {
-	border: 1px solid #212529;
+	border: 1px solid var(--nav-color);
+	border-radius: 100%;
 	width: 2.5em;
 	height: 2.5em;
 	padding: 0.25em;
-	color: white;
+	color: var(--nav-hover-border);
+	&:hover {
+		border: 1px solid var(--nav-hover-border);
+		border-radius: 100%;
+		padding: 0.25em;
+		color: var(--nav-color);
+		background-color: var(--nav-hover-border);
+	}
 }
-.home-button:hover {
-	border: 1px solid white;
-	border-radius: 100%;
-	padding: 0.25em;
-	color: #212529;
-	background-color: white;
-}
+
 .sheet-button {
-	border: 1px solid #212529;
+	border: 1px solid var(--nav-color);
 	border-radius: 0.375em;
 	margin-left: 0.5em;
 	margin-right: 0.5em;
 	padding-left: 0.5em;
 	padding-right: 0.5em;
+	&:hover {
+		border: 1px solid var(--nav-hover-border);
+		border-radius: 0.375em;
+	}
 }
-.sheet-button:hover {
-	border: 1px solid white;
-	border-radius: 0.375em;
-}
+
 .character-menu {
 	margin-right: 0.25em;
+	&:hover {
+		background-color: #30363b;
+		border-radius: 0.375em;
+	}
 }
-.character-menu:hover {
-	background-color: #30363b;
-	border-radius: 0.375em;
-}
+
 /* Misc Bar */
 
 .miscbar-col {
@@ -559,4 +595,42 @@ body {
 }
 .bottom-right-group {
 	border-top-right-radius: 0;
+}
+
+/* Footer */
+.footer {
+	text-align: center;
+	background-color: var(--nav-color)
+}
+.link-button {
+	display: inline-block;
+	background-color: var(--nav-color);
+	border-radius: 100%;
+	width: 3.5em;
+	height: 3.5em;
+	color: var(--nav-hover-border);
+	padding: 0em;
+	&:hover {
+		color: var(--nav-color);
+		background-color: var(--nav-hover-border);
+		padding: 0em;
+	}
+}
+
+/* Landing Page */
+.landing-page-card {
+	background-color: var(--main-element-color);
+	margin-bottom: 0.5em;
+	max-height: 25em;
+}
+.reload-button {
+	padding: 0.25em;
+	border: 1px solid var(--secondary-element-color);
+	border-radius: 100%;
+	color: var(--text-color);
+	background-color: var(--secondary-element-color);
+	float: right;
+	&:hover {
+		border: 1px solid var(--text-color);
+	}
 }

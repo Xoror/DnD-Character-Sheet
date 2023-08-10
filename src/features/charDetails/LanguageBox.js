@@ -10,6 +10,7 @@ import { FilterBox } from '../../components/FilterBox';
 export const LanguageBox = (props) => {
     const dispatch = useDispatch()
     const languages = useSelector(state => state.charDetails.languages)
+    const languagesHas = useSelector(state => state.charDetails.languages)
 
     const handleCreate = (event, id) => {
         event.preventDefault()
@@ -21,7 +22,7 @@ export const LanguageBox = (props) => {
     }
     return(
         <Col className="miscbar-col" style={{borderRight:"1px solid black"}}>
-            <FilterBox show={props.show} header="Languages" data={languages} test="knows" handleDelete={handleDelete} handleCreate={handleCreate} creatable="true"/>
+            <FilterBox show={props.show} header="Languages" data={languages} handleDelete={handleDelete} handleCreate={handleCreate} creatable="true"/>
         </Col>
     )
 }

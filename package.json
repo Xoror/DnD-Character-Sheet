@@ -8,6 +8,7 @@
   "private": true,
   "dependencies": {
     "react-router-dom": "^6.14.2",
+    "sass": "^1.64.2",
     "sqlite3": "^5.1.6"
   },
   "scripts": {

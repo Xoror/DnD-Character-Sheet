@@ -11,8 +11,10 @@ export const ConditionsBox = (props) => {
     const dispatch = useDispatch()
     const [defaultSelectValue, setDefaultSelectValue] = useState("")
     const conditions = useSelector(state => state.conditions.conditions)
+    const conditionsHas = useSelector(state => state.conditions.conditionsHas) 
     const exhaustion = useSelector(state => state.conditions.exhaustion)
     let colors=["#198754", "#6a9b39", "#aead22", "#ffc107", "#f3901d", "#e8662f", "#DC3545"]
+    const show = props.show
 
     const handleChange = (type) => {
         dispatch(changeExhaustion(type))
@@ -22,21 +24,21 @@ export const ConditionsBox = (props) => {
         dispatch(addCondition(event.target.value))
         setDefaultSelectValue("")
     }
-    const handleDelete = (event, index, type) => {
-        dispatch(removeCondition(index))
+    const handleDelete = (event, item, type) => {
+        dispatch(removeCondition(item.id))
     }
     
     const filterComponent = useMemo(() => {
         return (
-            <FilterBox show={props.show} header="Conditions" data={conditions} test="has" handleAdd={handleAdd} handleDelete={handleDelete} defaultSelectValue={defaultSelectValue}/>
+            <FilterBox show={show} header="Conditions" data={conditionsHas} choices={conditions} selectable={true} handleAdd={handleAdd} handleDelete={handleDelete} defaultSelectValue={defaultSelectValue}/>
         )
-    }, [conditions, defaultSelectValue])
+    }, [conditionsHas, defaultSelectValue, show])
 
     const exhaustionComponent = useMemo(() => {
         return (
             <>
                 <div style={{display:"flex"}}> <span style={{paddingRight:"0.5em"}}>Exhaustion Level:  </span> <CounterBox colors={colors} handleChange={handleChange} number={exhaustion.level}/> </div>
-                {exhaustion.level != 0 && props.show ?
+                {exhaustion.level != 0 && show ?
                 <>
                     <ol style={{paddingLeft:"1.5em"}}>
                         {exhaustion.effects.map((effect, index) => (
@@ -46,7 +48,7 @@ export const ConditionsBox = (props) => {
                 </> : null}
             </>
         )
-    }, [exhaustion])
+    }, [exhaustion, show])
     
     return(
         <>

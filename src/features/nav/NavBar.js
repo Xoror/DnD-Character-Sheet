@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux"
 import { createAction } from '@reduxjs/toolkit';
 
+import { Outlet, Link } from "react-router-dom"
 
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav'
@@ -215,10 +216,10 @@ export const NavBar = () => {
 				</> : null }
 			<Navbar style={{backgroundColor:"#212529", padding:"0"}} variant="dark" className="titlebar">
 			<Container fluid className="draggable" style={{alignItems:"normal", justifyContent:"normal"}}>
-				<a tabIndex="0" className="home-button not-draggable" id="home-button" href="/" aria-label="home button that leads to landing page">
+				<Link to="/" tabIndex="0" className="home-button not-draggable" id="home-button" aria-label="home button that leads to landing page">
 					<MdHome size="2em" style={{position: "relative", right: "1px", bottom: "1px"}}/>
-				</a>	
-				<Navbar.Brand id="character-sheet-link" href="/sheet" className="sheet-button not-draggable" aria-label="link that leads to the sheet">
+				</Link>	
+				<Navbar.Brand id="character-sheet-link" as={Link} to="/sheet" className="sheet-button not-draggable" aria-label="link that leads to the sheet">
 					{document.title}
 				</Navbar.Brand>
 				{desktop && location.pathname === "/sheet" ? <Nav className="not-draggable">
@@ -251,9 +252,9 @@ export const NavBar = () => {
 				{ desktop ? 
 					<div className="controls" style={{marginLeft:"auto"}}>
 						{false ? <Button variant="link" onClick={handleSQL}>SQL get test</Button> : null}
-						<div onClick={() => window.api.buttonInteraction("min")} className="button2 minimize"><VscChromeMinimize size="2em" color="white"/></div>
-						<div onClick={() => window.api.buttonInteraction("max")} className="button2 maximize"><VscChromeMaximize size="2em" color="white"/></div>
-						<div onClick={() => window.api.buttonInteraction("close")} className="button2 close"><VscChromeClose size="2em" color="white"/></div>
+						<VscChromeMinimize tabIndex="0" type="button" onClick={() => window.api.buttonInteraction("min")} className="button minimize" size="2em"/>
+						<VscChromeMaximize tabIndex="0" type="button"  onClick={() => window.api.buttonInteraction("max")} className="button maximize" size="2em"/>
+						<VscChromeClose tabIndex="0" type="button" onClick={() => window.api.buttonInteraction("close")} className="button close" size="2em" />
 					</div> :
 					(location.pathname === "/sheet" ?
 						<div className="controls" style={{marginLeft:"auto"}}>
@@ -267,6 +268,7 @@ export const NavBar = () => {
 				}
 			</Container>
 			</Navbar>
+			<Outlet/>
 		</>
 	)
 }

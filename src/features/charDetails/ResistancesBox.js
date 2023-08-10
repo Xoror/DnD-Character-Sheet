@@ -19,8 +19,8 @@ export const ResistancesBox = () => {
         event.preventDefault()
         dispatch(changeDetails([event.target[0].value, id]))
     }
-    const handleDelete = (event, index, type) => {
-        dispatch(deleteResistances([type, index]))
+    const handleDelete = (event, item, type) => {
+        dispatch(deleteResistances([type, item]))
     }
     const [showDetails, setShowDetails] = useState(true)
 
@@ -33,7 +33,6 @@ export const ResistancesBox = () => {
                         <FilterBox
                             header="Resistances"
                             data={resistances}
-                            test="has"
                             handleDelete={handleDelete}
                             handleCreate={handleCreate}
                             defaultSelectValue=""
@@ -43,7 +42,6 @@ export const ResistancesBox = () => {
                         <FilterBox
                             header="Immunities"
                             data={immunities}
-                            test="has"
                             handleDelete={handleDelete}
                             handleCreate={handleCreate}
                             defaultSelectValue=""
@@ -53,7 +51,6 @@ export const ResistancesBox = () => {
                         <FilterBox
                             header="Vulnerabilities"
                             data={vulnerabilities}
-                            test="has"
                             handleDelete={handleDelete}
                             handleCreate={handleCreate}
                             defaultSelectValue=""

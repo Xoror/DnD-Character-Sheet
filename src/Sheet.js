@@ -3,10 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import version from '../package.json'
 
-import "./App.css"
-import "./features/styles.css"
-
-import { AiFillTwitterCircle, AiFillGithub } from "react-icons/ai"
+import { AiFillTwitterCircle, AiOutlineGithub } from "react-icons/ai"
 
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
@@ -64,14 +61,14 @@ export const Sheet = () => {
                 </Row>
             </Container>
 
-            <div style = {{textAlign:"center", color:"white", backgroundColor:"#212529"}}>
-                <Container className='p-4'>
+            <div className="footer">
+                <Container className='p-3'>
                     <section>
-                        <a target="_blank" rel="noreferrer" href="https://twitter.com/StargazerWorks">
-                            <AiFillTwitterCircle size="3.5em"/>
+                        <a tabIndex="0" className="link-button" style={{marginRight:"0.25em"}} target="_blank" rel="noreferrer" href="https://twitter.com/StargazerWorks">
+                            <AiFillTwitterCircle style={{position: "relative"}} size="3.5em"/>
                         </a>
-                        <a target="_blank" rel="noreferrer" href="https://github.com/Xoror/sheettest_redux">
-                            <AiFillGithub size="3.5em"/>
+                        <a tabIndex="0" className="link-button" style={{marginLeft:"0.25em"}} target="_blank" rel="noreferrer" href="https://github.com/Xoror/sheettest_redux">
+                            <AiOutlineGithub style={{position: "relative"}} size="3.5em"/>
                         </a>
                     </section>
 

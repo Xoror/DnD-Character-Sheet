@@ -1,15 +1,34 @@
 import React from 'react'
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {  createBrowserRouter, RouterProvider} from "react-router-dom";
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import "./App.css"
-import "./features/styles.css"
+import "./features/styles.scss"
 
 // Add code to import the components
 import { ScrollBar } from './features/scrollbar/ScrollBar'
 import { NavBar } from "./features/nav/NavBar"
 import { Sheet } from './Sheet'
+import { LandingPage } from './features/landingPage/LandingPage';
+
+const router = createBrowserRouter([
+	{
+		path: "/",
+		element: <NavBar />,
+	  //errorElement: <ErrorPage />,
+		children : [
+			{
+				path: "/",
+				element: <LandingPage />
+			},
+			{
+				path: "/sheet",
+				element: <Sheet />
+			}
+		]
+	},
+  ])
 
 
 const App = () => {
@@ -22,23 +41,10 @@ const App = () => {
 	return (
 		<>
 			<ScrollBar>
-				<BrowserRouter>
-					<NavBar/>
-					<Routes>
-						<Route path="/" element={<LandingPage />} />
-						<Route path="/sheet" element={<Sheet />} />
-					</Routes>
-				</BrowserRouter>
+				<RouterProvider router={router} loading={<NavBar/>}/>
 			</ScrollBar>
 		</>
     )
 }
 
 export default App
-
-
-const LandingPage = () => {
-	return (
-		<h2>Landing Page</h2>
-	)
-}

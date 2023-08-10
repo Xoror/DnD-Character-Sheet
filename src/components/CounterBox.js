@@ -1,6 +1,6 @@
 import React from "react";
 
-import "./CounterBox.css"
+import "./CounterBox.scss"
 /*
     Required inputs:
     - a function called "handleChange" that takes a string as an input, "inc" for the counter increase
@@ -14,14 +14,14 @@ import "./CounterBox.css"
     - a string called "optionalText" that can be used to label the counter number
 */
 export const CounterBox = (props) => {
-    const optionalText = props.optionalText != undefined ? props.optionalText : ""
+    const optionalText = props.optionalText !== undefined ? props.optionalText : ""
     return (
         <div style={{width:"fit-content", height:"fit-content", display:"flex", color:"black", flexWrap:"nowrap"}}>
-            <button className="counter-button left" style={{backgroundColor:props.colors[0]}} tabIndex="0" onClick={() => props.handleChange("dec")}>-</button>
-            <div style={{backgroundColor:props.colors[props.number], borderTop:"1px solid black", borderBottom:"1px solid black", width:"1.5em", textAlign:"center"}}>
-                <span> {optionalText}{props.number} </span>
+            <button className="counter-button left" style={{backgroundColor:props.colors[0]}} tabIndex="0" onClick={() => props.handleChange("dec")} aria-label="decrease exhaustion level">-</button>
+            <div style={{backgroundColor:props.colors[props.number]}} className="counter-count" aria-label="exhaustion level">
+                <span> {optionalText+" "+props.number} </span>
             </div>
-            <button className="counter-button right" style={{backgroundColor:props.colors[props.colors.length-1]}} tabIndex="0" onClick={() => props.handleChange("inc")}>+</button>
+            <button className="counter-button right" style={{backgroundColor:props.colors[props.colors.length-1]}} tabIndex="0" onClick={() => props.handleChange("inc")} aria-label="increase exhaustion level">+</button>
         </div>
     )
 }

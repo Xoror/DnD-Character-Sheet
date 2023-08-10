@@ -21,7 +21,10 @@ export const ActionsAdd = (props) => {
     const handleSelectValues = props.handleSelectValues
     const options = props.options
     const show = props.show
+    
+    const attributesList = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma", "None"]
     const schoolList = ["Abjuration", "Conjuration", "Divination", "Enchantment","Evocation", "Illusion", "Necromancy", "Transmutation"]
+    const damageTypeList = ["Bludgeoning", "Slashing", "Piercing", "Cold", "Lightning", "Thunder", "Acid", "Poison", "Necrotic", "Radiant", "Psychic", "Force", "Special", "None"]
     return(
         <>
             <div style={props.showQuickAddAction ? null:{display:"none"}}>
@@ -44,18 +47,14 @@ export const ActionsAdd = (props) => {
                         <Form.Select required value={defaultValues.type} className="middle-left-group" aria-label="action-type-select" onChange={event => handleSelectValues(event, "type")}>
                             {!spells ? <option key="0" value="">Choose Action Type</option>:<option key="0" value="">Choose Spell Tier</option>}
                             {options.map((option1, index) => 
-                                <option key={`${option1}`} value={option1}>{option1}</option>
+                                <option key={`action-type-${option1}`} value={option1}>{option1}</option>
                             )}
                         </Form.Select>
                         <Form.Select required value={defaultValues.scaling} className="middle-right-group" aria-label="scaling-attribute" onChange={event => handleSelectValues(event, "scaling")}>
                             <option value="">Choose Scaling Attribute</option>
-                            <option value="Strength">Strength</option>
-                            <option value="Dexterity">Dexterity</option>
-                            <option value="Constitution">Constitution</option>
-                            <option value="Intelligence">Intelligence</option>
-                            <option value="Wisdom">Wisdom</option>
-                            <option value="Charisma">Charisma</option>
-                            <option value="None">None</option>
+                            {attributesList.map((option1, index) => 
+                                <option key={`scaling-attribute-${option1}`} value={option1}>{option1}</option>
+                            )}
                         </Form.Select>
                     </InputGroup>
                     {spells ?
@@ -63,7 +62,7 @@ export const ActionsAdd = (props) => {
                         <Form.Select required value={defaultValues.school} className="middle-left-group" aria-label="spell-school" onChange={event => handleSelectValues(event, "school")}>
                             <option value="">Choose school</option>
                             {schoolList.map((school, index) => (
-                                <option key={`spell-shool-${index}`} value={school}>{school}</option>
+                                <option key={`spell-shool-${school}`} value={school}>{school}</option>
                             ))}
                         </Form.Select>
                         <Form.Select required value={defaultValues.ritual} className="middle-right-group" type="boolean" aria-label="is-ritual" onChange={event => handleSelectValues(event, "ritual")}>
@@ -83,19 +82,9 @@ export const ActionsAdd = (props) => {
                         </Form.Select> }
                         <Form.Select required value={defaultValues.damageType} className="middle-left-group" aria-label="damage-type" onChange={event => handleSelectValues(event, "damageType")}>
                             <option value="">Choose Damage Type</option>
-                            <option value="Bludgeoning">Bludgeoning</option>
-                            <option value="Slashing">Slashing</option>
-                            <option value="Piercing">Piercing</option>
-                            <option value="Fire">Fire</option>
-                            <option value="Cold">Cold</option>
-                            <option value="Lightning">Lightning</option>
-                            <option value="Thunder">Thunder</option>
-                            <option value="Acid">Acid</option>
-                            <option value="Poison">Poison</option>
-                            <option value="Necrotic">Necrotic</option>
-                            <option value="Radiant">Radiant</option>
-                            <option value="Psychic">Psychic</option>
-                            <option value="Force">Force</option>
+                            {damageTypeList.map((damageType, index) => 
+                                <option key={`damage-type-${damageType}`} value={damageType}>{damageType}</option>
+                            )}
                         </Form.Select>
                         <Button variant="success" className="middle-right-group" aria-label="submit" type="submit">Submit</Button>
                     </InputGroup>
@@ -140,13 +129,9 @@ export const ActionsAdd = (props) => {
                             <InputGroup.Text>Scales with:</InputGroup.Text>
                             <Form.Select required value={defaultValues.scaling} className="middle-right-group" aria-label="scaling-attribute" onChange={event => handleSelectValues(event, "scaling")}>
                                 <option value="">Choose Scaling Attribute</option>
-                                <option value="Strength">Strength</option>
-                                <option value="Dexterity">Dexterity</option>
-                                <option value="Constitution">Constitution</option>
-                                <option value="Intelligence">Intelligence</option>
-                                <option value="Wisdom">Wisdom</option>
-                                <option value="Charisma">Charisma</option>
-                                <option value="None">None</option>
+                                {attributesList.map((option1, index) => 
+                                    <option key={`scaling-attribute-${option1}`} value={option1}>{option1}</option>
+                                )}
                             </Form.Select>
                         </InputGroup>
                         {spells ?
@@ -180,19 +165,9 @@ export const ActionsAdd = (props) => {
                             <InputGroup.Text className="middle-left-group">Damage Type</InputGroup.Text>
                             <Form.Select required value={defaultValues.damageType}className="middle-right-group" aria-label="damage-type" onChange={event => handleSelectValues(event, "damageType")}>
                                 <option value="">Choose Damage Type</option>
-                                <option value="Bludgeoning">Bludgeoning</option>
-                                <option value="Slashing">Slashing</option>
-                                <option value="Piercing">Piercing</option>
-                                <option value="Fire">Fire</option>
-                                <option value="Cold">Cold</option>
-                                <option value="Lightning">Lightning</option>
-                                <option value="Thunder">Thunder</option>
-                                <option value="Acid">Acid</option>
-                                <option value="Poison">Poison</option>
-                                <option value="Necrotic">Necrotic</option>
-                                <option value="Radiant">Radiant</option>
-                                <option value="Psychic">Psychic</option>
-                                <option value="Force">Force</option>
+                                {damageTypeList.map((damageType, index) => 
+                                    <option key={`damage-type-${damageType}`} value={damageType}>{damageType}</option>
+                                )}
                             </Form.Select>
                         </InputGroup>
                         <InputGroup.Text className="middle-right-group middle-left-group">Description</InputGroup.Text>

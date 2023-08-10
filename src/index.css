@@ -6,7 +6,6 @@
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  backgroundColor: black;
 }
 
 code {
@@ -16,7 +15,7 @@ code {
 
 .custom-select {
   position: relative;
-  font-family: Arial;
+  font-family: Arial, Helvetica, sans-serif;
 }
 .custom-select select {
   display: none; /*hide original SELECT element: */

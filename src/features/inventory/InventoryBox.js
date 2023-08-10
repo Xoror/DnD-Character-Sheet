@@ -104,7 +104,7 @@ export const InventoryBox = (props) => {
 	return (
 		<Card bg="secondary" id="Inventory">
 			<div>
-				<MoneyPouch moneyPouch={currency} currencies_shortnames={currencies_shortnames} handleCounter={handleCounter}/>
+				<MoneyPouch moneyPouch={currency} currenciesShortnames={currencies_shortnames} colors={["#E5E4E2", "#FFD700", "#F2E279", "#C0C0C0", "#B87333"]} handleCounter={handleCounter}/>
 			</div>
 			{containers.map((container, index) => (
 				inventory.filter((item) => {return item.container === container.id}).length != 0 || index === 0 ? 

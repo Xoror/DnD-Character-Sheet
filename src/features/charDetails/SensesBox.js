@@ -10,6 +10,7 @@ import { FilterBox } from '../../components/FilterBox';
 export const SensesBox = (props) => {
     const dispatch = useDispatch()
     const senses = useSelector(state => state.charDetails.senses)
+    const sensesHas = useSelector(state => state.charDetails.sensesHas)
 
     const [defaultSelectValue, setDefaultSelectValue] = useState("")
 
@@ -18,17 +19,17 @@ export const SensesBox = (props) => {
         dispatch(changeDetails([event.target.value, "Senses"]))
         setDefaultSelectValue("")
     }
-    const handleInputChange = (event, index, type) => {
+    const handleInputChange = (event, item, type) => {
         console.log(event.target.value)
-        dispatch(changeSenseValue([event.target.value, index]))
+        dispatch(changeSenseValue([event.target.value, item.id]))
     }
-    const handleDelete = (event, index, type) => {
+    const handleDelete = (event, item, type) => {
         event.preventDefault()
-        dispatch(deleteSense(index))
+        dispatch(deleteSense(item))
     }
     return(
         <Col className="miscbar-col">
-            <FilterBox show={props.show} defaultSelectValue={defaultSelectValue} hasValue="true" header="Senses" data={senses} test="has" handleAdd={handleAdd} handleDelete={handleDelete} handleInputChange={handleInputChange}/>
+            <FilterBox show={props.show} defaultSelectValue={defaultSelectValue} selectable={true} hasValue="true" valueDescriptor="distance" valueLegend="ft" header="Senses" data={sensesHas} choices={senses} handleAdd={handleAdd} handleDelete={handleDelete} handleInputChange={handleInputChange}/>
         </Col>
     )
 }

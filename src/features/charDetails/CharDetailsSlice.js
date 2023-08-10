@@ -10,13 +10,16 @@ const initialState = {
     charBackground: "",
     charExperience: 0,
     languages: [
-        {name:"Common", knows: true},
+        {id: nanoid(), name:"Common"},
     ],
     senses: [
-        {name:"Darkvision", has: true, distance: 60},
-        {name:"Blindsight", has: false, distance: 30},
-        {name:"Truesight", has: false, distance: 20},
-        {name:"Tremor Sense", has: false, distance: 20 }
+        {id: nanoid(), name:"Darkvision", distance: 60},
+        {id: nanoid(), name:"Blindsight", distance: 30},
+        {id: nanoid(), name:"Truesight", distance: 20},
+        {id: nanoid(), name:"Tremor Sense", distance: 20}
+    ],
+    sensesHas: [
+
     ],
     resistances: [
 
@@ -57,19 +60,19 @@ const CharDetailsSlice = createSlice({
                 state.charExperience = action.payload[0]
             }
             else if( id === "Languages") {
-                state.languages.push({name: action.payload[0], knows: true})
+                state.languages.push({id: nanoid(), name: action.payload[0]})
             }
             else if (id === "Senses") {
-                state.senses[action.payload[0]].has = true
+                state.sensesHas.push(state.senses.find(sense => sense.id === action.payload[0]))
             }
             else if (id === "Resistances") {
-                state.resistances.push({name: action.payload[0], has: true})
+                state.resistances.push({id: nanoid(), name: action.payload[0]})
             }
             else if (id === "Immunities") {
-                state.immunities.push({name: action.payload[0], has: true})
+                state.immunities.push({id: nanoid(), name: action.payload[0]})
             }
             else if (id === "Vulnerabilities") {
-                state.vulnerabilities.push({name: action.payload[0], has: true})
+                state.vulnerabilities.push({id: nanoid(), name: action.payload[0]})
             }
         },
         importCharDetails(state, action) {
@@ -79,16 +82,16 @@ const CharDetailsSlice = createSlice({
             )
         },
         deleteLanguage(state, action) {
-            state.languages = state.languages.slice(0,action.payload).concat(state.languages.slice(action.payload + 1))
+            state.languages = state.languages.filter(language => (language.id != action.payload.id))
         },
         deleteSense(state, action) {
-            state.senses = state.senses.slice(0,action.payload).concat(state.senses.slice(action.payload + 1))
+            state.sensesHas = state.sensesHas.filter(sense => sense.id != action.payload.id)
         },
         changeSenseValue(state, action) {
-            state.senses[action.payload[1]].distance = action.payload[0]
+            state.sensesHas.find(sense => sense.id === action.payload[1]).distance = action.payload[0]
         },
         deleteResistances(state, action) {
-            state[action.payload[0]] = state[action.payload[0]].slice(0, action.payload[1]).concat(state[action.payload[0]].slice(action.payload[1]+1))
+            state[action.payload[0]] = state[action.payload[0]].filter(item => item.id != action.payload[1].id)
         }
     },
     //extraReducers: (builder) => builder.addCase(revertAll, () => initialState)
