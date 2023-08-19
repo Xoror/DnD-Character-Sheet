@@ -12,22 +12,10 @@ import { deleteAction, setPrepared, updateSpellCardShow } from './ActionsSlice';
 import { SpellCard } from '../../components/SpellCard';
 import { ActionCard } from '../../components/ActionCard';
 
-
 export const ActionsTable = (props) => {
 	const dispatch = useDispatch()
 	const charAttributes = useSelector(state => state.attributes.charAttributes)
 	const proficiency = useSelector(state => state.attributes.proficiency)
-	const handleKeyUp = (event, body, index) => {
-		if(event.code === "Space" || event.code === "Enter") {
-			event.preventDefault()
-			if(event.target.id === "edit-button") {
-				startEdit(event, body)
-			}
-			else {
-				handleDelete(event, body, index)
-			}
-		}
-	}
 	const scalingBonus = (scale) => {
 		if(scale === "None") {
 			return ""
@@ -53,6 +41,8 @@ export const ActionsTable = (props) => {
 		props.setOldData(body)
 		props.setEditing(true)
 		props.setShowQuickAddAction(true)
+		props.setInputFocus()
+		props.inputRef.current.scrollIntoView()
 	}
 	let place = props.offCanvas ? "left" : "right"
 	let cardID = props.cardID
@@ -100,12 +90,12 @@ export const ActionsTable = (props) => {
 			<Table size="sm" style={{color:"white", border:"black"}} >
 				<thead>
 					<tr>
-						{props.spells ? <td>{props.offCanvas ? "Learn" : ""}</td> : ""}
-						<td> Name </td>
-						{props.spells ? "" : <td> Hit </td>}
-						{props.offCanvas ? "" : <td> Damage (Type) </td>}
-						{props.offCanvas ? <td> School </td> : <td> Range </td>}
-						{props.offCanvas ? "" : <td> </td>}
+						{props.spells ? <th>{props.offCanvas ? "Learn" : ""}</th> : null}
+						<th> Name </th>
+						{props.spells ? null : <th> Hit </th>}
+						{props.offCanvas ? null : <th> Damage (Type) </th>}
+						{props.offCanvas ? <th> School </th> : <th> Range </th>}
+						{props.offCanvas ? null : <th> {""} </th>}
 					</tr>
 				</thead>
 				<tbody>
@@ -114,7 +104,7 @@ export const ActionsTable = (props) => {
 							<tr className="action-table" key={`${props.offCanvas}-action-table-row-id-${body.id}`} id={`${props.offCanvas}-action-table-row-id-${body.id}`} onClick={(event) => handleRowClick(event, body.id)} >
 								{props.spells ? 
 									<td  style={{height:"1.5em", width:"1.5em", zIndex:"2"}}>
-										<div className="checkbox-wrapper letter-k">
+										<div className={`checkbox-wrapper ${props.offCanvas ? "letter-k" : "letter-p"}`}>
 											<input type="checkbox" id={body.name} value="prepared" onClick={handlePrepared} defaultChecked={body.isPrepared}></input>
 										</div>
 									</td> : ""
@@ -140,9 +130,13 @@ export const ActionsTable = (props) => {
 									{props.offCanvas ? "" : (props.spells ? <td>{body.damage != "" ? body.damage : "N/A"} ({body.damageType != "" ? body.damageType : "N/A"}) </td> : <td>{body.damage} + {scalingBonus(body.scaling)} ({body.damageType}) </td>)}
 									{props.offCanvas ? <td>{body.school}</td> : <td>{body.range}</td> }
 									{props.offCanvas ? "" : 
-									<td style={{paddingRight:"0",paddingLeft:"0", justifyItems:"end", zIndex:"2" }}> 
-										<RiFileEditFill tabIndex="0" type="button" size="23" id="edit-button" onClick={(event) => startEdit(event, body)} onKeyUp={(event) => handleKeyUp(event, body)} className="edit-button" />
-										<AiFillCloseSquare tabIndex="0" type="button" size="23" id="delete-button" onClick={(event) => handleDelete(event, body.id, index)} onKeyUp={(event) => handleKeyUp(event, body.id, index)} className="delete-button" /> 
+									<td style={{paddingRight:"0",paddingLeft:"0", justifyItems:"end", zIndex:"2", height:"2.25em", width:"3em"}}>
+										<button className="react-icons-button" onClick={(event) => startEdit(event, body)} aria-label={`edit ${props.spells ? "spell":"action"}`}>
+											<RiFileEditFill size="1.5em" className="edit-button" />
+										</button>
+										<button className="react-icons-button" onClick={(event) => handleDelete(event, body.id, index)} aria-label={`delete ${props.spells ? "spell":"action"}`}>
+											<AiFillCloseSquare size="1.5em" className="delete-button" /> 
+										</button>
 									</td>
 									}
 								</>

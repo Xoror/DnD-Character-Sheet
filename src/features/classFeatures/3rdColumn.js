@@ -62,7 +62,7 @@ export const ThirdColumn = () => {
     ]
 	
 	return (
-		<Card bg="secondary"  style={{border:"1px solid black"}}>
+		<Card className="main-element-card">
 			<div>
 				<ButtonGroup style={{width:"100%"}}>
 					{radios.map((radio, idx) => (

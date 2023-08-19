@@ -14,8 +14,8 @@ export const Attribute = (props) => {
 	return (
 		<tr>
 			<td className="AttributeBox">
-				{props.attribute.name}
-				<input required='required' type='number' min="1" value={props.attribute.value} className="AttributeBoxInside" /*style={{textAlign:"center", height:"40%", width:"50%", padding:"auto"}}*/
+				<label id="attribute-name">{props.attribute.name}</label>
+				<input required='required' aria-labelledby="attribute-name" type='number' min="1" value={props.attribute.value} className="AttributeBoxInside" /*style={{textAlign:"center", height:"40%", width:"50%", padding:"auto"}}*/
 					onChange={handleAttrChange}
 				></input>
 				

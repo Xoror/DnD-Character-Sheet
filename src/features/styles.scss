@@ -1,20 +1,40 @@
+@use "sass:color";
+
+$background-color: #343a40;
+$main-element-color: #6c757d;
+$secondary-element-color: #5c636a;
+$tertiary-element-color: #51585e;
+$main-border-color: #000000;
+$text-color: #ffffff;
+$edit-primary-color: #198754;
+$edit-secondary-color: black;
+$delete-primary-color: #dc3545;
+$delete-secondary-color: white;
+$delete-border-color: black;
+$focus-outline: #0d6efd;
+$focus-box-shadow: white;
+$table-hover: #555a5f;
+$nav-color: #212529;
+$nav-hover-border: white;
+
+
 :root {
-	--background-color: #343a40;
-	--main-element-color: #6c757d;
-	--secondary-element-color: #5c636a;
-	--tertiary-element-color: #51585e;
-	--main-border-color: #000000;
-	--text-color: #ffffff;
-	--edit-primary-color: #198754;
-	--edit-secondary-color: black;
-	--delete-primary-color: #dc3545;
-	--delete-secondary-color: white;
-	--delete-border-color: black;
-	--focus-outline: #0d6efd;
-	--focus-box-shadow: white;
-	--table-hover: #555a5f;
-	--nav-color: #212529;
-	--nav-hover-border: white;
+	--background-color: #{$background-color};
+	--main-element-color: #{$main-element-color};
+	--secondary-element-color: #{$secondary-element-color};
+	--tertiary-element-color: #{$tertiary-element-color};
+	--main-border-color: #{$main-border-color};
+	--text-color: #{$text-color};
+	--edit-primary-color: #{$edit-primary-color};
+	--edit-secondary-color: #{$edit-secondary-color};
+	--delete-primary-color: #{$delete-primary-color};
+	--delete-secondary-color: #{$delete-secondary-color};
+	--delete-border-color: #{$delete-border-color};
+	--focus-outline: #{$focus-outline};
+	--focus-box-shadow: #{$focus-box-shadow};
+	--table-hover: #{$table-hover};
+	--nav-color: #{$nav-color};
+	--nav-hover-border: #{$nav-hover-border};
 }
 :focus-visible {
 	/*border: 2px solid #0d6efd;*/
@@ -28,6 +48,27 @@ body {
 	background-color: var(--background-color);
 	font-size: 16px;
 	line-height: 1.4
+}
+
+.visually-hidden {
+	position: absolute !important;
+	width: 1px !important;
+	height: 1px !important;
+	padding: 0 !important;
+	margin: -1px !important;
+	overflow: hidden !important;
+	clip: rect(0,0,0,0) !important;
+	white-space: nowrap !important;
+	border: 0 !important;
+}
+
+.main-element-card {
+	border: 1px solid black;
+	background-color: $main-element-color;
+}
+.main-element-sub-card {
+	background-color: $main-element-color;
+	border-radius: 0;
 }
 
 /*Character Details*/
@@ -212,7 +253,6 @@ body {
 
 .resourceBox {
 	margin: 0;
-	margin-bottom: 2em;
 	/*background-image: url("../images/AttributeBG.png");*/
 	background-size: 100% 100%;
 	text-align: center;
@@ -343,7 +383,15 @@ body {
 	font-size: 0.8em;
 	color: var(--text-color);
 	position: absolute;
-	right: 0.25em;
+	right: 0.3em;
+	top: -0.15em;
+}
+.letter-p input[type="checkbox"]:checked::before {
+	content: "P";
+	font-size: 0.8em;
+	color: var(--text-color);
+	position: absolute;
+	right: 0.35em;
 	top: -0.15em;
 }
 
@@ -381,9 +429,14 @@ body {
 	background-color: #858c92;
 }
 
+.react-icons-button {
+	padding: 0em;
+	border: none;
+	border-radius: 0.375em;
+}
 .edit-button {
 	padding: 1px;
-	border-radius: 4px;
+	border-radius: 0.375em;
 	
 	border: solid 1px var(--edit-secondary-color);
 	float: left;
@@ -401,10 +454,9 @@ body {
 		outline: 2px solid white;
 	}
 }
-
 .delete-button {
 	padding: 0;
-	border-radius: 4px;
+	border-radius: 0.375em;
 	
 	border: solid 1px var(--delete-border-color);
 	float: left;

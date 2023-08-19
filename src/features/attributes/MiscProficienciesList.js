@@ -7,7 +7,7 @@ export const MiscProficienciesList = (props) => {
 		<dl>
 			<dt>{props.name}</dt>
 			{props.skills.map((skill) => (
-					<SkillItem key={skill.id} skill2={skill}/>
+					<SkillItem editing={props.editing} setEditing={props.setEditing} key={skill.id} skill2={skill}/>
 				))}
 		</dl>
 	);

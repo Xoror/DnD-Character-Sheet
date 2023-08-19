@@ -105,6 +105,9 @@ const AttributeSlice = createSlice({
 				{id: nanoid(), name: action.payload[0], shortName: action.payload[0], supSkill: action.payload[1].label, bonus: "", proficient: action.payload[2], expertise: action.payload[3]}, 
 			)
 		},
+		deleteMiscProficiency(state, action) {
+			state.skills = state.skills.filter(skill => skill.id != action.payload)
+		},
 		addProficiencyType(state, action) {
 			state.proficienciesTypes.push(action.payload)
 			//console.log(current(state.proficienciesTypes))
@@ -224,6 +227,6 @@ const AttributeSlice = createSlice({
 export default AttributeSlice.reducer
 export const {changeAC, computeAC, 
 	changeJackOfAllTrades, attributeChange2,
-	proficiencyChange, addMiscProficiency, addProficiencyType, updateProficiency, updateProficiencies, 
+	proficiencyChange, addMiscProficiency, addProficiencyType, deleteMiscProficiency, updateProficiency, updateProficiencies, 
 	changeInitiative, computeInitiative,
 	computeHitDC, changeIsCaster, changeCasterType, changeCastingAttribute, importAttributes} = AttributeSlice.actions

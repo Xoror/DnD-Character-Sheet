@@ -11,6 +11,7 @@ import { addItem, editItem, updateMoney, getClassStartingItems } from './Invento
 import { InventoryAdd } from './InventoryAdd';
 import { ItemList } from './ItemList';
 import { MoneyPouch } from '../../components/MoneyPouch';
+import { useFocus } from '../../components/CustomHooks';
 
 const _ = require('lodash')
 
@@ -18,6 +19,7 @@ export const InventoryBox = (props) => {
     const dispatch = useDispatch()
     const inventory = useSelector(state => state.inventory.inventory)
 	const currency = useSelector(state => state.inventory.currency)
+	const [inputRef, setInputFocus] = useFocus()
 
 	//dispatch(getClassStartingItems())
 
@@ -117,6 +119,8 @@ export const InventoryBox = (props) => {
 						key={`inventory-table-${container.value}`} 
 						container={container} 
 						bodies={inventory.filter((item) => {return item.container === container.id})}
+						inputRef={inputRef}
+						setInputFocus={setInputFocus}
 					/> : null
 			))}
 			<ButtonGroup>
@@ -133,6 +137,7 @@ export const InventoryBox = (props) => {
 				setDefaultValues = {setDefaultValues}
 				handleSelectValues = {handleSelectValues}
 				itemTemplate = {itemTemplate}
+				inputRef={inputRef}
 
 				showAddItem={showAddItem}
 				setShowAddItem={setShowAddItem}

@@ -3,7 +3,6 @@ import { createSlice, nanoid } from "@reduxjs/toolkit";
 const initialState = {
     data: [
         {name: "Lineage Features", level: 1, featureClass: "-", featureSubclass: "-", description: "Placeholder"},
-        {name: "Lineage Features", level: 1, featureClass: "-", featureSubclass: "-", description: "Placeholder"},
     ]
 }
 

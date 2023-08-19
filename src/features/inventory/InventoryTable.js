@@ -175,10 +175,12 @@ export const InventoryTable = (props) => {
 		dispatch(deleteItem(id))
 	}
 	const startEdit = (event, body) => {
-		//event.stopPropagation()
+		event.stopPropagation()
 		props.setDefaultValues(body)
 		props.setOldData(body)
 		props.changeEditing(true)
+		props.setInputFocus()
+		props.inputRef.current.scrollIntoView()
 	}
 	const handleEquipped = (event, id) => {
 		event.stopPropagation()
@@ -357,10 +359,14 @@ export const InventoryTable = (props) => {
 									<td> {body.qty} </td>
 									<td> {body.qty*body.weight} </td>
 									<td> {body.qty*parseFloat(body.worth)} </td>
-									<td style={{ alignItems:"center", zIndex:"2", minWidth:"60px" }}>
-										<div style={{float:"right", marginTop:"2.5px"}}>
-											<RiFileEditFill tabIndex="0" type="button" size="23" id="edit-button" onClick={(event) => startEdit(event, body)} onKeyUp={(event) => handleKeyUp(event, body)} className="edit-button" /> 
-											<AiFillCloseSquare tabIndex="0" type="button" size="23" id="delete-button" onClick={(event) => handleDelete(event, body.id)} onKeyUp={(event) => handleKeyUp(event, body.id)} className="delete-button" />
+									<td style={{ alignItems:"center", zIndex:"2", minWidth:"60px", width:"3em"}}>
+										<div style={{paddingRight:"0",paddingLeft:"0", justifyItems:"end", zIndex:"2" }}>
+											<button className="react-icons-button" onClick={(event) => startEdit(event, body)} aria-label="edit item button">
+												<RiFileEditFill size="1.5em" className="edit-button" /> 
+											</button>
+											<button className="react-icons-button" onClick={(event) => handleDelete(event, body.id)} aria-label="delete item button">
+												<AiFillCloseSquare size="1.5em" className="delete-button" />
+											</button>
 										</div>
 									</td>
 								</>

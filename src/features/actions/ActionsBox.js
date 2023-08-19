@@ -13,15 +13,6 @@ import { useFocus } from '../../components/CustomHooks';
 
 const _ = require('lodash')
 
-const isEqualsJson = (obj1,obj2)=>{
-    let keys1 = Object.keys(obj1);
-    let keys2 = Object.keys(obj2);
-
-    //return true when the two json has same length and all the properties has same value key by key
-    return keys1.length === keys2.length && Object.keys(obj1).every(key=>obj1[key]==obj2[key]);
-}
-
-
 export const ActionsBox = (props) => {
 	const dispatch = useDispatch()
 	let actionTemplate = props.id === "Spells" ? 
@@ -107,7 +98,7 @@ export const ActionsBox = (props) => {
 	}
 	//<FloatingLabel label="Name" style={{color:"black"}}>
 	return (
-		<Card bg="secondary" id="ActionsPart">
+		<Card className="main-element-sub-card" id="ActionsPart">
 			{props.headers.map((header, index) => (
 				<ActionsTable 
 					cardID={cardID}
@@ -122,6 +113,8 @@ export const ActionsBox = (props) => {
 					header={header} 
 					bodies={props.actions.filter((action) => {return action.type === header})} 
 					spells={props.spells}
+					inputRef={inputRef}
+					setInputFocus={setInputFocus}
 				/>
 			))}
 			<ButtonGroup>

@@ -4,6 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import version from '../package.json'
 
 import { AiFillTwitterCircle, AiOutlineGithub } from "react-icons/ai"
+import { FaReact } from "react-icons/fa";
+import { GiDiceTwentyFacesOne } from "react-icons/gi";
 
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
@@ -63,7 +65,7 @@ export const Sheet = () => {
 
             <div className="footer">
                 <Container className='p-3'>
-                    <section>
+                    <section className='mb-4'>
                         <a tabIndex="0" className="link-button" style={{marginRight:"0.25em"}} target="_blank" rel="noreferrer" href="https://twitter.com/StargazerWorks">
                             <AiFillTwitterCircle style={{position: "relative"}} size="3.5em"/>
                         </a>
@@ -72,13 +74,18 @@ export const Sheet = () => {
                         </a>
                     </section>
 
-                    {false ? <section className='mb-4'>
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt distinctio earum repellat quaerat
-                        voluptatibus placeat nam, commodi optio pariatur est quia magnam eum harum corrupti dicta, aliquam
-                        sequi voluptate quas.
-                    </p>
-                    </section> : null}
+                    <section>
+                        <p style={{marginBottom:"0em", height:"2.5em"}}>
+                            Powered by React  
+                                <a target="_blank" rel="noreferrer" href="https://react.dev/" tabIndex="0" className="home-button" id="react-link-button" aria-label="link to th3 react website" style={{marginLeft:"0.25em",width:"2.5em", height:"2.5em",display:"inline-block"}}>
+                                    <FaReact size="2em" style={{position: "relative", right: "1px", bottom: "1px"}}/>
+                                </a>
+                            and the DnD 5e API
+                                <a target="_blank" rel="noreferrer" href="https://www.dnd5eapi.co/" tabIndex="0" className="home-button" id="dnd-5e-api-link-button" aria-label="link to the dnd 5e api website" style={{marginLeft:"0.25em",width:"2.5em", height:"2.5em",display:"inline-block"}}>
+                                    <GiDiceTwentyFacesOne size="2em" style={{position: "relative", right: "1px", bottom: "1px"}}/>
+                                </a>
+                        </p>
+                    </section>
 
                 </Container>
 

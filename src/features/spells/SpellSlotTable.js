@@ -59,24 +59,29 @@ export const SpellSlotTable = (props) => {
 
 	if(casterType === "full" || casterType === "half" || casterType === "third") {
 		return (
-			<table>
-				<thead>
-					<tr>
-						{filteredSlots.map((slot, index) => (
-							<td key={index}> {listSlots[index]} </td>
-						))}
-					</tr>
-				</thead>
-				<tbody>
-					{spellMatrix.map((row,indexRow) => (
-						<tr key={indexRow}>
-							{row.map((piece, indexColumn) => (
-								<td key={indexColumn}> <input type="checkbox" checked={spellSlots[indexRow][indexColumn]} onChange={(event) => handleSpellMatrix(event, indexRow, indexColumn)}></input> </td>
+			<>
+				<label>Spell slots</label>
+				<table>
+					<thead>
+						<tr>
+							{filteredSlots.map((slot, index) => (
+								<td key={`${listSlots[index]}-tier-spell-slots`} id={`${listSlots[index]}-tier-spell-slots`}> {listSlots[index]} </td>
 							))}
 						</tr>
-					))}
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						{spellMatrix.map((row,indexRow) => (
+							<tr key={indexRow}>
+								{row.map((piece, indexColumn) => (
+									<td key={indexColumn}> 
+										<input type="checkbox" aria-labelledby={`${listSlots[indexColumn]}-tier-spell-slots`} checked={spellSlots[indexRow][indexColumn]} onChange={(event) => handleSpellMatrix(event, indexRow, indexColumn)}></input>
+									</td>
+								))}
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</>
 		)
 	}
 	else if (casterType === "pact" || casterType === "halfpact") {

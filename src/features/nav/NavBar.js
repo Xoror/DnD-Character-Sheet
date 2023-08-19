@@ -222,6 +222,9 @@ export const NavBar = () => {
 				<Navbar.Brand id="character-sheet-link" as={Link} to="/sheet" className="sheet-button not-draggable" aria-label="link that leads to the sheet">
 					{document.title}
 				</Navbar.Brand>
+				<Navbar.Brand id="inventory-spell-manager" href="https://xoror.github.io/spells-inventory-manager/" className="sheet-button not-draggable" aria-label="link that leads to the sheet">
+					Standalone Spells and Inventory Manager
+				</Navbar.Brand>
 				{desktop && location.pathname === "/sheet" ? <Nav className="not-draggable">
 					<NavDropdown className="character-menu" id="character-choice-menu" title="Menu" menuVariant="dark" onClick={getCharacterNames}>
 						<NavDropdown.Item onClick={(event) => handleNavDropdownClick(event, "new", "new")}>New</NavDropdown.Item>

@@ -27,7 +27,9 @@ export const HPBox = (props) => {
 					<div> <input id="tempHP" aria-label="temporary-hp-input" aria-labelledby="temporary-hp-label" type='number' value={props.charHP.temp} className= "hpBoxInside" onChange={handleHPChange}></input> </div>
 				</div>
 			</div>
-			<RiFileEditFill tabIndex="0" type="button" size="23" /*onClick={handleShow}*/ className="edit-button" />
+			<button className="react-icons-button" aria-label="edit hp button" /*onClick={handleShow}*/ style={{float: "left"}}>
+				<RiFileEditFill size="1.5em" className="edit-button" />
+			</button>
 		</div>
 	);
 }

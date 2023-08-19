@@ -21,13 +21,13 @@ export const Attributes = () => {
 		dispatch(updateProficiencies())
 	}
 	return (
-	<Card border ="dark" bg="secondary">
+	<Card className="main-element-card">
 		<Form.Check style={{paddingLeft:"2em", paddingTop:"0.3em"}} type="checkbox" checked={jackOfAllTrades} id="jack-of-all-trades-check" label="Jack of All Trades" onChange={handleChecked}></Form.Check>
 		<Table style={{color: '#ffffff', border:"black"}}>
 			<thead>
 				<tr>
 				  <th scope="col">Attributes</th>
-				  <th scope="col">Skills</th>
+				  <th scope="col"> Skills</th>
 				</tr>
 			</thead>
 			<tbody>

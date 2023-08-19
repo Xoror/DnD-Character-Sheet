@@ -50,7 +50,7 @@ export const SpellList = (props) => {
 	let headers = ["Cantrip","1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th"]
 	return(
 		<>
-			<Offcanvas border="dark" style={{color:"white", backgroundColor:"#6c757d", width:"40%"}} show={show} onHide={handleClose} placement="start" scroll="true">
+			<Offcanvas border="dark" style={{color:"white", backgroundColor:"#6c757d", width:"478px"}} show={show} onHide={handleClose} placement="start" scroll="true">
 				<Offcanvas.Header closeButton onClick={handleClose}>
 					<Offcanvas.Title>Spell List</Offcanvas.Title>
 				</Offcanvas.Header>

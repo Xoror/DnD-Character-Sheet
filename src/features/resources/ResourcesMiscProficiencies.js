@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 
 import CreatableSelect from 'react-select/creatable';
 import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -17,6 +18,7 @@ import { MiscProficiencies} from "../attributes/MiscProficiencies"
 import { addResource } from './ResourcesSlice';
 import { addMiscProficiency, addProficiencyType } from '../attributes/AttributesSlice';
 import { useFocus } from '../../components/CustomHooks';
+import { ButtonGroup } from 'react-bootstrap';
 
 export const ResourcesMiscProficiencies = () => {
 	const dispatch = useDispatch()
@@ -26,6 +28,7 @@ export const ResourcesMiscProficiencies = () => {
 
 	const [inputRef, setInputFocus] = useFocus()
 	const [show, setShow] = useState("none")
+	const [editing, setEditing] = useState(false)
 	const [selectedType, setSelectedType] = useState("");
     
 	const handleAddResource = (event) => {
@@ -61,6 +64,9 @@ export const ResourcesMiscProficiencies = () => {
 		let option = {value: createdOption.toLowerCase(), label: createdOption}
 		setSelectedType(option)
 		dispatch(addProficiencyType(option))
+	}
+	const startEditing = (event) => {
+		setEditing(!editing)
 	}
 
 	const [showAddResource, setShowAddResource] = useState(false);
@@ -164,14 +170,19 @@ export const ResourcesMiscProficiencies = () => {
 			</Modal>
 			
 			<CardGroup>
-				<div className="card bg-secondary border-dark justify-content-middle">
-					<Button variant="primary" onClick={handleShowAddResource} style={{borderTopRightRadius:"0", borderBottomRightRadius:"0"}}> Add Resource </Button>
+				<Card className="main-element-card justify-content-middle">
+					<Card.Title style={{textAlign:"center", marginBottom:"0.5em",paddingTop:"0.25em" ,paddingBottom:"0.5em", borderBottom:"1px solid var(--nav-color)"}}>Resources</Card.Title>
 					<ResourcesList resources={resources}/>
-				</div>
-				<div className="card bg-secondary border-dark justify-content-middle">
-					<Button variant="primary" onClick={handleShowAddMiscProf} style={{borderTopLeftRadius:"0", borderBottomLeftRadius:"0"}}> Add Misc Proficiency</Button>
-					<MiscProficiencies proficienciesTypes={proficienciesTypes} skills={skills}/>
-				</div>
+					<Button variant="primary" onClick={handleShowAddResource} style={{borderTopRightRadius:"0", borderBottomRightRadius:"0", width:"100%"}}> Add Resource </Button>
+				</Card>
+				<Card className="main-element-card justify-content-middle">
+					<Card.Title style={{textAlign:"center", marginBottom:"0.5em",paddingTop:"0.25em" ,paddingBottom:"0.5em", borderBottom:"1px solid var(--nav-color)"}}>Misc Proficiencies</Card.Title>
+					<MiscProficiencies proficienciesTypes={proficienciesTypes} skills={skills} editing={editing} setEditing={setEditing}/>
+					<ButtonGroup style={{ width:"100%" }}>
+						<Button variant="primary" onClick={handleShowAddMiscProf} style={{borderTopLeftRadius:"0", borderBottomLeftRadius:"0"}}> Add </Button>
+						<Button variant={editing ? "danger":"primary"} onClick ={startEditing} style={{borderTopRightRadius:"0em"}}>{editing ? "Cancel" : "Edit"}</Button>
+					</ButtonGroup>
+				</Card>
 			</CardGroup>
 			
 		</Container>

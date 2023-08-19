@@ -2,7 +2,7 @@ import { createSlice, nanoid } from "@reduxjs/toolkit"
 
 const initialState = {
     autoSaveTimer: 15,
-    desktop: true
+    desktop: false
 }
 
 const SettingsSlice = createSlice({
