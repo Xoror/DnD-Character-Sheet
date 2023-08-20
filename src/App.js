@@ -1,5 +1,5 @@
 import React from 'react'
-import {  createBrowserRouter, RouterProvider} from "react-router-dom";
+import {  createBrowserRouter, createHashRouter, RouterProvider} from "react-router-dom";
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -11,8 +11,9 @@ import { ScrollBar } from './features/scrollbar/ScrollBar'
 import { NavBar } from "./features/nav/NavBar"
 import { Sheet } from './Sheet'
 import { LandingPage } from './features/landingPage/LandingPage';
+import { isDesktop } from './features/settings/SettingsSlice';
 
-const router = createBrowserRouter([
+const routerDesktop = createHashRouter([//createBrowserRouter([
 	{
 		path: "/",
 		element: <NavBar />,
@@ -28,16 +29,28 @@ const router = createBrowserRouter([
 			}
 		]
 	},
-  ])
+])
+const routerWeb = createBrowserRouter([
+	{
+		path: "/",
+		element: <NavBar />,
+	  //errorElement: <ErrorPage />,
+		children : [
+			{
+				path: "/",
+				element: <LandingPage />
+			},
+			{
+				path: "/sheet",
+				element: <Sheet />
+			}
+		]
+	},
+])
 
 
 const App = () => {
-	/*
-	const full_state = useSelector(state => state)
-	useEffect(() => {
-		//console.log(full_state)
-	},[full_state])
-	*/
+	let router = isDesktop ? routerDesktop : routerWeb
 	return (
 		<>
 			<ScrollBar>

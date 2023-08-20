@@ -129,7 +129,7 @@ const NavBarSlice = createSlice({
             .addCase(changeCharacterIndDB.fulfilled, (state, action) => {
                 console.log(action.payload)
                 if( action.payload[0] != "Autosave" && action.payload[0] != undefined) {
-                    state.currentlyEditing.name = state.characters.names[action.payload[3] - 1]
+                    state.currentlyEditing.name = action.payload[0]
                     state.currentlyEditing.id = action.payload[3]
                     state.lastSaved = action.payload[2]
                     state.compareState = JSON.parse(action.payload[1])

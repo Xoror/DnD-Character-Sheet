@@ -1,8 +1,10 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit"
 
+export const isDesktop = false
+
 const initialState = {
     autoSaveTimer: 15,
-    desktop: false
+    desktop: isDesktop
 }
 
 const SettingsSlice = createSlice({

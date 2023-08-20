@@ -36,7 +36,7 @@ import { useLocation } from 'react-router-dom';
 let _ = require('lodash')
 
 export const importState = createAction(
-	"import/state",
+	"import/state2",
 	async (payload, dispatch) => {
 		dispatch(importActions(payload.actions))
 		dispatch(importAttributes(payload.attributes))
@@ -52,9 +52,31 @@ export const importState = createAction(
 		//dispatch(importNavBar(payload.navBar))
 	}
 )
+const preparedImportState = (state, navBar) => {
+	let keys1 = Object.keys(state)
+	let tempState = {}
+	if(navBar) {
+		tempState["navBar"] = navBar
+	}
+	for(let key of keys1) {
+		if(key != "navBar" && key != "landingPage") {
+			tempState[key] = state[key]
+		}
+	}
+	console.log(tempState)
+	return tempState
+}
+
+const loadSessionStorage = (dispatch) => {
+	const sessionStorageState = window.localStorage.getItem("dnd-sheet-state")// === null || undefined ? JSON.stringify(initialState, null, "\t") : window.sessionStorage.getItem("dnd-sheet-state")
+	console.log("load session storage", JSON.parse(sessionStorageState).charDetails)
+	if(sessionStorageState != null) {
+		dispatch(importState(JSON.parse(sessionStorageState), dispatch))
+	}
+}
 
 export const NavBar = () => {
-	const currentState= useSelector(state => state)
+	const currentState = useSelector(state => state)
 	const dispatch = useDispatch()
     const charName= useSelector(state => state.charDetails.charName)
 	const navBarSlice = useSelector(state => state.navBar)
@@ -68,6 +90,16 @@ export const NavBar = () => {
 	const [showAutoSave, setShowAutoSave] = useState(false)
 
 	const location = useLocation()
+	/*
+	useEffect(() => {
+		loadSessionStorage(dispatch)
+	}, [])
+	
+	useEffect(() => {
+			console.log("save session storage", currentState.charDetails)
+			window.localStorage.setItem("dnd-sheet-state", JSON.stringify(currentState, null, "\t"))
+	}, [currentState])
+	*/
 
 	useEffect(() => {
 		if( desktop ) {
@@ -149,14 +181,30 @@ export const NavBar = () => {
 	const handleAffirmation = async () => {
 		setShowSafetyBox(false)
 		if(tempSave[2] === "new") {
-			dispatch(importState(initialState, dispatch))
-			dispatch(importNavBar(initialState.navBar))
+			if(tempSave[1] === "web") {
+				dispatch({type: "import/state", payload: {settings: {autoSaveTimer: 15,desktop: false}}})
+			} else {
+				initialState.settings = {autoSaveTimer: 15,desktop: true}
+				//dispatch(importState(initialState, dispatch))
+				//dispatch(importNavBar(initialState.navBar))
+				dispatch({type: "import/state", payload: {navBar: initialState.navBar, settings: {autoSaveTimer: 15,desktop: true}}})
+				setStar(false)
+			}
 		}
 		else {
+			setStar(true)
 			let test = await dispatch(importCharacter(
 				["select * from characters where id = ?", tempSave[2]]
 			))
-			dispatch(importState(JSON.parse(test.payload.state), dispatch))
+			console.log(test)
+			let navBarTemp = structuredClone(currentState.navBar)
+			navBarTemp.currentlyEditing.id = test.payload.id
+			navBarTemp.currentlyEditing.name = navBarTemp.characters.names[test.payload.id - 1]
+			navBarTemp.lastSaved = new Date().toLocaleString()
+			navBarTemp.compareState = JSON.parse(test.payload.state)
+			navBarTemp.importFromDbStatus = "succeeded"
+			//dispatch(importState(JSON.parse(test.payload.state), dispatch))
+			dispatch({type: "import/state", payload: preparedImportState(JSON.parse(test.payload.state), navBarTemp)})
 		}
 	}
 	
@@ -213,18 +261,53 @@ export const NavBar = () => {
 							</>
 							}
 					</Modal>
-				</> : null }
+				</> : 
+					<Modal contentClassName="modal-custom" show={showSafetyBox} onHide={() => setShowSafetyBox(false)}>
+						<Modal.Header closeButton>
+							<Modal.Title>Are you sure you want to import a different character?</Modal.Title>
+						</Modal.Header>
+						<Modal.Body>
+							<p>
+								You're about to import a different character. THIS WILL ERASE YOUR CURRENT CHARACTER UNLESS IT WAS SAVED!
+								Make sure to save progress if you want to before clicking yes!
+							</p>
+						</Modal.Body>
+						<Modal.Footer>
+							<Button variant="danger" onClick={() => setShowSafetyBox(false)}>
+								No
+							</Button>
+							<Button variant="success" onClick={handleAffirmation}>
+								Yes
+							</Button>
+						</Modal.Footer>
+					</Modal>
+				}
 			<Navbar style={{backgroundColor:"#212529", padding:"0"}} variant="dark" className="titlebar">
 			<Container fluid className="draggable" style={{alignItems:"normal", justifyContent:"normal"}}>
 				<Link to="/" tabIndex="0" className="home-button not-draggable" id="home-button" aria-label="home button that leads to landing page">
 					<MdHome size="2em" style={{position: "relative", right: "1px", bottom: "1px"}}/>
 				</Link>	
-				<Navbar.Brand id="character-sheet-link" as={Link} to="/sheet" className="sheet-button not-draggable" aria-label="link that leads to the sheet">
-					{document.title}
-				</Navbar.Brand>
-				<Navbar.Brand id="inventory-spell-manager" href="https://xoror.github.io/spells-inventory-manager/" className="sheet-button not-draggable" aria-label="link that leads to the sheet">
-					Standalone Spells and Inventory Manager
-				</Navbar.Brand>
+				{useLocation().pathname === "/" ?
+					<>
+						<Navbar.Brand id="character-sheet-link" as={Link} to="/sheet" className="sheet-button not-draggable" aria-label="link that leads to the sheet">
+							{document.title}
+						</Navbar.Brand>
+						{!desktop ? <Navbar.Brand id="inventory-spell-manager" href="https://xoror.github.io/spells-inventory-manager/" className="sheet-button not-draggable" aria-label="link that leads to the sheet">
+							Standalone Spells and Inventory Manager
+						</Navbar.Brand> : null}
+					</>
+					:
+					<>
+						<Navbar.Brand id="character-sheet-link" as={Link} to="/sheet" className="sheet-button not-draggable" aria-label="link that leads to the sheet">
+							{document.title}
+						</Navbar.Brand>
+						{!desktop ?
+							<Navbar.Brand id="character-sheet-link" to="/sheet" role="button" as={Link} className="sheet-button not-draggable" onClick={event => handleNavDropdownClick(event, "web", "new")}>
+								New Character
+							</Navbar.Brand> : null
+						}
+					</>
+				}
 				{desktop && location.pathname === "/sheet" ? <Nav className="not-draggable">
 					<NavDropdown className="character-menu" id="character-choice-menu" title="Menu" menuVariant="dark" onClick={getCharacterNames}>
 						<NavDropdown.Item onClick={(event) => handleNavDropdownClick(event, "new", "new")}>New</NavDropdown.Item>
@@ -323,7 +406,8 @@ const readFileOnUpload = (uploadedFile, dispatch) => {
    const fileReader = new FileReader();
    fileReader.onloadend = () => {
 	  try {
-		dispatch(importState(JSON.parse(fileReader.result), dispatch))
+		//dispatch(importState(JSON.parse(fileReader.result), dispatch))
+		dispatch({type: "import/state", payload: preparedImportState(JSON.parse(fileReader.result))})
 		} catch(e) {
 			console.log("**Not valid JSON file!**");
 		}
@@ -348,7 +432,7 @@ const initialState = {
 	"actions": {
 		"actions": [
 			{
-				"id": "FNFfZHK2dshHVa3C9dxgq",
+				"id": "RBrxR3r5oI09JTtOcRQeU",
 				"name": "Unarmed Attack",
 				"range": "Melee",
 				"damage": 1,
@@ -367,13 +451,6 @@ const initialState = {
 	},
 	"features": {
 		"data": [
-			{
-				"name": "Lineage Features",
-				"level": 1,
-				"featureClass": "-",
-				"featureSubclass": "-",
-				"description": "Placeholder"
-			},
 			{
 				"name": "Lineage Features",
 				"level": 1,
@@ -432,7 +509,7 @@ const initialState = {
 		"jackOfAllTrades": false,
 		"skills": [
 			{
-				"id": "bzujDZVL9ZaaU35K_-eru",
+				"id": "0F0AHowNhZSy3JVPcNrnU",
 				"name": "Strength Saving Throw",
 				"shortName": "Saving Throw",
 				"supSkill": "Strength",
@@ -443,7 +520,7 @@ const initialState = {
 				"disadvantage": false
 			},
 			{
-				"id": "cBn6WJcupF5s-TBa1r3dv",
+				"id": "3ILXrCHjlTkeqFRW__RW7",
 				"name": "Athletics",
 				"shortName": "Athletic",
 				"supSkill": "Strength",
@@ -454,7 +531,7 @@ const initialState = {
 				"disadvantage": false
 			},
 			{
-				"id": "NJvgYNdChBVAhyo-2vTmD",
+				"id": "wt2s_824TNoIQhArRebqj",
 				"name": "Dexterity Saving Throw",
 				"shortName": "Saving Throw",
 				"supSkill": "Dexterity",
@@ -465,7 +542,7 @@ const initialState = {
 				"disadvantage": false
 			},
 			{
-				"id": "N_Gtq-tuLnbTOG8kRyMPy",
+				"id": "3u-Na57sesaGp1WUB4_gr",
 				"name": "Acrobatics",
 				"shortName": "Acrobatics",
 				"supSkill": "Dexterity",
@@ -476,7 +553,7 @@ const initialState = {
 				"disadvantage": false
 			},
 			{
-				"id": "2GQyDSky1o6h-e3nKrzmF",
+				"id": "ANU0clAh_8HoKUGeRYW82",
 				"name": "Slight of Hand",
 				"shortName": "Slight of Hand",
 				"supSkill": "Dexterity",
@@ -487,7 +564,7 @@ const initialState = {
 				"disadvantage": false
 			},
 			{
-				"id": "pBop8n8cpMGC_ghMAGWrX",
+				"id": "PWBMn-v1r8uebLLaCsVYL",
 				"name": "Stealth",
 				"shortName": "Stealth",
 				"supSkill": "Dexterity",
@@ -498,7 +575,7 @@ const initialState = {
 				"disadvantage": false
 			},
 			{
-				"id": "Ys5gswel9dZ55IBDwbeBd",
+				"id": "NKorKe03iuwf37KvTwvWc",
 				"name": "Constitution Saving Throw",
 				"shortName": "Saving Throw",
 				"supSkill": "Constitution",
@@ -509,7 +586,7 @@ const initialState = {
 				"disadvantage": false
 			},
 			{
-				"id": "bNrbnawHfI-sMLol3jR3N",
+				"id": "GkhCxuBTq0BN-Tupvbuw-",
 				"name": "Intelligence Saving Throw",
 				"shortName": "Saving Throw",
 				"supSkill": "Intelligence",
@@ -520,7 +597,7 @@ const initialState = {
 				"disadvantage": false
 			},
 			{
-				"id": "QSP5eQHAt1Ta1zf9nP-f7",
+				"id": "tP3tGM9vSc_61xhuIm57k",
 				"name": "Arcana",
 				"shortName": "Arcana",
 				"supSkill": "Intelligence",
@@ -531,7 +608,7 @@ const initialState = {
 				"disadvantage": false
 			},
 			{
-				"id": "T6h0hrH3MusQpfbu9aEzj",
+				"id": "K_E1NJVzBeF7g6tPiGfQJ",
 				"name": "History",
 				"shortName": "History",
 				"supSkill": "Intelligence",
@@ -542,7 +619,7 @@ const initialState = {
 				"disadvantage": false
 			},
 			{
-				"id": "6oIW8D9NK-3JIZFWF484w",
+				"id": "ZVbOqhBFZyNN_n6Z1BJv-",
 				"name": "Investigation",
 				"shortName": "Investigation",
 				"supSkill": "Intelligence",
@@ -553,7 +630,7 @@ const initialState = {
 				"disadvantage": false
 			},
 			{
-				"id": "NfWRRFiFBScSUHme486X-",
+				"id": "3BIZFGkN3WtWiKzX_d-b4",
 				"name": "Nature",
 				"shortName": "Nature",
 				"supSkill": "Intelligence",
@@ -564,7 +641,7 @@ const initialState = {
 				"disadvantage": false
 			},
 			{
-				"id": "r99jqaxb0tvR4wS5SVWpZ",
+				"id": "mATUW46i9iqPavnRFldaA",
 				"name": "Religion",
 				"shortName": "Religion",
 				"supSkill": "Intelligence",
@@ -575,7 +652,7 @@ const initialState = {
 				"disadvantage": false
 			},
 			{
-				"id": "P_fd9BCftsPSmGcqak4J8",
+				"id": "iQNHTBAU54v5uWkDE06oP",
 				"name": "Wisdom Saving Throw",
 				"shortName": "Saving Throw",
 				"supSkill": "Wisdom",
@@ -586,7 +663,7 @@ const initialState = {
 				"disadvantage": false
 			},
 			{
-				"id": "4xmcMCmpVB_yWz4L_7XRL",
+				"id": "r0p5q0NA4dM1c_QbZV5tm",
 				"name": "Animal Handling",
 				"shortName": "Animal Handling",
 				"supSkill": "Wisdom",
@@ -597,7 +674,7 @@ const initialState = {
 				"disadvantage": false
 			},
 			{
-				"id": "-hBRJsovkVst2_8h6vCwO",
+				"id": "0s4tdACr-azVGs-mAOSN7",
 				"name": "Insight",
 				"shortName": "Insight",
 				"supSkill": "Wisdom",
@@ -608,7 +685,7 @@ const initialState = {
 				"disadvantage": false
 			},
 			{
-				"id": "Nt61nubGlRregyWeNKHgx",
+				"id": "Eogh_C7o01yFZ-wcKF9vg",
 				"name": "Medicine",
 				"shortName": "Medicine",
 				"supSkill": "Wisdom",
@@ -619,7 +696,7 @@ const initialState = {
 				"disadvantage": false
 			},
 			{
-				"id": "BiE768YPd2aEnD8ypZ87N",
+				"id": "8FVj5Zdn-GEFB_9O3kfJe",
 				"name": "Perception",
 				"shortName": "Perception",
 				"supSkill": "Wisdom",
@@ -630,7 +707,7 @@ const initialState = {
 				"disadvantage": false
 			},
 			{
-				"id": "0-APfWJD2P_XwKP_WLZ7w",
+				"id": "NmS6EDDlZJVPllCuahM2h",
 				"name": "Survival",
 				"shortName": "Survival",
 				"supSkill": "Wisdom",
@@ -641,7 +718,7 @@ const initialState = {
 				"disadvantage": false
 			},
 			{
-				"id": "4Es_K8h5BTRrruhNu2AqU",
+				"id": "-Hyak3QOttQTPVCUuLvbX",
 				"name": "Charisma Saving Throw",
 				"shortName": "Saving Throw",
 				"supSkill": "Charisma",
@@ -652,7 +729,7 @@ const initialState = {
 				"disadvantage": false
 			},
 			{
-				"id": "Rn8pUVUeid5yGUvGz4wDV",
+				"id": "zIfNGZ-NOYpLfZRJ92EoX",
 				"name": "Deception",
 				"shortName": "Deception",
 				"supSkill": "Charisma",
@@ -663,7 +740,7 @@ const initialState = {
 				"disadvantage": false
 			},
 			{
-				"id": "eR8gNlpLwJxWd2tF3oJ42",
+				"id": "nB-hlgKPe6j9isYggZxyL",
 				"name": "Intimidation",
 				"shortName": "Intimidation",
 				"supSkill": "Charisma",
@@ -674,7 +751,7 @@ const initialState = {
 				"disadvantage": false
 			},
 			{
-				"id": "1Miu62apbAxcLpXtA1jBn",
+				"id": "k8DlwTyFujMk7jhEO298P",
 				"name": "Performance",
 				"shortName": "Performance",
 				"supSkill": "Charisma",
@@ -685,7 +762,7 @@ const initialState = {
 				"disadvantage": false
 			},
 			{
-				"id": "Ef1E2gA8T8WlsajETqFI5",
+				"id": "Fw_FFqcifDTH4TGm4BatH",
 				"name": "Persuasion",
 				"shortName": "Persuasion",
 				"supSkill": "Charisma",
@@ -696,7 +773,7 @@ const initialState = {
 				"disadvantage": false
 			},
 			{
-				"id": "4adeMgBioQ8YpYxAutvXe",
+				"id": "2T_DT5KrVRTc4Czig-u_S",
 				"name": "Simple Weapons",
 				"shortName": "Simple Weapons",
 				"supSkill": "Weapon",
@@ -705,7 +782,7 @@ const initialState = {
 				"expertise": false
 			},
 			{
-				"id": "jJPAfXeVHBz18x6cLOG1V",
+				"id": "-oueHbmr13su1UnN1f9Xm",
 				"name": "Martial Weapons",
 				"shortName": "Martial Weapons",
 				"supSkill": "Weapon",
@@ -714,7 +791,7 @@ const initialState = {
 				"expertise": false
 			},
 			{
-				"id": "Q3knEF--OH3V4pS6NjNiX",
+				"id": "QoMoZNdAaf7PjXaphMIeJ",
 				"name": "Shield",
 				"shortName": "Shield",
 				"supSkill": "Weapon",
@@ -723,7 +800,7 @@ const initialState = {
 				"expertise": false
 			},
 			{
-				"id": "A9FJ7bG6sTuhWpMJ0t3Ju",
+				"id": "-MDpm2L0RLJ-FWfNRkpOU",
 				"name": "Light Armor",
 				"shortName": "Light Armor",
 				"supSkill": "Armor",
@@ -732,7 +809,7 @@ const initialState = {
 				"expertise": false
 			},
 			{
-				"id": "qLGY0MThjliisi_UIqN3i",
+				"id": "VQg7s7EWIy1JDNI3UhYw0",
 				"name": "Medium Armor",
 				"shortName": "Medium Armor",
 				"supSkill": "Armor",
@@ -741,7 +818,7 @@ const initialState = {
 				"expertise": false
 			},
 			{
-				"id": "bCOviZhfqQGrKaufiiliN",
+				"id": "VgKUa1jNb9sy9hhmhUaj2",
 				"name": "Heavy Armor",
 				"shortName": "Heavy Armor",
 				"supSkill": "Armor",
@@ -798,7 +875,7 @@ const initialState = {
 		"inventory": [
 			{
 				"filtered": true,
-				"id": "DmoeW03tijUylgbKnSAix",
+				"id": "ixYfiFhFnSPJ7o_6gdOT1",
 				"name": "Test",
 				"container": "equipment",
 				"category": "Weapon",
@@ -862,32 +939,33 @@ const initialState = {
 		"charExperience": 0,
 		"languages": [
 			{
-				"name": "Common",
-				"knows": true
+				"id": "TGbZiFPCRDpHzGeoUWIOo",
+				"name": "Common"
 			}
 		],
 		"senses": [
 			{
+				"id": "I8WNOg8sDXgxQVGshE66C",
 				"name": "Darkvision",
-				"has": true,
 				"distance": 60
 			},
 			{
+				"id": "qfM7xMOl9_f2mbrHPM6EU",
 				"name": "Blindsight",
-				"has": false,
 				"distance": 30
 			},
 			{
+				"id": "3Kah0Y0mumli1ASAIQmkh",
 				"name": "Truesight",
-				"has": false,
 				"distance": 20
 			},
 			{
+				"id": "DYFLs-rvSJbqElKCz_T-b",
 				"name": "Tremor Sense",
-				"has": false,
 				"distance": 20
 			}
 		],
+		"sensesHas": [],
 		"resistances": [],
 		"immunities": [],
 		"vulnerabilities": []
@@ -939,76 +1017,77 @@ const initialState = {
 	"conditions": {
 		"conditions": [
 			{
+				"id": "azwqo2acKM0XQTiHPNzLV",
 				"name": "Blinded",
-				"has": true,
 				"description": "A blinded creature: \n can't see and automatically fails any ability check that requires sight. \n Attack rolls against the creature have advantage, and the creature's attack rolls have disadvantage."
 			},
 			{
+				"id": "6vzQ3Yf1GEBOJx9usVC5H",
 				"name": "Charmed",
-				"has": false,
 				"description": "A charmed creature can't attack the charmer or target the charmer with harmful abilities or magical effects. \n The charmer has advantage on any ability check to interact socially with the creature."
 			},
 			{
+				"id": "GpQjXUZZj5pxfX2OBDVW_",
 				"name": "Deafened",
-				"has": false,
 				"description": "A deafened creature can't hear and automatically fails any ability check that requires hearing."
 			},
 			{
+				"id": "Et-UMdgxUbmJpHAI7xaJn",
 				"name": "Frightened",
-				"has": false,
 				"description": "A frightened creature has disadvantage on ability checks and attack rolls while the source of its fear is within line of sight. \n The creature can't willingly move closer to the source of its fear."
 			},
 			{
+				"id": "_T_-Q0v7fvdwj5xp7CkcY",
 				"name": "Grappled",
-				"has": false,
 				"description": "A grappled creature's speed becomes 0, and it can't benefit from any bonus to its speed. \n The condition ends if the grappler is incapacitated. \n The condition also ends if an effect removes the grappled creature from the reach of the grappler or grappling effect, such as when a creature is hurled away by the thunderwave spell."
 			},
 			{
+				"id": "W-EiQ5_Z8ve4YukYtFxuG",
 				"name": "Incapacitated",
-				"has": false,
 				"description": "A grappled creature's speed becomes 0, and it can't benefit from any bonus to its speed. \n The condition ends if the grappler is incapacitated. \n The condition also ends if an effect removes the grappled creature from the reach of the grappler or grappling effect, such as when a creature is hurled away by the thunderwave spell."
 			},
 			{
+				"id": "-kwpF7an6tJdSsYpCwWia",
 				"name": "Invisible",
-				"has": false,
 				"description": "An invisible creature is impossible to see without the aid of magic or a special sense. For the purpose of hiding, the creature is heavily obscured. The creature's location can be detected by any noise it makes or any tracks it leaves. \n Attack rolls against the creature have disadvantage, and the creature's attack rolls have advantage."
 			},
 			{
+				"id": "PogtyTv4dwgSJDpNuxIcj",
 				"name": "Paralyzed",
-				"has": false,
 				"description": "A paralyzed creature is incapacitated and can't move or speak. \n The creature automatically fails Strength and Dexterity saving throws. \n Attack rolls against the creature have advantage. \n Any attack that hits the creature is a critical hit if the attacker is within 5 feet of the creature."
 			},
 			{
+				"id": "8qq6lM9BHIjJPYCdfqt2s",
 				"name": "Petrified",
-				"has": false,
 				"description": "A petrified creature is transformed, along with any nonmagical object it is wearing or carrying, into a solid inanimate substance (usually stone). Its weight increases by a factor of ten, and it ceases aging. \n The creature is incapacitated, can't move or speak, and is unaware of its surroundings. \n Attack rolls against the creature have advantage. \n The creature automatically fails Strength and Dexterity saving throws. \n The creature has resistance to all damage. \n The creature is immune to poison and disease, although a poison or disease already in its system is suspended, not neutralized."
 			},
 			{
+				"id": "DBThVa1pctp_mduVHMMj1",
 				"name": "Poisoned",
-				"has": false,
 				"description": "A poisoned creature has disadvantage on attack rolls and ability checks."
 			},
 			{
+				"id": "xyUgK-TrNh-G68K408M8q",
 				"name": "Prone",
-				"has": false,
 				"description": "A prone creature's only movement option is to crawl, unless it stands up and thereby ends the condition. \n The creature has disadvantage on attack rolls. \n An attack roll against the creature has advantage if the attacker is within 5 feet of the creature. Otherwise, the attack roll has disadvantage."
 			},
 			{
+				"id": "-1pLc1ZKdt2vuwUcJdvOI",
 				"name": "Restrained",
-				"has": false,
 				"description": "A restrained creature's speed becomes 0, and it can't benefit from any bonus to its speed. \n Attack rolls against the creature have advantage, and the creature's attack rolls have disadvantage. \n The creature has disadvantage on Dexterity saving throws."
 			},
 			{
+				"id": "hehvOv9aktwZoL0w4-DNy",
 				"name": "Stunned",
-				"has": false,
 				"description": "A stunned creature is incapacitated, can't move, and can speak only falteringly. \n The creature automatically fails Strength and Dexterity saving throws. \n Attack rolls against the creature have advantage."
 			},
 			{
+				"id": "Jc4mphpd3m9Ii188Uhyz_",
 				"name": "Unconscious",
-				"has": false,
 				"description": "An unconscious creature is incapacitated, can't move or speak, and is unaware of its surroundings. \n The creature drops whatever it's holding and falls prone. \n The creature automatically fails Strength and Dexterity saving throws. \n Attack rolls against the creature have advantage. \n Any attack that hits the creature is a critical hit if the attacker is within 5 feet of the creature."
 			}
 		],
+		"conditionsHas": [],
 		"exhaustion": {
 			"name": "Exhaustion",
 			"level": 0,
@@ -1045,5 +1124,15 @@ const initialState = {
 	"settings": {
 		"autoSaveTimer": 15,
 		"desktop": false
+	},
+	"landingPage": {
+		"todos": {
+			"big": [],
+			"medium": [],
+			"small": []
+		},
+		"todosUpdated": "Never",
+		"news": [],
+		"newsUpdated": "Never"
 	}
 }

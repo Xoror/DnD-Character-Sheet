@@ -70,6 +70,10 @@ body {
 	background-color: $main-element-color;
 	border-radius: 0;
 }
+.secondary-element-card {
+	border: 1px solid black;
+	background-color: $secondary-element-color;
+}
 
 /*Character Details*/
 @media (min-width: 992px) {

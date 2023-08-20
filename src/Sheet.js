@@ -86,6 +86,9 @@ export const Sheet = () => {
                                 </a>
                         </p>
                     </section>
+                    <section>
+                        For problems, comments, bugs etc. contact us  <a href="mailto: stargazerworks.ttrpg@gmail.com">stargazerworks.ttrpg@gmail.com</a> !
+                    </section>
 
                 </Container>
 

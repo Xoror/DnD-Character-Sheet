@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useMemo, useState} from 'react';
 import { useDispatch, useSelector } from "react-redux"
 import debounce from 'lodash.debounce'
 
@@ -10,7 +10,7 @@ export const CharacterName = () => {
 	const dispatch  = useDispatch()
 	const charName = useSelector(state => state.charDetails.charName)
     const casting = useSelector(state => state.attributes.casting)
-	
+	const [defaultCharName, setDefaultCharName] = useState("")
 	/*
 	var [width, setWidth]= useState(window.innerWidth)
 	const handleResize = useCallback(()=>{
@@ -25,15 +25,10 @@ export const CharacterName = () => {
 	*/
 	
 	const handleNameChange = (event) => {
-		console.log(event.target.value)
 		const name_change = event.target.value;
 		dispatch(changeDetails([name_change, "NameChange"]))
 	}
-	const debouncedHandleNameChange = useMemo(
-		() => debounce(handleNameChange, 300)
-	, [])
-
-
+	
 	const handleChecked = (event) => {
 		dispatch(changeIsCaster(event.target.checked))
 	}
@@ -41,7 +36,7 @@ export const CharacterName = () => {
 		<div id="CharacterName" /*className='alert alert-secondary'*/>
 			<span>Character Name: {charName} </span>
 			<br></br>
-			<input required='required' type='text' id='characterName' defaultValue={charName} placeholder="Insert Character name here" onChange={debouncedHandleNameChange}></input>
+			<input required='required' type='text' id='characterName' value={charName} placeholder="Insert Character name here" onChange={handleNameChange}></input>
 			<br></br>
 			<Form.Check type="checkbox" checked={casting.isCaster} id="is-caster-check" label="Is character spellcaster?" onChange={handleChecked}></Form.Check>
 		</div>

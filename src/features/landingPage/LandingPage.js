@@ -39,8 +39,16 @@ export const LandingPage = () => {
                         <Card.Header style={{backgroundColor:"var(--secondary-element-color)"}}><h5>News & Updates</h5></Card.Header>
 						<Card.Body style={{overflow: "auto"}}>
 							<Card.Text>
-								This is a wider card with supporting text below as a natural lead-in
-								to additional content. This content is a little bit longer.
+								{news.map((post,index) => 
+                                    <Card className="secondary-element-card" style={{marginBottom:"0.5em"}}>
+                                        <Card.Body>
+                                            <Card.Title> {post.title} <span style={{float:"right", fontWeight:"300", fontSize:"1rem"}}>{post.posted}</span></Card.Title>
+                                            <Card.Text>
+                                                {post.post}
+                                            </Card.Text>
+                                        </Card.Body>
+                                    </Card>
+                                )}
 							</Card.Text>
 						</Card.Body>
 						<Card.Footer style={{backgroundColor:"var(--secondary-element-color)"}}>
@@ -85,7 +93,7 @@ export const LandingPage = () => {
                     <Card className="landing-page-card">
                         <Card.Header style={{backgroundColor:"var(--secondary-element-color)"}}><h5>Quick-Start</h5></Card.Header>
 						<Card.Body>
-                            <>
+                            {false ? <>
                                 <FloatingLabel
                                     controlId="floatingInput"
                                     label="Email address"
@@ -97,7 +105,7 @@ export const LandingPage = () => {
                                 <FloatingLabel controlId="floatingPassword" label="Password">
                                     <Form.Control type="password" placeholder="Password" />
                                 </FloatingLabel>
-                            </>
+                            </> : <p>Coming soon!</p> }
 						</Card.Body>
 						{false ? <Card.Footer style={{backgroundColor:"var(--secondary-element-color)"}}>
 							<small>Last updated: {todosUpdated}</small>
