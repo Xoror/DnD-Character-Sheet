@@ -1,7 +1,7 @@
 @use "sass:color";
 
 $background-color: #343a40;
-$main-element-color: #6c757d;
+$main-element-color: #5b656d;/*#6c757d*/
 $secondary-element-color: #5c636a;
 $tertiary-element-color: #51585e;
 $main-border-color: #000000;
@@ -69,6 +69,8 @@ body {
 .main-element-sub-card {
 	background-color: $main-element-color;
 	border-radius: 0;
+	border-bottom-left-radius: 0.375em;
+	border-bottom-right-radius: 0.375em;
 }
 .secondary-element-card {
 	border: 1px solid black;
@@ -263,16 +265,36 @@ body {
 	padding-bottom: 1em;
 }
 .resourceBoxInside {
-	text-align: center;
 	height: 4em; /*50% of 8em*/
 	width: 4em; /*25% of 16em*/
-	padding: 1em;
+	text-align: center;
+	padding: 0em;
 }
 .resourceBoxInside2 {
 	text-align: center;
+	margin-right: 2px;
+	margin-left: 2px;
 	height:2.4em; /*10% of 8em*/
 	width: 2.4em; /*15% of 16em*/
 	padding-inline: 0;
+}
+.column1 {
+	grid-area: auto / 1 / span 1 / span 1;
+	text-align: left;
+}
+.column2 {
+grid-area: auto / 2 / span 1 / span 1;
+text-align: right;
+}
+.column3 {
+	grid-area: auto / 3 / span 1 / span 1;
+	text-align: right;
+}
+.grid-container {
+	display: grid;
+	grid: 'column1 column2 column3';
+	grid-column-gap: 0.25em;
+	grid-row-gap: 0;
 }
 
 /* SpellCard Stylings */
@@ -627,7 +649,7 @@ body {
 }
 
 .modal-custom {
-	background-color: var(--main-element-color);
+	background-color: var(--background-color);
 	border: 1px solid var(--main-border-color)
 }
 
@@ -690,3 +712,16 @@ body {
 		border: 1px solid var(--text-color);
 	}
 }
+
+/*tool tips */
+.tooltip-inner {
+	max-width: 22em;
+	text-align: left;
+	opacity: 1;
+	background-color: black;
+	border: 1px solid var(--bs-danger);
+	color: var(--bs-danger);
+}
+.bs-tooltip-top .tooltip-arrow::before {
+	border-top-color: black;
+  }
