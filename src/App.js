@@ -11,12 +11,12 @@ import { ScrollBar } from './features/scrollbar/ScrollBar'
 import { NavBar } from "./features/nav/NavBar"
 import { Sheet } from './Sheet'
 import { LandingPage } from './features/landingPage/LandingPage';
-import { isDesktop } from './features/settings/SettingsSlice';
+import { isDesktop } from "./config.js"
 
 // These exist because different routers are used depending on whether the build is run on a server or on a static host.
 // Electron is a static host so when building the app for it, we need a hash router, whereas GitHub pages is a server so
 // to run on it you can use a regular browser router.
-const routerDesktop = createHashRouter([//createBrowserRouter([
+const routerDesktop = createHashRouter([
 	{
 		path: "/",
 		element: <NavBar />,

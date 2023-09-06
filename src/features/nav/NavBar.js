@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux"
 import { createAction } from '@reduxjs/toolkit';
 
-import { Outlet, Link } from "react-router-dom"
+import { Outlet, Link, useLocation } from "react-router-dom"
 
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav'
@@ -31,7 +31,6 @@ import { importConditions } from '../conditions/ConditionsSlice';
 import { importCharacterNames, addCharacterToDatabase, 
 	importCharacter, changeCharacterIndDB, importNavBar } from './NavBarSlice';
 import { importSettings } from '../settings/SettingsSlice';
-import { useLocation } from 'react-router-dom';
 
 let _ = require('lodash')
 
@@ -182,13 +181,13 @@ export const NavBar = () => {
 		setShowSafetyBox(false)
 		if(tempSave[2] === "new") {
 			if(tempSave[1] === "web") {
-				dispatch({type: "import/state", payload: {settings: {autoSaveTimer: 15,desktop: false}}})
+				window.sessionStorage.clear()//settingsSlice
+				dispatch({type: "import/state", payload: {settings: {autoSaveTimer: settingsSlice.autoSaveTimer, desktop: settingsSlice.desktop, diceLog: []}}})
+				window.location.reload()
 			} else {
-				initialState.settings = {autoSaveTimer: 15,desktop: true}
-				//dispatch(importState(initialState, dispatch))
-				//dispatch(importNavBar(initialState.navBar))
-				dispatch({type: "import/state", payload: {navBar: initialState.navBar, settings: {autoSaveTimer: 15,desktop: true}}})
+				dispatch({type: "import/state", payload: {settings: {autoSaveTimer: settingsSlice.autoSaveTimer, desktop: settingsSlice.desktop, diceLog: []}}})
 				setStar(false)
+				window.location.reload()
 			}
 		}
 		else {
@@ -207,7 +206,7 @@ export const NavBar = () => {
 			dispatch({type: "import/state", payload: preparedImportState(JSON.parse(test.payload.state), navBarTemp)})
 		}
 	}
-	
+
 	return(
 		<>
 			{ desktop ? 
@@ -302,9 +301,12 @@ export const NavBar = () => {
 							{document.title}
 						</Navbar.Brand>
 						{!desktop ?
-							<Navbar.Brand id="character-sheet-link" to="/sheet" role="button" as={Link} className="sheet-button not-draggable" onClick={event => handleNavDropdownClick(event, "web", "new")}>
-								New Character
-							</Navbar.Brand> : null
+							<>
+								<Navbar.Brand id="character-sheet-link" to="/sheet" role="button" as={Link} className="sheet-button not-draggable" onClick={event => handleNavDropdownClick(event, "web", "new")}>
+									New Character
+								</Navbar.Brand>
+							</>
+							: null
 						}
 					</>
 				}
@@ -335,6 +337,7 @@ export const NavBar = () => {
 					</NavDropdown>
 					<Navbar.Text>Last saved{star ? "*" : null}: {navBarSlice.lastSaved} (currently editing: {navBarSlice.currentlyEditing.name})</Navbar.Text>
 				</Nav>: null}
+				
 				{ desktop ? 
 					<div className="controls" style={{marginLeft:"auto"}}>
 						{false ? <Button variant="link" onClick={handleSQL}>SQL get test</Button> : null}

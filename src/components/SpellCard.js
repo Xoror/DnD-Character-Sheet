@@ -4,6 +4,7 @@ import "./SpellCard.scss"
 
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import CloseButton from 'react-bootstrap/CloseButton';
 
 /*
     Required Inputs: 
@@ -69,7 +70,7 @@ export const SpellCard = (props) => {
     }
     return(
         <div key={props.id} className={`${props.show} spellcard`}>
-            <h4>{data.name}</h4>
+            <h4>{data.name}<CloseButton variant="white" style={{float:"right", width:"0.5em", height:"0.5em", margin:"0.25em"}}/></h4>
             {props.offCanvas ? <h6> Classes: {classes} </h6> : null}
             <Row className="spellcard-row">
                 <Col>
@@ -105,16 +106,10 @@ export const SpellCard = (props) => {
             </Row>
             <Row>
                 <Col className="spellcard-section overflow">
-                {data.type === "Cantrip" ?
-                    <>
-                        <p style={{paddingRight:"0.5em", textAlign:"justify"}}>{data.description[0][0]}</p>
-                        <p style={{paddingRight:"0.5em", textAlign:"justify"}}> <b>At higher levels: </b> {data.description[0][1] ? data.description[0][1] : "-"}</p> 
-                    </> :
-                    <>
-                        <p style={{paddingRight:"0.5em", textAlign:"justify"}}>{data.description[0]}</p>
-                        <p style={{paddingRight:"0.5em", textAlign:"justify"}}> <b>At higher levels: </b> {data.description[1] != undefined ? data.description[1] : "-"}</p>
-                    </>
-                }
+                {data.description[0].map((desc, index) => (
+                    <p key={`${data.name}-spellcard-description-${index}`} style={{paddingRight:"0.5em", textAlign:"justify"}}>{desc}</p>
+                ))}
+                <p style={{paddingRight:"0.5em", textAlign:"justify"}}> <b>At higher levels: </b> {data.description[1]}</p>
                 </Col>
             </Row>
             <section>

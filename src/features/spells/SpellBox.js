@@ -10,6 +10,7 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
+import CloseButton from 'react-bootstrap/CloseButton'
 
 import { HiOutlineInformationCircle } from "react-icons/hi";
 import { changeCasterType, changeCastingAttribute, computeHitDC } from '../attributes/AttributesSlice';
@@ -28,10 +29,16 @@ export const SpellBox = () => {
 	const handleCasterTypeChange = (event) => {
 		dispatch(changeCasterType(event.target.value))
 	}
+	const handlePopoverClick = (event) => {
+		event.stopPropagation()
+	}
 	const popover = (
-		<Popover style={{border:"1px solid white"}} id="popover-basic">
-			<Popover.Header style={{backgroundColor:"#212529", color:"white"}} as="h3">Legend</Popover.Header>
-			<Popover.Body style={{backgroundColor:"#343a40", color:"white", borderBottomRightRadius:"0.5em", borderBottomLeftRadius:"0.5em"}}>
+		<Popover className="popover-container" id="popover-basic" onClick={event => event.stopPropagation()}>
+			<Popover.Header className="popover-header" as="h3">
+				Legend
+				<CloseButton aria-label="close caster type legend" variant="white"/>
+			</Popover.Header>
+			<Popover.Body className="popover-body">
 				<span> <b>Full Caster:</b> Casters like Wizards, Sorcerers, Bards that get spellslots up to 9th level.</span>
 				<br></br>
 				<span> <b>Half Caster:</b> Casters like Rangers, Paladins that get spellslots up to 5th level</span>
@@ -50,8 +57,8 @@ export const SpellBox = () => {
 			<Card bg="secondary" border="dark">
 				<InputGroup>
 					<InputGroup.Text style={{padding:"0"}}>
-						<OverlayTrigger trigger="click" placement="auto" overlay={popover}>
-							<button className="button-react-icons-style"> <HiOutlineInformationCircle size="25"/> </button>
+						<OverlayTrigger trigger="focus" placement="auto" overlay={popover}>
+							<button className="react-icons-button" style={{borderRadius:"100%", height:"1.5em"}}> <HiOutlineInformationCircle size="1.5em" style={{position:"relative", bottom:"2px"}}/> </button>
 						</OverlayTrigger>
 					</InputGroup.Text>
 					<Form.Select value={casting.type} id="CasterType" onChange={handleCasterTypeChange} style={{paddingRight:"0em", textOverflow:"fade"}}>

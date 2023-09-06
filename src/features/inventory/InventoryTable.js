@@ -59,7 +59,6 @@ export const InventoryTable = (props) => {
         }
     }
 	const saveItem = (item, id, add = "") => {
-		console.log(item)
 		let temp = {}
 		if (props.header === "Mundane Items") {
 			temp["id"] = id
@@ -138,7 +137,6 @@ export const InventoryTable = (props) => {
 			if(item.gear_category != undefined ? item.gear_category.name === "Holy Symbols" : false) {
 				temp["category"] = "Holy Symbol";
 			}
-			console.log(temp["category"])
 		}
 		else if (props.header === "Wondrous Items") {
 			temp["id"] = id

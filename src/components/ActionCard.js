@@ -44,49 +44,49 @@ export const ActionCard = (props) => {
     }
     
     return(
-            <Card key={`${props.id}`} className={`${props.show} actioncard`}>
-                <h4>{data.name}</h4>
-                <Row className="actioncard-row">
-                    <Col>
-                        <span>Action Type: </span>
-                    </Col>
-                    <Col md="auto">
-                        {data.type}
-                    </Col>
-                </Row>
-                <Row className="actioncard-row">
-                    <Col>
-                        <span>Range: </span>
-                    </Col>
-                    <Col md="auto">
-                        {data.range}
-                    </Col>
-                </Row>
-                <Row className="actioncard-row">
-                    <Col>
-                        <span>Damage: </span>
-                    </Col>
-                    <Col md="auto">
-                        {data.damage} { data.damageType != undefined && data.damageType != "None" ? "(" + data.damageType + ")" : null}
-                    </Col>
-                </Row>
-                <Row className="actioncard-row">
-                    <Col>
-                        <span>Scales with: </span>
-                    </Col>
-                    <Col md="auto">
-                        {data.scaling}
-                    </Col>
-                </Row>
-                <Row>
-                    <Col className="actioncard-section">
-                        <p>{data.description}</p>
-                    </Col>
-                </Row>
-                <section>
-                    <p className="actioncard-footer"> {data.isProficient != undefined ? (data.isProficient ? "Is proficient." : "Is not proficient.") : null}</p>
-                </section>
-            </Card>
+        <Card key={`${props.id}`} className={`${props.show} actioncard`}>
+            <h4>{data.name}</h4>
+            <Row className="actioncard-row">
+                <Col>
+                    <span>Action Type: </span>
+                </Col>
+                <Col md="auto">
+                    {data.type}
+                </Col>
+            </Row>
+            <Row className="actioncard-row">
+                <Col>
+                    <span>Range: </span>
+                </Col>
+                <Col md="auto">
+                    {data.range}
+                </Col>
+            </Row>
+            <Row className="actioncard-row">
+                <Col>
+                    <span>Damage: </span>
+                </Col>
+                <Col md="auto">
+                    {data.damage} { data.damageType != undefined && data.damageType != "None" ? "(" + data.damageType + ")" : null}
+                </Col>
+            </Row>
+            <Row className="actioncard-row">
+                <Col>
+                    <span>Scales with: </span>
+                </Col>
+                <Col md="auto">
+                    {data.scaling}
+                </Col>
+            </Row>
+            <Row>
+                <Col className="actioncard-section overflow">
+                    <p>{data.description}</p>
+                </Col>
+            </Row>
+            <section>
+                <p className="actioncard-footer"> {data.isProficient != undefined ? (data.isProficient ? "Is proficient." : "Is not proficient.") : null}</p>
+            </section>
+        </Card>
     )
 }
 

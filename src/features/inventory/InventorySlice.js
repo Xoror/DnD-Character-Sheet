@@ -27,31 +27,31 @@ export const getClassStartingItems = createAsyncThunk('actions/fetchAPISpelllist
 })
 
 const initialState = {
-        inventory: [
-            {
-                filtered:true, 
-                id: nanoid(), 
-                name: "Test", 
-                container: "equipment",
-                category: "Weapon",
-                qty: 1, 
-                worth: 2, 
-                weight: 3, 
-                isEquipped: false,
-                rarity: "Common",
-                attunable: false,
-                attuned: false,
-                attuneRequirement: "requires attunment by a druid",
-                description: ["This is a test, a meddle of strength"]
-            }
-        ],
-        containers: [
-            {id: "equipment", value: "equipment", label: "Equipment", weight:0}
-        ],
-        weight: 0,
-	    currency: {platinum: 0, gold: 0, electrum: 0, silver: 0, copper: 0},
-        startingItems: {}
-    }
+    inventory: [
+        {
+            filtered:true, 
+            id: nanoid(), 
+            name: "Test", 
+            container: "equipment",
+            category: "Weapon",
+            qty: 1, 
+            worth: 2, 
+            weight: 3, 
+            isEquipped: false,
+            rarity: "Common",
+            attunable: false,
+            attuned: false,
+            attuneRequirement: "requires attunment by a druid",
+            description: ["This is a test, a meddle of strength"]
+        }
+    ],
+    containers: [
+        {id: "equipment", value: "equipment", label: "Equipment", weight:0}
+    ],
+    weight: 0,
+    currency: {platinum: 0, gold: 0, electrum: 0, silver: 0, copper: 0},
+    startingItems: {}
+}
 
 const InventorySlice = createSlice({
     name: "inventory",

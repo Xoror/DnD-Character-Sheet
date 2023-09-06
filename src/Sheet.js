@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import version from '../package.json'
@@ -22,10 +23,13 @@ import { SpellBox } from "./features/spells/SpellBox.js"
 import { ThirdColumn } from './features/classFeatures/3rdColumn'
 import { ResistancesBox } from './features/charDetails/ResistancesBox'
 import { MiscBar } from './features/conditions/MiscBar'
+import { DiceLog } from './features/settings/DiceLog';
+
 
 export const Sheet = () => {
     return (
         <>
+            <DiceLog />
             <Container fluid className="main-style">
                 <Row className="justify-content-md-center" style={{paddingBottom:"0.5em", paddingRight:"1.25em", paddingLeft:"0.75em"}}>
                     <Col lg={{order:1, span:3}} md={{order:1, span:6}} sm={{order:1, span:6}} className="left-box">

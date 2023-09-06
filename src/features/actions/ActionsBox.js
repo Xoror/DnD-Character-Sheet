@@ -23,16 +23,17 @@ export const ActionsBox = (props) => {
 			name: "", 
 			range: "", 
 			damage: "", 
+			damageAtHigherLevel: "None",
 			type: "", 
 			scaling: "", 
 			isPrepared: false, 
 			damageType: "", 
-			description: "", 
+			description: ["",""], 
 			school: "", 
 			ritual: "", 
 			classes: "", 
 			components: "",
-			duration: "", 
+			duration: ["",""], 
 			castingTime: ""
 		} : 
 		{
@@ -93,7 +94,24 @@ export const ActionsBox = (props) => {
 	}
 	const handleSelectValues = (event, id) => {
 		let copy = structuredClone(defaultValues)
-		copy[id] = event.target.value
+		if(event.target != undefined) {
+			copy[id] = event.target.value
+		}
+		else if(id === "damage") {
+			copy[id] = event
+		}
+		else if(id === "description_0") {
+			copy.description[0] = event.target.value
+		}
+		else if(id === "description_1") {
+			copy.description[1] = event.target.value
+		}
+		else if(id === "duration_0") {
+			copy.duration[0] = event.target.value
+		}
+		else if(id === "duration_1") {
+			copy.duration[1] = event.target.value
+		}
 		setDefaultValues(copy)
 	}
 	//<FloatingLabel label="Name" style={{color:"black"}}>

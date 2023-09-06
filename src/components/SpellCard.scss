@@ -1,9 +1,11 @@
 .spellcard {
     border: 2px groove black;
     border-radius: 0.375em;
-    width: 350px;
+    width: 100%;
     padding: 0.25em 0.75em 0em 0.75em;
     background-color: #343a40;
+    max-height: 100%;
+    /*margin-top: 3em;*/
 }
 .spellcard-row {
     border-top: 1px solid black; 
@@ -20,6 +22,6 @@
     text-align: end;
 }
 .overflow {
-    max-height: 20em;
-    overflow-y: scroll;
+    max-height: 10em;
+    overflow-y: auto;
 }

@@ -2,7 +2,7 @@ import { createSlice, nanoid } from "@reduxjs/toolkit"
 
 const initialState = {
     data: [
-        {name: "Hit Points", current: "", maximum: "", dice: ""}
+        {name: "Hit Points", current: 1, maximum: 1, dice: ""}
     ]
 }
 

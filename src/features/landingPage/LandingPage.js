@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Col from 'react-bootstrap/Col'
@@ -17,18 +17,23 @@ export const LandingPage = () => {
     const news = useSelector(state => state.landingPage.news)
     const newsUpdated = useSelector(state => state.landingPage.newsUpdated)
     const todos = useSelector(state => state.landingPage.todos)
-    const todosUpdated = useSelector(state => state.landingPage.todosUpdated)
+    const todosUpdated = useSelector(state => state.landingPage.todosUpdated)    
 
     useEffect(() => {
         dispatch(updateTodos())
         dispatch(updateNews())
-    }, [])
+    }, [dispatch])
 
     const refreshTodos = (event) => {
         dispatch(updateTodos())
     }
     const refreshNews = (event) => {
         dispatch(updateNews())
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault()
+        console.log(event.target[0].value)
     }
 
 	return (
@@ -38,9 +43,9 @@ export const LandingPage = () => {
 					<Card className="landing-page-card">
                         <Card.Header style={{backgroundColor:"var(--secondary-element-color)"}}><h5>News & Updates</h5></Card.Header>
 						<Card.Body style={{overflow: "auto"}}>
-							<Card.Text>
+							
 								{news.map((post,index) => 
-                                    <Card className="secondary-element-card" style={{marginBottom:"0.5em"}}>
+                                    <Card key={`post-titled-${post.title}`} className="secondary-element-card" style={{marginBottom:"0.5em"}}>
                                         <Card.Body>
                                             <Card.Title> {post.title} <span style={{float:"right", fontWeight:"300", fontSize:"1rem"}}>{post.posted}</span></Card.Title>
                                             <Card.Text>
@@ -49,7 +54,7 @@ export const LandingPage = () => {
                                         </Card.Body>
                                     </Card>
                                 )}
-							</Card.Text>
+							
 						</Card.Body>
 						<Card.Footer style={{backgroundColor:"var(--secondary-element-color)"}}>
 							<small>Last updated: {newsUpdated}</small>
@@ -105,7 +110,18 @@ export const LandingPage = () => {
                                 <FloatingLabel controlId="floatingPassword" label="Password">
                                     <Form.Control type="password" placeholder="Password" />
                                 </FloatingLabel>
-                            </> : <p>Coming soon!</p> }
+                            </> :
+                            <>
+                                <p>
+                                    Coming Soon!
+                                </p>
+                                <form onSubmit={handleSubmit}>
+                                    <input></input>
+                                    <button type="submit">Roll</button>
+                                </form>
+                                
+                            </>
+                            }
 						</Card.Body>
 						{false ? <Card.Footer style={{backgroundColor:"var(--secondary-element-color)"}}>
 							<small>Last updated: {todosUpdated}</small>

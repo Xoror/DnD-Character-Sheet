@@ -1,6 +1,7 @@
 node_modules/
 node_modules2/
 out/
+src/apiCallFunctions.js
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -131,3 +132,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+

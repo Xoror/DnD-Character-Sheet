@@ -1,6 +1,12 @@
 import { createAsyncThunk, createSlice, nanoid, current } from "@reduxjs/toolkit";
 import axios from "axios";
-
+/*
+const sqlite3 = require("sqlite3").verbose()
+const database = new sqlite3.Database("../../public/data.db", sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {console.log(err)}
+    else console.log("Connected to database")
+  })
+*/
 import {spellList} from "../../data/spellsSRD.js";
 
 
@@ -60,6 +66,9 @@ const ActionsSlice = createSlice({
                     let test2 = slots.indexOf(state.highestSpellSlot)
                     if(test1 > test2) { 
                         state.highestSpellSlot = action.payload[0].type
+                    }
+                    if(action.payload[0].damageAtHigherLevel.length === 0) {
+                        action.payload[0].damageAtHigherLevel[action.payload[0].level] = action.payload[0].damage
                     }
                     state.spells.push(action.payload[0])
                 }
@@ -222,6 +231,21 @@ const ActionsSlice = createSlice({
                 let spellLiistUnformatted = []
                 let spellLiistFormatted
 
+                const prepareDescription = (desc, higher_level) => {
+                    if(higher_level.length === 0) {
+                        if( desc[desc.length - 1].includes("5th level") ) {
+                            console.log([desc.slice(0, desc.length-1), desc[desc.length - 1]])
+                            return [desc.slice(0, desc.length-1), desc[desc.length - 1]]
+                        }
+                        else {
+                            return [desc, "-"]
+                        }
+                    }
+                    else {
+                        return [desc, higher_level]
+                    }
+                }
+
 				spellList.map((spell, index) => (
 					spellLiistUnformatted.push(
                         {
@@ -230,12 +254,22 @@ const ActionsSlice = createSlice({
                             id: nanoid(), 
                             name: spell.name, 
                             range: spell.range, 
-                            damage: spell.damage === undefined ? "None" : (spell.level === 0 ? spell.damage.damage_at_character_level[spell.level+1] : spell.damage.damage_at_slot_level[spell.level]), 
+                            damage: spell.damage === undefined ? 
+                                (spell.heal_at_slot_level === undefined ? "None" : spell.heal_at_slot_level[spell.level+1]) 
+                                    : 
+                                (spell.level === 0 ? spell.damage.damage_at_character_level[spell.level+1] : spell.damage.damage_at_slot_level[spell.level]), 
+                            damageAtHigherLevel: spell.damage === undefined ? 
+                                (spell.heal_at_slot_level === undefined ? "None" : spell.heal_at_slot_level) 
+                                    : 
+                                (spell.level === 0 ? spell.damage.damage_at_character_level : spell.damage.damage_at_slot_level),
                             type: returnSpellslot(spell.level), 
-                            scaling: action.payload[1], 
+                            scaling: action.payload[1] === "" || action.payload[1] === undefined ? "None": action.payload[1], 
                             isPrepared: false, 
-                            damageType: spell.damage === undefined ? "None" : (spell.damage.damage_type === undefined ? "None": spell.damage.damage_type.name), 
-                            description: [spell.desc, spell.higher_level], 
+                            damageType: spell.damage === undefined ? 
+                                (spell.heal_at_slot_level === undefined ? "None" : "Heal") 
+                                    : 
+                                (spell.damage.damage_type === undefined ? "None": spell.damage.damage_type.name), 
+                            description: prepareDescription(spell.desc, spell.higher_level),
                             school: spell.school.name, 
                             ritual: spell.ritual, 
                             classes: spell.classes, 

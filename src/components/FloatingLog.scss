@@ -1,0 +1,39 @@
+.popover-container {
+	border: 1px solid white;
+}
+.popover-header {
+	background-color: var(--nav-color);
+	color: white;
+}
+.popover-body {
+	background-color: var(--background-color);
+	color: var(--text-color);
+	border-bottom-right-radius: 0.5em;
+	border-bottom-left-radius: 0.5em;
+    max-height: 30em;
+    overflow: auto;
+}
+.popover-arrow {
+	border-color: black;
+}
+.log-icon {
+    size: 1.125em;
+    color: white;
+    vertical-align: baseline;
+}
+.dice-log-button {
+	display: block;
+	position: fixed;
+	bottom: 1.25em;
+	left: 2em;
+	z-index: 99;
+	border: 1px solid var(--text-color);
+	&:hover {
+		border: 1px solid var(--text-color);
+	}
+	&:active {
+		border-color: var(--text-color);
+	}
+	height: 2.25em;
+	border-radius: 1.125em;
+}
