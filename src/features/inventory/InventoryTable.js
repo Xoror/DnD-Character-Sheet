@@ -16,18 +16,6 @@ import { ItemCard } from '../../components/ItemCard';
 export const InventoryTable = (props) => {
     const dispatch = useDispatch()
 
-	const handleKeyUp = (event, body) => {
-		if(event.code === "Space" || event.code === "Enter") {
-			event.preventDefault()
-			if(event.target.id === "edit-button") {
-				startEdit(event, body)
-			}
-			else {
-				handleDelete(event, body)
-			}
-		}
-	}
-
 	const [currentItem, setCurrentItem] = useState(
 		{
 			filtered:true, 
@@ -154,7 +142,7 @@ export const InventoryTable = (props) => {
 			temp["description"] = item.desc
 			temp["category"] = "Wondrous Item"
 		}
-		setCurrentItem(temp)
+		
 		if(add === "addItemList") {
 			temp["container"] = "equipment"
 			temp["qty"] = addItemCounter
@@ -166,6 +154,10 @@ export const InventoryTable = (props) => {
 			}
 			dispatch(addItem(temp))
 		}
+		else if(false) {
+			temp["id"] = item.name
+		}
+		setCurrentItem(temp)
 	}
 	
 	const handleDelete = (event, id) => {
@@ -188,6 +180,7 @@ export const InventoryTable = (props) => {
 
 	let place = "right"
 	let cardID = props.cardID
+	const [showDetails, setShowDetails] = useState([false, "bla"])
 	const [showPopover, setShowPopover] = useState([false,cardID])
 	useEffect(() => {
 		if(showPopover[1] != cardID) {
@@ -198,13 +191,21 @@ export const InventoryTable = (props) => {
 	const handleRowClick = (event, id) => {
 		let test
 		cardID = props.cardID
-		fetchItem(props.bodies.find(body => body.id === id))
-			.then((res) => {
-				saveItem(res, id)
-			})
-			.catch((e) => {
-				console.log(e.message)
-			})
+		if(offCanvas) {
+			fetchItem(props.bodies.find(body => body.id === id))
+				.then((res) => {
+					saveItem(res, id)
+				})
+				.catch((e) => {
+					console.log(e.message)
+				})
+		}
+		if(showDetails[0] && showDetails[1] === id) {
+			setShowDetails([false, "bla"])
+		}
+		else {
+			setShowDetails([true, id])
+		}
 		/*
 		if(showPopover=== "0") {
 			setShowPopover([showPopover[0], id])
@@ -303,48 +304,30 @@ export const InventoryTable = (props) => {
 							</td>: <td></td>}
 						</tr>}
 					{props.bodies.map( (body, index) => (
-						<tr className="action-table" key={`inventory-table-row-id-${body.id === undefined ? index : body.id}`} id={`inventory-table-row-id-${body.id}`} onClick={(event) => handleRowClick(event, body.id)}>
-							{offCanvas ? null : 
-								<td style={{height:"1.5em", width:"1.5em", zIndex:"2"}}>
-									<div className="checkbox-wrapper letter-k">
-										<input type="checkbox" id={body.name} value="prepared"  onClick={(event) => handleEquipped(event, body.id)} defaultChecked={body.isEquipped}></input>
-									</div>
-								</td>
-							}
-							{ offCanvas ? 
-								<>
-									<td>
-										{body.name}
-										{ showPopover[0] && showPopover[1] === body.id && cardID === body.id  ?
-											<div className="popover-test" ref={setPopperElement} style={styles.popper} {...attributes.popper}>
-												<ItemCard id ={`itemcard-${body.id}`} data={currentItem}/>
-												<span
-													ref={setArrowElement}
-													style={styles.arrow}
-													{...attributes.arrow}
-													className={`arrow arrow-${place}`}
-												/>
-											</div> : 
-											null
-										}
+						<>
+							<tr className="action-table" key={`inventory-table-row-id-${body.id === undefined ? index : body.id}`} id={`inventory-table-row-id-${body.id}`} onClick={offCanvas ? (event) => handleRowClick(event, body.id) : (event) => handleRowClick(event, body.id)}>
+								{offCanvas ? null : 
+									<td style={{height:"1.5em", width:"1.5em", zIndex:"2"}}>
+										<div className="checkbox-wrapper letter-k">
+											<input type="checkbox" id={body.name} value="prepared"  onClick={(event) => handleEquipped(event, body.id)} defaultChecked={body.isEquipped}></input>
+										</div>
 									</td>
-								</> :
-								<td> 
-									{body.name}
-									{ showPopover[0] && showPopover[1] === body.id && cardID === body.id  ?
-										<div className="popover-test" ref={setPopperElement} style={styles.popper} {...attributes.popper}>
-											<ItemCard id ={`itemcard-${body.id}`} data={body}/>
-											<span
-												ref={setArrowElement}
-												style={styles.arrow}
-												{...attributes.arrow}
-												className={`arrow arrow-${place}`}
-											/>
-										</div> : 
-										null
-									}
-								</td>
-							}
+								}
+							<td> 
+								{body.name}
+								{ false && showPopover[0] && showPopover[1] === body.id && cardID === body.id  ?
+									<div className="popover-test" ref={setPopperElement} style={styles.popper} {...attributes.popper}>
+										<ItemCard id ={`itemcard-${body.id}`} data={body}/>
+										<span
+											ref={setArrowElement}
+											style={styles.arrow}
+											{...attributes.arrow}
+											className={`arrow arrow-${place}`}
+										/>
+									</div> : 
+									null
+								}
+							</td>
 							{offCanvas ?
 								<td>
 									<ButtonGroup style={{float:"right", minWidth:"110px",zIndex:"5"}} aria-label="adjust quantity of items to add">
@@ -370,6 +353,24 @@ export const InventoryTable = (props) => {
 								</>
 							}
 						</tr>
+							{offCanvas  ?
+								(showDetails[0] && showDetails[1] === body.id ?
+									<tr key={`item-details-id-${body.id}`}>
+										<td style={{borderRight:"1px solid rgba(1,1,1,0.5)", borderLeft:"1px solid rgba(1,1,1,0.5)"}} colSpan={6}>
+											<ItemCard id ={`itemcard-${body.id}`} data={currentItem}/>
+										</td>
+									</tr> : null
+								)
+								:
+								(showDetails[0] && showDetails[1] === body.id ?
+									<tr key={`item-details-id-${currentItem.id}`}>
+										<td style={{borderRight:"1px solid rgba(1,1,1,0.5)", borderLeft:"1px solid rgba(1,1,1,0.5)"}} colSpan={6}>
+											<ItemCard id ={`itemcard-${body.id}`} data={body}/>
+										</td>
+									</tr> : null
+								)
+							}
+						</>
 					))}
 				</tbody>
 			</Table>

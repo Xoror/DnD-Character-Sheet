@@ -15,7 +15,7 @@ export const ActionsAdd = (props) => {
     const setEditing = props.setEditing
     const defaultValues = props.defaultValues
     const setDefaultValues = props.setDefaultValues
-    let spells = props.spells
+    let spells = props.spells === undefined ? false : props.spells
     const actionTemplate = props.actionTemplate
     const handleSubmit = props.handleSubmit
     const handleSelectValues = props.handleSelectValues
@@ -76,15 +76,27 @@ export const ActionsAdd = (props) => {
     }
     const handleDamageChange = (event) => {
         setDamageTest(event.target.value)
+        handleSelectValues(event.target.value, "damage")
     }
     useEffect(() => {
-        if(!damageValidation(damageTest)) {
-            setShowDamageTooltip(true)
+        if(spells) {
+            if(defaultValues.duration === undefined) {
+                setDefaultValues(actionTemplate)
+            }
         }
-        else {
-            console.log("bla", showDamageTooltip)
-            handleSelectValues(damageTest, "damage")
-            setShowDamageTooltip(false)
+        else if(defaultValues.isProficient === undefined) {
+            setDefaultValues(actionTemplate)
+        }
+    }, [defaultValues, setDefaultValues, actionTemplate])
+    useEffect(() => {
+        if(editing) {
+            if(!damageValidation(damageTest)) {
+                setShowDamageTooltip(true)
+            }
+            else {
+                handleSelectValues(damageTest, "damage")
+                setShowDamageTooltip(false)
+            }
         }
     }, [damageTest])
     useEffect(() => {
@@ -133,7 +145,10 @@ export const ActionsAdd = (props) => {
                     <InputGroup>
                         <FloatingLabel controlId={`${ariaLabel}-${spells ? "tier":"type"}`} label={`${spells ? "Tier":"Type"}`}>
                             <Form.Select required value={defaultValues.type} className="middle-left-group" aria-labelledby={`${ariaLabel}-${spells ? "tier":"type"}`} onChange={event => handleSelectValues(event, "type")}>
-                                {!spells ? <option key="0" value="">Choose Action Type</option>:<option key="0" value="">Choose Spell Tier</option>}
+                                {!spells ? 
+                                    <option key="0" value="">Choose Action Type</option>
+                                        :
+                                    <option key="0" value="">Choose Spell Tier</option>}
                                 {options.map((option1, index) => 
                                     <option key={`action-type-${option1}`} value={option1}>{option1}</option>
                                 )}
@@ -148,7 +163,7 @@ export const ActionsAdd = (props) => {
                             </Form.Select>
                         </FloatingLabel>
                     </InputGroup>
-                    {spells ?
+                    {spells && defaultValues.duration != undefined ?
                     <>
                         <InputGroup>
                             <FloatingLabel controlId={`${ariaLabel}-school`} label="School">
@@ -185,7 +200,7 @@ export const ActionsAdd = (props) => {
                     </>
                     : null}
                     <InputGroup>
-                        {spells ? 
+                        {spells && defaultValues.duration != undefined ? 
                             <FloatingLabel controlId={`${ariaLabel}-components`} label="Components">
                                 <Form.Select required value={defaultValues.components} className="middle-left-group" type="text" aria-labelledby={`${ariaLabel}-components`} onChange={event => handleSelectValues(event, "components")}> 
                                     <option value="">Choose components</option>
@@ -215,7 +230,7 @@ export const ActionsAdd = (props) => {
                     <FloatingLabel controlId={`${ariaLabel}-description`} label="Description">
                         <Form.Control as="textarea" className="middle-left-group middle-right-group" style={{height:"8em"}} aria-label="description" placeholder="" value={defaultValues.description[0]} onChange={event => handleSelectValues(event, "description_0")}/>
                     </FloatingLabel>
-                    {spells ?
+                    {spells && defaultValues.duration != undefined ?
                         <FloatingLabel controlId={`${ariaLabel}-description-at-higher-level`} label="At higher level">
                             <Form.Control as="textarea" className="bottom-left-group bottom-right-group" style={{height:"8em"}} aria-label="at higher level" placeholder="" value={defaultValues.description[1]} onChange={event => handleSelectValues(event, "description_1")}/>
                         </FloatingLabel> : null
@@ -343,7 +358,7 @@ export const ActionsAdd = (props) => {
                     <InputGroup.Text as="label" id={`${editing ? "edit":"add-new"}-${ariaLabel}`} className="top-left-group top-right-group" style={{flexGrow:"2"}}> {editing ? ("Currently editing: " + defaultValues.name) : (spells ? "Add New Spell" : "Add New Action/Bonus Action/etc:") } </InputGroup.Text>
                     {editing ? <Button onClick={cancelEditing}>Cancel</Button> : "" }
                 </InputGroup>
-                {addActionForm()}
+                {addActionForm(false)}
             </div>
             <Modal backdrop="static" aria-labelledby={`add-new-${ariaLabel}-dialog`} contentClassName="modal-custom" size="lg" show={props.showAddAction} onHide={() => props.setShowAddAction(false)}>
                 <Modal.Header closeButton>
@@ -352,7 +367,6 @@ export const ActionsAdd = (props) => {
 					</Modal.Title>
 				</Modal.Header>
                 {addActionForm(true)}
-                
             </Modal>
         </>
     )

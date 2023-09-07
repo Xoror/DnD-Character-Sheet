@@ -114,14 +114,9 @@ export const FilterItem = (props) => {
 					<input value={props.item[props.value]} onChange={(event) => props.handleInputChange(event, props.item, props.type)} style={{width:"2em", height:"1.4em"}}></input>
 					<span>{props.valueLegend}</span>
 				</>) : null } 
-			<AiOutlineCloseCircle 
-				tabIndex="0" 
-				type="button" 
-				size="1.25em" 
-				id="delete-button" 
-				onClick={(event) => props.handleDelete(event, props.item, props.type)} 
-				className="filter-delete-button"
-			/>
+            <button className="react-icons-button-filter" aria-label="filter item delete button" onClick={(event) => props.handleDelete(event, props.item, props.type)}>
+			    <AiOutlineCloseCircle size="1.25em" id="filter-delete-button" className="filter-delete-button "/>
+            </button>
 		</div>
 	)
 }

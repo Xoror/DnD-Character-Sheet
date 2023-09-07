@@ -97,20 +97,21 @@ export const ActionsBox = (props) => {
 		if(event.target != undefined) {
 			copy[id] = event.target.value
 		}
-		else if(id === "damage") {
+		if(id === "damage") {
+			console.log(event)
 			copy[id] = event
 		}
-		else if(id === "description_0") {
-			copy.description[0] = event.target.value
+		if(id === "description_0") {
+			copy.description = [event.target.value, copy.description[1]]
 		}
 		else if(id === "description_1") {
-			copy.description[1] = event.target.value
+			copy.description = [copy.description[0], event.target.value]
 		}
 		else if(id === "duration_0") {
-			copy.duration[0] = event.target.value
+			copy.duration = [event.target.value, copy.duration[1]]
 		}
 		else if(id === "duration_1") {
-			copy.duration[1] = event.target.value
+			copy.duration = [copy.duration[0], event.target.value]
 		}
 		setDefaultValues(copy)
 	}

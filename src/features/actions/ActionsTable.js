@@ -6,6 +6,7 @@ import { usePopper } from 'react-popper';
 
 import { AiFillCloseSquare } from "react-icons/ai";
 import { RiFileEditFill } from "react-icons/ri";
+import { MdExpandLess, MdExpandMore } from "react-icons/md";
 
 import { deleteAction, setPrepared, updateSpellCardShow } from './ActionsSlice';
 import { SpellCard } from '../../components/SpellCard';
@@ -50,6 +51,7 @@ export const ActionsTable = (props) => {
 	}
 	let place = props.offCanvas ? "left" : "right"
 	let cardID = props.cardID
+	const [showDetails, setShowDetails] = useState([false, "bla"])
 	const [showPopover, setShowPopover] = useState([false,cardID])
 	useEffect(() => {
 		if(showPopover[1] != cardID) {
@@ -64,8 +66,13 @@ export const ActionsTable = (props) => {
 		setReferenceElement(document.getElementById(test))
 		props.setCardID(id)
 		cardID = id
+		if(showDetails[0] && showDetails[1] === id) {
+			setShowDetails([false, "bla"])
+		}
+		else {
+			setShowDetails([true, id])
+		}
 		
-		//dispatch(updateSpellCardShow([id, props.offCanvas]))
 		if(showPopover[1] === id) {
 			setShowPopover([!showPopover[0], id])
 		}
@@ -88,16 +95,22 @@ export const ActionsTable = (props) => {
 					{ name: "offset", options: { offset: [ 0,10]} }],
   	});
 	//const ref = useOutsideClick(handleRowClick)
-	const convertTemplate =(damageAtHigherLevel, id) => {
+	const convertTemplate =(damageAtHigherLevel, id, damage) => {
 		let keys
 		let object = []
 		let singleValue = 1
 		if(id === "dmgHigherLevel") {
-			keys = Object.keys(damageAtHigherLevel)
-			for(let key of keys) {
-				object.push({value: damageAtHigherLevel[key], label: key})
+			if(damageAtHigherLevel === "None") {
+				object.push({value: damage, label:"1"})
+				return object
 			}
-			return object
+			else {
+				keys = Object.keys(damageAtHigherLevel)
+				for(let key of keys) {
+					object.push({value: damageAtHigherLevel[key], label: key})
+				}
+				return object
+			}
 		}
 		else if(id === "cantrip") {
 			keys = Object.keys(damageAtHigherLevel)
@@ -161,48 +174,54 @@ export const ActionsTable = (props) => {
 											</div>
 										</td> : ""
 									}
-									<>
-										<td>{body.name}</td>
-										{props.spells ? "" : <td>{ body.damage != "None" && body.damage != "none" ? (body.isProficient ? proficiency.value + scalingBonus(body.scaling) : 0 + scalingBonus(body.scaling)) : "-" } </td>}
-										{props.offCanvas ? "" : (props.spells ? 
-											<td> 
-												{ !(props.header === "Cantrip") ?
-													<div style={{display:"flex", flexWrap:"wrap"}}> {body.damage != "None" ?  
-														<DiceRollButton passData={handleRoll} name={`${body.name}`} options={convertTemplate(body.damageAtHigherLevel, "dmgHigherLevel")} spellBonus={scalingBonus(spellCastingAttribute)} /> : body.damage} {body.damageType != "None" ? "(" + body.damageType + ")" : ""} 
-													</div> :
-													<div style={{display:"flex", flexWrap:"wrap"}}> {body.damage != "None" ?  
-														<DiceRollButton passData={handleRoll} name={`${body.name}`}  noDice={true} noOptions={true} singleValue={convertTemplate(body.damageAtHigherLevel, "cantrip")}/> : body.damage}
-													{body.damageType != "None" ? "(" + body.damageType + ")" : ""} 
-												</div> 
-												}
-											</td> : 
-											<td> 
-												<div style={{display:"flex", flexWrap:"wrap"}}> 
-													<DiceRollButton passData={handleRoll} name={`${body.name}`} noDice={true} noOptions={true} singleValue={body.damage} bonus={scalingBonus(body.scaling)}/>
-													({body.damageType}) 
-												</div> 
-											</td>)
-										}
-										{props.offCanvas ? <td>{body.school}</td> : <td>{body.range}</td> }
-										{props.offCanvas ? "" : 
-										<td style={{paddingRight:"0",paddingLeft:"0", justifyItems:"end", zIndex:"2", height:"2.25em", width:"3em"}}>
-											<button className="react-icons-button" onClick={(event) => startEdit(event, body)} aria-label={`edit ${props.spells ? "spell":"action"}`}>
-												<RiFileEditFill size="1.5em" className="edit-button" />
+									<td>{body.name}</td>
+									{props.spells ? "" : <td>{ body.damage != "None" && body.damage != "none" ? (body.isProficient ? proficiency.value + scalingBonus(body.scaling) : 0 + scalingBonus(body.scaling)) : "-" } </td>}
+									{props.offCanvas ? "" : (props.spells ? 
+										<td> 
+											{ !(props.header === "Cantrip") ?
+												<div style={{display:"flex", flexWrap:"wrap"}}> {body.damage != "None" ?  
+													<DiceRollButton passData={handleRoll} name={`${body.name}`} options={convertTemplate(body.damageAtHigherLevel, "dmgHigherLevel", body.damage)} spellBonus={scalingBonus(spellCastingAttribute)} /> : body.damage} {body.damageType != "None" ? "(" + body.damageType + ")" : ""} 
+												</div> :
+												<div style={{display:"flex", flexWrap:"wrap"}}> {body.damage != "None" ?  
+													<DiceRollButton passData={handleRoll} name={`${body.name}`}  noDice={true} noOptions={true} singleValue={convertTemplate(body.damageAtHigherLevel, "cantrip")}/> : body.damage}
+												{body.damageType != "None" ? "(" + body.damageType + ")" : ""} 
+											</div> 
+											}
+										</td> : 
+										<td> 
+											<div style={{display:"flex", flexWrap:"wrap"}}> 
+												<DiceRollButton passData={handleRoll} name={`${body.name}`} noDice={true} noOptions={true} singleValue={body.damage} bonus={scalingBonus(body.scaling)}/>
+												({body.damageType}) 
+											</div> 
+										</td>)
+									}
+									{props.offCanvas ? <td>{body.school}</td> : <td>{body.range}</td> }
+									{props.offCanvas ? "" : 
+									<td style={{paddingRight:"0",paddingLeft:"0", justifyItems:"end", zIndex:"2", height:"2.25em", width:"4.5em"}}>
+										<button className="react-icons-button" onClick={(event) => startEdit(event, body)} aria-label={`edit ${props.spells ? "spell":"action"}`}>
+											<RiFileEditFill size="1.5em" className="edit-button" />
+										</button>
+										<button className="react-icons-button" onClick={(event) => handleDelete(event, body.id, index)} aria-label={`delete ${props.spells ? "spell":"action"}`}>
+											<AiFillCloseSquare size="1.5em" className="delete-button" /> 
+										</button>
+										{showDetails[0] && showDetails[1] === body.id ?
+											<button className="react-icons-button" onClick={(event) => setShowDetails([false, "bla"])} aria-label={`expand ${props.spells ? "spell":"action"} details`}>
+												<MdExpandLess size="1.5em" className="expand-button" /> 
+											</button> :
+											<button className="react-icons-button" onClick={(event) => setShowDetails([true, body.id])} aria-label={`expand ${props.spells ? "spell":"action"} details`}>
+												<MdExpandMore size="1.5em" className="expand-button" /> 
 											</button>
-											<button className="react-icons-button" onClick={(event) => handleDelete(event, body.id, index)} aria-label={`delete ${props.spells ? "spell":"action"}`}>
-												<AiFillCloseSquare size="1.5em" className="delete-button" /> 
-											</button>
-										</td>
 										}
-									</>
+									</td>
+									}
 								</tr>
-								{showPopover[0] && showPopover[1] === body.id && cardID === body.id ?
-									<tr>
+								{showDetails[0] && showDetails[1] === body.id ?
+									<tr key={`spell-details-id-${body.id}`}>
 										{props.spells ? 
-											<td colSpan={5}>
+											<td style={{borderRight:"1px solid rgba(1,1,1,0.5)", borderLeft:"1px solid rgba(1,1,1,0.5)"}} colSpan={5}>
 												<SpellCard id={`spellcard-${currentBody.id}`} offCanvas={props.offCanvas} data={currentBody}/>
 											</td> :
-											<td colSpan={5}>
+											<td style={{borderRight:"1px solid rgba(1,1,1,0.5)", borderLeft:"1px solid rgba(1,1,1,0.5)"}} colSpan={5}>
 												<ActionCard id ={`actioncard-${currentBody.id}`} data={currentBody}/>
 											</td>
 										}

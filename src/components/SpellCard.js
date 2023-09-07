@@ -70,7 +70,7 @@ export const SpellCard = (props) => {
     }
     return(
         <div key={props.id} className={`${props.show} spellcard`}>
-            <h4>{data.name}<CloseButton variant="white" style={{float:"right", width:"0.5em", height:"0.5em", margin:"0.25em"}}/></h4>
+            <h4>{data.name}{false ? <CloseButton variant="white" style={{float:"right", width:"0.5em", height:"0.5em", margin:"0.25em"}}/>:null}</h4>
             {props.offCanvas ? <h6> Classes: {classes} </h6> : null}
             <Row className="spellcard-row">
                 <Col>

@@ -1,11 +1,11 @@
 .itemcard {
     border: 2px groove black;
     border-radius: 0.375em;
-    width: 22em;
+    width: 100%;
     padding: 0.25em 0.75em 0em 0.75em;
     background-color: #343a40;
-    margin-top: 3em;
     max-height: 100%;
+    /*margin-top: 3em;*/
 }
 .itemcard-row {
     border-top: 1px solid black; 

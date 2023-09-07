@@ -57,7 +57,7 @@ export const DiceRollButton = (props) => {
         }
     }
     , [props.options, props.spellBonus])
-    
+    console.log(options)
     const [defaultValue, setDefaultValue] = useState(props.options === undefined ? singleValue : options[0].value)
 
 
@@ -105,6 +105,7 @@ export const DiceRollButton = (props) => {
         event.stopPropagation()
         let rolls = []
         let result = 0 + bonus
+        console.log(defaultValue)
         let [splitMain, splitExtra] = defaultValue.split("+")
         let [splitMainValue, splitMainType] = checkValueType(splitMain)
         let mainRoll = rollFunction(splitMainValue, splitMainType, rolls, result)
@@ -131,19 +132,14 @@ export const DiceRollButton = (props) => {
         }
         let targetEl = event.target // clicked element
         
-        if(targetEl.id == dropdownEl.id || targetEl.id == menuEl.id) {
+        if(targetEl.id == dropdownEl.id || targetEl.id == menuEl.id || targetEl.parentNode.id == dropdownEl.id || targetEl.parentNode.id == menuEl.id) {
         // This is a click inside, does nothing, just return.
             return
         }
-        else {
+        else if (showMenu) {
         // This is a click outside.
-            if(targetEl.parentNode.id == dropdownEl.id || targetEl.parentNode.id == menuEl.id) {
-                return
-            }
-            else {
-                setShowMenu(false)
-            }
-        }        
+            setShowMenu(false)
+        }
     }
     const handleMenuItemClick = (event) => {
         event.stopPropagation()

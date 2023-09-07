@@ -1,9 +1,9 @@
 @use "sass:color";
 
-$background-color: #343a40;
+$background-color: #2e3236;
 $main-element-color: #5b656d;/*#6c757d*/
-$secondary-element-color: #5c636a;
-$tertiary-element-color: #51585e;
+$secondary-element-color: color.scale(#5b656d, $lightness: -20%);
+$tertiary-element-color: color.scale(#5b656d, $lightness: -30%);
 $main-border-color: #000000;
 $text-color: #ffffff;
 $edit-primary-color: #198754;
@@ -11,11 +11,15 @@ $edit-secondary-color: black;
 $delete-primary-color: #dc3545;
 $delete-secondary-color: white;
 $delete-border-color: black;
+$expand-primary-color: #0d6efd;
+$expand-secondary-color: white;
+$expand-border-color: white;
 $focus-outline: #0d6efd;
 $focus-box-shadow: white;
-$table-hover: #555a5f;
+$table-hover: #4c5055;
 $nav-color: #212529;
 $nav-hover-border: white;
+
 
 
 :root {
@@ -30,6 +34,9 @@ $nav-hover-border: white;
 	--delete-primary-color: #{$delete-primary-color};
 	--delete-secondary-color: #{$delete-secondary-color};
 	--delete-border-color: #{$delete-border-color};
+	--expand-primary-color: #{$expand-primary-color};
+	--expand-secondary-color: #{$expand-secondary-color};
+	--expand-border-color: #{$expand-border-color};
 	--focus-outline: #{$focus-outline};
 	--focus-box-shadow: #{$focus-box-shadow};
 	--table-hover: #{$table-hover};
@@ -500,6 +507,21 @@ text-align: right;
 		color: white;
 		box-shadow: 0 0 0 3px black;
 		outline: 2px solid white;
+	}
+}
+.expand-button {
+	padding: 0em;
+	border-radius: 0.375em;
+	
+	border: solid 1px var(--expand-border-color);
+	float: left;
+	background-color: var(--expand-primary-color);
+	color: var(--expand-secondary-color);
+	z-index: 3;
+	&:hover {
+		border: solid 1px black;
+		background-color: var(--expand-secondary-color);
+		color: var(--expand-primary-color);
 	}
 }
 

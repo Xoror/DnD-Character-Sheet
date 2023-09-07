@@ -1,3 +1,12 @@
+@use "sass:color";
+
+.react-icons-button-filter {
+	padding: 0em;
+	border: none;
+	border-radius: 0.375em;
+	background-color: rgb(156, 156, 156);
+}
+
 .filter-container {
 	border: 1px solid #000000;
 	border-radius: 0.5em;
@@ -34,6 +43,7 @@
 		color: black;
 		border-color: black;
 	}
+	
 }
 .filter-body-select {
 	width: max-content;
@@ -53,6 +63,11 @@
 	padding: 0;
 	&:hover {
 		color: white;
+	}
+	&:active{
+		color: white;
+		border-radius: 100%;
+		background-color: color.scale(rgb(156, 156, 156), $lightness: -30%);
 	}
 }
 .create-input {

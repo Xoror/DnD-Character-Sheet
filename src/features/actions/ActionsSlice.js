@@ -234,7 +234,6 @@ const ActionsSlice = createSlice({
                 const prepareDescription = (desc, higher_level) => {
                     if(higher_level.length === 0) {
                         if( desc[desc.length - 1].includes("5th level") ) {
-                            console.log([desc.slice(0, desc.length-1), desc[desc.length - 1]])
                             return [desc.slice(0, desc.length-1), desc[desc.length - 1]]
                         }
                         else {

@@ -18,22 +18,22 @@ export const MiscAttributes = () => {
 
 	return (
 		<Container fluid style={{padding:"0"}}>
-			<CardGroup style={{marginBottom: "-1em"}}>
-				<Card bg="secondary" border="dark" className="mb-3" style={{borderRadius:"0.375em 0em 0em 0em"}}>
+			<CardGroup>
+				<Card className="main-element-card" style={{borderRadius:"0.375em 0em 0em 0em"}}>
 					<AttributeBox name="Initiative" attribute={initiative} />
 				</Card>
-				<Card bg="secondary" border="dark" className="mb-3">
+				<Card className="main-element-card">
 					<AttributeBox name="Proficiency Bonus" attribute={proficiency}/>
 				</Card>
-				<Card bg="secondary" border="dark" className="mb-3" style={{borderRadius:"0em 0.375em 0em 0em"}}>
+				<Card className="main-element-card" style={{borderRadius:"0em 0.375em 0em 0em"}}>
 					<AttributeBox name="AC" attribute={charAC}/>
 				</Card>
 			</CardGroup>
 			<CardGroup>
-				<Card bg="secondary" border="dark" style={{flexGrow: 2, height: "flex", borderRadius:"0em 0em 0em 0.375em"}}>
+				<Card className="main-element-card" style={{flexGrow: 2, height: "flex", borderRadius:"0em 0em 0em 0.375em"}}>
 					<HPBox charHP={charHP}/>
 				</Card>
-				<Card bg="secondary" border="dark" style={{borderRadius:"0em 0em 0.375em 0em"}}>
+				<Card className="main-element-card" style={{borderRadius:"0em 0em 0.375em 0em"}}>
 					<AttributeBox name="Speed" attribute={speed} />
 				</Card>			
 			</CardGroup>

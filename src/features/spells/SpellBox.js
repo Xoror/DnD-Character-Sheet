@@ -54,7 +54,7 @@ export const SpellBox = () => {
 
 	return (
 		<Container fluid className={casting.isCaster ? "collapse show" : "collapse"} style={{padding:"0"}}>
-			<Card bg="secondary" border="dark">
+			<Card className="main-element-card">
 				<InputGroup>
 					<InputGroup.Text style={{padding:"0"}}>
 						<OverlayTrigger trigger="focus" placement="auto" overlay={popover}>
