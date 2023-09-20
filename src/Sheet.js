@@ -42,14 +42,14 @@ export const Sheet = () => {
                         <CharacterClass />
                     </Col>
                 </Row>
-                <Row style={{paddingBottom:"0.5em", paddingRight:"1.25em"}}>
+                <Row lg={4} md={2} sm={1} xs={1} style={{paddingBottom:"0.5em", paddingRight:"1.25em", paddingLeft:"0.75em"}}>
                     <MiscBar/>
                 </Row>
-                <Row>
-                    <Col xl="auto" lg={6} md="auto" className="left-column">
+                <Row style={{paddingBottom:"0.5em", paddingRight:"1.25em", paddingLeft:"0.75em"}}>
+                    <Col xl="auto" lg={6} md={6} className="left-column">
                         <Attributes/>
                     </Col>
-                    <Col xl="auto" lg={6} md className="middle-column">
+                    <Col xl="auto" lg={6} md={6} className="middle-column">
                         <div>
                             <MiscAttributes/>
                         </div>

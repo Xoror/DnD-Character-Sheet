@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from "react-redux"
 
 import { MdUnfoldMoreDouble, MdUnfoldLessDouble } from "react-icons/md";
 
-import Card from 'react-bootstrap/Card';
-import { CardGroup, Container } from 'react-bootstrap';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 
 import { FilterBox } from '../../components/FilterBox';
@@ -25,9 +26,9 @@ export const ResistancesBox = () => {
     const [showDetails, setShowDetails] = useState(true)
 
     return(
-        <Container fluid style={{minWidth:"4em",paddingLeft:"0", paddingRight:"0"}}>
-            <CardGroup>
-                <Card bg="secondary" border="dark" style={{padding:"0.5em"}}> 
+        <Container fluid>
+            <Row>
+                <Col className="main-element-card" style={{padding:"0.5em", borderRadius:"0.375em 0 0 0.375em"}}> 
                     { showDetails ? 
                     <>
                         <FilterBox
@@ -58,11 +59,13 @@ export const ResistancesBox = () => {
                             type="vulnerabilities"
                         />
                     </> : <span style={{paddingLeft:"0.75em"}}> Resistances/Immunities/Vulnerabilities: [...] </span>} 
-                </Card>
-                <Button style={{paddingLeft:"0.25em", paddingRight:"0.25em", border:"1px solid black", borderRadius:"0 0.375em 0.375em 0"}} onClick={() => setShowDetails(!showDetails)}>
-                    {showDetails ? <MdUnfoldLessDouble size="1.5em"/> : <MdUnfoldMoreDouble size="1.5em"/>}
-                </Button>
-            </CardGroup>
+                </Col>
+                <Col xs="auto" style={{padding:"0"}}>
+                    <Button style={{height:"100%", paddingLeft:"0.25em", paddingRight:"0.25em", border:"1px solid black", borderRadius:"0 0.375em 0.375em 0"}} onClick={() => setShowDetails(!showDetails)}>
+                        {showDetails ? <MdUnfoldLessDouble size="1.5em"/> : <MdUnfoldMoreDouble size="1.5em"/>}
+                    </Button>
+                </Col>
+            </Row>
         </Container>
     )
 }

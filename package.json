@@ -2,7 +2,6 @@
   "name": "dnd-sheet-test",
   "version": "0.10.0",
   "main": "./Electron/main.js",
-  "homepage": "./",
   "author": "Stargazer Works",
   "description": "Interactive DnD 5e character sheet made in React and Electron",
   "private": true,
@@ -20,7 +19,9 @@
     "eject": "react-scripts eject",
     "estart": "electron .",
     "package": "electron-forge package",
-    "make": "electron-forge make"
+    "make": "electron-forge make",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -59,6 +60,7 @@
     "electron-is-dev": "^2.0.0",
     "electron-squirrel-startup": "^1.0.0",
     "formik": "^2.4.3",
+    "gh-pages": "^6.0.0",
     "list-react-files": "^0.2.0",
     "lodash": "^4.17.21",
     "react": "^18.2.0",

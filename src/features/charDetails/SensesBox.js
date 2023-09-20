@@ -1,8 +1,10 @@
 import React, { useState} from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
-import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button'
+
+import { MdUnfoldMoreDouble, MdUnfoldLessDouble } from "react-icons/md"
 
 import { changeDetails, deleteSense, changeSenseValue } from './CharDetailsSlice';
 import { FilterBox } from '../../components/FilterBox';
@@ -28,8 +30,15 @@ export const SensesBox = (props) => {
         dispatch(deleteSense(item))
     }
     return(
-        <Col className="miscbar-col">
-            <FilterBox show={props.show} defaultSelectValue={defaultSelectValue} selectable={true} hasValue="true" valueDescriptor="distance" valueLegend="ft" header="Senses" data={sensesHas} choices={senses} handleAdd={handleAdd} handleDelete={handleDelete} handleInputChange={handleInputChange}/>
+        <Col className="miscbar-col four" style={{padding:"0em"}}>
+            <div style={{display:"flex", height:"100%"}}> 
+                <div style={{padding:"0.5em", height:"100%", width:"100%"}}>
+                    <FilterBox show={props.show} defaultSelectValue={defaultSelectValue} selectable={true} hasValue="true" valueDescriptor="distance" valueLegend="ft" header="Senses" data={sensesHas} choices={senses} handleAdd={handleAdd} handleDelete={handleDelete} handleInputChange={handleInputChange}/>
+                </div>
+                <Button className="miscbar-expand-button right" style={{borderLeft:"1px solid black"}} onClick={props.setShow}>
+                    {props.showMiscBar ? <MdUnfoldLessDouble size="1.5em"/> : <MdUnfoldMoreDouble size="1.5em"/>}
+                </Button>
+            </div>
         </Col>
     )
 }

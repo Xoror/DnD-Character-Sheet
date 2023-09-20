@@ -21,7 +21,7 @@ export const LanguageBox = (props) => {
         dispatch(deleteLanguage(index))
     }
     return(
-        <Col className="miscbar-col" style={{borderRight:"1px solid black"}}>
+        <Col className="miscbar-col three">
             <FilterBox show={props.show} header="Languages" data={languages} handleDelete={handleDelete} handleCreate={handleCreate} creatable="true"/>
         </Col>
     )

@@ -16,19 +16,19 @@ export const MiscBar = () => {
 	}
     return (
         <>
-            <Col sm="auto" style={{paddingRight:"0"}}>
+            {false ? <Col lg="auto" md="auto" sm="auto" style={{padding:"0"}}>
                 <Button style={{paddingLeft:"0.25em", paddingRight:"0.25em", border:"1px solid black", borderRadius:"0.375em 0 0 0.375em", height:"100%"}} onClick={setShow}>
                     {showMiscBar ? <MdUnfoldLessDouble size="1.5em"/> : <MdUnfoldMoreDouble size="1.5em"/>}
                 </Button>
-            </Col>
-                <ConditionsBox show={showMiscBar}/>
-                <LanguageBox show={showMiscBar}/>
-                <SensesBox show={showMiscBar}/>
-            <Col sm="auto" style={{padding:"0"}}>
+            </Col > : null}
+            <ConditionsBox showMiscBar={showMiscBar} setShow={setShow} show={showMiscBar}/>
+            <LanguageBox show={showMiscBar}/>
+            <SensesBox showMiscBar={showMiscBar} setShow={setShow} show={showMiscBar}/>
+            {false ? <Col lg="auto" md="auto" sm="auto" style={{padding:"0"}}>
                 <Button style={{paddingLeft:"0.25em", paddingRight:"0.25em", border:"1px solid black", borderRadius:"0 0.375em 0.375em 0", height:"100%"}} onClick={setShow}>
                     {showMiscBar ? <MdUnfoldLessDouble size="1.5em"/> : <MdUnfoldMoreDouble size="1.5em"/>}
                 </Button>
-            </Col>
+            </Col> : null}
         </>
     )
 }

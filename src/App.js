@@ -53,11 +53,11 @@ const routerWeb = createBrowserRouter([
 
 
 const App = () => {
-	let router = isDesktop ? routerDesktop : routerWeb
+	let router = true ? routerDesktop : routerWeb
 	return (
 		<>
 			<ScrollBar>
-				<RouterProvider router={router} loading={<NavBar/>}/>
+				<RouterProvider router={router} loading={<NavBar/>} />
 			</ScrollBar>
 		</>
     )

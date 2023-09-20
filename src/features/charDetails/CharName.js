@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useMemo, useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux"
 import debounce from 'lodash.debounce'
 
@@ -11,18 +11,18 @@ export const CharacterName = () => {
 	const charName = useSelector(state => state.charDetails.charName)
     const casting = useSelector(state => state.attributes.casting)
 	const [defaultCharName, setDefaultCharName] = useState("")
-	/*
-	var [width, setWidth]= useState(window.innerWidth)
+	
+	const [width, setWidth]= useState(window.innerWidth)
 	const handleResize = useCallback(()=>{
 		setWidth(window.innerWidth)
-	},[setWidth])
+	},[setWidth, width])
 	useEffect(() => {
 		window.addEventListener("resize", handleResize, true)
 		return function cleanup() {
 			window.removeEventListener("resize", handleResize, true)
 		}
 	}, [handleResize])
-	*/
+	
 	
 	const handleNameChange = (event) => {
 		const name_change = event.target.value;
@@ -34,7 +34,7 @@ export const CharacterName = () => {
 	}
 	return (
 		<div id="CharacterName" /*className='alert alert-secondary'*/>
-			<span>Character Name: {charName} </span>
+			<span>Character Name: {width} </span>
 			<br></br>
 			<input required='required' type='text' id='characterName' value={charName} placeholder="Insert Character name here" onChange={handleNameChange}></input>
 			<br></br>

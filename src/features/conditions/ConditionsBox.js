@@ -2,6 +2,9 @@ import React, { useMemo, useState} from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
 import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button'
+
+import { MdUnfoldMoreDouble, MdUnfoldLessDouble } from "react-icons/md"
 
 import { changeExhaustion, addCondition, removeCondition } from './ConditionsSlice';
 import { CounterBox } from '../../components/CounterBox';
@@ -30,7 +33,14 @@ export const ConditionsBox = (props) => {
     
     const filterComponent = useMemo(() => {
         return (
-            <FilterBox show={show} header="Conditions" data={conditionsHas} choices={conditions} selectable={true} handleAdd={handleAdd} handleDelete={handleDelete} defaultSelectValue={defaultSelectValue}/>
+            <div style={{display:"flex", height:"100%"}}>
+                <Button className="miscbar-expand-button left" style={{borderRight:"1px solid black"}} onClick={props.setShow}>
+                    {props.showMiscBar ? <MdUnfoldLessDouble size="1.5em"/> : <MdUnfoldMoreDouble size="1.5em"/>}
+                </Button>
+                <div style={{padding:"0.5em", height:"100%"}}>
+                    <FilterBox show={show} header="Conditions" data={conditionsHas} choices={conditions} selectable={true} handleAdd={handleAdd} handleDelete={handleDelete} defaultSelectValue={defaultSelectValue}/>
+                </div>
+            </div>
         )
     }, [conditionsHas, defaultSelectValue, show])
 
@@ -52,10 +62,10 @@ export const ConditionsBox = (props) => {
     
     return(
         <>
-            <Col className="miscbar-col"  style={{borderRight:"1px solid black"}}>
+            <Col className="miscbar-col one" style={{padding:"0em"}}>
                 {filterComponent}
             </Col>
-            <Col className="miscbar-col" style={{borderRight:"1px solid black"}}>
+            <Col className="miscbar-col two" >
                 {exhaustionComponent}
             </Col>
         </>

@@ -263,7 +263,7 @@ export const NavBar = () => {
 				</> : 
 					<Modal contentClassName="modal-custom" show={showSafetyBox} onHide={() => setShowSafetyBox(false)}>
 						<Modal.Header closeButton>
-							<Modal.Title>Are you sure you want to import a different character?</Modal.Title>
+							<Modal.Title>Are you sure you want to start a new character?</Modal.Title>
 						</Modal.Header>
 						<Modal.Body>
 							<p>
