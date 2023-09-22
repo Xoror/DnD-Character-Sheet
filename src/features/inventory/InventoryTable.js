@@ -9,6 +9,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 import { AiFillCloseSquare } from "react-icons/ai";
 import { RiFileEditFill } from "react-icons/ri";
+import { MdExpandLess, MdExpandMore } from "react-icons/md";
 
 import { deleteItem, equipItem, addItem, editContainer, deleteContainer } from './InventorySlice';
 import { ItemCard } from '../../components/ItemCard';
@@ -340,7 +341,7 @@ export const InventoryTable = (props) => {
 									<td> {body.qty} </td>
 									<td> {body.qty*body.weight} </td>
 									<td> {body.qty*parseFloat(body.worth)} </td>
-									<td style={{ alignItems:"center", zIndex:"2", minWidth:"60px", width:"3em"}}>
+									<td style={{paddingRight:"0",paddingLeft:"0", justifyItems:"end", zIndex:"2", height:"2.25em", width:"4.5em"}}>
 										<div style={{paddingRight:"0",paddingLeft:"0", justifyItems:"end", zIndex:"2" }}>
 											<button className="react-icons-button" onClick={(event) => startEdit(event, body)} aria-label="edit item button">
 												<RiFileEditFill size="1.5em" className="edit-button" /> 
@@ -348,6 +349,14 @@ export const InventoryTable = (props) => {
 											<button className="react-icons-button" onClick={(event) => handleDelete(event, body.id)} aria-label="delete item button">
 												<AiFillCloseSquare size="1.5em" className="delete-button" />
 											</button>
+											{showDetails[0] && showDetails[1] === body.id ?
+											<button className="react-icons-button" onClick={(event) => setShowDetails([false, "bla"])} aria-label={`expand ${props.spells ? "spell":"action"} details`}>
+												<MdExpandLess size="1.5em" className="expand-button" /> 
+											</button> :
+											<button className="react-icons-button" onClick={(event) => setShowDetails([true, body.id])} aria-label={`expand ${props.spells ? "spell":"action"} details`}>
+												<MdExpandMore size="1.5em" className="expand-button" /> 
+											</button>
+										}
 										</div>
 									</td>
 								</>

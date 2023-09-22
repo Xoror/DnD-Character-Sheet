@@ -78,8 +78,8 @@ export const SpellBox = () => {
 					</Form.Select>
 					
 				</InputGroup>
-				<Row>
-					<Col md="auto" style={{paddingRight:"0"}}>
+				<Row sm={2} xs={1}>
+					<Col md="auto" className="spellbox-column left">
 						<div className="spellCard">
 							<Row>
 								<Col style={{paddingRight:"0", textAlign:"center"}}> <label id="spellHitLabel">Spell Hit</label></Col>
@@ -90,20 +90,20 @@ export const SpellBox = () => {
 									{false ? 
 										<input readOnly required='required' type='text' className= "spellCardInside" value={casting.spellHit}></input>
 										:
-										<div className="AttributeBoxNotInput" aria-labelledby="spellHitLabel">{casting.spellHit}</div>
+										<div className="AttributeBoxNotInput spellCardInside" aria-labelledby="spellHitLabel">{casting.spellHit}</div>
 									}
 								</Col>
 								<Col style={{paddingLeft:"0"}}>
 									{false ? 
 										<input readOnly required='required' type='text' className= "spellCardInside" value={casting.spellDC}></input>
 										:
-										<div className="AttributeBoxNotInput" aria-labelledby="spellDCLabel">{casting.spellDC}</div>
+										<div className="AttributeBoxNotInput spellCardInside" aria-labelledby="spellDCLabel">{casting.spellDC}</div>
 									}
 								</Col>
 							</Row>
 						</div>
 					</Col>
-					<Col md style={{paddingLeft:"0", fontSize:"0.9em"}}>
+					<Col md className="spellbox-column right">
 						<SpellSlotTable casting={casting} level={charLevel} />
 					</Col>
 				</Row>

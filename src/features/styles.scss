@@ -314,12 +314,33 @@ body {
 	padding: 0;
 	padding: 0.5em 1em 1em 1em;
 }
-.spellCardInside {
-	text-align: center;
-	height: 4em; /*50% of 8em*/
-	width: 4em; /*25% of 16em*/
-	padding: 1em;
-	margin: 0.5em;
+
+@media (max-width: 767px) {
+	.spellCardInside {
+		margin-left: auto;
+		margin-right: auto; 
+	}
+}
+@media (min-width:576px) {
+	.spellbox-column.left {
+		padding-right: 0em;
+	}
+	.spellbox-column.right {
+		padding-left: 0em;
+		padding-bottom: 0.5em;
+		font-size: 0.9em;
+	}
+}
+@media (max-width:575px) {
+	.spellbox-column.right {
+		font-size: 1em;
+		padding-left: 2em;
+		padding-right: 2em;
+		padding-bottom: 0.5em;
+	}
+}
+.spell-slot-table {
+	margin-right: 0.25em;
 }
 
 /* Styling of the Skills column */
@@ -898,5 +919,12 @@ body {
 		grid-area: 2 / 2 / span 1 / span 1;
 		border-radius: 0;
 		border-bottom: none;
+	}
+}
+
+/*features toggle group*/
+@media (max-width:575px) {
+	.btn-group .btn.btn-primary {
+		padding: 0.25em 0.5em;
 	}
 }

@@ -61,7 +61,7 @@ export const SpellSlotTable = (props) => {
 		return (
 			<>
 				<label>Spell slots</label>
-				<table>
+				<table className="spell-slot-table">
 					<thead>
 						<tr>
 							{filteredSlots.map((slot, index) => (
@@ -87,20 +87,25 @@ export const SpellSlotTable = (props) => {
 	else if (casterType === "pact" || casterType === "halfpact") {
 		const indexColumn = 0
 		return (
-			<table >
-				<thead>
-					<tr>
-						<td> {spellMatrix[0] != undefined ? listSlots[(spellMatrix[0].length)-1]:"1st" } </td>
-					</tr>
-				</thead>
-				<tbody>
-					{spellMatrix.map((row,indexRow) => (
-						<tr key={indexRow}>
-							<td> <input type="checkbox" checked={spellSlots[indexRow][indexColumn]} onChange={(event) => handleSpellMatrix(event, indexRow, indexColumn)}></input> </td>
+			<>
+				<label>Spell slots</label>
+				<table className="spell-slot-table">
+					<thead>
+						<tr>
+							<td> {spellMatrix[0] != undefined ? listSlots[(spellMatrix[0].length)-1]:"1st" } </td>
 						</tr>
-					))}
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						<tr>
+							{spellMatrix.map((row,indexRow) => (
+								<td key={indexRow}>
+									<td> <input type="checkbox" checked={spellSlots[indexRow][indexColumn]} onChange={(event) => handleSpellMatrix(event, indexRow, indexColumn)}></input> </td>
+								</td>
+							))}
+						</tr>
+					</tbody>
+				</table>
+			</>
 		)
 	}
 

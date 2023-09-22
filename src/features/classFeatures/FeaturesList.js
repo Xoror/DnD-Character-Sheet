@@ -83,10 +83,10 @@ export const FeatureList = (props) => {
 							<Col>
 								<span>Name: {props.feature.name}</span>
 							</Col>
-							<Col md="auto">
+							<Col xs="auto">
 								<Row>
-									<Col md="auto" style={{paddingRight:"6px",paddingLeft:"0"}}> <span>Level: {props.feature.level}</span> </Col>
-									<Col md="auto" style={{paddingRight:"0em",paddingLeft:"0"}}>
+									<Col xs="auto" style={{paddingRight:"6px",paddingLeft:"0"}}> <span>Level: {props.feature.level}</span> </Col>
+									<Col xs="auto" style={{paddingRight:"0em",paddingLeft:"0"}}>
 										<button className="react-icons-button" onClick={startEdit} aria-label="edit feature button">
 											<RiFileEditFill size="1.5em" className="edit-button" />
 										</button>

@@ -1,6 +1,6 @@
 {
   "name": "dnd-sheet-test",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "main": "./Electron/main.js",
   "author": "Stargazer Works",
   "description": "Interactive DnD 5e character sheet made in React and Electron",
