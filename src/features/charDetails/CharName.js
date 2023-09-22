@@ -1,10 +1,11 @@
 import React, {useMemo, useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux"
-import debounce from 'lodash.debounce'
 
 import Form from 'react-bootstrap/Form';
+
 import { changeDetails } from './CharDetailsSlice';
 import { changeIsCaster } from '../attributes/AttributesSlice';
+import { useScreenSize } from '../../components/CustomHooks';
 
 export const CharacterName = () => {
 	const dispatch  = useDispatch()
@@ -12,17 +13,7 @@ export const CharacterName = () => {
     const casting = useSelector(state => state.attributes.casting)
 	const [defaultCharName, setDefaultCharName] = useState("")
 	
-	const [width, setWidth]= useState(window.innerWidth)
-	const handleResize = useCallback(()=>{
-		setWidth(window.innerWidth)
-	},[setWidth, width])
-	useEffect(() => {
-		window.addEventListener("resize", handleResize, true)
-		return function cleanup() {
-			window.removeEventListener("resize", handleResize, true)
-		}
-	}, [handleResize])
-	
+	const width = useScreenSize().width
 	
 	const handleNameChange = (event) => {
 		const name_change = event.target.value;
@@ -34,9 +25,9 @@ export const CharacterName = () => {
 	}
 	return (
 		<div id="CharacterName" /*className='alert alert-secondary'*/>
-			<span>Character Name: {width} </span>
+			<label id="character-name-label">Character Name: {width} </label>
 			<br></br>
-			<input required='required' type='text' id='characterName' value={charName} placeholder="Insert Character name here" onChange={handleNameChange}></input>
+			<input aria-labelledby='character-name-label' required='required' type='text' id='characterName' value={charName} placeholder="Insert Character name here" onChange={handleNameChange}></input>
 			<br></br>
 			<Form.Check type="checkbox" checked={casting.isCaster} id="is-caster-check" label="Is character spellcaster?" onChange={handleChecked}></Form.Check>
 		</div>

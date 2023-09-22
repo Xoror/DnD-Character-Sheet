@@ -29,22 +29,22 @@ export const MiscInfo = () => {
 		<Container>
 			<Row className="justify-content-md-center">
 				<Col style={{justifyContent:"right"}}>
-					<span>Lineage: </span>
+					<label id="character-lineage-label">Lineage: </label>
 					<br></br>
-					<input required="required" type="text" id="Lineage" value={charLineage} onChange={handleChange}></input> 
+					<input aria-labelledby="character-lineage-label" required="required" type="text" id="Lineage" value={charLineage} onChange={handleChange}></input> 
 					<br></br>
-					<input required="required" type="number" min="1" max="20" id="Level" value={charLevel} onChange={handleChange}></input> 
+					<input aria-labelledby="character-level-label" required="required" type="number" min="1" max="20" id="Level" value={charLevel} onChange={handleChange}></input> 
 					<br></br>
-					<span>Character Level: </span>
+					<label id="character-level-label">Character Level: </label>
 				</Col>
 				<Col>
-					<span>Background: </span>
+					<label id="character-background-label">Background: </label>
 					<br></br>
-					<input required="required" type="text" id="Background" value={charBackground} onChange={handleChange}></input> 
+					<input aria-labelledby="character-background-label" required="required" type="text" id="Background" value={charBackground} onChange={handleChange}></input> 
 					<br></br>
-					<input required="required" type="text" id="Experience Points" value={charExperience} onChange={handleChange}></input> 
+					<input aria-labelledby="character-xp-label" required="required" type="text" id="Experience Points" value={charExperience} onChange={handleChange}></input> 
 					<br></br>
-					<span>Experience Points: </span>
+					<label id="character-xp-label">Experience Points: </label>
 				</Col>
 			</Row>
 		</Container>
