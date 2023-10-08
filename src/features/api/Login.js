@@ -1,0 +1,71 @@
+import React, { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
+
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
+import Card from "react-bootstrap/Card"
+import Spinner from 'react-bootstrap/Spinner';
+
+import { loginThunk } from "./Api"
+import { ErrorInfoBox } from "../../components/ErrorInfoBox"
+
+export const Login = () => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const [loginData, setLoginData] = useState({name:"", password:"", remember: false})
+    const loginStatus = useSelector(state => state.api.loginStatus)
+    const loginResponse = useSelector(state => state.api.loginResponse)
+    const handleSubmit = (event) => {
+        event.preventDefault()
+        dispatch(loginThunk(loginData))
+    }
+    const handleChange =(event, id) => {
+        let copy = structuredClone(loginData)
+        if(id === "remember") {
+            copy[id] = event.target.checked
+        }
+        else {
+            copy[id] = event.target.value
+        }
+        setLoginData(copy)
+    }
+
+
+    useEffect(() => {
+        if(loginStatus === "fulfilled") {
+            navigate("/sheet")
+        }
+    }, [loginStatus, navigate])
+    return (
+        <Card className="main-element-card login-card">
+            <Card.Body>
+                <Card.Title as="h2" className="mb-4">Login</Card.Title>
+                {loginResponse === "rejected" ? <ErrorInfoBox response={loginResponse}/> : null}
+                <Form onSubmit={handleSubmit}>
+                    <Form.Group className="mb-3" controlId="formBasicUsername">
+                        <Form.Label>Username</Form.Label>
+                        <Form.Control required value={loginData.name} type="text" placeholder="Enter username" onChange={event => handleChange(event, "name")}/>
+                        <Form.Control.Feedback>Please enter Username!</Form.Control.Feedback>
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control required value={loginData.password} type="password" placeholder="Enter password" onChange={event => handleChange(event, "password")}/>
+                    </Form.Group>
+
+                    <Form.Check className="mb-3" type="checkbox" id="remember me checkbox" label="Remember me" onChange={event => handleChange(event, "remember")}/>
+
+                    <Button variant="primary" type="submit" disabled={loginStatus === "pending"} aria-disabled={loginStatus === "pending"}>
+                        Submit 
+                        {loginStatus === "pending" ? 
+                            <Spinner style={{marginLeft:"0.5em"}} size="sm" animation="border" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </Spinner>: null
+                        }
+                    </Button>
+                </Form>
+            </Card.Body>
+        </Card>
+    )
+}

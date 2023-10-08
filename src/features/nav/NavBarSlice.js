@@ -1,59 +1,139 @@
-import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
-import { act } from "react-dom/test-utils";
+import { createAsyncThunk, createSlice, current, isRejectedWithValue, nanoid } from "@reduxjs/toolkit";
+import { website, localhost, getCharacterNamesFunction, getCharacterFunction, addCharacterFunction, updateCharacterFunction } from "../../utils/apiCallFunctions"
 
-export const importCharacterNames = createAsyncThunk('navBar/importCharacterNames', async (payload) => {
-    try {
-        let result = await window.api.getFullDB(payload)
-        return result
-    } catch (error) {
-        console.log(error)
-        return []
+import { isDev } from "../../config"
+
+// Import character names
+export const importCharacterNames = createAsyncThunk('navBar/importCharacterNames', async (payload, {rejectWithValue}) => {
+    const {body, type} = payload
+    if(type === "desktop") {
+        try {
+            let result = await window.api.getFullDB(body)
+            console.log(result)
+            if(result.status === "ok") {
+                return result.body
+            }
+            else {
+                return rejectWithValue(result)
+            }
+        } catch (error) {
+            console.log(error)
+            return rejectWithValue(error)
+        }
+    }
+    else if(type === "web") {
+        let url = isDev ? localhost : website
+        try {
+            const response = await getCharacterNamesFunction(url)
+            const responseJSON = await response.json()
+            if(response.ok) {
+                let data = []
+                responseJSON.body.map((character, index) => {
+                    data.push({id: character._id, name: character.characterName})
+                })
+                return data
+            }
+            else {
+                return rejectWithValue(responseJSON)
+            }
+        } catch (err) {
+            return rejectWithValue(err)
+        }
     }
 })
-export const importCharacter = createAsyncThunk("navBar/importCharacter", async (payload) => {
-    let character = payload[0]
-    let id = payload[1]
-    try {
-        let result = await window.api.loadRow(payload)
-        return result[0]
-    } catch(error) {
-        console.log(error)
-        return []
+export const importCharacter = createAsyncThunk("navBar/importCharacter", async (payload, {rejectWithValue}) => {
+    const { body, type} = payload
+    if(type === "desktop") {
+        let character = payload[0]
+        let id = payload[1]
+        try {
+            let result = await window.api.loadRow(body)
+            if(result.status === "ok") {
+                console.log(result.body)
+                return result.body
+            }
+            else {
+                return rejectWithValue(result)
+            }
+        } catch(error) {
+            return [error]
+        }
+    }
+    else if(type === "web") {
+        let url = isDev ? localhost : website
+        try {
+            const response = await getCharacterFunction(body, url)
+            const responseJSON = await response.json()
+            if(response.ok) {
+                return {id: responseJSON.body[0]._id, state: responseJSON.body[0].characterData}
+            }
+            else {
+                return rejectWithValue(responseJSON)
+            }
+        } catch (err) {
+            return rejectWithValue(err)
+        }
     }
 })
-export const importCharacterReadOnly = createAsyncThunk("navBar/importCharacterReadOnly", async (payload) => {
-    let character = payload[0]
-    let id = payload[1]
-    try {
-        let result = await window.api.loadRow(payload)
-        return result[0]
-    } catch(error) {
-        console.log(error)
-        return []
+export const addCharacterToDatabase = createAsyncThunk('navBar/addCharacterToDatabase', async (payload, {rejectWithValue}) => {
+    const { body, type} = payload
+    if(type === "desktop") {
+        try {
+            let id=nanoid()
+            body[1].push(id)
+            let result = await window.api.addRow(body)
+            return {data: body[1], type: type}
+        } catch (error) {
+            console.log(error)
+            return ""
+        }
+    }
+    else if(type === "web") {
+        let url = isDev ? localhost : website
+        try {
+            const response = await addCharacterFunction(body, url)
+            const responseJSON = await response.json()
+            if(response.ok) {
+                return {data: responseJSON.body.data, type: type}
+            }
+            else {
+                return rejectWithValue(responseJSON)
+            }
+        } catch (err) {
+            return rejectWithValue(err)
+        }
     }
 })
-export const addCharacterToDatabase = createAsyncThunk('navBar/addCharacterToDatabase', async (payload) => {
-    try {
-        let result = await window.api.addRow(payload)
-        console.log("Row added!")
-        return payload[1]
-    } catch (error) {
-        console.log(error)
-        return ""
+export const changeCharacterIndDB = createAsyncThunk("navbar/changeRowInDB", async (payload, {rejectWithValue}) => {
+    const { body, type} = payload
+    if(type === "desktop") {
+        try {
+            let result = await window.api.changeRow(body)
+            return body[1]
+        } catch (error) {
+            console.log(error)
+            return ""
+        }
     }
-})
-export const changeCharacterIndDB = createAsyncThunk("navbar/changeRowInDB", async (payload) => {
-    try {
-        let result = await window.api.changeRow(payload)
-        return payload[1]
-    } catch (error) {
-        console.log(error)
-        return ""
+    else if(type === "web") {// [name, state, lastSaved, id]
+        let url = isDev ? localhost : website
+        try {
+            const response = await updateCharacterFunction(body, url)
+            const responseJSON = await response.json()
+            if(response.ok) {
+                return [responseJSON.body.characterName, responseJSON.body.characterData, responseJSON.body.lastSaved, responseJSON.body._id]
+            }
+            else {
+                return rejectWithValue(responseJSON)
+            }
+        } catch (err) {
+            return rejectWithValue(err)
+        }
     }
 })
 
 const initialState = {
-    characters: {names: [""], id: [""], status: "idle"},
+    characters: {names: [], id: [], status: "idle"},
     importFromDbStatus: "idle",
     addCharactertoDBStatus: "idle",
     changeCharacterInDBStatus: "idle",
@@ -68,7 +148,7 @@ const NavBarSlice = createSlice({
     reducers: {
         importNavBar(state, action) {
             let keys1 = Object.keys(state)
-            keys1.map(key => 
+            keys1.forEach(key => 
                 state[key] = action.payload[key]
             )
         }
@@ -79,11 +159,10 @@ const NavBarSlice = createSlice({
                 state.characters.status = "pending"
             })
             .addCase(importCharacterNames.fulfilled, (state, action) => {
-                console.log(action.payload)
                 state.characters.status = "succeeded"
                 let bla = []
                 let bla2 = []
-                action.payload.map((character, index) => (
+                action.payload.forEach((character, index) => (
                     bla.push(character.name),
                     bla2.push(character.id)
                 ))
@@ -94,12 +173,14 @@ const NavBarSlice = createSlice({
                 state.characters.status = "rejected"
             })
 
+
             .addCase(importCharacter.pending, (state, action) => {
                 state.importFromDbStatus = "pending"
             })
             .addCase(importCharacter.fulfilled, (state, action) => {
                 state.currentlyEditing.id = action.payload.id
-                state.currentlyEditing.name = state.characters.names[action.payload.id - 1]
+                let name = state.characters.names[state.characters.id.indexOf(action.payload.id)]
+                state.currentlyEditing.name = name
                 state.lastSaved = new Date().toLocaleString()
                 state.compareState = JSON.parse(action.payload.state)
                 state.importFromDbStatus = "succeeded"
@@ -113,11 +194,21 @@ const NavBarSlice = createSlice({
             })
             .addCase(addCharacterToDatabase.fulfilled, (state, action) => {
                 //console.log(action.payload)
-                state.currentlyEditing.id = state.characters.id[state.characters.id.length -1] + 1
-                state.currentlyEditing.name = action.payload[0]
-                state.lastSaved = action.payload[2]
-                state.compareState = JSON.parse(action.payload[1])
-                state.addCharactertoDBStatus = "succeeded"
+                if(action.payload.type === "desktop") {
+                    state.currentlyEditing.id = state.characters.id[state.characters.id.length -1] + 1
+                    state.currentlyEditing.name = action.payload.data[0]
+                    state.lastSaved = action.payload.data[2]
+                    state.compareState = JSON.parse(action.payload.data[1])
+                    state.addCharactertoDBStatus = "succeeded"
+                }
+                else if(action.payload.type === "web") {
+                    console.log(action.payload)
+                    state.currentlyEditing.id = action.payload.data._id
+                    state.currentlyEditing.name = action.payload.data.characterName
+                    state.lastSaved = action.payload.data.lastSaved
+                    state.compareState = JSON.parse(action.payload.data.characterData)
+                    state.addCharactertoDBStatus = "succeeded"
+                }
             })
             .addCase(addCharacterToDatabase.rejected, (state, action) => {
                 state.addCharactertoDBStatus = "rejected"

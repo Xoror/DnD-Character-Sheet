@@ -98,7 +98,6 @@ export const ActionsBox = (props) => {
 			copy[id] = event.target.value
 		}
 		if(id === "damage") {
-			console.log(event)
 			copy[id] = event
 		}
 		if(id === "description_0") {

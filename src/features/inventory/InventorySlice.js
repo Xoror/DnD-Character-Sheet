@@ -1,6 +1,7 @@
 import { createSlice, nanoid, createAsyncThunk, current } from "@reduxjs/toolkit"
 import axios from "axios";
 
+
 export const getClassStartingItems = createAsyncThunk('actions/fetchAPISpelllist', async () => {
     let spellListNames = []
     let spellList = []
@@ -46,7 +47,7 @@ const initialState = {
         }
     ],
     containers: [
-        {id: "equipment", value: "equipment", label: "Equipment", weight:0}
+        {id: nanoid(), value: "equipment", label: "Equipment", weight:0, containsWeight:0, maxWeightIn:0}
     ],
     weight: 0,
     currency: {platinum: 0, gold: 0, electrum: 0, silver: 0, copper: 0},
@@ -59,12 +60,20 @@ const InventorySlice = createSlice({
     reducers: {
         addItem(state, action) {
             action.payload["id"] = nanoid()
+            if(action.payload.container === "equipment") {
+                console.log("bla")
+                action.payload["container"] = state.containers.find(container => container.value === action.payload.container).id
+            }
+            state.containers.find(container => container.id === action.payload.container).containsWeight += parseFloat(action.payload.qty)*parseFloat(action.payload.weight)
             state.inventory.push(action.payload)
         },
         editItem: {
             reducer(state, action) {
-                console.log(action.payload)
                 let testIndex = state.inventory.indexOf(state.inventory.find(item => {return item.id === action.payload.id}))
+                if(state.inventory[testIndex].qty*state.inventory[testIndex].weight != action.payload.qty*action.payload.weight) {
+                    let test = action.payload.qty*action.payload.weight - state.inventory[testIndex].qty*state.inventory[testIndex].weight
+                    state.containers.find(container => container.id === state.inventory[testIndex].container).containsWeight += parseFloat(test)
+                }
                 state.inventory[testIndex] = action.payload
             },
             prepare(data) {
@@ -77,7 +86,7 @@ const InventorySlice = createSlice({
             reducer(state, action) {
                 let testItem = state.inventory.find((action1) => {return action1.id === action.payload[0]})
                 let index = state.inventory.indexOf(testItem)
-                
+                state.containers.find(container => container.id === testItem.container).containsWeight -= parseFloat(testItem.weight)*parseFloat(testItem.qty)
                 state.inventory = state.inventory.slice(0, index).concat(state.inventory.slice(index + 1))
             },
             prepare(id) {
@@ -104,16 +113,19 @@ const InventorySlice = createSlice({
             )
         },
         addContainer(state, action) {
+            console.log(action.payload)
             action.payload["id"] = nanoid()
             state.containers.push(action.payload)
         },
         editContainer(state, action) {
-            action.payload["id"] = nanoid()
-            state.containers.push(action.payload)
+            console.log(action.payload)
+            let testIndex = state.containers.indexOf(state.containers.find(container => container.id === action.payload.id))
+            state.containers[testIndex] = action.payload
         },
         deleteContainer(state, action) {
-            action.payload["id"] = nanoid()
-            state.containers.push(action.payload)
+            let testContainer = state.containers.find((container) => {return container.id === action.payload})
+            let index = state.containers.indexOf(testContainer)
+            state.containers = state.containers.slice(0, index).concat(state.containers.slice(index + 1))
         },
         updateTotals(state, action) {
             let testWeight = 0

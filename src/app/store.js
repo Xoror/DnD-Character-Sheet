@@ -14,6 +14,7 @@ import conditionsReducer from "../features/conditions/ConditionsSlice"
 import navBarReducer from "../features/nav/NavBarSlice"
 import settingsReducer from "../features/settings/SettingsSlice"
 import landingPageReducer from "../features/landingPage/LandingPageSlice"
+import apiReducer from "../features/api/Api"
 
 const appReducer = combineReducers({
 	actions: actionsReducer,
@@ -28,7 +29,8 @@ const appReducer = combineReducers({
 	conditions: conditionsReducer,
 	navBar: navBarReducer,
 	settings: settingsReducer,
-	landingPage: landingPageReducer
+	landingPage: landingPageReducer,
+	api: apiReducer
 })
 
 const rootReducer = (state, action) => {

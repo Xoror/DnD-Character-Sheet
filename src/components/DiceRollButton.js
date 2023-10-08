@@ -33,7 +33,7 @@ export const DiceRollButton = (props) => {
         if(props.options != undefined) {
             if(props.options[0].value.includes(" + MOD")) {
                 let options1 = []
-                props.options.map((option, index) => {
+                props.options.forEach((option, index) => {
                     options1.push({label: option.label, value: option.value.replace(" + MOD", " + " + spellBonus.toString())})
                 })
                 return options1
@@ -57,7 +57,6 @@ export const DiceRollButton = (props) => {
         }
     }
     , [props.options, props.spellBonus])
-    console.log(options)
     const [defaultValue, setDefaultValue] = useState(props.options === undefined ? singleValue : options[0].value)
 
 

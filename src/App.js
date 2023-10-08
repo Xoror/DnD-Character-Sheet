@@ -11,11 +11,31 @@ import { ScrollBar } from './features/scrollbar/ScrollBar'
 import { NavBar } from "./features/nav/NavBar"
 import { Sheet } from './Sheet'
 import { LandingPage } from './features/landingPage/LandingPage';
-import { isDesktop } from "./config.js"
+import { Login } from './features/api/Login';
+import { Register } from './features/api/Register';
+import { isDesktop, webServer } from "./config.js"
 
 // These exist because different routers are used depending on whether the build is run on a server or on a static host.
 // Electron is a static host so when building the app for it, we need a hash router, whereas GitHub pages is a server so
-// to run on it you can use a regular browser router.
+// to run on it you can use a regular browser router, however it won't allow reloading/direct loading of routes so the 
+// hash router is still better.
+const routerStatic = createHashRouter([
+	{
+		path: "/",
+		element: <NavBar />,
+	  //errorElement: <ErrorPage />,
+		children : [
+			{
+				path: "/",
+				element: <LandingPage />
+			},
+			{
+				path: "/sheet",
+				element: <Sheet />
+			}
+		]
+	},
+])
 const routerDesktop = createHashRouter([
 	{
 		path: "/",
@@ -46,6 +66,14 @@ const routerWeb = createBrowserRouter([
 			{
 				path: "/sheet",
 				element: <Sheet />
+			},
+			{
+				path: "/login",
+				element: <Login />
+			},
+			{
+				path: "/register",
+				element: <Register />
 			}
 		]
 	},
@@ -53,7 +81,7 @@ const routerWeb = createBrowserRouter([
 
 
 const App = () => {
-	let router = true ? routerDesktop : routerWeb
+	let router = isDesktop ? (webServer ? routerWeb : routerDesktop ) : routerStatic
 	return (
 		<>
 			<ScrollBar>

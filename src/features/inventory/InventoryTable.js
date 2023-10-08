@@ -11,7 +11,7 @@ import { AiFillCloseSquare } from "react-icons/ai";
 import { RiFileEditFill } from "react-icons/ri";
 import { MdExpandLess, MdExpandMore } from "react-icons/md";
 
-import { deleteItem, equipItem, addItem, editContainer, deleteContainer } from './InventorySlice';
+import { deleteItem, equipItem, addItem, deleteContainer } from './InventorySlice';
 import { ItemCard } from '../../components/ItemCard';
 
 export const InventoryTable = (props) => {
@@ -49,6 +49,7 @@ export const InventoryTable = (props) => {
     }
 	const saveItem = (item, id, add = "") => {
 		let temp = {}
+		temp["isEquipped"] = false
 		if (props.header === "Mundane Items") {
 			temp["id"] = id
 			temp["name"] = item.name
@@ -107,6 +108,9 @@ export const InventoryTable = (props) => {
 				else if(item.tool_category === "Musical Instrument") {
 					temp["category"] = "Instrument";
 				}
+				else if(item.tool_category === "Artisan's Tools") {
+					temp["category"] = "Artisan's Tools";
+				}
 				else {
 					temp["category"] = item.tool_category;
 				}
@@ -145,7 +149,7 @@ export const InventoryTable = (props) => {
 		}
 		
 		if(add === "addItemList") {
-			temp["container"] = "equipment"
+			temp["container"] = props.selectedContainer
 			temp["qty"] = addItemCounter
 			if(temp["worth"] === "-") {
 				temp["worth"] = 0
@@ -159,6 +163,15 @@ export const InventoryTable = (props) => {
 			temp["id"] = item.name
 		}
 		setCurrentItem(temp)
+	}
+	const startContainerEdit = (event, container) => {
+		event.stopPropagation()
+		props.setDefaultContainerValues(container)
+		props.setContainerEditing(true)
+		props.setShowAddContainer(true)
+	}
+	const handleContainerDelete = (event, id) => {
+		dispatch(deleteContainer(id))
 	}
 	
 	const handleDelete = (event, id) => {
@@ -241,13 +254,19 @@ export const InventoryTable = (props) => {
 			setAddItemCounter(addItemCounter - 1)
 		}
 		else {
-			fetchItem(props.bodies.find(body => body.id === id))
-			.then((res) => {
-				saveItem(res, id, "addItemList")
-			})
-			.catch((e) => {
-				console.log(e.message)
-			})
+			if(props.selectedContainer != "") {
+				fetchItem(props.bodies.find(body => body.id === id))
+				.then((res) => {
+					saveItem(res, id, "addItemList")
+				})
+				.catch((e) => {
+					console.log(e.message)
+				})
+			}
+			else {
+				props.setContainerFocus()
+				props.containerFocus.current.scrollIntoView()
+			}
 		}
 	}
 
@@ -258,12 +277,9 @@ export const InventoryTable = (props) => {
 		placement: place,
     	modifiers: [{ name: 'arrow', options: { element: arrowElement } },
 					{ name: "offset", options: { offset: [ 0,10]} }],
-  	});
-	let test = 0
-	props.bodies.map(body => test += body.qty*body.weight)
+  	})
 	return (
-		<div key={props.index} style={{marginLeft:"0.5em", marginRight:"0.5em"}}>
-			<Table size="sm" style={{color:"white", border:"black"}}>
+		<>
 				{offCanvas ? 
 					<thead>
 						<tr style={{borderBottom:"0px hidden black"}}>
@@ -277,8 +293,8 @@ export const InventoryTable = (props) => {
 								<td></td>
 								<td> Name </td>
 								<td> Qty </td>
-								<td> Weight (lbs) </td>
-								<td> Worth (gp) </td>
+								<td> Weight<br></br>lbs </td>
+								<td> Worth<br></br>gp </td>
 								<td></td>
 							</tr>
 						</thead> : 
@@ -293,96 +309,104 @@ export const InventoryTable = (props) => {
 						</tr> :
 						<tr>
 							<td></td>
-							<td><b>{props.container.label}</b></td>
+							<td><b>{props.container.label} </b>{props.container.containsWeight}{props.container.maxWeightIn === 0 ? null: "/"+props.container.maxWeightIn} lbs</td>
 							<td></td>
-							<td> {test} </td>
+							<td> {props.container.weight != 0 ? props.container.weight : null} </td>
 							<td></td>
-							{props.container.label != "Equipment" ? <td style={{ alignItems:"center", zIndex:"2" }}>
-								<div style={{float:"right", marginTop:"2.5px"}}>
-									<RiFileEditFill type="button" color="black" size="23" id="edit-button" /*onClick={(event) => startEdit(event, body)}*/ className="edit-button" /> 
-									<AiFillCloseSquare type="button" color="#dc3545" size="23" id="delete-button" /*onClick={(event) => handleDelete(event, body.id)}*/ className="edit-button" style={{backgroundColor:"white", padding:"0px"}}/>
+							{props.container.label != "Equipment" ? <td style={{paddingRight:"0",paddingLeft:"0", zIndex:"2", width:"4.5em"}}>
+								<div style={{paddingRight:"0",paddingLeft:"0", zIndex:"2"}}>
+									<button className="react-icons-button" onClick={event => startContainerEdit(event, props.container)} aria-label="edit container button">
+										<RiFileEditFill size="1.5em" className="edit-button" />
+									</button>
+									<button className="react-icons-button" onClick={event => handleContainerDelete(event, props.container.id)} aria-label="delete container button">
+										<AiFillCloseSquare size="1.5em" className="delete-button"/> 
+									</button>
 								</div>
 							</td>: <td></td>}
 						</tr>}
-					{props.bodies.map( (body, index) => (
-						<>
-							<tr className="action-table" key={`inventory-table-row-id-${body.id === undefined ? index : body.id}`} id={`inventory-table-row-id-${body.id}`} onClick={offCanvas ? (event) => handleRowClick(event, body.id) : (event) => handleRowClick(event, body.id)}>
-								{offCanvas ? null : 
-									<td style={{height:"1.5em", width:"1.5em", zIndex:"2"}}>
-										<div className="checkbox-wrapper letter-k">
-											<input type="checkbox" id={body.name} value="prepared"  onClick={(event) => handleEquipped(event, body.id)} defaultChecked={body.isEquipped}></input>
-										</div>
-									</td>
-								}
-							<td> 
-								{body.name}
-								{ false && showPopover[0] && showPopover[1] === body.id && cardID === body.id  ?
-									<div className="popover-test" ref={setPopperElement} style={styles.popper} {...attributes.popper}>
-										<ItemCard id ={`itemcard-${body.id}`} data={body}/>
-										<span
-											ref={setArrowElement}
-											style={styles.arrow}
-											{...attributes.arrow}
-											className={`arrow arrow-${place}`}
-										/>
-									</div> : 
-									null
-								}
-							</td>
-							{offCanvas ?
-								<td>
-									<ButtonGroup style={{float:"right", minWidth:"110px",zIndex:"5"}} aria-label="adjust quantity of items to add">
-										<Button style={{padding:"0 0.25em 0 0.25em", border:"1px solid black"}} variant="danger" onClick={event => handleCounter(event, "dec")}>-</Button>
-										<Button style={{padding:"0 0.25em 0 0.25em", border:"1px solid black"}} variant="dark" onClick={event => handleCounter(event, body.id)}>Add {addItemCounter}</Button>
-										<Button style={{padding:"0 0.25em 0 0.25em", border:"1px solid black"}} variant="success" onClick={event => handleCounter(event, "inc")}>+</Button>
-									</ButtonGroup>
-								</td> : 
-								<>
-									<td> {body.qty} </td>
-									<td> {body.qty*body.weight} </td>
-									<td> {body.qty*parseFloat(body.worth)} </td>
-									<td style={{paddingRight:"0",paddingLeft:"0", justifyItems:"end", zIndex:"2", height:"2.25em", width:"4.5em"}}>
-										<div style={{paddingRight:"0",paddingLeft:"0", justifyItems:"end", zIndex:"2" }}>
-											<button className="react-icons-button" onClick={(event) => startEdit(event, body)} aria-label="edit item button">
-												<RiFileEditFill size="1.5em" className="edit-button" /> 
-											</button>
-											<button className="react-icons-button" onClick={(event) => handleDelete(event, body.id)} aria-label="delete item button">
-												<AiFillCloseSquare size="1.5em" className="delete-button" />
-											</button>
-											{showDetails[0] && showDetails[1] === body.id ?
-											<button className="react-icons-button" onClick={(event) => setShowDetails([false, "bla"])} aria-label={`expand ${props.spells ? "spell":"action"} details`}>
-												<MdExpandLess size="1.5em" className="expand-button" /> 
-											</button> :
-											<button className="react-icons-button" onClick={(event) => setShowDetails([true, body.id])} aria-label={`expand ${props.spells ? "spell":"action"} details`}>
-												<MdExpandMore size="1.5em" className="expand-button" /> 
-											</button>
+					{props.bodies.length === 0 ? 
+						<tr>
+							<td colSpan={6}>No items {offCanvas ? " match" : "in "+props.container.label}</td>
+						</tr> :
+						props.bodies.map( (body, index) => (
+							<React.Fragment key={`sub-table-for-${props.header}-item-${body.id}`}>
+								<tr className="action-table" key={`inventory-table-row-id-${body.id === undefined ? index : body.id}`} id={`inventory-table-row-id-${body.id}`} onClick={offCanvas ? (event) => handleRowClick(event, body.id) : (event) => handleRowClick(event, body.id)}>
+									{offCanvas ? null : 
+										<td style={{height:"1.5em", width:"1.5em", zIndex:"2"}}>
+											<div className="checkbox-wrapper letter-e">
+												<input type="checkbox" id={body.name} value="prepared"  onClick={(event) => handleEquipped(event, body.id)} defaultChecked={body.isEquipped}></input>
+											</div>
+										</td>
+									}
+									<td> 
+										{body.name}
+										{ false && showPopover[0] && showPopover[1] === body.id && cardID === body.id  ?
+											<div className="popover-test" ref={setPopperElement} style={styles.popper} {...attributes.popper}>
+												<ItemCard id ={`itemcard-${body.id}`} data={body}/>
+												<span
+													ref={setArrowElement}
+													style={styles.arrow}
+													{...attributes.arrow}
+													className={`arrow arrow-${place}`}
+												/>
+											</div> : 
+											null
 										}
-										</div>
 									</td>
-								</>
-							}
-						</tr>
-							{offCanvas  ?
-								(showDetails[0] && showDetails[1] === body.id ?
-									<tr key={`item-details-id-${body.id}`}>
-										<td style={{borderRight:"1px solid rgba(1,1,1,0.5)", borderLeft:"1px solid rgba(1,1,1,0.5)"}} colSpan={6}>
-											<ItemCard id ={`itemcard-${body.id}`} data={currentItem}/>
-										</td>
-									</tr> : null
-								)
-								:
-								(showDetails[0] && showDetails[1] === body.id ?
-									<tr key={`item-details-id-${currentItem.id}`}>
-										<td style={{borderRight:"1px solid rgba(1,1,1,0.5)", borderLeft:"1px solid rgba(1,1,1,0.5)"}} colSpan={6}>
-											<ItemCard id ={`itemcard-${body.id}`} data={body}/>
-										</td>
-									</tr> : null
-								)
-							}
-						</>
+									{offCanvas ?
+										<td>
+											<ButtonGroup style={{float:"right", minWidth:"110px",zIndex:"5"}} aria-label="adjust quantity of items to add">
+												<Button style={{padding:"0 0.25em 0 0.25em", border:"1px solid black"}} variant="danger" onClick={event => handleCounter(event, "dec")}>-</Button>
+												<Button style={{padding:"0 0.25em 0 0.25em", border:"1px solid black"}} variant="dark" onClick={event => handleCounter(event, body.id)}>Add {addItemCounter}</Button>
+												<Button style={{padding:"0 0.25em 0 0.25em", border:"1px solid black"}} variant="success" onClick={event => handleCounter(event, "inc")}>+</Button>
+											</ButtonGroup>
+										</td> : 
+										<>
+											<td> {body.qty} </td>
+											<td> {body.qty*body.weight} </td>
+											<td> {body.qty*parseFloat(body.worth)} </td>
+											<td style={{paddingRight:"0",paddingLeft:"0", zIndex:"2", width:"4.5em"}}>
+												<div style={{paddingRight:"0",paddingLeft:"0", height:"1.5em", zIndex:"2" }}>
+													<button className="react-icons-button" onClick={(event) => startEdit(event, body)} aria-label="edit item button">
+														<RiFileEditFill size="1.5em" className="edit-button" /> 
+													</button>
+													<button className="react-icons-button" onClick={(event) => handleDelete(event, body.id)} aria-label="delete item button">
+														<AiFillCloseSquare size="1.5em" className="delete-button" />
+													</button>
+													{showDetails[0] && showDetails[1] === body.id ?
+													<button className="react-icons-button" onClick={(event) => setShowDetails([false, "bla"])} aria-label={`expand ${props.spells ? "spell":"action"} details`}>
+														<MdExpandLess size="1.5em" className="expand-button" /> 
+													</button> :
+													<button className="react-icons-button" onClick={(event) => setShowDetails([true, body.id])} aria-label={`expand ${props.spells ? "spell":"action"} details`}>
+														<MdExpandMore size="1.5em" className="expand-button" /> 
+													</button>
+												}
+												</div>
+											</td>
+										</>
+									}
+								</tr>
+								{offCanvas  ?
+									(showDetails[0] && showDetails[1] === body.id ?
+										<tr key={`item-details-id-${body.id}`}>
+											<td style={{borderRight:"1px solid rgba(1,1,1,0.5)", borderLeft:"1px solid rgba(1,1,1,0.5)"}} colSpan={6}>
+												<ItemCard id ={`itemcard-${body.id}`} data={currentItem}/>
+											</td>
+										</tr> : null
+									)
+									:
+									(showDetails[0] && showDetails[1] === body.id ?
+										<tr key={`item-details-id-${currentItem.id}`}>
+											<td style={{borderRight:"1px solid rgba(1,1,1,0.5)", borderLeft:"1px solid rgba(1,1,1,0.5)"}} colSpan={6}>
+												<ItemCard id ={`itemcard-${body.id}`} data={body}/>
+											</td>
+										</tr> : null
+									)
+								}
+							</React.Fragment>
 					))}
+					{props.index != props.containersLength-1 ? <tr style={{height:"1em"}}></tr> : null }
 				</tbody>
-			</Table>
-		</div>
+		</>
 	)
 }

@@ -1,21 +1,3 @@
-.popover-container {
-	border: 1px solid white;
-}
-.popover-header {
-	background-color: var(--nav-color);
-	color: white;
-}
-.popover-body {
-	background-color: var(--background-color);
-	color: var(--text-color);
-	border-bottom-right-radius: 0.5em;
-	border-bottom-left-radius: 0.5em;
-    max-height: 30em;
-    overflow: auto;
-}
-.popover-arrow {
-	border-color: black;
-}
 .log-icon {
     size: 1.125em;
     color: white;

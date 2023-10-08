@@ -50,11 +50,36 @@ $nav-hover-border: white;
 }
 
 body {
-	padding-top: 3em;
 	color: var(--text-color);
 	background-color: var(--background-color);
 	font-size: 16px;
-	line-height: 1.4
+	line-height: 1.4;
+	padding-top: 3em;
+}
+
+.form-select {
+	&:focus-visible {
+		/*border: 2px solid #0d6efd;*/
+		box-shadow: 0 0 0 3px var(--focus-box-shadow);
+		outline: 2px solid var(--focus-outline);
+	}
+	&:focus {
+		/*border: 2px solid #0d6efd;*/
+		box-shadow: 0 0 0 3px var(--focus-box-shadow);
+		outline: 2px solid var(--focus-outline);
+	}
+}
+.form-control {
+	&:focus-visible {
+		/*border: 2px solid #0d6efd;*/
+		box-shadow: 0 0 0 3px var(--focus-box-shadow);
+		outline: 2px solid var(--focus-outline);
+	}
+	&:focus {
+		/*border: 2px solid #0d6efd;*/
+		box-shadow: 0 0 0 3px var(--focus-box-shadow);
+		outline: 2px solid var(--focus-outline);
+	}
 }
 
 .visually-hidden {
@@ -450,6 +475,14 @@ body {
 	right: 0.35em;
 	top: -0.15em;
 }
+.letter-e input[type="checkbox"]:checked::before {
+	content: "E";
+	font-size: 0.8em;
+	color: var(--text-color);
+	position: absolute;
+	right: 0.35em;
+	top: -0.15em;
+}
 
 /* Testing custom CSS */
 
@@ -592,18 +625,34 @@ body {
  .popover-arrow::after {
 	border-left-color: #f7f7f7;
  }
+
+[id="popover-caster-type"][x-placement="right"] .popover-arrow::after {
+	border-right-color: black;
+}
+[id="popover-caster-type"][x-placement="left"] .popover-arrow::after {
+	border-left-color: black;
+}
+[id="popover-caster-type"][x-placement="top"] .popover-arrow::after {
+	border-top-color: black;
+}
+[id="popover-caster-type"][x-placement="bottom"] .popover-arrow::after {
+	border-bottom-color: black;
+}
+
  
 
  /* Nav bar*/
-
 .titlebar {
+	background-color: var(--nav-color);
+	padding: 0;
 	z-index: 100;
 	position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
+	top: 0;
+	left: 0;
+	width: 100%;
 	height: 3em;
 }
+
 .draggable {
     display: flex;
     
@@ -927,4 +976,78 @@ body {
 	.btn-group .btn.btn-primary {
 		padding: 0.25em 0.5em;
 	}
+}
+
+/* Login & Register Page */
+
+@media (min-width: 40em) {
+	.login-card {
+		width: 35em;
+		margin-top: 5em;
+		margin-left: auto;
+		margin-right: auto
+	}
+}
+@media (max-width: calc(40em - 1px)) {
+	.login-card {
+		width: 100%;
+		margin-top: 5em;
+		margin-left: auto;
+		margin-right: auto
+	}
+}
+
+.login-control.valid {
+	&:focus-visible {
+		/*border: 2px solid #0d6efd;*/
+		box-shadow: 0 0 0 3px var(--focus-box-shadow);
+		outline: 2px solid var(--focus-outline);
+	}
+	&:focus {
+		/*border: 2px solid #0d6efd;*/
+		box-shadow: 0 0 0 3px var(--focus-box-shadow);
+		outline: 2px solid var(--focus-outline);
+	}
+}
+.login-control.invalid {
+	border: 2px solid var(--delete-primary-color);
+	&:focus-visible {
+		/*border: 2px solid #0d6efd;*/
+		box-shadow: 0 0 0 3px var(--focus-box-shadow);
+		outline: 1px solid var(--delete-primary-color);
+	}
+	&:focus {
+		/*border: 2px solid #0d6efd;*/
+		box-shadow: 0 0 0 3px var(--focus-box-shadow);
+		outline: 1px solid var(--delete-primary-color);
+	}
+}
+
+/* Dice Log */
+.popover-container {
+	border: 1px solid white;
+}
+.popover-header {
+	background-color: var(--nav-color);
+	color: white;
+}
+.popover-body {
+	background-color: var(--background-color);
+	color: var(--text-color);
+	border-bottom-right-radius: 0.5em;
+	border-bottom-left-radius: 0.5em;
+    max-height: 30em;
+    overflow: auto;
+}
+[id="dice-log-popover"][x-placement="right"] .popover-arrow::after {
+	border-right-color: black;
+}
+[id="dice-log-popover"][x-placement="left"] .popover-arrow::after {
+	border-left-color: black;
+}
+[id="dice-log-popover"][x-placement="top"] .popover-arrow::after {
+	border-top-color: black;
+}
+[id="dice-log-popover"][x-placement="bottom"] .popover-arrow::after {
+	border-bottom-color: black;
 }

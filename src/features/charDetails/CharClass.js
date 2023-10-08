@@ -22,11 +22,11 @@ export const CharacterClass = () => {
 	
 	return (
 		<div id="charClass" /*className='alert alert-secondary'*/ >
-			<label id="character-class-label" >Class: {charClass}</label>
+			<label id="character-class-label" >Class:</label>
 			<br></br>
 			<input aria-labelledby="character-class-label" required='required' type='text' id='Class' value={charClass} placeholder="Insert Character Class here" onChange={handleClassChange}></input>
 			<br></br>
-			<label id="character-subclass-label" >Sublass: {charSubclass}</label>
+			<label id="character-subclass-label" >Sublass:</label>
 			<br></br>
 			<input aria-labelledby="character-subclass-label" required='required' type='text' id='subClass' value={charSubclass} placeholder="Insert Character Sublass here" onChange={handleClassChange}></input>
 		</div>

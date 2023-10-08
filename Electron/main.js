@@ -1,12 +1,12 @@
 const { app, BrowserWindow, ipcMain, dialog, shell} = require('electron')
 const path = require('path')
 const sqlite3 = require("sqlite3").verbose()
+const fs = require("fs")
 
 global.appRoot = path.resolve(__dirname)
 
-
-
-
+const { getFullDB, addRowDB, loadRowDB, changeRowDB } = require("./utils/DatabaseFunctions.js")
+const { loadAllCharacters, loadCharacter, saveCharacter, updateCharacter } = require("./utils/SaveLoadFunctions.js")
 
 function createWindow () {
   const win = new BrowserWindow({
@@ -35,76 +35,47 @@ const database = new sqlite3.Database(appRoot+"./resources/database.db", sqlite3
   else console.log("Connected to database")
 })
 
-const getFullDB = async (event, arg) => {
-  const queryGetAllRows = async (event, arg) => {
-    return new Promise((resolve, reject) => {
-      database.all(arg, (err, rows) => {
-        if(err) {reject(err)}
-        else {resolve(rows)}
-      })
-    })
+const test = (event, arg) => {
+  let path = app.getPath("userData") + "\\characters"
+  if(!fs.existsSync(path)) {
+    fs.mkdirSync(path)
   }
-  const bla = await queryGetAllRows(event, arg)
-  return bla
-}
-
-const addRowDB = async (event, arg) => {
-  //console.log(arg)
-  const queryAddRow = async (event, arg) => {
-    return new Promise((resolve, reject) => {
-      database.run(arg[0], arg[1], (err, rows) => {
-        if(err) {reject(err)}
-        else {resolve(rows)}
-      })
-    })
+  else{
+    console.log("folder exixsts already :3")
   }
-  const bla = await queryAddRow(event, arg)
-  return bla
-}
-
-const loadRowDB = async (event, arg) => {
-  const queryLoadRow = async (event, arg) => {
-    return new Promise((resolve, reject) => {
-      database.all(arg[0], arg[1], (err, row) => {
-        if(err) {reject(err)}
-        else {resolve(row)}
-      })
-    })
+  let data = {
+    name: arg[1][0],
+    state: arg[1][1],
+    lastSaved: arg[1][2]
   }
-  const bla = await queryLoadRow(event, arg)
-  return bla
-}
-
-const changeRowDB = async (event, arg) => {
-  let sql = arg[0]
-  let data = arg[1]
-  const queryChangeRow = async (event1, arg1) => {
-    return new Promise((resolve, reject) => {
-      database.run(sql, data, (err, rows) => {
-        if(err) {reject(err)}
-        else {resolve(rows)}
-      })
+  fs.open(path + "\\" + data.name+".json", "w", async (err, fd) => {
+    if (err) {
+      return console.error(err);
+    }
+    fs.writeFile(path + "\\" + data.name+".json", JSON.stringify(data), (err) => {
+        if (err) throw err;
+        else{
+          fs.close(fd, (err) => {
+            if(err) {
+              console.log(err)
+            }
+          })
+        }
     })
-  }
-  const bla = await queryChangeRow(event, data)
-  return bla
+  })
 }
-
 
 app.whenReady().then(() => {
-  ipcMain.handle("get-full-db", async (event, arg) => getFullDB(event, arg))
-  ipcMain.handle("add-row", async (event, arg) => addRowDB(event, arg))
-  ipcMain.handle("load-row", async (event, arg) => loadRowDB(event, arg))
-  ipcMain.handle("change-row", async (event, arg) => changeRowDB(event, arg))
+  ipcMain.handle("get-full-db", async (event, arg) => loadAllCharacters(event, arg, app))//getFullDB(event, arg, database))
+  ipcMain.handle("add-row", async (event, arg) => saveCharacter(event, arg, app))//addRowDB(event, arg, database))
+  ipcMain.handle("load-row", async (event, arg) => loadCharacter(event, arg, app))//loadRowDB(event, arg, database))
+  ipcMain.handle("change-row", async (event, arg) => updateCharacter(event, arg, app))//changeRowDB(event, arg, database))
   createWindow()
-
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow()
     }
   })
-  
-  
 })
 
 app.on('window-all-closed', () => {

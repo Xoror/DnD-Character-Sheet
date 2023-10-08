@@ -53,7 +53,7 @@ const miscAttributesSlice = createSlice({
         },
         importMiscAttributes(state, action) {
             let keys1 = Object.keys(state)
-            keys1.map(key => 
+            keys1.forEach(key => 
                 state[key] = action.payload[key]
             )
         }

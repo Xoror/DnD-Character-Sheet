@@ -17,7 +17,7 @@ export const getAPISPelllist = createAsyncThunk('actions/fetchAPISpelllist', asy
         let response = await axios.get("https://www.dnd5eapi.co/api/spells")
          spellListNames = response.data.results
         await axios.all(
-            spellListNames.map(name => (axios.get(`https://www.dnd5eapi.co${name.url}`)))
+            spellListNames.forEach(name => (axios.get(`https://www.dnd5eapi.co${name.url}`)))
         ).then((responses => {
             responses.forEach((resp) => {
                 spellList.push(resp.data)
@@ -41,7 +41,7 @@ export const buildSpelllistFromDB = createAsyncThunk("actions/buildSpellListFrom
 
 const initialState = {
     actions: [
-        {id:nanoid(), name: "Unarmed Attack", range: "Melee",  damage: 1, type: "Action", scaling: "Strength", isProficient: true, damageType:"Bludgeoning", description:"An attack with your fist, ellbow, head etc."},
+        {id:nanoid(), name: "Unarmed Attack", range: "Melee",  damage: "1", type: "Action", scaling: "Strength", isProficient: true, damageType:"Bludgeoning", description:"An attack with your fist, ellbow, head etc."},
     ],
     spells: [
 	],
@@ -245,7 +245,7 @@ const ActionsSlice = createSlice({
                     }
                 }
 
-				spellList.map((spell, index) => (
+				spellList.forEach((spell, index) => (
 					spellLiistUnformatted.push(
                         {
                             showCard:false,
@@ -298,12 +298,12 @@ const ActionsSlice = createSlice({
 			}
         },
         updateSpellListScaling(state, action) {
-            state.sortedSpellList.map(spell => (
+            state.sortedSpellList.forEach(spell => (
                 spell.scaling = action.payload
             ))
         },
         updateSpellCardShow(state, action) {
-            state.spells.map(spell => (
+            state.spells.forEach(spell => (
                 spell.showCard = spell.id === action.payload[0] ? !spell.showCard : false
             ))
         },
@@ -384,7 +384,7 @@ const ActionsSlice = createSlice({
         },
         importActions(state, action) {
             let keys1 = Object.keys(state)
-            keys1.map(key => 
+            keys1.forEach(key => 
                 state[key] = action.payload[key]
             )
         }
@@ -410,7 +410,7 @@ const ActionsSlice = createSlice({
                         }
                     }
                     let spellLiistUnformatted = []
-                    action.payload.map((data, index) => (
+                    action.payload.forEach((data, index) => (
                         spellLiistUnformatted.push(JSON.parse(data.data))
                     ))
                     

@@ -7,6 +7,7 @@ import Card from 'react-bootstrap/Card'
 import Container from 'react-bootstrap/Container'
 import FloatingLabel from 'react-bootstrap/FloatingLabel'
 import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 
 import { IoReloadOutline } from "react-icons/io5"
 
@@ -17,7 +18,9 @@ export const LandingPage = () => {
     const news = useSelector(state => state.landingPage.news)
     const newsUpdated = useSelector(state => state.landingPage.newsUpdated)
     const todos = useSelector(state => state.landingPage.todos)
-    const todosUpdated = useSelector(state => state.landingPage.todosUpdated)    
+    const todosUpdated = useSelector(state => state.landingPage.todosUpdated)
+    const currentState = useSelector(state => state)
+    const characterName = useSelector(state => state.charDetails.charName)
 
     useEffect(() => {
         dispatch(updateTodos())
@@ -36,35 +39,35 @@ export const LandingPage = () => {
         console.log(event.target[0].value)
     }
 
-	return (
+    return (
 		<Container fluid className="main-style">
 			<Row style={{paddingBottom:"0.5em", paddingRight:"1.25em", paddingLeft:"0.75em"}}>
 				<Col md>
 					<Card className="landing-page-card">
-                        <Card.Header style={{backgroundColor:"var(--secondary-element-color)"}}><h5>News & Updates</h5></Card.Header>
+                        <Card.Header as="h5" style={{backgroundColor:"var(--secondary-element-color)"}}>News & Updates</Card.Header>
 						<Card.Body style={{overflow: "auto"}}>
-							
-								{news.map((post,index) => 
-                                    <Card key={`post-titled-${post.title}`} className="secondary-element-card" style={{marginBottom:"0.5em"}}>
-                                        <Card.Body>
-                                            <Card.Title> {post.title} <span style={{float:"right", fontWeight:"300", fontSize:"1rem"}}>{post.posted}</span></Card.Title>
-                                            <Card.Text>
-                                                {post.post}
-                                            </Card.Text>
-                                        </Card.Body>
-                                    </Card>
-                                )}
-							
+                            {news.map((post,index) => 
+                                <Card key={`post-titled-${post.title}`} className="secondary-element-card" style={{marginBottom:"0.5em"}}>
+                                    <Card.Body>
+                                        <Card.Title> {post.title} <span style={{float:"right", fontWeight:"300", fontSize:"1rem"}}>{post.posted}</span></Card.Title>
+                                        <Card.Text>
+                                            {post.post}
+                                        </Card.Text>
+                                    </Card.Body>
+                                </Card>
+                            )}
 						</Card.Body>
 						<Card.Footer style={{backgroundColor:"var(--secondary-element-color)"}}>
 							<small>Last updated: {newsUpdated}</small>
-                            <IoReloadOutline tabIndex="0" type="button" className="reload-button" onClick={(event) => refreshNews(event)} size="2em"/>
-						</Card.Footer>
+                            <button className="react-icons-button" style={{float:"right", borderRadius:"100%"}} onClick={(event) => refreshNews(event)} aria-label={`reload news list`}>
+                                <IoReloadOutline className="reload-button"  size="2em"/>
+                            </button>
+                        </Card.Footer>
 					</Card>
 				</Col>
 				<Col md>
 					<Card className="landing-page-card">
-                        <Card.Header style={{backgroundColor:"var(--secondary-element-color)"}}><h5>To-Do List</h5></Card.Header>
+                        <Card.Header as="h5" style={{backgroundColor:"var(--secondary-element-color)"}}>To-Do List</Card.Header>
 						<Card.Body style={{overflow: "auto"}}>
                             <label id="major-tasks">Major Tasks</label>
                             <ul aria-labelledby="major-tasks">
@@ -87,30 +90,18 @@ export const LandingPage = () => {
 						</Card.Body>
 						<Card.Footer style={{backgroundColor:"var(--secondary-element-color)"}}>
 							<small>Last updated: {todosUpdated}</small>
-                            <IoReloadOutline tabIndex="0" type="button" className="reload-button" onClick={(event) => refreshTodos(event)} size="2em"/>
-						</Card.Footer>
+                            <button className="react-icons-button" style={{float:"right", borderRadius:"100%"}} onClick={(event) => refreshTodos(event)} aria-label={`reload todos list`}>
+                                <IoReloadOutline className="reload-button"  size="2em"/>
+                            </button>
+                        </Card.Footer>
 					</Card>
 				</Col>
 			</Row>
-
             <Row style={{paddingBottom:"0.5em", paddingRight:"1.25em", paddingLeft:"0.75em"}}>
                 <Col>
                     <Card className="landing-page-card">
-                        <Card.Header style={{backgroundColor:"var(--secondary-element-color)"}}><h5>Quick-Start</h5></Card.Header>
+                        <Card.Header as="h5" style={{backgroundColor:"var(--secondary-element-color)"}}>Quick-Start</Card.Header>
 						<Card.Body>
-                            {false ? <>
-                                <FloatingLabel
-                                    controlId="floatingInput"
-                                    label="Email address"
-                                    
-                                    style={{color:"black"}}
-                                >
-                                    <Form.Control type="email" placeholder="name@example.com" />
-                                </FloatingLabel>
-                                <FloatingLabel controlId="floatingPassword" label="Password">
-                                    <Form.Control type="password" placeholder="Password" />
-                                </FloatingLabel>
-                            </> :
                             <>
                                 <p>
                                     Coming Soon!
@@ -119,14 +110,15 @@ export const LandingPage = () => {
                                     <input></input>
                                     <button type="submit">Roll</button>
                                 </form>
-                                
                             </>
-                            }
 						</Card.Body>
 						{false ? <Card.Footer style={{backgroundColor:"var(--secondary-element-color)"}}>
 							<small>Last updated: {todosUpdated}</small>
-                            <IoReloadOutline tabIndex="0" type="button" className="reload-button" onClick={(event) => refreshTodos(event)} size="2em"/>
-						</Card.Footer> : null }
+                            
+                            <button className="react-icons-button" onClick={(event) => refreshTodos(event)} aria-label={`reload todo list`}>
+                                <IoReloadOutline className="reload-button"  size="2em"/>
+                            </button>
+                        </Card.Footer> : null }
 					</Card>
                 </Col>
             </Row>

@@ -6,14 +6,19 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import Container from 'react-bootstrap/Container';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
-
-
-import { InventoryTable } from './InventoryTable';
+import Table from 'react-bootstrap/Table';
 
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
+import { InventoryTable } from './InventoryTable';
+import { useFocus } from '../../components/CustomHooks';
+
 export const ItemList = (props) => {
 	const dispatch = useDispatch()
+
+	const containers = useSelector(state => state.inventory.containers)
+	const [selectedContainer, setSelectedContainer] = useState("")
+	const [containerFocus, setContainerFocus] = useFocus()
 
 	const [show, setShow] = useState(false);
 	const [cardID, setCardID] = useState("0")
@@ -88,9 +93,18 @@ export const ItemList = (props) => {
 		<>
 			<Offcanvas border="dark" style={{color:"white", backgroundColor:"#6c757d", width:"478px", marginTop:"3em"}} show={show} onHide={handleClose} placement="start" scroll="true">
 				<Offcanvas.Header closeButton onClick={handleClose}>
-					<Offcanvas.Title>Spell List</Offcanvas.Title>
+					<Offcanvas.Title>Item List</Offcanvas.Title>
 				</Offcanvas.Header>
 				<Offcanvas.Body>
+				<InputGroup className="mb-3 mt-1">
+					<InputGroup.Text id="container-to-add-to">Container to add Item to</InputGroup.Text>
+					<Form.Select ref={containerFocus} value={selectedContainer} placeholder="Container" aria-describedby="container-to-add-to" onChange={event => setSelectedContainer(event.target.value)}>
+						<option value="">Choose container...</option>
+						{containers.map((container, index) => (
+							<option key={`container-label-${container.label}`} value={container.id}>{container.label}</option>
+						))}
+					</Form.Select>
+				</InputGroup>
 					<FilterSelection filters={filters} searchField={searchField} setFilters={setFilters} setSearchField={setSearchField}/>
 					{false ? <Container fluid className="filter-container">
 						<span>Filters: </span>
@@ -100,18 +114,25 @@ export const ItemList = (props) => {
 							))
 						))}
 					</Container> : null}
-					{headers.map((header, index) => (
-						<InventoryTable
-                            cardID={cardID}
-                            setCardID={setCardID}
-                            header={header}
-                            bodies={bodies[index].filter(item => {return item.name.toLowerCase().includes(searchField.toLowerCase()) === true})}
-                            key={`inventory-table-${header}`}
-							offCanvas={true} 
-							searchField={searchField} 
-							filters={filters} 
-						/>
-					))}
+					<div key={props.index} style={{marginLeft:"0.5em", marginRight:"0.5em"}}>
+						<Table size="sm" style={{color:"white", border:"black"}}>
+							{headers.map((header, index) => (
+								<InventoryTable
+									key={`table-to-add-${header}`}
+									cardID={cardID}
+									setCardID={setCardID}
+									header={header}
+									bodies={bodies[index].filter(item => {return item.name.toLowerCase().includes(searchField.toLowerCase()) === true})}
+									offCanvas={true} 
+									searchField={searchField} 
+									filters={filters}
+									selectedContainer={selectedContainer}
+									containerFocus={containerFocus}
+									setContainerFocus={setContainerFocus}
+								/>
+							))}
+						</Table>
+					</div>
 				</Offcanvas.Body>
 			</Offcanvas>
 		</>
@@ -162,7 +183,7 @@ const FilterSelection = (props) => {
 	const schoolList = ["Abjuration", "Conjuration", "Divination", "Enchantment","Evocation", "Illusion", "Necromancy", "Transmutation"]
 	return (
 		<>
-			<Form.Control placeholder="Search" type="search" onChange={(e) => (props.setSearchField(e.target.value), handleAdd(e, "search"))}></Form.Control>
+			<Form.Control placeholder="Search items..." type="search" onChange={(e) => (props.setSearchField(e.target.value), handleAdd(e, "search"))}></Form.Control>
 			{false ? 
                 <>
                     <InputGroup>

@@ -33,10 +33,10 @@ export const SpellBox = () => {
 		event.stopPropagation()
 	}
 	const popover = (
-		<Popover className="popover-container" id="popover-basic" onClick={event => event.stopPropagation()}>
+		<Popover className="popover-container" id="popover-caster-type" onClick={event => event.stopPropagation()}>
 			<Popover.Header className="popover-header" as="h3">
-				Legend
-				<CloseButton aria-label="close caster type legend" variant="white"/>
+				Caster Type Legend
+				<CloseButton style={{float:"right"}} aria-label="close caster type legend" variant="white"/>
 			</Popover.Header>
 			<Popover.Body className="popover-body">
 				<span> <b>Full Caster:</b> Casters like Wizards, Sorcerers, Bards that get spellslots up to 9th level.</span>
@@ -57,7 +57,7 @@ export const SpellBox = () => {
 			<Card className="main-element-card">
 				<InputGroup>
 					<InputGroup.Text style={{padding:"0"}}>
-						<OverlayTrigger trigger="focus" placement="auto" overlay={popover}>
+						<OverlayTrigger trigger="click" placement="auto" overlay={popover}>
 							<button className="react-icons-button" style={{borderRadius:"100%", height:"1.5em"}}> <HiOutlineInformationCircle size="1.5em" style={{position:"relative", bottom:"2px"}}/> </button>
 						</OverlayTrigger>
 					</InputGroup.Text>

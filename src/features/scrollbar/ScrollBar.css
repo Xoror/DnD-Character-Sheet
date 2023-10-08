@@ -1,28 +1,31 @@
 .scroll-bar {
-    width: 0.75em;
-    height: 100%;
-    right: 0;
-    top: 0px;
-    position: absolute;
-    border-radius: 0.375em;
-    bottom: 0px;
-    background-color: rgba(0, 0, 0, 0.35);
-    padding-left: 0.125em;
-    padding-right: 0.125em;
-  }
-  .scrollhost-container {
-    position: relative;
-    height: 100%;
-  }
-  .scrollhost {
-    scrollbar-width: none;
-   -ms-overflow-style: none;
- }
- 
- .scrollhost::-webkit-scrollbar {
-   display: none;
- }
- .scroll-thumb {
+  width: 0.75em;
+  height: 100%;
+  right: 0;
+  top: 0px;
+  position: absolute;
+  border-radius: 0.375em;
+  bottom: 0px;
+  background-color: rgba(0, 0, 0, 0.35);
+  padding-left: 0.125em;
+  padding-right: 0.125em;
+}
+
+.scrollhost-container {
+  position: relative;
+  height: 100%;
+}
+
+
+.scrollhost {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollhost::-webkit-scrollbar {
+  display: none; 
+}
+.scroll-thumb {
   width: 0.5em;
   height: 20px;
   position: absolute;

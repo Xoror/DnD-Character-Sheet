@@ -22,7 +22,6 @@ export const FeaturesBox = () => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		console.log(event.target)
 		dispatch(addFeature({
             name: event.target[0].value, 
             level: event.target[1].value, 

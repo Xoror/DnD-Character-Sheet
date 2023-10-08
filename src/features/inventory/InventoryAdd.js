@@ -23,7 +23,7 @@ export const InventoryAdd = (props) => {
     const itemTemplate = props.itemTemplate
 
     const handleCreateOption = (createdOption) => {
-		let option = {value: createdOption.toLowerCase(), label: createdOption, weight:0}
+		let option = {value: createdOption.toLowerCase(), label: createdOption, weight:0, containsWeight:0, maxWeightIn:0}
 		handleSelectValues(option, "container")
 		dispatch(addContainer(option))
 	}
@@ -60,20 +60,30 @@ export const InventoryAdd = (props) => {
                             <Form.Control ref={props.inputRef} className="middle-left-group" value={defaultValues.name} required placeholder="" onChange={event => handleSelectValues(event, "name")}/>
                         </FloatingLabel>
                         <FloatingLabel controlId="item-category" label="Category">
-                            <Form.Select aria-labelledby="item-category" value={defaultValues.category} required onChange={event => handleSelectValues(event, "category")}>
+                            <Form.Select 
+                            aria-labelledby="item-category" 
+                            value={defaultValues.category} 
+                            required 
+                            onChange={event => handleSelectValues(event, "category")}>
                                 <option value="">Choose Item Category</option>
                                 {category_options.map((category, index) => (
-                                    <option key={`category-option-${category}`} value={category.toLowerCase()}>{category}</option>
+                                    <option key={`category-option-${category}`} value={category}>{category}</option>
                                 ))}
                             </Form.Select>
                         </FloatingLabel>
                         <FloatingLabel controlId="item-container" label="Container">
-                            <CreatableSelect className="middle-right-group"
-                                value={defaultValues.container} onChange={(value) => (handleSelectValues(value, "container"))} 
-                                onCreateOption={(value) => handleCreateOption(value)} isClearable 
-                                options={containers} styles={customStyles} required 
+                            <Form.Select  aria-labelledby="item-container" 
+                                className="middle-right-group"
+                                value={defaultValues.container}
+                                required 
                                 placeholder="Select or create Container..."
-                            /> 
+                                onChange={event => handleSelectValues(event, "container")}
+                            >
+                                <option value="">Choose Container</option>
+                                    {containers.map((container, index) => (
+                                        <option key={`container-option-${container.value}`} value={container.id}>{container.label}</option>
+                                    ))}
+                            </Form.Select>
                         </FloatingLabel>
                     </InputGroup>
                     <InputGroup>
@@ -126,7 +136,7 @@ export const InventoryAdd = (props) => {
                     </InputGroup>
                     {defaultValues.attunable ? 
                         <FloatingLabel controlId="item-attune-requirement" label="Attunement Requirement (e.g. 'requires attunement by a druid')">
-                            <Form.Control as="textarea" aria-labelledby="item-attune-requirement" style={{height:"6em"}} placeholder="" value={defaultValues.attuneRequirement} onChange={event => handleSelectValues(event, "attuneRequirement")}/>
+                            <Form.Control as="textarea" aria-labelledby="item-attune-requirement" className="middle-right-group middle-left-group" style={{height:"6em"}} placeholder="" value={defaultValues.attuneRequirement} onChange={event => handleSelectValues(event, "attuneRequirement")}/>
                         </FloatingLabel>
                          : null
                     }
@@ -143,7 +153,7 @@ export const InventoryAdd = (props) => {
 					</Modal.Title>
 				</Modal.Header>
 
-                <Form aria-aria-labelledby="add-new-item" onSubmit={(event) => (handleClick(event))}>
+                <Form aria-labelledby="add-new-item" onSubmit={(event) => (handleClick(event))}>
                     <Modal.Body>
                         <InputGroup>
                             <InputGroup.Text as="label" id="add-new-item" className="top-left-group top-right-group" style={{flexGrow:"2"}}> {editing ? ("Currently editing: " + defaultValues.name) : "Add New Item" } </InputGroup.Text> 
@@ -160,13 +170,18 @@ export const InventoryAdd = (props) => {
                                 ))}
                             </Form.Select>
                             <InputGroup.Text as="label" id="item-container">Container</InputGroup.Text>
-                            <CreatableSelect className="middle-right-group"
-                                aria-labelledby="item-container"
-                                value={defaultValues.container} onChange={(value) => (handleSelectValues(value, "container"))} 
-                                onCreateOption={(value) => handleCreateOption(value)} isClearable 
-                                options={containers} styles={customStyles} required 
+                            <Form.Select  aria-labelledby="item-container" 
+                                className="middle-right-group"
+                                value={defaultValues.container}
+                                required 
                                 placeholder="Select or create Container..."
-                            /> 
+                                onChange={event => handleSelectValues(event, "container")}
+                            >
+                                <option value="">Choose Container</option>
+                                    {containers.map((container, index) => (
+                                        <option key={`container-option-${container.value}`} value={container.id}>{container.label}</option>
+                                    ))}
+                            </Form.Select>
                         </InputGroup>
                         <InputGroup>
                             <InputGroup.Text as="label" id="item-quantity" className="middle-left-group">Quantity to add</InputGroup.Text>
@@ -193,7 +208,7 @@ export const InventoryAdd = (props) => {
                         </InputGroup>
                         <InputGroup>
                             <InputGroup.Text as="label" id="item-is-attunable" className="middle-left-group">Is Attunable</InputGroup.Text>
-                            <Form.Select type="boolean" value={defaultValues.attunable} required aria-labelledby="item-is-attunable" onChange={event => handleSelectValues(event, "attunable")}>
+                            <Form.Select type="boolean" value={defaultValues.attunable} className={defaultValues.attunable ? null : "middle-right-group"} required aria-labelledby="item-is-attunable" onChange={event => handleSelectValues(event, "attunable")}>
                                 <option value="">Is attunable?</option>
                                 <option value="true">Yes</option>
                                 <option value="false">No</option>

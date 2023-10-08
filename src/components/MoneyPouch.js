@@ -25,7 +25,7 @@ export const MoneyPouch = (props) => {
     const currencies_shortnames = props.currenciesShortnames
     let colors = []
     if(props.colors === undefined) {
-        currencies.map(currency => (
+        currencies.forEach(currency => (
             colors.push("white")
         ))
     }

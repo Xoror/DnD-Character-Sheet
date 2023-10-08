@@ -12,6 +12,8 @@ import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 import Form from 'react-bootstrap/Form';
 
+import { isDesktop, webServer, isDev } from "../../config"
+
 import { NavMenuDesktop } from './NavMenuDesktop';
 import { NavMenuWeb } from './NavMenuWeb';
 import { useAutosave } from "../../components/CustomHooks"
@@ -59,7 +61,6 @@ const preparedImportState = (state, navBar) => {
 			tempState[key] = state[key]
 		}
 	}
-	console.log(tempState)
 	return tempState
 }
 
@@ -77,8 +78,9 @@ export const NavBar = () => {
     const charName= useSelector(state => state.charDetails.charName)
 	const navBarSlice = useSelector(state => state.navBar)
 	const settingsSlice = useSelector(state => state.settings)
-	const desktop = settingsSlice.desktop
-
+	const api = useSelector(state => state.api)
+	const desktop = isDesktop
+	
 	const [star, setStar] = useState(false)
 	const [modalType, setModalType] = useState("safety")
 	const [showSafetyBox, setShowSafetyBox] = useState(false)
@@ -121,10 +123,19 @@ export const NavBar = () => {
 			}
 		}
 	}, [currentState, navBarSlice.compareState, navBarSlice.currentlyEditing.name, navBarSlice.currentlyEditing.id, desktop])
-
+	useEffect(() => {
+		if(desktop) {
+			if( webServer && api.loginStatus === "fulfilled") {
+				getCharacterNames()
+			}
+			else if(!webServer) {
+				getCharacterNames()
+			}
+		}
+	}, [])
 
 	useAutosave(() => {
-		if( desktop ) {
+		if( desktop && !webServer ) {
 			setShowAutoSave(true)
 			dispatch(changeCharacterIndDB(
 				[
@@ -133,11 +144,16 @@ export const NavBar = () => {
 				]
 			))
 		}
-	}, settingsSlice.autoSaveTimer*60*1000)
+	}, 15*60*1000)
 
 
 	const getCharacterNames = async () => {
-		dispatch(importCharacterNames("select id, name from characters"))
+		if(webServer) {
+			dispatch(importCharacterNames({body: "bla", type:"web"}))
+		}
+		else {
+			dispatch(importCharacterNames({body: "select id, name from characters", type:"desktop"}))
+		}
 	}
 	const handleSave = async (event, arg) => {
 		if(currentState.navBar.currentlyEditing.name === "None" && arg != "auto") {
@@ -152,21 +168,49 @@ export const NavBar = () => {
 			else { 
 				name = currentState.charDetails.charName 
 			}
-			dispatch(changeCharacterIndDB(
-				[
-					"update characters set name = ?, state = ?, lastSaved = ? where id = ?",
-					[name, JSON.stringify(currentState, null), new Date().toLocaleString(), navBarSlice.currentlyEditing.id]
-				]
-			))
+			if(webServer) {
+				dispatch(changeCharacterIndDB({
+					body: {
+						name: name, 
+						state: JSON.stringify(currentState, null), 
+						lastSaved: new Date().toLocaleString(), 
+						id: navBarSlice.currentlyEditing.id
+					},
+					type: "web"
+				}))
+			}
+			else {
+				dispatch(changeCharacterIndDB({
+					body: [
+						"update characters set name = ?, state = ?, lastSaved = ? where id = ?",
+						[name, JSON.stringify(currentState, null), new Date().toLocaleString(), navBarSlice.currentlyEditing.id]
+					],
+					type: "desktop"
+				}))
+			}
 		}
 	}
 	const handleSaveAs = (event) => {
-		dispatch(addCharacterToDatabase(
-			[
-				"INSERT INTO characters(name, state, lastSaved) VALUES(?,?,?)", 
-				[currentState.charDetails.charName,JSON.stringify(currentState, null), new Date().toLocaleString()]
-			]
-		))
+		if(webServer) {
+			dispatch(addCharacterToDatabase({
+				body: JSON.stringify({
+					name: currentState.charDetails.charName, 
+					state: JSON.stringify(currentState, null), 
+					lastSaved: new Date().toLocaleString()
+				}), 
+				type: "web"
+			}))
+		}
+		else {
+			dispatch(addCharacterToDatabase({
+				body: [
+					"INSERT INTO characters(name, state, lastSaved) VALUES(?,?,?)", 
+					[currentState.charDetails.charName, JSON.stringify(currentState, null), new Date().toLocaleString()]
+				],
+				type: "desktop"
+			}))
+		}
+		
 		setShowSafetyBox(false)
 		setModalType("safety")
 	}
@@ -189,13 +233,16 @@ export const NavBar = () => {
 		}
 		else {
 			setStar(true)
-			let test = await dispatch(importCharacter(
-				["select * from characters where id = ?", tempSave[2]]
-			))
-			console.log(test)
+			let test
+			if(webServer) {
+				test = await dispatch(importCharacter({body: tempSave[2], type:"web"}))
+			}
+			else {
+				test = await dispatch(importCharacter({body: ["select * from characters where id = ?", tempSave[1]], type:"desktop"}))
+			}
 			let navBarTemp = structuredClone(currentState.navBar)
 			navBarTemp.currentlyEditing.id = test.payload.id
-			navBarTemp.currentlyEditing.name = navBarTemp.characters.names[test.payload.id - 1]
+			navBarTemp.currentlyEditing.name = navBarTemp.characters.names[navBarTemp.characters.id.indexOf(test.payload.id)]
 			navBarTemp.lastSaved = new Date().toLocaleString()
 			navBarTemp.compareState = JSON.parse(test.payload.state)
 			navBarTemp.importFromDbStatus = "succeeded"
@@ -278,7 +325,7 @@ export const NavBar = () => {
 						</Modal.Footer>
 					</Modal>
 				}
-			<Navbar style={{backgroundColor:"#212529", padding:"0"}} variant="dark" className="titlebar">
+			<Navbar style={isDev ? {backgroundColor:"red"} : null} variant="dark" className="titlebar">
 				<Container fluid className="draggable" style={{alignItems:"normal", justifyContent:"normal"}}>
 					{desktop ?
 						<NavMenuDesktop
@@ -293,6 +340,7 @@ export const NavBar = () => {
 							charName={charName}
 							currentState={currentState}
 							star={star}
+							webServer={webServer}
 						/>
 							:
 						<NavMenuWeb
