@@ -1,9 +1,10 @@
 {
   "name": "dnd-sheet-test",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "main": "./Electron/main.js",
   "author": "Stargazer Works",
   "description": "Interactive DnD 5e character sheet made in React and Electron",
+  "homepage": "./",
   "private": true,
   "dependencies": {
     "react-router-dom": "^6.14.2",

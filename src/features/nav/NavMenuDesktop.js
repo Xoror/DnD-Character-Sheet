@@ -26,6 +26,7 @@ export const NavMenuDesktop = (props) => {
 
     const width = useScreenSize().width
     const loginStatus = useSelector(state => state.api.loginStatus)
+    const loggedInUser = useSelector(state => state.api.loggedInUser)
 
     const inputRef = useRef(null)
     const handleInputClick = () => {
@@ -75,8 +76,7 @@ export const NavMenuDesktop = (props) => {
                                 <span style={{padding:"0.25em 1em", display:"block", width:"100%", whiteSpace:"nowrap"}}>Your Characters:</span>
                             </> : null
                         }
-                        {
-                            props.navBarSlice.characters.status === "pending" ? 
+                        {props.navBarSlice.characters.status === "pending" ? 
                             ["Loading..."].map((character, index) => (
                                 <NavDropdown.Item key={`${character}-${index}`}>{character}</NavDropdown.Item>
                             )) : 
@@ -92,8 +92,10 @@ export const NavMenuDesktop = (props) => {
                             )
                         }
                     </NavDropdown>
-                    {width >= 900 && loginStatus === "fulfilled" ?
-                        <Navbar.Text>Last saved{props.star ? "*" : null}: {props.navBarSlice.lastSaved} (currently editing: {props.navBarSlice.currentlyEditing.name})</Navbar.Text>
+                    {width >= 650 && loginStatus === "fulfilled" ?
+                        <>
+                            <Navbar.Text>Last saved{props.star ? "*" : null}: {props.navBarSlice.lastSaved} (currently editing: {props.navBarSlice.currentlyEditing.name})</Navbar.Text>
+                        </>
                         : null
                     }
                 </>
@@ -151,23 +153,76 @@ export const NavMenuDesktop = (props) => {
             <Link to="/" tabIndex="0" className="home-button not-draggable" id="home-button" aria-label="home button that leads to landing page">
                 <MdHome size="2em" style={{position: "relative", right: "1px", bottom: "1px"}}/>
             </Link>	
-            <Navbar.Brand 
-                id="character-sheet-link" 
-                as={Link} to="/sheet" 
-                className="sheet-button not-draggable"
-                aria-label="link that leads to the sheet"
-            >
-                {document.title}
-            </Navbar.Brand>
             {props.location.pathname === "/sheet" ? 
                 <Nav className="not-draggable">
                     {NavMenu(props.webServer)}
-                </Nav>: null}
-            {!props.webServer ? <div className="controls" style={{marginLeft:"auto"}}>
-                <VscChromeMinimize tabIndex="0" type="button" onClick={() => window.api.buttonInteraction("min")} className="button minimize" size="2em"/>
-                <VscChromeMaximize tabIndex="0" type="button"  onClick={() => window.api.buttonInteraction("max")} className="button maximize" size="2em"/>
-                <VscChromeClose tabIndex="0" type="button" onClick={() => window.api.buttonInteraction("close")} className="button close" size="2em" />
-            </div> : null}
+                </Nav>: 
+                <Navbar.Brand 
+                    id="character-sheet-link" 
+                    as={Link} to="/sheet" 
+                    className="sheet-button not-draggable"
+                    aria-label="link that leads to the sheet"
+                >
+                    {document.title}
+                </Navbar.Brand>
+            }
+            {!props.webServer ? <div className="not-draggable" style={{marginLeft:"auto"}}>
+                <button style={{margin: "0 0.25em", backgroundColor:"var(--nav-color)"}} className="react-icons-button" onClick={() => window.api.buttonInteraction("min")} aria-label="minimize window button">
+                    <VscChromeMinimize className="button minimize"/>
+                </button>
+                <button style={{margin: "0 0.25em", backgroundColor:"var(--nav-color)"}} className="react-icons-button" onClick={() => window.api.buttonInteraction("max")} aria-label="maximize window button">
+                    <VscChromeMaximize className="button maximize"/>
+                </button>
+                <button style={{margin: "0 0 0 0.25em", backgroundColor:"var(--nav-color)"}} className="react-icons-button" onClick={() => window.api.buttonInteraction("close")} aria-label="minimize window button">
+                    <VscChromeClose className="button close"/>
+                </button>
+            </div> : (loginStatus != "fulfilled" ?
+                    <div style={{marginLeft:"auto", marginTop:"auto", marginBottom:"auto"}}>
+                        <Navbar.Brand 
+                            style={{marginRight:"0"}}
+                            id="login-page-link" 
+                            as={Link} to="/login" 
+                            className="sheet-button not-draggable"
+                            aria-label="link that leads to the login page"
+                        >
+                            Login
+                        </Navbar.Brand>
+                        <Navbar.Brand 
+                            style={{marginRight:"0"}}
+                            id="register-page-link" 
+                            as={Link} to="/register" 
+                            className="sheet-button not-draggable"
+                            aria-label="link that leads to the register page"
+                        >
+                            Register
+                        </Navbar.Brand>
+                    </div>
+                    :
+                    <Nav id="logout-settings-menu" style={{marginLeft:"auto"}} className="not-draggable">
+                        <NavDropdown className="character-menu" id="profile-menu" title={`User: ${loggedInUser}`} menuVariant="dark" aria-label="menu to logout and access settings">
+                            <NavDropdown.Item
+                                style={{marginRight:"0"}}
+                                role="menuitem" 
+                                as={Link} to="/settings"
+                                id="logout-button" 
+                                aria-label="logout button"
+                            >
+                                Profile
+                            </NavDropdown.Item>
+                            <NavDropdown.Item
+                                style={{marginRight:"0"}}
+                                role="menuitem"
+                                onClick={handleLogoutClick}
+                                id="logout-button" 
+                                as="button"
+                                aria-label="logout button"
+                            >
+                                Logout
+                            </NavDropdown.Item>
+                        </NavDropdown>
+                    </Nav>
+                )
+            }
         </>
     )
 }

@@ -57,6 +57,7 @@ body {
 	padding-top: 3em;
 }
 
+
 .form-select {
 	&:focus-visible {
 		/*border: 2px solid #0d6efd;*/
@@ -678,20 +679,17 @@ body {
 }
 
 .button.close { 
-	margin: 0 0 0 0.25em;
 	&:hover { 
 		background: var(--bs-danger); 
 		border: 1px solid var(--nav-hover-border);
 	}
 }
 .button.minimize { 
-	margin: 0 0.25em;
 	&:hover { 
 		border: 1px solid var(--nav-hover-border);
 	}
 }
 .button.maximize { 
-	margin: 0 0.25em;
 	&:hover { 
 		border: 1px solid var(--nav-hover-border);
 	}
@@ -734,6 +732,13 @@ body {
 		background-color: #30363b;
 		border-radius: 0.375em;
 	}
+}
+.dropdown-menu-dark {
+	border-color: white;
+}
+[id="logout-settings-menu"] .dropdown-menu[data-bs-popper] {
+	left: unset	;
+	right: 0;
 }
 
 /* Misc Bar */
@@ -990,10 +995,8 @@ body {
 }
 @media (max-width: calc(40em - 1px)) {
 	.login-card {
-		width: 100%;
 		margin-top: 5em;
-		margin-left: auto;
-		margin-right: auto
+		margin-right: 0.75em;
 	}
 }
 
@@ -1050,4 +1053,64 @@ body {
 }
 [id="dice-log-popover"][x-placement="bottom"] .popover-arrow::after {
 	border-bottom-color: black;
+}
+
+/* Settings Page */
+
+.settings-container {
+	display: grid;
+	grid-template-columns: 12em auto;
+	grid-template-rows: auto auto;
+	grid-template-areas:
+    'navigation contents';
+}
+.settings-navigation {
+	grid-area: navigation;
+	background-color: var(--tertiary-element-color);
+	width: 12em;
+	height: calc(100vh - 3em);
+	position: fixed;
+	left: 0;
+	top: 3em;
+}
+.settings-content {
+	grid-area: contents;
+	min-height: calc(100vh - 3em);
+}
+
+.settings-nav-title {
+	padding: 0.25em 0.5em;
+	text-align: center;
+}
+.settings-nav-list {
+	border-radius: 0em;
+	.settings-nav-tab {
+		color: var(--text-color);
+		background-color: color.scale($main-element-color, $lightness: -30%);
+		&:hover {
+			background-color: color.scale($main-element-color, $lightness: -20%);
+		}
+		&:active {
+			background-color: color.scale($main-element-color, $lightness: -40%);
+		}
+	}
+	.settings-nav-tab.active {
+		background-color: color.scale($main-element-color, $lightness: -40%);
+		border-color: var(--text-color);
+	}
+}
+
+@media (min-width: 52em) {
+	.settings-card {
+		width: 35em;
+		margin-top: 5em;
+		margin-left: auto;
+		margin-right: auto
+	}
+}
+@media (max-width: calc(52em - 1px)) {
+	.settings-card {
+		margin-top: 5em;
+		margin-right: 0.75em;
+	}
 }

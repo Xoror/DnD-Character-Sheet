@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice, current, isRejectedWithValue, nanoid } from "@reduxjs/toolkit";
 import { website, localhost, getCharacterNamesFunction, getCharacterFunction, addCharacterFunction, updateCharacterFunction } from "../../utils/apiCallFunctions"
 
-import { isDev } from "../../config"
+import { isDev, httpRequestTimout } from "../../config"
+import { apiErrorParse } from "../../utils/ErrorParseFunctions.js"
 
 // Import character names
 export const importCharacterNames = createAsyncThunk('navBar/importCharacterNames', async (payload, {rejectWithValue}) => {
@@ -23,8 +24,10 @@ export const importCharacterNames = createAsyncThunk('navBar/importCharacterName
     }
     else if(type === "web") {
         let url = isDev ? localhost : website
+        const controller = new AbortController()
+        const timeoutId = setTimeout(() => controller.abort(), httpRequestTimout)
         try {
-            const response = await getCharacterNamesFunction(url)
+            const response = await getCharacterNamesFunction(url, controller.signal)
             const responseJSON = await response.json()
             if(response.ok) {
                 let data = []
@@ -38,6 +41,8 @@ export const importCharacterNames = createAsyncThunk('navBar/importCharacterName
             }
         } catch (err) {
             return rejectWithValue(err)
+        } finally {
+            clearTimeout(timeoutId)
         }
     }
 })
@@ -61,8 +66,10 @@ export const importCharacter = createAsyncThunk("navBar/importCharacter", async 
     }
     else if(type === "web") {
         let url = isDev ? localhost : website
+        const controller = new AbortController()
+        const timeoutId = setTimeout(() => controller.abort(), httpRequestTimout)
         try {
-            const response = await getCharacterFunction(body, url)
+            const response = await getCharacterFunction(body, url, controller.signal)
             const responseJSON = await response.json()
             if(response.ok) {
                 return {id: responseJSON.body[0]._id, state: responseJSON.body[0].characterData}
@@ -72,6 +79,8 @@ export const importCharacter = createAsyncThunk("navBar/importCharacter", async 
             }
         } catch (err) {
             return rejectWithValue(err)
+        } finally {
+            clearTimeout(timeoutId)
         }
     }
 })
@@ -90,8 +99,10 @@ export const addCharacterToDatabase = createAsyncThunk('navBar/addCharacterToDat
     }
     else if(type === "web") {
         let url = isDev ? localhost : website
+        const controller = new AbortController()
+        const timeoutId = setTimeout(() => controller.abort(), httpRequestTimout)
         try {
-            const response = await addCharacterFunction(body, url)
+            const response = await addCharacterFunction(body, url, controller.signal)
             const responseJSON = await response.json()
             if(response.ok) {
                 return {data: responseJSON.body.data, type: type}
@@ -101,6 +112,8 @@ export const addCharacterToDatabase = createAsyncThunk('navBar/addCharacterToDat
             }
         } catch (err) {
             return rejectWithValue(err)
+        } finally {
+            clearTimeout(timeoutId)
         }
     }
 })
@@ -117,8 +130,10 @@ export const changeCharacterIndDB = createAsyncThunk("navbar/changeRowInDB", asy
     }
     else if(type === "web") {// [name, state, lastSaved, id]
         let url = isDev ? localhost : website
+        const controller = new AbortController()
+        const timeoutId = setTimeout(() => controller.abort(), httpRequestTimout)
         try {
-            const response = await updateCharacterFunction(body, url)
+            const response = await updateCharacterFunction(body, url, controller.signal)
             const responseJSON = await response.json()
             if(response.ok) {
                 return [responseJSON.body.characterName, responseJSON.body.characterData, responseJSON.body.lastSaved, responseJSON.body._id]
@@ -128,6 +143,8 @@ export const changeCharacterIndDB = createAsyncThunk("navbar/changeRowInDB", asy
             }
         } catch (err) {
             return rejectWithValue(err)
+        } finally {
+            clearTimeout(timeoutId)
         }
     }
 })
@@ -171,6 +188,7 @@ const NavBarSlice = createSlice({
             })
             .addCase(importCharacterNames.rejected, (state, action) => {
                 state.characters.status = "rejected"
+                console.log(apiErrorParse(action.payload))
             })
 
 
@@ -187,6 +205,7 @@ const NavBarSlice = createSlice({
             })
             .addCase(importCharacter.rejected, (state, action) => {
                 state.importFromDbStatus = "rejected"
+                console.log(apiErrorParse(action.payload))
             })
 
             .addCase(addCharacterToDatabase.pending, (state, action) => {
@@ -212,6 +231,7 @@ const NavBarSlice = createSlice({
             })
             .addCase(addCharacterToDatabase.rejected, (state, action) => {
                 state.addCharactertoDBStatus = "rejected"
+                console.log(apiErrorParse(action.payload))
             })
 
             .addCase(changeCharacterIndDB.pending, (state, action) => {
@@ -229,6 +249,7 @@ const NavBarSlice = createSlice({
             })
             .addCase(changeCharacterIndDB.rejected, (state, action) => {
                 state.changeCharacterInDBStatus = "rejected"
+                console.log(apiErrorParse(action.payload))
             })
     }
 })

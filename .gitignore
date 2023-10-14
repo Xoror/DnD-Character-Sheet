@@ -2,6 +2,7 @@ node_modules/
 node_modules2/
 out/
 src/utils/apiCallFunctions.js
+src/utils/UserInfoValidation.js
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -1,6 +1,6 @@
 module.exports = {
   packagerConfig: {
-    "asar": true,
+    "asar": false,
     "ignore": ["^(\/src$)", "^(\/public$)", ".gitignore", "forge.config.js", "LICENSE", "README.md"],
     "icon" : "./public/StargazerLogo.ico",
     "extraResource": ["./Electron/resources/database.db"]

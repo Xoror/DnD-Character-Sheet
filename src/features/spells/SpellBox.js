@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
 
@@ -29,14 +29,22 @@ export const SpellBox = () => {
 	const handleCasterTypeChange = (event) => {
 		dispatch(changeCasterType(event.target.value))
 	}
-	const handlePopoverClick = (event) => {
-		event.stopPropagation()
+
+	const [popoverShow, setPopoverShow] = useState(false)
+	const popoverShowTest = (event, id) => {
+		if(id === "show") {
+			setPopoverShow(event)
+		}
+		else if(id === "close") {
+			setPopoverShow(false)
+		}
 	}
+	
 	const popover = (
 		<Popover className="popover-container" id="popover-caster-type" onClick={event => event.stopPropagation()}>
 			<Popover.Header className="popover-header" as="h3">
 				Caster Type Legend
-				<CloseButton style={{float:"right"}} aria-label="close caster type legend" variant="white"/>
+				<CloseButton onClick={event => popoverShowTest(event, "close")} style={{float:"right"}} aria-label="close caster type legend" variant="white"/>
 			</Popover.Header>
 			<Popover.Body className="popover-body">
 				<span> <b>Full Caster:</b> Casters like Wizards, Sorcerers, Bards that get spellslots up to 9th level.</span>
@@ -57,7 +65,7 @@ export const SpellBox = () => {
 			<Card className="main-element-card">
 				<InputGroup>
 					<InputGroup.Text style={{padding:"0"}}>
-						<OverlayTrigger trigger="click" placement="auto" overlay={popover}>
+						<OverlayTrigger defaultShow={false} show={popoverShow} onToggle={event => popoverShowTest(event, "show")} trigger="click" placement="auto" overlay={popover}>
 							<button className="react-icons-button" style={{borderRadius:"100%", height:"1.5em"}}> <HiOutlineInformationCircle size="1.5em" style={{position:"relative", bottom:"2px"}}/> </button>
 						</OverlayTrigger>
 					</InputGroup.Text>

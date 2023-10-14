@@ -8,11 +8,12 @@ import { Provider } from 'react-redux'
 import { debounce } from 'lodash';
 
 import { configureStoreAsync } from './app/store';
+import { isDesktop, webServer } from './config';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 const saveState = async (state) => {
-  if(!state.settings.desktop) {
+  if(webServer) {
     console.log("initiate saving state", store.getState())
     try {
       const stringifiedCurrentState = JSON.stringify(state);

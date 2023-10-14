@@ -15,7 +15,7 @@ export const DiceLog = (props) => {
             <Popover.Body id="dice-log-body" className="popover-body">
                 {diceLog.map((log, index) => (
                     <div key={`dice-log-entry-${index}`}>
-                        <label>{`${index}.`} {log.name} ({log.dice})</label>
+                        <label>{`${index + 1}.`} {log.name} ({log.dice})</label>
                         <p>{"Result: "}
                             {log.rolls.map((roll, index) => (
                                 roll + " + "

@@ -27,7 +27,7 @@ export const Attributes = () => {
 			<thead>
 				<tr>
 				  <th scope="col">Attributes</th>
-				  <th scope="col"> Skills</th>
+				  <th scope="col" style={{paddingLeft:"0"}}>Skills</th>
 				</tr>
 			</thead>
 			<tbody>

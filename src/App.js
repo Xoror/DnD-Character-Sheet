@@ -14,6 +14,8 @@ import { LandingPage } from './features/landingPage/LandingPage';
 import { Login } from './features/api/Login';
 import { Register } from './features/api/Register';
 import { isDesktop, webServer } from "./config.js"
+import { SettingsPage } from './features/settings/SettingsPage';
+import { SettingsHome } from './features/settings/SettingsHome';
 
 // These exist because different routers are used depending on whether the build is run on a server or on a static host.
 // Electron is a static host so when building the app for it, we need a hash router, whereas GitHub pages is a server so
@@ -74,6 +76,17 @@ const routerWeb = createBrowserRouter([
 			{
 				path: "/register",
 				element: <Register />
+			},
+			{
+				path: "/settings",
+				element: <SettingsHome />,
+				children: [
+					{index: true, element: <SettingsPage/>},
+					{
+						path: "/settings/:id",
+						element: <SettingsPage />,
+					}
+				]
 			}
 		]
 	},

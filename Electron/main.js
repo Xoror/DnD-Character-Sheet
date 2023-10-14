@@ -21,8 +21,8 @@ function createWindow () {
     }
   })
 
-  //win.loadFile('./build/index.html')
-  win.loadURL('http://localhost:3000')
+  win.loadFile('./build/index.html')
+  //win.loadURL('http://localhost:3000')
   
   win.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)

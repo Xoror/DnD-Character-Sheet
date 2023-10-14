@@ -1,12 +1,16 @@
 import { createSlice, nanoid, createAsyncThunk, current } from "@reduxjs/toolkit"
 
-import { isDev } from "../../config"
-import { loginFetchFunction, logoutFetchFunction, registerFetchFunction, website, localhost } from "../../utils/apiCallFunctions"
+import { isDev, httpRequestTimout } from "../../config"
+import { loginFetchFunction, logoutFetchFunction, registerFetchFunction, userVerificationFetchFunction, userUpdateFetchFunction, website, localhost } from "../../utils/apiCallFunctions"
+import { apiErrorParse } from "../../utils/ErrorParseFunctions.js"
+
 
 export const loginThunk = createAsyncThunk('api/login', async (body, {rejectWithValue}) => {
     let url = isDev ? localhost : website
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), httpRequestTimout)
     try {
-        const response = await loginFetchFunction(body, url)
+        const response = await loginFetchFunction(body, url, controller.signal)
         const responseJSON = await response.json()
         if(response.ok) {
             return responseJSON
@@ -16,12 +20,16 @@ export const loginThunk = createAsyncThunk('api/login', async (body, {rejectWith
         }
     } catch (err) {
         return rejectWithValue(err)
+    } finally {
+        clearTimeout(timeoutId)
     }
 })
 export const logoutThunk = createAsyncThunk('api/logout', async (body, {rejectWithValue}) => {
     let url = isDev ? localhost : website
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), httpRequestTimout)
     try {
-        const response = await logoutFetchFunction(url)
+        const response = await logoutFetchFunction(url, controller.signal)
         const responseJSON = await response.json()
         if(response.ok) {
             return responseJSON
@@ -31,12 +39,16 @@ export const logoutThunk = createAsyncThunk('api/logout', async (body, {rejectWi
         }
     } catch (err) {
         return rejectWithValue(err)
+    } finally {
+        clearTimeout(timeoutId)
     }
 })
 export const registerThunk = createAsyncThunk('api/register', async (body, {rejectWithValue}) => {
     let url = isDev ? localhost : website
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), httpRequestTimout)
     try {
-        const response = await registerFetchFunction(body, url)
+        const response = await registerFetchFunction(body, url, controller.signal)
         const responseJSON = await response.json()
         if(response.ok) {
             return responseJSON
@@ -46,28 +58,78 @@ export const registerThunk = createAsyncThunk('api/register', async (body, {reje
         }
     } catch (err) {
         return rejectWithValue(err)
+    } finally {
+        clearTimeout(timeoutId)
+    }
+})
+export const userVerificationThunk = createAsyncThunk('api/userVerification', async (body, {rejectWithValue}) => {
+    let url = isDev ? localhost : website
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), httpRequestTimout)
+    try {
+        const response = await userVerificationFetchFunction(body, url, controller.signal)
+        const responseJSON = await response.json()
+        if(response.ok) {
+            return responseJSON
+        }
+        else {
+            return rejectWithValue(responseJSON)
+        }
+    } catch (err) {
+        return rejectWithValue(err)
+    } finally {
+        clearTimeout(timeoutId)
+    }
+})
+export const userUpdateThunk = createAsyncThunk('api/userUpdate', async (body, {rejectWithValue}) => {
+    let url = isDev ? localhost : website
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), httpRequestTimout)
+    try {
+        const response = await userUpdateFetchFunction(body, url, controller.signal)
+        const responseJSON = await response.json()
+        if(response.ok) {
+            return responseJSON
+        }
+        else {
+            return rejectWithValue(responseJSON)
+        }
+    } catch (err) {
+        return rejectWithValue(err)
+    } finally {
+        clearTimeout(timeoutId)
     }
 })
 
 const initialState = {
     loginStatus: "idle",
     loginResponse: {},
+    loggedInUser: "",
     logoutStatus: "idle",
     logoutResponse: {},
     registerStatus: "idle",
-    registerResponse: {}
+    registerResponse: {},
+    userVerificationStatus: "idle",
+    userVerificationResponse: {},
+    userUpdateStatus: "idle",
+    userUpdateResponse: {}
 }
 
 const LandingPageSlice = createSlice({
     name: "api",
     initialState,
     reducers: {
+        resetUserUpdate(state, action) {
+            state.userUpdateStatus = "idle"
+            state.userUpdateResponse = {}
+        }
     },
     extraReducers(builder) {
         builder
             .addCase(loginThunk.fulfilled, (state, action) => {
                 state.loginStatus = "fulfilled"
-                state.loginResponse = action.payload
+                state.loginResponse = {status: action.payload.status, message: action.payload.message}
+                state.loggedInUser = action.payload.username
                 console.log(action.payload)
             })
             .addCase(loginThunk.pending, (state, action) => {
@@ -76,12 +138,14 @@ const LandingPageSlice = createSlice({
             })
             .addCase(loginThunk.rejected, (state, action) => {
                 state.loginStatus = "rejected"
-                state.loginResponse = action.payload
+                state.loginResponse = apiErrorParse(action.payload)
                 console.log("error page", action.payload)
             })
 
             .addCase(logoutThunk.fulfilled, (state, action) => {
                 state.loginStatus = "idle"
+                state.loginResponse = {}
+                state.loggedInUser = ""
                 state.logoutStatus = "fulfilled"
                 state.logoutResponse = action.payload
                 console.log(action.payload)
@@ -92,7 +156,7 @@ const LandingPageSlice = createSlice({
             })
             .addCase(logoutThunk.rejected, (state, action) => {
                 state.logoutStatus = "rejected"
-                state.logoutResponse = action.payload
+                state.logoutResponse = apiErrorParse(action.payload)
                 console.log("error page", action.payload)
             })
 
@@ -107,11 +171,35 @@ const LandingPageSlice = createSlice({
             })
             .addCase(registerThunk.rejected, (state, action) => {
                 state.registerStatus = "rejected"
-                state.registerResponse = action.payload
+                state.registerResponse = apiErrorParse(action.payload)
                 console.log("error page", action.payload)
+            })
+
+            .addCase(userVerificationThunk.fulfilled, (state, action) => {
+                state.userVerificationStatus = "idle"
+            })
+            .addCase(userVerificationThunk.pending, (state, action) => {
+                state.userVerificationStatus = "pending"
+            })
+            .addCase(userVerificationThunk.rejected, (state, action) => {
+                state.userVerificationStatus = "rejected"
+                state.userVerificationResponse = apiErrorParse(action.payload)
+            })
+
+            .addCase(userUpdateThunk.fulfilled, (state, action) => {
+                state.userUpdateStatus = "fulfilled"
+                state.userUpdateResponse = action.payload
+                console.log(action.payload)
+            })
+            .addCase(userUpdateThunk.pending, (state, action) => {
+                state.userUpdateStatus = "pending"
+            })
+            .addCase(userUpdateThunk.rejected, (state, action) => {
+                state.userUpdateStatus = "rejected"
+                state.userUpdateResponse = apiErrorParse(action.payload)
             })
     }
 })
 
 export default LandingPageSlice.reducer
-//export const { updateTodos, updateNews } = LandingPageSlice.actions
+export const { resetUserUpdate } = LandingPageSlice.actions
