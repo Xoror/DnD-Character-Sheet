@@ -1,7 +1,8 @@
-import React, { useState} from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
 import Button from 'react-bootstrap/Button';
+import { Button as CustomButton} from '../../components/CustomButton';
 import Modal from 'react-bootstrap/Modal';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
@@ -11,7 +12,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import { FeatureList } from "./FeaturesList";
 import { addFeature } from './FeaturesSlice';
 
-export const FeaturesBox = () => {
+export default function FeaturesBox() {
 	const dispatch = useDispatch();
     const features = useSelector(state => state.features.data)
 
@@ -32,7 +33,7 @@ export const FeaturesBox = () => {
 	}
 	
 	return (
-		<Card bg="secondary" >
+		<>
 			<Modal contentClassName="modal-custom" size="lg" show={show} onHide={handleClose}>
 				<Modal.Header closeButton onClick={handleClose}>
 					<Modal.Title>
@@ -73,14 +74,18 @@ export const FeaturesBox = () => {
 					
 				</Form>
 			</Modal>
-			<div>
+			<div id="features-list">
 				{features.map((feature, index) => (
 					<FeatureList feature={feature} id={index} key={`features-list-feature-${feature.name}-${index}`}/>
 				))}
 			</div>
-			<Button onClick={handleShow}>
+			{true ? <Button style={{width:"100%"}} onClick={handleShow}>
 				Add a feature
-			</Button>
-		</Card>
+			</Button> :
+			<CustomButton style={{width:"100%"}} variant="blue">
+				Add a feature
+			</CustomButton>
+			}
+		</>
 	)
 }

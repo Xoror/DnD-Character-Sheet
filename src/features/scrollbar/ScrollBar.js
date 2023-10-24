@@ -1,10 +1,13 @@
 import React, { useState, useCallback, useRef, useEffect, useMemo } from "react";
 import debounce from 'lodash.debounce'
 import "./ScrollBar.css";
+import { useLocation } from "react-router-dom";
 
 const SCROLL_BOX_MIN_HEIGHT = 20    
 
 export const ScrollBar = ({children, className, ...restProps}) => {
+    const location = useLocation()
+
     const [hovering, setHovering] = useState(false)
     const [scrollBoxHeight, setScrollBoxHeight] = useState(SCROLL_BOX_MIN_HEIGHT)
     const [scrollBoxTop, setScrollBoxTop] = useState(0)
@@ -84,6 +87,15 @@ export const ScrollBar = ({children, className, ...restProps}) => {
     const debouncedHandleScroll = useMemo(
 		() => debounce(handleScroll, 1)
 	, [handleScroll])
+
+    useEffect(() => {
+        const scrollHostElement = scrollHostRef.current
+        const clientHeight = window.innerHeight - 3*getEmSize()
+        const { scrollHeight } = scrollHostElement
+        const scrollBoxPercentage = clientHeight/scrollHeight
+        const scrollbarHeight = Math.max((clientHeight)*scrollBoxPercentage, SCROLL_BOX_MIN_HEIGHT)
+        setScrollBoxHeight(scrollbarHeight)
+    }, [setScrollBoxHeight, location])
 
     useEffect(() => {
         const scrollHostElement = scrollHostRef.current

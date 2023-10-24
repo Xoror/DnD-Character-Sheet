@@ -1,23 +1,18 @@
-import React, { useState} from 'react';
+import React, { useState, lazy, Suspense, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
+import { isDesktop } from "../../config"
 
 import Card from 'react-bootstrap/Card';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import ToggleButton from 'react-bootstrap/ToggleButton';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-
-import { FeaturesBox } from './FeaturesBox';
-import { ActionsBox } from '../actions/ActionsBox'
-import { InventoryBox } from '../inventory/InventoryBox';
-import { Notes } from '../notes/Notes';
-import { ActionCard } from '../../components/ActionCard';
+import Tab from 'react-bootstrap/Tab';
+import Nav from 'react-bootstrap/Nav';
 
 import { buildSpelllist, buildSpelllistFromDB } from '../actions/ActionsSlice';
-import { importCharacterNames } from '../nav/NavBarSlice';
 
+const FeaturesBox = lazy(() => import('./FeaturesBox'));
+const ActionsBox = lazy(() => import('../actions/ActionsBox'));
+const InventoryBox = lazy(() => import('../inventory/InventoryBox'));
+const Notes = lazy(() => import('../notes/Notes'));
 
 export const ThirdColumn = () => {
 	const dispatch = useDispatch()
@@ -26,56 +21,67 @@ export const ThirdColumn = () => {
     const charClass = useSelector(state => state.charDetails.charClass)
     const castingAttribute = useSelector(state => state.attributes.casting.scaling)
     const highestSpellSlot = useSelector(state => state.actions.highestSpellSlot)
-	const [radioValue, setRadioValue] = useState("0");
-	const desktop = useSelector(state => state.desktop)
+	const [activePane, setActivePane] = useState("features")
 
-	const handleSwitch = (event) => {
-		setRadioValue(event.target.value)
-		if(event.currentTarget.value === "2") {
-			if(!desktop) {
+	useEffect(() => {
+		if(activePane === "spells"){
+			if(!isDesktop) {
 				dispatch(buildSpelllist([charClass, castingAttribute]))
 			}
-			else if(desktop) {
+			else if(isDesktop) {
 				dispatch(buildSpelllistFromDB("SELECT data FROM spells")).then(result => console.log(result))
 			}
-			//dispatch(getAPISPelllist())
 		}
-	}
-
-	const radios = [
-		{ name: "Features", value: "0" },
-		{ name: "Actions", value: "1" },
-		{ name: "Spells", value: "2" },
-		{ name: "Inventory", value: "3" },
-		{ name: "Notes", value: "4" }
-	];
+	}, [activePane, dispatch, charClass, castingAttribute])
 
 	const headersActions = ["Action", "Bonus Action", "Reaction", "Special"];
 	const listSlots = ["Cantrip","1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th"]
 	const headersSpells = listSlots.slice(0,listSlots.indexOf(highestSpellSlot)+1)
+	/*
 	const sections = [
         <FeaturesBox/>, 
         <ActionsBox offCanvas={false} actions={actions} id="Actions" options={headersActions} headers={headersActions}/>, 
         <ActionsBox offCanvas={false} actions={spells} id="Spells" options={listSlots} headers={headersSpells} spells={true}/>, 
         <InventoryBox/>, 
         <Notes/>,
-    ]
+    ]{false ? sections[parseInt(radioValue)] : null}
+	*/
 	
 	return (
-		<Card className="main-element-card">
-			<div>
-				<ButtonGroup style={{width:"100%"}}>
-					{radios.map((radio, idx) => (
-						<ToggleButton key={`3rdColumnButton-${idx}`} id={`3rdColumnButton-${idx}`} type="radio" variant='primary' name="radio" value={radio.value} checked={radioValue === radio.value} onChange={handleSwitch} >
-							{radio.name}
-						</ToggleButton>
-					))}
-				</ButtonGroup>
-			</div>
-			<div>
-				{sections[parseInt(radioValue)]}
-			</div>
-		</Card>
+		<>
+			<Card className="main-element-card" > 
+				<Tab.Container transition={false} id="third-column-nav" defaultActiveKey="features" activeKey={activePane} onSelect={event => setActivePane(event)}> 
+					<>
+						<Nav id="third-column-nav" fill variant="tabs" defaultActiveKey="/home">
+								<Nav.Link eventKey="features">Features</Nav.Link>
+								<Nav.Link eventKey="actions">Actions</Nav.Link>
+								<Nav.Link eventKey="spells">Spells</Nav.Link>
+								<Nav.Link eventKey="inventory">Inventory</Nav.Link>
+								<Nav.Link eventKey="notes">Notes</Nav.Link>
+						</Nav>
+						<Tab.Content>
+							<Suspense>
+								<Tab.Pane eventKey="features">
+									<FeaturesBox/>
+								</Tab.Pane>
+								<Tab.Pane eventKey="actions">
+									<ActionsBox offCanvas={false} actions={actions} id="Actions" options={headersActions} headers={headersActions}/>
+								</Tab.Pane>
+								<Tab.Pane eventKey="spells">
+									<ActionsBox offCanvas={false} actions={spells} id="Spells" options={listSlots} headers={headersSpells} spells={true}/>
+								</Tab.Pane>
+								<Tab.Pane eventKey="inventory">
+									<InventoryBox/>
+								</Tab.Pane>
+								<Tab.Pane eventKey="notes">
+									<Notes/>
+								</Tab.Pane>
+							</Suspense>
+						</Tab.Content>
+					</>
+				</Tab.Container>
+			</Card>
+		</>
 	)
 }
 /*

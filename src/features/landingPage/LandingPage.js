@@ -41,7 +41,7 @@ export const LandingPage = () => {
 
     return (
 		<Container fluid className="main-style">
-			<Row style={{paddingBottom:"0.5em", paddingRight:"1.25em", paddingLeft:"0.75em"}}>
+			<Row style={{paddingTop: "1em", paddingBottom:"0.5em", paddingRight:"1.25em", paddingLeft:"0.75em"}}>
 				<Col md>
 					<Card className="landing-page-card">
                         <Card.Header as="h5" style={{backgroundColor:"var(--secondary-element-color)"}}>News & Updates</Card.Header>

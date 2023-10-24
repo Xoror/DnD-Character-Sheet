@@ -16,6 +16,8 @@ import settingsReducer from "../features/settings/SettingsSlice"
 import landingPageReducer from "../features/landingPage/LandingPageSlice"
 import apiReducer from "../features/api/Api"
 
+import { isDesktop } from '../config';
+
 const appReducer = combineReducers({
 	actions: actionsReducer,
 	features: featuresReducer,
@@ -44,14 +46,14 @@ const rootReducer = (state, action) => {
 function loadState ()  {
 	console.log("initiate loading state")
 	const serializedStateTest = JSON.parse(window.sessionStorage.getItem("dnd-sheet-state"))
+	console.log(serializedStateTest)
 	if(serializedStateTest === null || serializedStateTest === undefined) {
+		console.log("yee")
 		return {reducer: rootReducer}
 	}
 	else {
-		if(!serializedStateTest.settings.desktop) {
-			console.log("loading state")
-			return {reducer: rootReducer, preloadedState: serializedStateTest}
-		}
+		console.log("loading state")
+		return {reducer: rootReducer, preloadedState: serializedStateTest}
 	}
 	/*
 	try {

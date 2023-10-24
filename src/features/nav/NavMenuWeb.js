@@ -44,6 +44,23 @@ export const NavMenuWeb = (props) => {
                     </>
                 )
             }
+            else {
+                return (
+                    <Nav id="landingpage-menu" className="not-draggable">
+                        <Link to="/" tabIndex="0" className="home-button not-draggable" id="home-button" aria-label="home button that leads to landing page">
+                            <MdHome size="2em" style={{position: "relative", right: "1px", bottom: "1px"}}/>
+                        </Link>
+                        <NavDropdown style={{marginLeft:"0.5em"}} id="menu" menuVariant="dark" className="character-menu" title="Menu" aria-haspopup="menu">
+                            <NavDropdown.Item id="character-sheet-link" as={Link} to="/sheet" className="sheet-button not-draggable" aria-label="link that leads to the sheet">
+                                {document.title}
+                            </NavDropdown.Item>
+                            <NavDropdown.Item as={Link} id="inventory-spell-manager" to="https://xoror.github.io/spells-inventory-manager/" className="sheet-button not-draggable" aria-label="link that leads to the sheet">
+                                Standalone Spells and Inventory Manager
+                            </NavDropdown.Item>
+                        </NavDropdown>
+                    </Nav>
+                )
+            }
         }
         else if (location === "/sheet") {
             if(width >= 800) {
@@ -72,11 +89,11 @@ export const NavMenuWeb = (props) => {
             }
             else {
                 return (
-                    <Nav className="not-draggable">
+                    <Nav id="sheet-menu" className="not-draggable">
                         <Link to="/" tabIndex="0" className="home-button not-draggable" id="home-button" aria-label="home button that leads to landing page">
                             <MdHome size="2em" style={{position: "relative", right: "1px", bottom: "1px"}}/>
                         </Link>	
-                        <NavDropdown id="menu" menuVariant="dark" className="character-menu" title="Menu" aria-haspopup="menu">
+                        <NavDropdown style={{marginLeft:"0.5em"}} id="menu" menuVariant="dark" className="character-menu" title="Menu" aria-haspopup="menu">
                             <NavDropdown.Item role="menuitem" onClick={event => props.handleNavDropdownClick(event, "web", "new")}>New Character</NavDropdown.Item>
                             <NavDropdown.Item role="menuitem" onClick={(event) => exportToJson(event, props.charName, props.currentState)}>Export to file</NavDropdown.Item>
                             <NavDropdown.Item role="menuitem" onClick={handleInputClick}>Import from file</NavDropdown.Item>

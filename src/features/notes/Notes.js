@@ -8,7 +8,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import { changeNotes } from './NotesSlice';
 
 
-export const Notes = () => {
+export default function Notes () {
 	const notes = useSelector(state => state.notes.data)
     const dispatch = useDispatch()
 	const handleNotesChange = (event) => {

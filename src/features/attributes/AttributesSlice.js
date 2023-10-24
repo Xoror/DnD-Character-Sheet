@@ -60,6 +60,7 @@ const initialState = {
 		{value: "armor", label: "Armor"}, 
 		{value: "tool", label: "Tool"}, 
 		{value: "instrument", label: "Instrument"},
+		{value: "other", label: "Other"}
 	],
 	proficiency: {id: "proficiency", name: "Proficiency", value: 2},
     charAC: {id: "AC", name: "AC", value: 10, baseAC: 10, scalingPrimary: "Dexterity", unarmoredDefense: true, scalingSecondary: "None", wearsArmor: false, maxBonus: 100, stealthDisadvantage: false},
@@ -102,7 +103,7 @@ const AttributeSlice = createSlice({
         },
 		addMiscProficiency(state, action) {
 			state.skills.push( 
-				{id: nanoid(), name: action.payload[0], shortName: action.payload[0], supSkill: action.payload[1].label, bonus: "", proficient: action.payload[2], expertise: action.payload[3]}, 
+				{id: nanoid(), name: action.payload[0], shortName: action.payload[0], supSkill: action.payload[1], bonus: "", proficient: action.payload[2], expertise: action.payload[3]}, 
 			)
 		},
 		deleteMiscProficiency(state, action) {

@@ -5,8 +5,8 @@ import Table from 'react-bootstrap/Table';
 import { usePopper } from 'react-popper';
 
 
-import { AiFillCloseSquare } from "react-icons/ai";
-import { RiFileEditFill } from "react-icons/ri";
+import { AiFillCloseSquare } from "@react-icons/all-files/ai/AiFillCloseSquare";
+import { RiFileEditFill } from "@react-icons/all-files/ri/RiFileEditFill";
 
 import { deleteAction, setPrepared } from './ActionsSlice';
 import { SpellCard } from '../../components/SpellCard';
@@ -129,8 +129,8 @@ export const CardTable = (props) => {
 							<tr className="action-table" key={`${offCanvas}-action-table-row-id-${body.id}`} id={`${offCanvas}-action-table-row-id-${body.id}`} onClick={(event) => handleRowClick(event, body.id)} >
 								{id ? 
 									<td  style={{height:"1.5em", width:"1.5em", zIndex:"2"}}>
-										<div className="checkbox-wrapper letter-k">
-											<input type="checkbox" id={body.name} value="prepared" onChange={handlePrepared} checked={body.isPrepared}></input>
+										<div className="checkbox-wrapper">
+											<input className="letter-k" type="checkbox" id={body.name} value="prepared" onChange={handlePrepared} checked={body.isPrepared}></input>
 										</div>
 									</td> : ""
 								}

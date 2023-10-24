@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Container from 'react-bootstrap/Container';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -103,7 +102,7 @@ export const SpellList = (props) => {
 export const FilterItem = (props) => {
 	return (
 		<div className="filter-body">
-			{props.name} <AiOutlineCloseCircle type="button" color="black" size="20" id="delete-button" 
+			{props.name} <AiOutlineCloseCircle type="button" color="black" size="20" id="delete-button" aria-label={"delete filter item "+props.name}
 							onClick={(event) => props.handleDelete(event, props.index, props.type)} className="filter-delete-button"/>
 		</div>
 	)

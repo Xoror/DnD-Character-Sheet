@@ -1,7 +1,6 @@
 import React, { useState, useEffect} from 'react';
 import { useDispatch } from "react-redux"
 
-import Table from 'react-bootstrap/Table';
 import { usePopper } from 'react-popper';
 
 import Button from 'react-bootstrap/Button';
@@ -9,7 +8,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 import { AiFillCloseSquare } from "react-icons/ai";
 import { RiFileEditFill } from "react-icons/ri";
-import { MdExpandLess, MdExpandMore } from "react-icons/md";
+import { MdExpandLess, MdExpandMore } from "react-icons/md/";
 
 import { deleteItem, equipItem, addItem, deleteContainer } from './InventorySlice';
 import { ItemCard } from '../../components/ItemCard';
@@ -315,10 +314,10 @@ export const InventoryTable = (props) => {
 							<td></td>
 							{props.container.label != "Equipment" ? <td style={{paddingRight:"0",paddingLeft:"0", zIndex:"2", width:"4.5em"}}>
 								<div style={{paddingRight:"0",paddingLeft:"0", zIndex:"2"}}>
-									<button className="react-icons-button" onClick={event => startContainerEdit(event, props.container)} aria-label="edit container button">
+									<button className="react-icons-button edit" onClick={event => startContainerEdit(event, props.container)} aria-label="edit container button">
 										<RiFileEditFill size="1.5em" className="edit-button" />
 									</button>
-									<button className="react-icons-button" onClick={event => handleContainerDelete(event, props.container.id)} aria-label="delete container button">
+									<button className="react-icons-button delete" onClick={event => handleContainerDelete(event, props.container.id)} aria-label="delete container button">
 										<AiFillCloseSquare size="1.5em" className="delete-button"/> 
 									</button>
 								</div>
@@ -333,8 +332,8 @@ export const InventoryTable = (props) => {
 								<tr className="action-table" key={`inventory-table-row-id-${body.id === undefined ? index : body.id}`} id={`inventory-table-row-id-${body.id}`} onClick={offCanvas ? (event) => handleRowClick(event, body.id) : (event) => handleRowClick(event, body.id)}>
 									{offCanvas ? null : 
 										<td style={{height:"1.5em", width:"1.5em", zIndex:"2"}}>
-											<div className="checkbox-wrapper letter-e">
-												<input type="checkbox" id={body.name} value="prepared"  onClick={(event) => handleEquipped(event, body.id)} defaultChecked={body.isEquipped}></input>
+											<div className="checkbox-wrapper">
+												<input className="letter-e" type="checkbox" id={body.name} value="prepared"  onClick={(event) => handleEquipped(event, body.id)} defaultChecked={body.isEquipped}></input>
 											</div>
 										</td>
 									}
@@ -367,10 +366,10 @@ export const InventoryTable = (props) => {
 											<td> {body.qty*parseFloat(body.worth)} </td>
 											<td style={{paddingRight:"0",paddingLeft:"0", zIndex:"2", width:"4.5em"}}>
 												<div style={{paddingRight:"0",paddingLeft:"0", height:"1.5em", zIndex:"2" }}>
-													<button className="react-icons-button" onClick={(event) => startEdit(event, body)} aria-label="edit item button">
+													<button className="react-icons-button edit" onClick={(event) => startEdit(event, body)} aria-label="edit item button">
 														<RiFileEditFill size="1.5em" className="edit-button" /> 
 													</button>
-													<button className="react-icons-button" onClick={(event) => handleDelete(event, body.id)} aria-label="delete item button">
+													<button className="react-icons-button delete" onClick={(event) => handleDelete(event, body.id)} aria-label="delete item button">
 														<AiFillCloseSquare size="1.5em" className="delete-button" />
 													</button>
 													{showDetails[0] && showDetails[1] === body.id ?

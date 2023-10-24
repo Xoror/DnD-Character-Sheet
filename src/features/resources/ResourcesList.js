@@ -3,14 +3,17 @@ import { useSelector } from "react-redux"
 
 
 import { ResourceBox } from './ResourceBox';
+import { PaginationControl } from '../../components/PaginationControl';
 
 export const ResourcesList = (props) => {
 	const resources = props.resources
 	return(
-		<div>
-			{resources.map((resource, index) => (
-					<ResourceBox resource={resource} id={index} key={`resource-box-${resource.name}`}/>
+		<div className="resource-list">
+			<PaginationControl>
+				{resources.map((resource, index) => (
+					<ResourceBox resource={resource} key={`resource-box-${resource.id}`}/>
 				))}
+			</PaginationControl>
 		</div>
 	)
 }

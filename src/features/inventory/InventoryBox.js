@@ -16,7 +16,7 @@ import { useFocus } from '../../components/CustomHooks';
 
 const _ = require('lodash')
 
-export const InventoryBox = (props) => {
+export default function InventoryBox(props) {
     const dispatch = useDispatch()
     const inventory = useSelector(state => state.inventory.inventory)
 	const currency = useSelector(state => state.inventory.currency)
@@ -87,7 +87,6 @@ export const InventoryBox = (props) => {
 	const handleSubmit = (event) => {
 		event.preventDefault()
 		let data = defaultValues
-		data["container"] = data.container.id
 		//data["container"] = selectedType.value
 		if(editing) {
 			if (!_.isEqual(data, oldData)) {
@@ -111,7 +110,6 @@ export const InventoryBox = (props) => {
 	const handleSelectValues = (event, id) => {
 		let copy = structuredClone(defaultValues)
 		let testValue = event.target.value
-
 		if(testValue === "true") {
 			testValue = true
 		}
@@ -135,7 +133,7 @@ export const InventoryBox = (props) => {
 	const currencies_shortnames = {platinum:"pt", electrum:"ep", gold:"gp", silver:"sp", copper:"cp"}
 	return (
 		<Card bg="secondary" id="Inventory">
-			false?<div>
+			<div>
 				<MoneyPouch moneyPouch={currency} currenciesShortnames={currencies_shortnames} colors={["#E5E4E2", "#FFD700", "#F2E279", "#C0C0C0", "#B87333"]} handleCounter={handleCounter}/>
 			</div>
 			<div style={{marginLeft:"0.5em", marginRight:"0.5em"}}>

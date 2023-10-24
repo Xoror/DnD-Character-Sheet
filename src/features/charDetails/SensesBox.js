@@ -35,8 +35,9 @@ export const SensesBox = (props) => {
                 <div style={{padding:"0.5em", height:"100%", width:"100%"}}>
                     <FilterBox show={props.show} defaultSelectValue={defaultSelectValue} selectable={true} hasValue="true" valueDescriptor="distance" valueLegend="ft" header="Senses" data={sensesHas} choices={senses} handleAdd={handleAdd} handleDelete={handleDelete} handleInputChange={handleInputChange}/>
                 </div>
-                <Button className="miscbar-expand-button right" style={{borderLeft:"1px solid black"}} onClick={props.setShow}>
-                    {props.showMiscBar ? <MdUnfoldLessDouble size="1.5em"/> : <MdUnfoldMoreDouble size="1.5em"/>}
+                <Button aria-labelledby="fold-unfold-misc-bar-right-button" className="miscbar-expand-button right" style={{borderLeft:"1px solid black"}} onClick={props.setShow}>
+                    {props.showMiscBar ? <MdUnfoldLessDouble aria-labelledby="fold-unfold-misc-bar-right-button" size="1.5em"/> : <MdUnfoldMoreDouble aria-labelledby="fold-unfold-misc-bar-right-button" size="1.5em"/>}
+                    <label className="visually-hidden" id="fold-unfold-misc-bar-right-button">{props.showMiscBar ? "Collapse condition/lanugages/senses bar" : "Expand condition/lanugages/senses bar"}</label>
                 </Button>
             </div>
         </Col>

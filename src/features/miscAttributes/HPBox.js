@@ -15,19 +15,19 @@ export const HPBox = (props) => {
 		<div className="hpBox">
 			<div style={{display:"flex", flexWrap:"wrap", justifyContent:"center", marginTop:"0.25em"}}>
 				<div id="current-hp" >
-					<div style={{textAlign:"center"}}> <label id="current-hp-label">Current</label> </div>
-					<div> <input id="currentHP" aria-label="current-hp-input" aria-labelledby="current-hp-label" type='number' value={props.charHP.current} className= "hpBoxInside" onChange={handleHPChange}></input> </div>
+					<div style={{textAlign:"center"}}> <label id="current-hp-label">Current HP</label> </div>
+					<div> <input id="currentHP" aria-labelledby="current-hp-label" type='number' value={props.charHP.current} className= "hpBoxInside" onChange={handleHPChange} min="0"></input> </div>
 				</div>
 				<div id="max-hp">
-					<div> <label id="max-hp-label">Max</label> </div>
-					<div> <input id="maxHP" aria-label="max-hp-input" aria-labelledby="max-hp-label" type='number' value={props.charHP.max} className= "hpBoxInside" onChange={handleHPChange}></input> </div>
+					<div> <label id="max-hp-label">Max HP</label> </div>
+					<div> <input id="maxHP" aria-labelledby="max-hp-label" type='number' value={props.charHP.max} className= "hpBoxInside" onChange={handleHPChange} min="0"></input> </div>
 				</div>
 				<div id="temp-hp">
-					<div> <label id="temp-hp-label">Temp</label> </div>
-					<div> <input id="tempHP" aria-label="temporary-hp-input" aria-labelledby="temporary-hp-label" type='number' value={props.charHP.temp} className= "hpBoxInside" onChange={handleHPChange}></input> </div>
+					<div> <label id="temp-hp-label">Temp HP</label> </div>
+					<div> <input id="tempHP" aria-labelledby="temp-hp-label" type='number' value={props.charHP.temp} className= "hpBoxInside" onChange={handleHPChange} min="0"></input> </div>
 				</div>
 			</div>
-			<button className="react-icons-button" aria-label="edit hp button" /*onClick={handleShow}*/ style={{float: "left"}}>
+			<button className="react-icons-button edit" aria-label="edit hp button" /*onClick={handleShow}*/ style={{float: "left"}}>
 				<RiFileEditFill size="1.5em" className="edit-button" />
 			</button>
 		</div>

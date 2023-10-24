@@ -34,8 +34,9 @@ export const ConditionsBox = (props) => {
     const filterComponent = useMemo(() => {
         return (
             <div style={{display:"flex", height:"100%"}}>
-                <Button className="miscbar-expand-button left" style={{borderRight:"1px solid black"}} onClick={props.setShow}>
-                    {props.showMiscBar ? <MdUnfoldLessDouble size="1.5em"/> : <MdUnfoldMoreDouble size="1.5em"/>}
+                <Button aria-labelledby="fold-unfold-misc-bar-left-button" className="miscbar-expand-button left" style={{borderRight:"1px solid black"}} onClick={props.setShow}>
+                    {props.showMiscBar ? <MdUnfoldLessDouble aria-labelledby="fold-unfold-misc-bar-left-button" size="1.5em"/> : <MdUnfoldMoreDouble aria-labelledby="fold-unfold-misc-bar" size="1.5em"/>}
+                    <label className="visually-hidden" id="fold-unfold-misc-bar-left-button">{props.showMiscBar ? "Collapse condition/lanugages/senses bar" : "Expand condition/lanugages/senses bar"}</label>
                 </Button>
                 <div style={{padding:"0.5em", height:"100%"}}>
                     <FilterBox show={show} header="Conditions" data={conditionsHas} choices={conditions} selectable={true} handleAdd={handleAdd} handleDelete={handleDelete} defaultSelectValue={defaultSelectValue}/>

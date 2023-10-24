@@ -17,8 +17,9 @@ export const MiscBar = () => {
     return (
         <>
             {false ? <Col lg="auto" md="auto" sm="auto" style={{padding:"0"}}>
-                <Button style={{paddingLeft:"0.25em", paddingRight:"0.25em", border:"1px solid black", borderRadius:"0.375em 0 0 0.375em", height:"100%"}} onClick={setShow}>
-                    {showMiscBar ? <MdUnfoldLessDouble size="1.5em"/> : <MdUnfoldMoreDouble size="1.5em"/>}
+                <Button aria-labelledby="fold-unfold-misc-bar" style={{paddingLeft:"0.25em", paddingRight:"0.25em", border:"1px solid black", borderRadius:"0.375em 0 0 0.375em", height:"100%"}} onClick={setShow}>
+                    {showMiscBar ? <MdUnfoldLessDouble aria-labelledby="fold-unfold-misc-bar" size="1.5em"/> : <MdUnfoldMoreDouble size="1.5em"/>}
+                    <label className="visually-hidden" id="fold-unfold-misc-bar">{showMiscBar ? "Collapse condition/lanugages/senses bar" : "Expand condition/lanugages/senses bar"}</label>
                 </Button>
             </Col > : null}
             <ConditionsBox showMiscBar={showMiscBar} setShow={setShow} show={showMiscBar}/>

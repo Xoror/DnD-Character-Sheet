@@ -34,10 +34,10 @@ export const FeatureList = (props) => {
 	
 	let color;
 	if (props.id%2 === 0) {
-		color = "#51585e";
+		color = "#676f77";
 	}
 	else {
-		color = "#676f77";
+		color = "#51585e";
 	}
 	const handleDelete = (event) => {
 		event.preventDefault();
@@ -52,65 +52,63 @@ export const FeatureList = (props) => {
 		dispatch(editFeature(data,id))
 	}
 	return (
-		<div>
-			<div id="edit-form" className={!open ? null : "visually-hidden"}>
+		<React.Fragment key={`feature-card-${props.feature.id}`}>
+			{!open ? <div id="edit-form" className={!open ? null : "visually-hidden"}>
 				<Form onSubmit={handleSubmit}>
-					<Card style={{background:"none", backgroundColor:color, borderRadius:"0em 0em 0em 0em"}} >
-						<InputGroup className="mb">
-							<InputGroup.Text>Name</InputGroup.Text> 
-							<Form.Control ref={inputRef} type="text" id="change-name" defaultValue={props.feature.name} placeholder="Enter feature name"/>
+					<div className="feature-card edit">
+						<InputGroup>
+							<InputGroup.Text className="top-left-group">Name</InputGroup.Text> 
+							<Form.Control autoFocus ref={inputRef} type="text" id="change-name" defaultValue={props.feature.name} placeholder="Enter feature name"/>
 							<InputGroup.Text>Level</InputGroup.Text>
-							<Form.Control type="text" id="change-level" defaultValue={props.feature.level} placeholder="Enter level"/>
+							<Form.Control  className="top-right-group" type="text" id="change-level" defaultValue={props.feature.level} placeholder="Enter level"/>
 						</InputGroup>
 						<InputGroup className="mb">
-							<InputGroup.Text> Class </InputGroup.Text> 
+							<InputGroup.Text className="middle-left-group"> Class </InputGroup.Text> 
 							<Form.Control type="text" id="change-class" defaultValue={props.feature.featureClass} placeholder="Enter Class"/>
 							<InputGroup.Text> Subclass </InputGroup.Text>
-							<Form.Control type="text" id="change-subclass" defaultValue={props.feature.featureSubclass} placeholder="Enter Subclass"/>
+							<Form.Control className="middle-right-group" type="text" id="change-subclass" defaultValue={props.feature.featureSubclass} placeholder="Enter Subclass"/>
 						</InputGroup>
-						<Form.Control as="textarea" id="change-description" defaultValue={props.feature.description} placeholder="Enter Description"/>
+						<Form.Control className="middle-left-group middle-right-group" as="textarea" id="change-description" defaultValue={props.feature.description} placeholder="Enter Description"/>
 						<ButtonGroup className="mb">
-							<Button variant="success" type="submit"> Submit Changes </Button>
-							<Button variant="danger" onClick={endEdit}> Discard Changes </Button>
+							<Button className="bottom-left-group" variant="success" type="submit"> Submit Changes </Button>
+							<Button className="bottom-right-group" variant="danger" onClick={endEdit}> Discard Changes </Button>
 						</ButtonGroup >
-					</Card>
+					</div>
 				</Form>
-			</div>
-			<div id="display-form" className={open ? null : "visually-hidden"}>
-				<Card style={{background:"none", backgroundColor:color}}>
-					<Container fluid>
-						<Row>
-							<Col>
-								<span>Name: {props.feature.name}</span>
-							</Col>
-							<Col xs="auto">
-								<Row>
-									<Col xs="auto" style={{paddingRight:"6px",paddingLeft:"0"}}> <span>Level: {props.feature.level}</span> </Col>
-									<Col xs="auto" style={{paddingRight:"0em",paddingLeft:"0"}}>
-										<button className="react-icons-button" onClick={startEdit} aria-label="edit feature button">
-											<RiFileEditFill size="1.5em" className="edit-button" />
-										</button>
-										<button className="react-icons-button" onClick={handleDelete} aria-label="delete feature button">
-											<AiFillCloseSquare size="1.5em" className="delete-button"/> 
-										</button>
-									</Col>
-								</Row>
-							</Col>
-						</Row>
-						<Row>
-							<Col md="auto">
-								<span>Class: {props.feature.featureClass}</span>
-							</Col>
-							<Col md="auto">
-								<span> Subclass: {props.feature.featureSubclass}</span>
-							</Col>
-						</Row>
-						<Row>
-							<p>Description: {props.feature.description}</p>
-						</Row>
-					</Container>
-				</Card>
-			</div>
-		</div>
+			</div> :
+			<div  className="feature-card">
+				<Container fluid>
+					<Row>
+						<Col>
+							<span>Name: {props.feature.name}</span>
+						</Col>
+						<Col xs="auto">
+							<Row>
+								<Col xs="auto" style={{paddingRight:"6px",paddingLeft:"0"}}> <span>Level: {props.feature.level}</span> </Col>
+								<Col xs="auto" style={{paddingRight:"0em",paddingLeft:"0"}}>
+									<button className="react-icons-button edit" onClick={startEdit} aria-label="edit feature button">
+										<RiFileEditFill size="1.5em" className="edit-button" />
+									</button>
+									<button className="react-icons-button delete" onClick={handleDelete} aria-label="delete feature button">
+										<AiFillCloseSquare size="1.5em" className="delete-button"/> 
+									</button>
+								</Col>
+							</Row>
+						</Col>
+					</Row>
+					<Row>
+						<Col md="auto">
+							<span>Class: {props.feature.featureClass}</span>
+						</Col>
+						<Col md="auto">
+							<span> Subclass: {props.feature.featureSubclass}</span>
+						</Col>
+					</Row>
+					<Row>
+						<p style={{marginBottom:"0.5em"}}>Description: {props.feature.description}</p>
+					</Row>
+				</Container>
+			</div>}
+		</React.Fragment>
 	)
 }

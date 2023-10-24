@@ -2,7 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux"
 import { createAction } from '@reduxjs/toolkit';
 
-import { Outlet, Link, useLocation } from "react-router-dom"
+import { Outlet, useLocation } from "react-router-dom"
+
+import version from '../../../package.json'
+
+import { AiFillTwitterCircle, AiOutlineGithub } from "react-icons/ai"
+import { FaReact } from "react-icons/fa";
+import { GiDiceTwentyFacesOne } from "react-icons/gi";
 
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
@@ -88,6 +94,14 @@ export const NavBar = () => {
 	const [showAutoSave, setShowAutoSave] = useState(false)
 
 	const location = useLocation()
+	const hasFooter = () => {
+		if(location.pathname == "/sheet" || location.pathname === "/") {
+			return true
+		}
+		else {
+			return false
+		}
+	}
 	/*
 	useEffect(() => {
 		loadSessionStorage(dispatch)
@@ -353,97 +367,45 @@ export const NavBar = () => {
 					}
 				</Container>
 			</Navbar>
-			<Outlet/>
+			<div style={hasFooter() ? {paddingBottom: "230px"}:null}>
+				<Outlet/>
+			</div>
+			{location.pathname === "/sheet" || location.pathname === "/" ?
+				<div className="footer">
+					<Container className='p-3'>
+						<section className='mb-4'>
+							<a tabIndex="0" className="link-button" style={{marginRight:"0.25em"}} target="_blank" rel="noreferrer" href="https://twitter.com/StargazerWorks">
+								<AiFillTwitterCircle style={{position: "relative"}} size="3.5em"/>
+							</a>
+							<a tabIndex="0" className="link-button" style={{marginLeft:"0.25em"}} target="_blank" rel="noreferrer" href="https://github.com/Xoror/sheettest_redux">
+								<AiOutlineGithub style={{position: "relative"}} size="3.5em"/>
+							</a>
+						</section>
+
+						<section>
+							<p style={{marginBottom:"0em", height:"2.5em"}}>
+								Powered by React  
+									<a target="_blank" rel="noreferrer" href="https://react.dev/" tabIndex="0" className="home-button" id="react-link-button" aria-label="link to th3 react website" style={{marginLeft:"0.25em",width:"2.5em", height:"2.5em",display:"inline-block"}}>
+										<FaReact size="2em" style={{position: "relative", right: "1px", bottom: "1px"}}/>
+									</a>
+								and the DnD 5e API
+									<a target="_blank" rel="noreferrer" href="https://www.dnd5eapi.co/" tabIndex="0" className="home-button" id="dnd-5e-api-link-button" aria-label="link to the dnd 5e api website" style={{marginLeft:"0.25em",width:"2.5em", height:"2.5em",display:"inline-block"}}>
+										<GiDiceTwentyFacesOne size="2em" style={{position: "relative", right: "1px", bottom: "1px"}}/>
+									</a>
+							</p>
+						</section>
+						<section>
+							For problems, comments, bugs etc. contact us  <a href="mailto: stargazerworks.ttrpg@gmail.com">stargazerworks.ttrpg@gmail.com</a> !
+						</section>
+
+					</Container>
+
+					<div className='text-center p-3' style={{ backgroundColor: '#1a1e21' }}>
+						© 2023 Copyright: Stargazer Works, Version {version.version}
+					</div>
+				</div>
+			:null}
 		</>
 	)
 }
-/*
-<label  htmlFor="file-upload" className="btn btn-outline-success" style={{padding:"0.25em 0.375em 0.25em 0.375em"}}>
-	Import
-</label>
-<input id="file-upload" type="file" onChange={(e)=>readFileOnUpload(e.target.files[0], dispatch)}></input>
-<button className="btn btn-outline-success" style={{padding:"0.25em 0.375em 0.25em 0.375em"}} type="submit" onClick={(event) => exportToJson(event, charName, currentState)}>Export</button>
-*/
 
-const handleSQL = async () => {
-	let response = (await window.api.getFullDB('SELECT * from characters'))
-	let bla
-	try {
-		bla = JSON.parse(response[0].state)
-	} catch(e) {
-		console.log("**Not valid JSON file!**");
-	}
-	console.log("BLA:", response)
-}
-
-/*
-{useLocation().pathname === "/" ?
-					<>
-						<Navbar.Brand id="character-sheet-link" as={Link} to="/sheet" className="sheet-button not-draggable" aria-label="link that leads to the sheet">
-							{document.title}
-						</Navbar.Brand>
-						{!desktop ? <Navbar.Brand id="inventory-spell-manager" href="https://xoror.github.io/spells-inventory-manager/" className="sheet-button not-draggable" aria-label="link that leads to the sheet">
-							Standalone Spells and Inventory Manager
-						</Navbar.Brand> : null}
-					</>
-					:
-					<>
-						<Navbar.Brand id="character-sheet-link" as={Link} to="/sheet" className="sheet-button not-draggable" aria-label="link that leads to the sheet">
-							{document.title}
-						</Navbar.Brand>
-						{!desktop ?
-							<>
-								<Navbar.Brand id="character-sheet-link" to="/sheet" role="button" as={Link} className="sheet-button not-draggable" onClick={event => handleNavDropdownClick(event, "web", "new")}>
-									New Character
-								</Navbar.Brand>
-							</>
-							: null
-						}
-					</>
-				}
-				{desktop && location.pathname === "/sheet" ? <Nav className="not-draggable">
-					<NavDropdown className="character-menu" id="character-choice-menu" title="Menu" menuVariant="dark" onClick={getCharacterNames}>
-						<NavDropdown.Item onClick={(event) => handleNavDropdownClick(event, "new", "new")}>New</NavDropdown.Item>
-						<NavDropdown.Item onClick={(event) => handleSave(event)}>Save</NavDropdown.Item>
-						<NavDropdown.Item onClick={(event) => (setModalType("save-as"), setShowSafetyBox(true))}>Save As</NavDropdown.Item>
-						<NavDropdown.Item onClick={(event) => exportToJson(event, charName, currentState)}>Export to file</NavDropdown.Item>
-						<NavDropdown.Item className="custom-upload" id="file-upload" as="input" type="file" onChange={(e)=>readFileOnUpload(e.target.files[0], dispatch)}></NavDropdown.Item>
-						<NavDropdown.Item as="label" htmlFor="file-upload">Import from file</NavDropdown.Item>
-						
-						<NavDropdown.Divider />
-						{
-							navBarSlice.characters.status === "pending" ? 
-							["Loading..."].map((character, index) => (
-								<NavDropdown.Item key={`${character}-${index}`}>{character}</NavDropdown.Item>
-							)) : 
-							navBarSlice.characters.names.map((character, index) => (
-								<NavDropdown.Item 
-									onClick={async (event) => handleNavDropdownClick(event, character, navBarSlice.characters.id[index])} 
-									key={`${index}-character-row-${character}`}
-								>
-									{character}
-								</NavDropdown.Item>
-							))
-						}
-					</NavDropdown>
-					<Navbar.Text>Last saved{star ? "*" : null}: {navBarSlice.lastSaved} (currently editing: {navBarSlice.currentlyEditing.name})</Navbar.Text>
-				</Nav>: null}
-				
-				{ desktop ? 
-					<div className="controls" style={{marginLeft:"auto"}}>
-						{false ? <Button variant="link" onClick={handleSQL}>SQL get test</Button> : null}
-						<VscChromeMinimize tabIndex="0" type="button" onClick={() => window.api.buttonInteraction("min")} className="button minimize" size="2em"/>
-						<VscChromeMaximize tabIndex="0" type="button"  onClick={() => window.api.buttonInteraction("max")} className="button maximize" size="2em"/>
-						<VscChromeClose tabIndex="0" type="button" onClick={() => window.api.buttonInteraction("close")} className="button close" size="2em" />
-					</div> :
-					(location.pathname === "/sheet" ?
-						<div className="controls" style={{marginLeft:"auto"}}>
-							<label  htmlFor="file-upload" className="btn btn-outline-success" style={{padding:"0.25em 0.375em 0.25em 0.375em", marginRight:"0.5em"}}>
-								Import from file
-							</label>
-							<input className="custom-upload" id="file-upload" type="file" onChange={(e)=>readFileOnUpload(e.target.files[0], dispatch)}></input>
-							<button className="btn btn-outline-success" style={{padding:"0.25em 0.375em 0.25em 0.375em"}} type="submit" onClick={(event) => exportToJson(event, charName, currentState)}>Export to file</button>
-						</div> : null
-					)
-				}
-*/

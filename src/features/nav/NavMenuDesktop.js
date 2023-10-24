@@ -40,7 +40,7 @@ export const NavMenuDesktop = (props) => {
         if(webServer) {
             return (
                 <>
-                    <NavDropdown className="character-menu" id="character-choice-menu" title={"Menu" + (width < 900 ? (props.star ? "*" : "") : "")} menuVariant="dark" >
+                    <NavDropdown style={{marginLeft:"0.5em"}} className="character-menu" id="character-choice-menu" title={"Menu" + (width < 900 ? (props.star ? "*" : "") : "")} menuVariant="dark" >
                         {width < 900 && loginStatus === "fulfilled"?
                             <>
                                 <span style={{padding:"0.25em 1em", display:"block", width:"100%", whiteSpace:"nowrap"}}>Last saved{props.star ? "*" : null}: {props.navBarSlice.lastSaved}</span>
@@ -150,8 +150,9 @@ export const NavMenuDesktop = (props) => {
 
     return (
         <>
-            <Link to="/" tabIndex="0" className="home-button not-draggable" id="home-button" aria-label="home button that leads to landing page">
-                <MdHome size="2em" style={{position: "relative", right: "1px", bottom: "1px"}}/>
+            <Link to="/" tabIndex="0" className="home-button not-draggable" aria-labelledby="home-button" >
+                <MdHome aria-labelledby="home-button" size="2em" style={{position: "relative", right: "1px", bottom: "1px"}}/>
+                <label id="home-button" className="visually-hidden">Home</label>
             </Link>	
             {props.location.pathname === "/sheet" ? 
                 <Nav className="not-draggable">

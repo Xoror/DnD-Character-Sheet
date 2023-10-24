@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { useDispatch } from "react-redux"
 
 import Row from 'react-bootstrap/Row';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 
-import { AiFillCloseSquare } from 'react-icons/ai';
+import { AiFillCloseSquare } from "react-icons/ai";
 
 import { proficiencyChange, updateProficiencies, deleteMiscProficiency } from "./AttributesSlice"
 
@@ -33,23 +35,37 @@ export const SkillItem = (props) => {
 	}
 	let editing= props.editing === undefined ? false : props.editing
 	let setEditing = props.setEditing
+
 	return (
-		<Row>
-			<div className="checkbox-wrapper skills-layout" >
-				{!editing ? 
+		<div className="checkbox-wrapper skills-layout">
+			{!editing ? 
 				<>
-					<input aria-label="expertise checkbox" type="checkbox" id="Expertise" name={props.skill2.name + " proficiency"} onChange={handleExpertise} checked={props.skill2.expertise}></input>
-					<input aria-label="proficiency checkbox" type="checkbox" id="Proficiency" name={props.skill2.name + " expertise"} onChange={handleExpertise} checked={props.skill2.proficient}></input>
+					<input 
+						aria-label={`has expertise in ${props.skill2.name}`} aria-checked={props.skill2.expertise}
+						type="checkbox" id="Expertise" className="letter-e"
+						name={props.skill2.name + " expertise"} onChange={handleExpertise} 
+						checked={props.skill2.expertise}
+					></input>
+					<input 
+						aria-label={`is proficient in ${props.skill2.name}`} aria-checked={props.skill2.expertise}
+						type="checkbox" id="Proficiency" className="letter-p"
+						name={props.skill2.name + " proficiency"} onChange={handleExpertise} 
+						checked={props.skill2.proficient}
+					></input>
 				</> :
-				<button className="react-icons-button" onClick={handleDelete} aria-label="delete misc proficiency button">
+				<button className="react-icons-button delete" onClick={handleDelete} aria-label="delete misc proficiency button">
 					<AiFillCloseSquare size="1.5em" className="delete-button"/> 
-				</button>}
-				<label className="skills-text">  {props.skill2.bonus} {props.skill2.shortName}  </label>
-				{props.attrSkills ? 
-					<input aria-label="advantage/disadvatage checkbox" type="checkbox" id={advDisadv} name={props.skill2.name +" advantage/disadvantage"} onChange={handleAdvDiadv} checked={advDisadv != "none"} style={{marginRight:"0.25em"}}></input>
-					: null
-				}
-			</div>
-		</Row>
+				</button>
+			}
+			<label className="skills-text">  {props.skill2.bonus} {props.skill2.shortName}  </label>
+			{props.attrSkills ? 
+				<input 
+					aria-label={` has advantage/disadvantage in ${props.skill2.name}`} 
+					type="checkbox" id={advDisadv}
+					onChange={handleAdvDiadv} checked={advDisadv != "none"} style={{marginRight:"0.25em"}}
+				></input>
+				: null
+			}
+		</div>
 	)	
 }

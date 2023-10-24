@@ -2,7 +2,7 @@ import React from "react";
 
 import "./ResponseInfoBox.scss"
 
-import { BiSolidError, BiSolidCheckCircle } from "react-icons/bi";
+import { BiSolidCheckCircle, BiSolidError } from "react-icons/bi";
 
 export const ResponseInfoBox = (props) => {
     const response = props.response

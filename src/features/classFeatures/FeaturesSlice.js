@@ -2,7 +2,7 @@ import { createSlice, nanoid } from "@reduxjs/toolkit";
 
 const initialState = {
     data: [
-        {name: "Lineage Features", level: 1, featureClass: "-", featureSubclass: "-", description: "Placeholder"},
+        {id: nanoid(), name: "Lineage Features", level: 1, featureClass: "-", featureSubclass: "-", description: "Placeholder"},
     ]
 }
 
@@ -11,6 +11,7 @@ const FeaturesSlice = createSlice({
     initialState,
     reducers: {
         addFeature(state, action) {
+            action.payload["id"] = nanoid()
             state.data.push(action.payload)
         },
         editFeature: {

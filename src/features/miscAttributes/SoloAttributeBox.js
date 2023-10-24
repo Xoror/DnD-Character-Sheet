@@ -98,8 +98,8 @@ export const AttributeBox = (props) => {
 						<div className="AttributeBoxNotInput"> {props.attribute.value}</div>
 					</div>
 					{props.name != "Proficiency Bonus" ?
-						<button className="react-icons-button" onClick={handleShow} style={{float: "left"}} aria-label={`edit ${props.name} button`}>
-							<RiFileEditFill title="edit button" size="1.5em" className="edit-button" /> 
+						<button className="react-icons-button edit" onClick={handleShow} style={{float: "left"}} aria-label={`edit ${props.name} button`}>
+							<RiFileEditFill title="edit button" size="1.5em" className="edit-button"/> 
 						</button>
 						: null}
 				</div>

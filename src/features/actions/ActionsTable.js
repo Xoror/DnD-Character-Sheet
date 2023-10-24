@@ -6,9 +6,9 @@ import { usePopper } from 'react-popper';
 
 import { AiFillCloseSquare } from "react-icons/ai";
 import { RiFileEditFill } from "react-icons/ri";
-import { MdExpandLess, MdExpandMore } from "react-icons/md";
+import { MdExpandLess, MdExpandMore } from "react-icons/md/";
 
-import { deleteAction, setPrepared, updateSpellCardShow } from './ActionsSlice';
+import { deleteAction, setPrepared } from './ActionsSlice';
 import { SpellCard } from '../../components/SpellCard';
 import { ActionCard } from '../../components/ActionCard';
 import { DiceRollButton } from '../../components/DiceRollButton';
@@ -165,12 +165,12 @@ export const ActionsTable = (props) => {
 				<tbody>
 					{props.bodies.map( (body, index) => (
 						(props.offCanvas ? body.filtered : true) ?
-							<>
-								<tr className="action-table" key={`${props.offCanvas}-action-table-row-id-${body.id}`} id={`${props.offCanvas}-action-table-row-id-${body.id}`} onBlur={event => setShowPopover([false, body.id])} onClick={(event) => handleRowClick(event, body.id)} >
+							<React.Fragment key={`${props.offCanvas}-action-table-row-id-${body.id}`}>
+								<tr className="action-table" id={`${props.offCanvas}-action-table-row-id-${body.id}`} onBlur={event => setShowPopover([false, body.id])} onClick={(event) => handleRowClick(event, body.id)} >
 									{props.spells ? 
 										<td  style={{height:"1.5em", width:"1.5em", zIndex:"2"}}>
-											<div className={`checkbox-wrapper ${props.offCanvas ? "letter-k" : "letter-p"}`}>
-												<input type="checkbox" id={body.name} value="prepared" onClick={handlePrepared} defaultChecked={body.isPrepared}></input>
+											<div className={`checkbox-wrapper`}>
+												<input className={`${props.offCanvas ? "letter-k" : "letter-p"}`} type="checkbox" id={body.name} value="prepared" onClick={handlePrepared} defaultChecked={body.isPrepared}></input>
 											</div>
 										</td> : ""
 									}
@@ -198,10 +198,10 @@ export const ActionsTable = (props) => {
 									{props.offCanvas ? <td>{body.school}</td> : <td>{body.range}</td> }
 									{props.offCanvas ? "" : 
 									<td style={{paddingRight:"0",paddingLeft:"0", justifyItems:"end", zIndex:"2", height:"2.25em", width:"4.5em"}}>
-										<button className="react-icons-button" onClick={(event) => startEdit(event, body)} aria-label={`edit ${props.spells ? "spell":"action"}`}>
+										<button className="react-icons-button edit" onClick={(event) => startEdit(event, body)} aria-label={`edit ${props.spells ? "spell":"action"}`}>
 											<RiFileEditFill size="1.5em" className="edit-button" />
 										</button>
-										<button className="react-icons-button" onClick={(event) => handleDelete(event, body.id, index)} aria-label={`delete ${props.spells ? "spell":"action"}`}>
+										<button className="react-icons-button delete" onClick={(event) => handleDelete(event, body.id, index)} aria-label={`delete ${props.spells ? "spell":"action"}`}>
 											<AiFillCloseSquare size="1.5em" className="delete-button" /> 
 										</button>
 										{showDetails[0] && showDetails[1] === body.id ?
@@ -227,7 +227,7 @@ export const ActionsTable = (props) => {
 										}
 									</tr> : null
 								}
-							</>
+							</React.Fragment>
 						: "" ))
 					}
 				</tbody>

@@ -13,14 +13,12 @@ import { isDesktop, webServer } from './config';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 const saveState = async (state) => {
-  if(webServer) {
-    console.log("initiate saving state", store.getState())
-    try {
-      const stringifiedCurrentState = JSON.stringify(state);
-      sessionStorage.setItem("dnd-sheet-state", stringifiedCurrentState);
-    } catch (e) {
-      // Ignore
-    }
+  console.log("initiate saving state", store.getState())
+  try {
+    const stringifiedCurrentState = JSON.stringify(state);
+    sessionStorage.setItem("dnd-sheet-state", stringifiedCurrentState);
+  } catch (e) {
+    // Ignore
   }
 }
 

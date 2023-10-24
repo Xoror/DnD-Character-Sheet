@@ -7,6 +7,7 @@ import { apiErrorParse } from "../../utils/ErrorParseFunctions.js"
 // Import character names
 export const importCharacterNames = createAsyncThunk('navBar/importCharacterNames', async (payload, {rejectWithValue}) => {
     const {body, type} = payload
+    console.log("fired")
     if(type === "desktop") {
         try {
             let result = await window.api.getFullDB(body)

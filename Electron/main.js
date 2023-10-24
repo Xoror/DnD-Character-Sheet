@@ -8,6 +8,10 @@ global.appRoot = path.resolve(__dirname)
 const { getFullDB, addRowDB, loadRowDB, changeRowDB } = require("./utils/DatabaseFunctions.js")
 const { loadAllCharacters, loadCharacter, saveCharacter, updateCharacter } = require("./utils/SaveLoadFunctions.js")
 
+const isDev = true
+
+
+
 function createWindow () {
   const win = new BrowserWindow({
     width: 1200,
@@ -15,14 +19,19 @@ function createWindow () {
     minWidth: 825,
     frame: false,
     webPreferences: {
-      Sandbox: true,
+      devTools: false,//isDev,
+      sandbox: true,
       contextIsolation: true,
       preload: path.join(__dirname, 'preload.js')
     }
   })
-
-  win.loadFile('./build/index.html')
-  //win.loadURL('http://localhost:3000')
+  let source = isDev ? "http://localhost:3000" : "./build/index.html"
+  if(isDev) {
+    win.loadURL(source)
+  }
+  else {
+    win.loadFile(source)
+  }
   
   win.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)

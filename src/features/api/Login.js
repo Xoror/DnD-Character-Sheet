@@ -51,7 +51,7 @@ export const Login = (props) => {
             navigate("/sheet")
         }
 
-    }, [loginStatus, navigate])
+    }, [loginStatus, navigate, verification])
 
     return (
         <Card className="main-element-card login-card">

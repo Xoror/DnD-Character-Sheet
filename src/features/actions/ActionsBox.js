@@ -13,7 +13,7 @@ import { useFocus } from '../../components/CustomHooks';
 
 const _ = require('lodash')
 
-export const ActionsBox = (props) => {
+export default function ActionsBox(props) {
 	const dispatch = useDispatch()
 	let actionTemplate = props.id === "Spells" ? 
 		{
@@ -78,7 +78,6 @@ export const ActionsBox = (props) => {
 		else {
 			if(actions.filter(action => {return action.name === event.target[0].value}).length != 0 || sortedSpellList.filter(action => {return action.name === event.target[0].value}).length != 0) {
 				event.stopPropagation()
-				setShow(true)
 				setInputFocus()
 				sameName = true
 			}
@@ -88,7 +87,6 @@ export const ActionsBox = (props) => {
 		}
 		if(!sameName) {
 			setDefaultValues(actionTemplate)
-			setShow(false)
 			setShowAddAction(false)
 		}
 	}
@@ -142,7 +140,8 @@ export const ActionsBox = (props) => {
 			</ButtonGroup>
 			{props.id === "Spells" ? <SpellList inheritShow={showSpellList} setInheritShow={setShowSpellList} /> : "" }
 			<ActionsAdd 
-				show={show} 
+				show={show}
+				setShow={setShow}
 				editing={editing} 
 				setEditing={setEditing} 
 				defaultValues={defaultValues} 

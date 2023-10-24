@@ -4,6 +4,7 @@ import "./FloatingLog.scss"
 
 import { GoLog } from "react-icons/go";
 
+
 import Button from 'react-bootstrap/Button'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 
@@ -13,7 +14,9 @@ export const FloatingLog = (props) => {
 
     return (
         <OverlayTrigger trigger="click" placement="top-start" overlay={props.popover}>
-            <Button aria-disabled={disabled} disabled={disabled} className="dice-log-button"> {buttonName} <GoLog className="log-icon"/></Button>
+            <Button aria-disabled={disabled} disabled={disabled} className="dice-log-button">
+                 {buttonName} <GoLog aria-label="dicelog icon" className="log-icon"/>
+            </Button>
         </OverlayTrigger>
     )
 }

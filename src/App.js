@@ -24,7 +24,7 @@ import { SettingsHome } from './features/settings/SettingsHome';
 const routerStatic = createHashRouter([
 	{
 		path: "/",
-		element: <NavBar />,
+		element: <ScrollBar><NavBar /></ScrollBar>,
 	  //errorElement: <ErrorPage />,
 		children : [
 			{
@@ -41,7 +41,7 @@ const routerStatic = createHashRouter([
 const routerDesktop = createHashRouter([
 	{
 		path: "/",
-		element: <NavBar />,
+		element: <ScrollBar><NavBar /></ScrollBar>,
 	  //errorElement: <ErrorPage />,
 		children : [
 			{
@@ -58,7 +58,7 @@ const routerDesktop = createHashRouter([
 const routerWeb = createBrowserRouter([
 	{
 		path: "/",
-		element: <NavBar />,
+		element: <ScrollBar><NavBar /></ScrollBar>,
 	  //errorElement: <ErrorPage />,
 		children : [
 			{
@@ -97,9 +97,8 @@ const App = () => {
 	let router = isDesktop ? (webServer ? routerWeb : routerDesktop ) : routerStatic
 	return (
 		<>
-			<ScrollBar>
+			
 				<RouterProvider router={router} loading={<NavBar/>} />
-			</ScrollBar>
 		</>
     )
 }

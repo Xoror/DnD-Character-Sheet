@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useRef, useState } from "react";
+import React, { useCallback, useEffect, useReducer, useRef, useState } from "react";
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -21,6 +21,7 @@ export const ActionsAdd = (props) => {
     const handleSelectValues = props.handleSelectValues
     const options = props.options
     const show = props.show
+    const setShow = props.setShow
 
     //this is the reference used to position a tooltip when a dupilcate name is entered
     const inputNameRef = props.inputRef
@@ -111,24 +112,26 @@ export const ActionsAdd = (props) => {
             setInputDamageFocus()
         }
     }
-    const addActionForm = (modal) => {
+    const addActionForm = useCallback((modal, defaultValues) => {
         return (
-            <Form aria-label={`${editing ? "edit":"add-new"}-${ariaLabel}-form`} onSubmit={preValidate} style={{color:"black"}}>
+            <Form id="action-add-form" aria-label={`${editing ? "edit":"add-new"}-${ariaLabel}-form`} onSubmit={preValidate} style={{color:"black"}}>
                 <Modal.Body>
                     <InputGroup>
-                        <FloatingLabel controlId={`${ariaLabel}-name`} label="Name">
-                            <Form.Control aria-labelledby={`${ariaLabel}-name`} ref={inputNameRef} required value={defaultValues.name} className="middle-left-group" placeholder="" onChange={event => handleSelectValues(event, "name")}/>
+                        <FloatingLabel ref={inputNameRef} controlId={`${ariaLabel}-name-${modal? "modal":"quick"}`} label="Name">
+                            <Form.Control onFocus={event => setShow(true)} onBlur={event => setShow(false)} aria-labelledby={`${ariaLabel}-name`} required value={defaultValues.name} className={`${modal ? "top":"middle"}-left-group`} placeholder="" onChange={event => handleSelectValues(event, "name")}/>
                         </FloatingLabel>
                         <Overlay target={inputNameRef.current} show={show} placement="top-end" flip>
                             <Tooltip id="unique-name-overlay" style={{opacity:"1"}}>
                                 Please enter unique Name.
                             </Tooltip>
                         </Overlay>
+
                         <FloatingLabel controlId={`${ariaLabel}-range`} label="Range">
                             <Form.Control required value={defaultValues.range} placeholder="" aria-labelledby={`${ariaLabel}-range`} onChange={event => handleSelectValues(event, "range")}/>
                         </FloatingLabel>
-                        <FloatingLabel controlId={`${ariaLabel}-damage`} label="Damage">
-                            <Form.Control required value={damageTest} ref={inputDamageRef} className="middle-right-group" placeholder="" aria-labelledby={`${ariaLabel}-damage`} onChange={event => handleDamageChange(event)}/>
+
+                        <FloatingLabel ref={inputDamageRef} controlId={`${ariaLabel}-damage-${modal? "modal":"quick"}`} label="Damage">
+                            <Form.Control onFocus={event => setShowDamageTooltip(true)} onBlur={event => setShowDamageTooltip(false)} required value={damageTest} className={`${modal ? "top":"middle"}-right-group`} placeholder="" aria-labelledby={`${ariaLabel}-damage`} onChange={event => handleDamageChange(event)}/>
                         </FloatingLabel>
                         <Overlay target={inputDamageRef.current} show={showDamageTooltip} placement="top-end" flip>
                             <Tooltip id="damage-layout-overlay" style={{opacity:"1"}}>
@@ -228,7 +231,7 @@ export const ActionsAdd = (props) => {
                         {!modal ? <Button variant="success" className="middle-right-group" aria-label="Submit" type="submit">Submit</Button>:null}
                     </InputGroup>
                     <FloatingLabel controlId={`${ariaLabel}-description`} label="Description">
-                        <Form.Control as="textarea" className="middle-left-group middle-right-group" style={{height:"8em"}} aria-label="description" placeholder="" value={defaultValues.description[0]} onChange={event => handleSelectValues(event, "description_0")}/>
+                        <Form.Control as="textarea" className={spells && defaultValues.duration != undefined ? "middle-left-group":"bottom-left-group bottom-right-group"} style={{height:"8em"}} aria-label="description" placeholder="" value={defaultValues.description[0]} onChange={event => handleSelectValues(event, "description_0")}/>
                     </FloatingLabel>
                     {spells && defaultValues.duration != undefined ?
                         <FloatingLabel controlId={`${ariaLabel}-description-at-higher-level`} label="At higher level">
@@ -246,7 +249,8 @@ export const ActionsAdd = (props) => {
                 </Modal.Footer> : null}
             </Form>
         )   
-    }
+    }, [ariaLabel, attributesList, componentsList, damageTest, damageTypeList, editing, handleDamageChange, handleSelectValues, inputDamageRef, inputNameRef, options, preValidate, schoolList, show, showDamageTooltip, spells])
+    /*
     const addActionFormProperLabel = () => {
         return(
             <Form aria-labelledby={`add-new-${ariaLabel}-dialog`} onSubmit={handleSubmit}>
@@ -351,6 +355,7 @@ export const ActionsAdd = (props) => {
             </Form>
         )
     }
+    */
     return(
         <>
             <div aria-labelledby={`${editing ? "edit":"add-new"}-${ariaLabel}`} className={props.showQuickAddAction ? null:"visually-hidden"}>
@@ -358,7 +363,7 @@ export const ActionsAdd = (props) => {
                     <InputGroup.Text as="label" id={`${editing ? "edit":"add-new"}-${ariaLabel}`} className="top-left-group top-right-group" style={{flexGrow:"2"}}> {editing ? ("Currently editing: " + defaultValues.name) : (spells ? "Add New Spell" : "Add New Action/Bonus Action/etc:") } </InputGroup.Text>
                     {editing ? <Button onClick={cancelEditing}>Cancel</Button> : "" }
                 </InputGroup>
-                {addActionForm(false)}
+                {addActionForm(false, defaultValues)}
             </div>
             <Modal backdrop="static" aria-labelledby={`add-new-${ariaLabel}-dialog`} contentClassName="modal-custom" size="lg" show={props.showAddAction} onHide={() => props.setShowAddAction(false)}>
                 <Modal.Header closeButton>
@@ -366,7 +371,7 @@ export const ActionsAdd = (props) => {
 						Adding a new {spells ? "Spell":"Action"}
 					</Modal.Title>
 				</Modal.Header>
-                {addActionForm(true)}
+                {addActionForm(true, defaultValues)}
             </Modal>
         </>
     )

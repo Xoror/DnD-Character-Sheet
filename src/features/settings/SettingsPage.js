@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Link, useLocation } from "react-router-dom";
@@ -24,10 +24,12 @@ export const SettingsPage = () => {
 
     let location = useLocation()
     let path = location.pathname.split("/")[2]
-    if(path === "" | path === undefined) {
+    if(path === "" || path === undefined) {
         path = "profile"
     }
-    const template = {path:path, oldPassword:"", newName:"", confirmNewName:"", newEmail:"", newEmailConfirm:"", newPassword:"", newPasswordConfirm:""}
+    const template = useMemo(() => { 
+        return {path:path, oldPassword:"", newName:"", confirmNewName:"", newEmail:"", newEmailConfirm:"", newPassword:"", newPasswordConfirm:""}
+    }, [path])
     const [activePane, setActivePane] = useState(path)
     const [verified, setVerified] = useState(false)
     const [defaultInputValues, setDefaultInputValues] = useState(template)
@@ -41,7 +43,7 @@ export const SettingsPage = () => {
             dispatch(resetUserUpdate())
             setDefaultInputValues(template)
         }
-    }, [])
+    }, [userUpdateStatus, dispatch, setDefaultInputValues, template])
     
     const handleInputChange = (e) => {
         setDefaultInputValues({
@@ -80,7 +82,7 @@ export const SettingsPage = () => {
                                     <Card className="main-element-card settings-card">
                                         <Card.Body>
                                             <Card.Title as="h2" className="mb-4">Change username</Card.Title>
-                                            {updateResponseThunk === "rejected" | updateResponseThunk === "fulfilled" ? <ResponseInfoBox status={updateResponseThunk === "rejected" ? "error":"success"} response={userUpdateResponse}/> : null}
+                                            {updateResponseThunk === "rejected" || updateResponseThunk === "fulfilled" ? <ResponseInfoBox status={updateResponseThunk === "rejected" ? "error":"success"} response={userUpdateResponse}/> : null}
                                             <Form onSubmit={handleSubmit}>
                                                 <Form.Group className="mb-3" controlId="formOldPassword">
                                                     <Form.Label>Current password</Form.Label>
@@ -109,7 +111,7 @@ export const SettingsPage = () => {
                                                     {confirmUsernameValidator(defaultInputValues.newName, defaultInputValues.confirmNewName) ? null : <p>Email addresses must be the same!</p>}
                                                 </Form.Group>
 
-                                                <Button variant="primary" type="submit" disabled={userUpdateStatus === "pending" | !confirmUsernameValidator(defaultInputValues.newName, defaultInputValues.confirmNewName)} aria-disabled={userUpdateStatus === "pending" | !confirmUsernameValidator(defaultInputValues.newName, defaultInputValues.confirmNewName)}>
+                                                <Button variant="primary" type="submit" disabled={userUpdateStatus === "pending" || !confirmUsernameValidator(defaultInputValues.newName, defaultInputValues.confirmNewName)} aria-disabled={userUpdateStatus === "pending" || !confirmUsernameValidator(defaultInputValues.newName, defaultInputValues.confirmNewName)}>
                                                     Submit 
                                                     {userUpdateStatus === "pending" ? 
                                                         <Spinner style={{marginLeft:"0.5em"}} size="sm" animation="border" role="status">
@@ -125,7 +127,7 @@ export const SettingsPage = () => {
                                     <Card className="main-element-card settings-card">
                                         <Card.Body>
                                             <Card.Title as="h2" className="mb-4">Change email</Card.Title>
-                                            {updateResponseThunk === "rejected" | updateResponseThunk === "fulfilled" ? <ResponseInfoBox status={updateResponseThunk === "rejected" ? "error":"success"} response={userUpdateResponse}/> : null}                                            <Form onSubmit={handleSubmit}>
+                                            {updateResponseThunk === "rejected" || updateResponseThunk === "fulfilled" ? <ResponseInfoBox status={updateResponseThunk === "rejected" ? "error":"success"} response={userUpdateResponse}/> : null}                                            <Form onSubmit={handleSubmit}>
                                                 <Form.Group className="mb-3" controlId="formOldPassword">
                                                     <Form.Label>Current password</Form.Label>
                                                     <Form.Control 
@@ -148,7 +150,7 @@ export const SettingsPage = () => {
                                                     {sameEmail ? null : <p>Email addresses must be the same!</p>}
                                                 </Form.Group>
 
-                                                <Button variant="primary" type="submit" disabled={userUpdateStatus === "pending" | defaultInputValues.newEmail != defaultInputValues.newEmailConfirm} aria-disabled={userUpdateStatus === "pending" | defaultInputValues.newEmail != defaultInputValues.newEmailConfirm}>
+                                                <Button variant="primary" type="submit" disabled={userUpdateStatus === "pending" || defaultInputValues.newEmail != defaultInputValues.newEmailConfirm} aria-disabled={userUpdateStatus === "pending" || defaultInputValues.newEmail != defaultInputValues.newEmailConfirm}>
                                                     Submit 
                                                     {userUpdateStatus === "pending" ? 
                                                         <Spinner style={{marginLeft:"0.5em"}} size="sm" animation="border" role="status">
@@ -164,7 +166,7 @@ export const SettingsPage = () => {
                                     <Card className="main-element-card settings-card">
                                         <Card.Body>
                                             <Card.Title as="h2" className="mb-4">Change password</Card.Title>
-                                            {updateResponseThunk === "rejected" | updateResponseThunk === "fulfilled" ? <ResponseInfoBox status={updateResponseThunk === "rejected" ? "error":"success"} response={userUpdateResponse}/> : null}                                            <Form onSubmit={handleSubmit}>
+                                            {updateResponseThunk === "rejected" || updateResponseThunk === "fulfilled" ? <ResponseInfoBox status={updateResponseThunk === "rejected" ? "error":"success"} response={userUpdateResponse}/> : null}                                            <Form onSubmit={handleSubmit}>
                                                 <Form.Group className="mb-3" controlId="formOldPassword">
                                                     <Form.Label>Current password</Form.Label>
                                                     <Form.Control 
@@ -197,7 +199,7 @@ export const SettingsPage = () => {
                                                     {confirmPasswordValidator(defaultInputValues.newPassword, defaultInputValues.newPasswordConfirm) ? null : <p>Passwords must be the same!</p>}
                                                 </Form.Group>
 
-                                                <Button variant="primary" type="submit" disabled={userUpdateStatus === "pending" | !confirmPasswordValidator(defaultInputValues.newPassword, defaultInputValues.newPasswordConfirm)} aria-disabled={userUpdateStatus === "pending" | !confirmPasswordValidator(defaultInputValues.newPassword, defaultInputValues.newPasswordConfirm)}>
+                                                <Button variant="primary" type="submit" disabled={userUpdateStatus === "pending" || !confirmPasswordValidator(defaultInputValues.newPassword, defaultInputValues.newPasswordConfirm)} aria-disabled={userUpdateStatus === "pending" || !confirmPasswordValidator(defaultInputValues.newPassword, defaultInputValues.newPasswordConfirm)}>
                                                     Submit 
                                                     {userUpdateStatus === "pending" ? 
                                                         <Spinner style={{marginLeft:"0.5em"}} size="sm" animation="border" role="status">

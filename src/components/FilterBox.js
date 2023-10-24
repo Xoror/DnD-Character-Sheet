@@ -53,37 +53,49 @@ export const FilterBox = (props) => {
     let defaultSelectValue = props.defaultSelectValue
 
     let choices = props.choices === undefined ? [] : props.choices
-    let bgColor = props.bg ? props.bg : "#198754"
     let hasValue = props.hasValue === undefined ? false : props.hasValue
     let valueDescriptor = props.valueDescriptor === undefined ? "" : props.valueDescriptor
     let valueLegend = props.valueLegend == undefined ? "" : props.valueLegend
     let show = props.show === undefined ? true : props.show
     let type = props.type === undefined ? "placeholder" : props.type
 
+    const createSubmit = (event) => {
+        event.preventDefault()
+        if(defaultInput != "") {
+            handleCreate(event, header)
+            setDefaultInput("")
+        }
+    }
+
     const notCollapsedElement= () => {
         return (
             <>
-                {data.map((item, index) => 
-                    <FilterItem key={`${header}-list-nr-${item.name}`} hasValue={hasValue} item={item} value={valueDescriptor} valueLegend={valueLegend} handleDelete={handleDelete} handleInputChange={handleInputChange} index={index} type={type}/>
-                )}
                 {creatable ? 
-                    <Form onSubmit={(event) => (handleCreate(event, header), setDefaultInput(""))}>
-                        <div style={{display:"flex"}}>
-                            <input value={defaultInput} onChange={(e) => setDefaultInput(e.target.value)} aria-label={`input-create-${header}`} className="create-input" placeholder={`Add ${header}`}></input>
-                            <button className="filter-body-button" style={{ backgroundColor:bgColor}} aria-label="submit" type="submit">Add</button>
-                        </div>
-                    </Form>
+                    <>
+                        <label id="createable-label" style={{paddingRight:"0.125em"}}>{header}: </label>
+                        <Form aria-labelledby="createable-label" onSubmit={(event) => (createSubmit(event))}>
+                            <div style={{display:"flex"}}>
+                                <input value={defaultInput} onChange={(e) => setDefaultInput(e.target.value)} aria-label={`input-create-${header}`} className="create-input" placeholder={`Add ${header}`}></input>
+                                <button className="create-add-button"  type="submit">Add</button>
+                            </div>
+                        </Form>
+                    </>
                     : null 
                 }
                 {selectable ?
-                    <select value={defaultSelectValue} className="filter-body-select" style={{paddingRight:"0.25em", backgroundColor:bgColor}} onChange={handleAdd}>
-                        <option value=""> Add {header} </option>
-                        {choices.map((item, index) => (
-                            !data.find(condition => (condition.id === item.id)) ? <option key={`${header}-choice-${item.name}`} value={item.id}>{item.name}</option> : null
-                        ))}
-                    </select>
+                    <label style={{paddingRight:"0.125em"}}>{header}: 
+                        <select value={defaultSelectValue} className="filter-select" onChange={handleAdd}>
+                            <option value=""> Add {header} </option>
+                            {choices.map((item, index) => (
+                                !data.find(condition => (condition.id === item.id)) ? <option key={`${header}-choice-${item.name}`} value={item.id}>{item.name}</option> : null
+                            ))}
+                        </select>
+                    </label>
                     : null
                 }
+                {data.map((item, index) => 
+                    <FilterItem key={`${header}-list-nr-${item.name}`} hasValue={hasValue} item={item} value={valueDescriptor} valueLegend={valueLegend} handleDelete={handleDelete} handleInputChange={handleInputChange} index={index} type={type}/>
+                )}
             </>
         )
     }
@@ -95,7 +107,6 @@ export const FilterBox = (props) => {
 
     return (
         <Container style={{padding:"0", display:"flex", flexWrap:"wrap"}} fluid>
-            <span style={{paddingRight:"0.125em"}}>{header}: </span>
             {show ? 
                 notCollapsedElement()
                 :
@@ -114,8 +125,9 @@ export const FilterItem = (props) => {
 					<input value={props.item[props.value]} onChange={(event) => props.handleInputChange(event, props.item, props.type)} style={{width:"2em", height:"1.4em"}}></input>
 					<span>{props.valueLegend}</span>
 				</>) : null } 
-            <button className="react-icons-button-filter" aria-label="filter item delete button" onClick={(event) => props.handleDelete(event, props.item, props.type)}>
-			    <AiOutlineCloseCircle size="1.25em" id="filter-delete-button" className="filter-delete-button "/>
+            <button className="react-icons-button-filter" aria-labelledby="delete-filter-item-button" onClick={(event) => props.handleDelete(event, props.item, props.type)}>
+			    <AiOutlineCloseCircle aria-labelledby="delete-filter-item-button" size="1.25em" id="filter-delete-button" className="filter-delete-button "/>
+                <label id="delete-filter-item-button" className="visually-hidden">Delete {props.item.name}</label>
             </button>
 		</div>
 	)
