@@ -1,9 +1,10 @@
 import React, { useState, lazy, Suspense, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
-import { isDesktop } from "../../config"
+import { isDesktop, webServer } from "../../config"
 
-import Card from 'react-bootstrap/Card';
+//import Card from 'react-bootstrap/Card';
+import Card from '../../BootstrapReplace/Card';
 import Tab from 'react-bootstrap/Tab';
 import Nav from 'react-bootstrap/Nav';
 
@@ -25,7 +26,7 @@ export const ThirdColumn = () => {
 
 	useEffect(() => {
 		if(activePane === "spells"){
-			if(!isDesktop) {
+			if(isDesktop && webServer) {
 				dispatch(buildSpelllist([charClass, castingAttribute]))
 			}
 			else if(isDesktop) {

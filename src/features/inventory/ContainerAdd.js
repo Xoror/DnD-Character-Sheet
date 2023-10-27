@@ -3,6 +3,7 @@ import { useDispatch} from "react-redux"
 
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import InputGroup from 'react-bootstrap/InputGroup'
 import Modal from "react-bootstrap/Modal"
 
@@ -29,7 +30,7 @@ export const ContainerAdd = (props) => {
         <Modal backdrop="static" aria-labelledby="add-new-container-dialog" contentClassName="modal-custom" size="lg" show={showAddContainer} onHide={() => (setShowAddContainer(false), setContainerEditing(false), setDefaultContainerValues(containerTemplate))}>
             <Modal.Header closeButton>
                 <Modal.Title as="label" id="add-new-container-dialog">
-                    Adding a new Container
+                    Add/Edit a new Container
                 </Modal.Title>
             </Modal.Header>
 
@@ -39,20 +40,19 @@ export const ContainerAdd = (props) => {
                         <InputGroup.Text as="label" id="add-new-container" className="top-left-group top-right-group" style={{flexGrow:"2"}}> {containerEditing ? ("Currently editing: " + defaultContainerValues.label) : "Add New Container" } </InputGroup.Text> 
                         {containerEditing ? <Button className="top-right-group" onClick={() => (setContainerEditing(false), setDefaultContainerValues(containerTemplate))}>Cancel</Button> : ""}
                     </InputGroup>
-                    <InputGroup>
-                        <InputGroup.Text as="label" id="container-label" className="middle-left-group">Name</InputGroup.Text>
+                    <FloatingLabel controlId="container-label" label="Name">
                         <Form.Control 
-                            className="middle-right-group"
+                            className="middle-left-group middle-right-group"
                             value={defaultContainerValues.label} 
                             required 
                             placeholder="Name" 
                             aria-labelledby="container-label" 
                             onChange={event => handleContainerSelectValues(event, "label")}
                         />
-                    </InputGroup>
-                    <InputGroup>
-                        <InputGroup.Text as="label" id="container-weight" className="bottom-left-group">Weighs</InputGroup.Text>
+                    </FloatingLabel>
+                    <FloatingLabel controlId="container-weight" label="Container Weight">
                         <Form.Control 
+                            className="middle-left-group middle-right-group"
                             value={defaultContainerValues.weight} 
                             required 
                             placeholder="Weight (lbs)" 
@@ -61,9 +61,10 @@ export const ContainerAdd = (props) => {
                             min="0" 
                             onChange={event => handleContainerSelectValues(event, "weight")}
                         />
-                        <InputGroup.Text as="label" id="container-maximum-weight-allowed-in" className="middle-left-group">Maximum Weight allowed in</InputGroup.Text>
+                    </FloatingLabel>
+                    <FloatingLabel controlId="container-maximum-weight-allowed-in" label="Maximum Weight allowed in container">
                         <Form.Control
-                            className="bottom-right-group"
+                            className="bottom-right-group bottom-left-group"
                             value={defaultContainerValues.maxWeightIn} 
                             required 
                             placeholder="Weight (lbs)" 
@@ -72,8 +73,7 @@ export const ContainerAdd = (props) => {
                             min="0" 
                             onChange={event => handleContainerSelectValues(event, "maxWeightIn")}
                         />
-                    </InputGroup>
-                    
+                    </FloatingLabel>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="danger" onClick={() => (setShowAddContainer(false), setContainerEditing(false), setDefaultContainerValues(containerTemplate))}>

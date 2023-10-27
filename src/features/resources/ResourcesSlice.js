@@ -8,7 +8,9 @@ for(let i=0; i<20; i++) {
 }
 
 const initialState = {
-    data: testData
+    data: [
+        {id: nanoid(), name: "Hit Points", current: 1, maximum: 1, dice: ""},
+    ]
 }
 
 const ResourcesSlice = createSlice({

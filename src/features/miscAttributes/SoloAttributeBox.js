@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux"
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Modal from 'react-bootstrap/Modal';
 
 import { RiFileEditFill } from "react-icons/ri";
@@ -91,15 +92,16 @@ export const AttributeBox = (props) => {
 					{props.name != "Proficiency Bonus" ? <RiFileEditFill type="button" color="black" size="23" onClick={handleShow} className="edit-button" /> : ""}	
 				</> :
 				<div className="hpBox">
-					<div  style={{display:"flex", flexWrap:"wrap", justifyContent:"center"}}>
-						<div style={{textAlign:"center", marginTop:"0.25em"}}> <label> {props.name} {props.name === "Speed" ? "(" + props.attribute.displayed + ")" : null} </label> </div>
+					<div style={{display:"flex", flexWrap:"wrap", justifyContent:"center", marginTop:"0.25em"}}>
+						<label id={`${props.name}-label`}> {props.name} {props.name === "Speed" ? "(" + props.attribute.displayed + ")" : null} </label> 
 					</div>
 					<div style={{display:"flex", flexWrap:"wrap",justifyContent:"center"}}>
-						<div className="AttributeBoxNotInput"> {props.attribute.value}</div>
+						<div aria-labelledby={`${props.name}-label`} className="AttributeBoxNotInput"> {props.attribute.value}</div>
 					</div>
 					{props.name != "Proficiency Bonus" ?
-						<button className="react-icons-button edit" onClick={handleShow} style={{float: "left"}} aria-label={`edit ${props.name} button`}>
-							<RiFileEditFill title="edit button" size="1.5em" className="edit-button"/> 
+						<button className="react-icons-button edit" onClick={handleShow} style={{float: "left"}} aria-labelledby={`edit ${props.name} button`}>
+							<RiFileEditFill title="edit button graphic" size="1.5em" className="edit-button"/> 
+							<label className="visually-hidden" id={`edit ${props.name} button`}>{`Edit ${props.name} button`}</label>
 						</button>
 						: null}
 				</div>
@@ -111,28 +113,25 @@ export const AttributeBox = (props) => {
 const InitiativeModal = (props) => {
 	return (
 		<div>
-			<InputGroup>
-				<InputGroup.Text id="primary-scaling">Primary Scaling</InputGroup.Text>
-				<Form.Select required aria-label="choose-primary-scaling" aria-describedby="primary-scaling">
+			<FloatingLabel controlId="primary-scaling" label="Primary Scaling">
+				<Form.Select required aria-describedby="primary-scaling" className="top-right-group top-left-group">
 					<option value={props.attribute.scalingPrimary}>{props.attribute.scalingPrimary}</option>
 					{["None","Strength","Dexterity","Constitution","Intelligence","Wisdom","Charisma"].map((attribute, index) => (
 						attribute != props.attribute.scalingPrimary ? <option key={`scaling-primary-option-${attribute}`} value={attribute}> {attribute} </option> : ""
 					))}
 				</Form.Select>
-			</InputGroup>
-			<InputGroup>
-				<InputGroup.Text id="secondary-scaling">Secondary Scaling</InputGroup.Text>
-				<Form.Select required aria-label="choose-secondary-scaling" aria-describedby="secondary-scaling">
+			</FloatingLabel>
+			<FloatingLabel controlId="secondary-scaling" label="Secondary Scaling">
+			<Form.Select required aria-describedby="secondary-scaling" className="middle-right-group middle-left-group">
 					<option value={props.attribute.scalingSecondary}>{props.attribute.scalingSecondary}</option>
 					{["None", "Strength","Dexterity","Constitution","Intelligence","Wisdom","Charisma"].map((attribute, index) => (
 						attribute != props.attribute.scalingSecondary ? <option key={`scaling-secondary-option-${attribute}`} value={attribute}> {attribute} </option> : ""
 					))}
 				</Form.Select>
-			</InputGroup>
-			<InputGroup>
-				<InputGroup.Text id="flat-bonus">Flat Bonus (like from feats) </InputGroup.Text>
-				<Form.Control required defaultValue={props.attribute.flatBonus} aria-label="change-flat-bonus" aria-describedby="flat-bonus"/>
-			</InputGroup>
+			</FloatingLabel>
+			<FloatingLabel controlId="flat-bonus" label="Flat Bonus (like from feats)">
+				<Form.Control type="number" min="0" required defaultValue={props.attribute.flatBonus} aria-describedby="flat-bonus" className="bottom-right-group bottom-left-group"/>
+			</FloatingLabel>
 		</div>
 	)
 }
@@ -141,60 +140,61 @@ const ACModal = (props) => {
 	const handleShowOptions = (event) => setShowOptions(event.target.value)
 	return(
 		<div>
-			<InputGroup>
-				<InputGroup.Text id="armor-type"> Armor Type </InputGroup.Text>
-				<Form.Select defaultValue={props.attribute.wearsArmor ? "1" : "2"} required aria-label="choose-armor-type" aria-describedby="armor-type" onChange={handleShowOptions}>
+			<FloatingLabel controlId="armor-type" label="Armor Type">
+				<Form.Select className="top-left-group top-right-group" defaultValue={props.attribute.wearsArmor ? "1" : "2"} required aria-describedby="armor-type" onChange={handleShowOptions}>
 					<option value=""> Choose Armor Type </option>
 					<option value="1" id="wearsArmor"> Equippable Armor </option>
 					<option value="2" id="unarmoredDefense"> Unarmored Defense </option>
 				</Form.Select>
-			</InputGroup>
+			</FloatingLabel>
 			{showOptions === "1" ? ( /*stealthDisadvantage*/
 				<div>
 					<InputGroup>
-						<InputGroup.Text id="base-ac"> Armor Base AC </InputGroup.Text>
-						<Form.Control type="number" required defaultValue={props.attribute.baseAC} placeholder="Input Armor's base AC" aria-label="base-armor-ac" aria-describedby="base-ac"/>
-						<InputGroup.Text id="scaling-attribute"> Scaling Attribute </InputGroup.Text>
-						<Form.Select required aria-label="choose-scaling-attribute" aria-describedby="scaling-attribute">
-							<option value={props.attribute.scalingPrimary}>{props.attribute.scalingPrimary}</option>
-							{["None","Strength","Dexterity","Constitution","Intelligence","Wisdom","Charisma"].map((attribute, index) => (
-								attribute != props.attribute.scalingPrimary ? <option key={index} value={attribute}> {attribute} </option> : ""
-							))}
-						</Form.Select>
-					</InputGroup>
-					<InputGroup>
-						<InputGroup.Text id="max-bonus"> Maximum Attribute Bonus </InputGroup.Text>
-						<Form.Control type="number" required defaultValue={props.attribute.maxBonus} placeholder="Input Maximum Bonus" aria-label="choose-max-bonus" aria-describedby="max-bonus"/>
-					</InputGroup>
-					<InputGroup>
-						<InputGroup.Text id="stealth-disadvantage"> Gives Stealth Disadvantage </InputGroup.Text>
-						<Form.Select required aria-label="choose-stealth-disadvantage" aria-describedby="stealth-disadvantage">
-							<option value={props.attribute.stealthDisadvantage}> {props.attribute.stealthDisadvantage ? "Yes" : "No"} </option>
-							<option value={!props.attribute.stealthDisadvantage}> {!props.attribute.stealthDisadvantage ? "Yes" : "No"} </option>
-						</Form.Select>
-					</InputGroup>
-				</div>) : (showOptions === "2" ? (
-					<div>
-						<InputGroup>
-							<InputGroup.Text id="unarmored-base-ac"> Base AC </InputGroup.Text>
-							<Form.Control type="number" required defaultValue={props.attribute.baseAC} placeholder="Choose Base AC" aria-label="choose-unarmored-base-ac" aria-describedby="unarmored-base-ac"/>
-							<InputGroup.Text id="primary-scaling"> Primary Scaling </InputGroup.Text>
-							<Form.Select required aria-label="choose-primary-scaling" aria-describedby="primary-scaling">
+						<FloatingLabel controlId="base-ac" label="Armor Base AC">
+							<Form.Control className="middle-left-group" type="number" required defaultValue={props.attribute.baseAC} placeholder="Input Armor's base AC" aria-labelledby="base-ac"/>
+						</FloatingLabel>
+						<FloatingLabel controlId="scaling-attribute" label="Scaling Attribute">
+							<Form.Select required className="middle-right-group" aria-labelledby="scaling-attribute">
 								<option value={props.attribute.scalingPrimary}>{props.attribute.scalingPrimary}</option>
 								{["None","Strength","Dexterity","Constitution","Intelligence","Wisdom","Charisma"].map((attribute, index) => (
 									attribute != props.attribute.scalingPrimary ? <option key={index} value={attribute}> {attribute} </option> : ""
 								))}
 							</Form.Select>
-							<InputGroup.Text id="secondary-scaling"> Secondary Scaling </InputGroup.Text>
-							<Form.Select required aria-label="choose-secondary-scaling" aria-describedby="secondary-scaling">
-								<option value={props.attribute.scalingSecondary}>{props.attribute.scalingSecondary}</option>
-								{["None","Strength","Dexterity","Constitution","Intelligence","Wisdom","Charisma"].map((attribute, index) => (
-									attribute != props.attribute.scalingSecondary ? <option key={index} value={attribute}> {attribute} </option> : ""
-								))}
+						</FloatingLabel>
+					</InputGroup>
+					<InputGroup>
+						<FloatingLabel controlId="max-bonus" label="Maximum Attribute Bonus">
+							<Form.Control className="bottom-left-group" type="number" required defaultValue={props.attribute.maxBonus} placeholder="Input Maximum Bonus" aria-labelledby="max-bonus"/>
+						</FloatingLabel>
+						<FloatingLabel controlId="stealth-disadvantage" label="Gives Stealth Disadvantage">
+							<Form.Select className="bottom-right-group" aria-labelledby="stealth-disadvantage">
+								<option value={props.attribute.stealthDisadvantage}> {props.attribute.stealthDisadvantage ? "Yes" : "No"} </option>
+								<option value={!props.attribute.stealthDisadvantage}> {!props.attribute.stealthDisadvantage ? "Yes" : "No"} </option>
 							</Form.Select>
-						</InputGroup>
-					</div>
-				) : "")
+						</FloatingLabel>
+					</InputGroup>
+				</div>) : 
+				<div>
+					<FloatingLabel controlId="unarmored-base-ac" label="Base AC">
+						<Form.Control className="middle-left-group middle-right-group" type="number" required defaultValue={props.attribute.baseAC} placeholder="Choose Base AC"  aria-labelledby="unarmored-base-ac"/>
+					</FloatingLabel>
+					<FloatingLabel controlId="primary-scaling" label="Primary Scaling">
+						<Form.Select required aria-label="choose-primary-scaling" aria-labelledby="primary-scaling" className="middle-left-group middle-right-group">
+							<option value={props.attribute.scalingPrimary}>{props.attribute.scalingPrimary}</option>
+							{["None","Strength","Dexterity","Constitution","Intelligence","Wisdom","Charisma"].map((attribute, index) => (
+								attribute != props.attribute.scalingPrimary ? <option key={index} value={attribute}> {attribute} </option> : ""
+							))}
+						</Form.Select>
+					</FloatingLabel>
+					<FloatingLabel controlId="secondary-scaling" label="Secondary Scaling">
+						<Form.Select requried  className="bottom-left-group bottom-right-group" aria-labelledby="secondary-scaling">
+							<option value={props.attribute.scalingSecondary}>{props.attribute.scalingSecondary}</option>
+							{["None","Strength","Dexterity","Constitution","Intelligence","Wisdom","Charisma"].map((attribute, index) => (
+								attribute != props.attribute.scalingSecondary ? <option key={index} value={attribute}> {attribute} </option> : ""
+							))}
+						</Form.Select>
+					</FloatingLabel>
+				</div>
 			}
 		</div>
 	)
@@ -202,26 +202,29 @@ const ACModal = (props) => {
 const SpeedModal = (props) => {
 	return(
 		<div>
-			<InputGroup>
-				<InputGroup.Text id="displayed-speed">Displayed Speed</InputGroup.Text>
-				<Form.Select required aria-label="choose-displayed-speed" aria-describedby="primary-displayed-speed">
+			<FloatingLabel controlId="displayed-speed" label="Displayed Speed">
+				<Form.Select required aria-label="choose-displayed-speed" aria-labelledby="primary-displayed-speed">
 					<option value={props.attribute.displayed}>{props.attribute.displayed}</option>
 					{["Ground", "Swim", "Climb", "Fly"].map((attribute, index) => (
 						attribute != props.attribute.displayed ? <option key={`displayed-speed-option-${attribute}`} value={attribute}> {attribute} </option> : ""
 					))}
 				</Form.Select>
+			</FloatingLabel>
+			<InputGroup>
+				<FloatingLabel controlId="ground-speed" label="Ground Speed">
+					<Form.Control type="number" required defaultValue={props.attribute.ground} placeholder="Choose Ground Speed" aria-labelledby="ground-speed"/>
+				</FloatingLabel>
+				<FloatingLabel controlId="swim-speed" label="Swim Speed">
+					<Form.Control type="number" required defaultValue={props.attribute.swim} placeholder="Choose Swim Speed" aria-labelledby="swim-speed"/>
+				</FloatingLabel>
 			</InputGroup>
 			<InputGroup>
-				<InputGroup.Text id="ground-speed"> Ground Speed </InputGroup.Text>
-				<Form.Control type="number" required defaultValue={props.attribute.ground} placeholder="Choose Ground Speed" aria-label="choose-ground-speed" aria-describedby="ground-speed" id="ground"/>
-				<InputGroup.Text id="swim-speed"> Swim Speed </InputGroup.Text>
-				<Form.Control type="number" required defaultValue={props.attribute.swim} placeholder="Choose Swim Speed" aria-label="choose-swim-speed" aria-describedby="swim-speed" id="swim"/>
-			</InputGroup>
-			<InputGroup>
-				<InputGroup.Text id="climb-speed"> Climb Speed </InputGroup.Text>
-				<Form.Control type="number" required defaultValue={props.attribute.climb} placeholder="Choose Climb Speed" aria-label="choose-climb-speed" aria-describedby="climb-speed" id="climb"/>
-				<InputGroup.Text id="fly-speed"> Fly Speed </InputGroup.Text>
-				<Form.Control type="number" required defaultValue={props.attribute.fly} placeholder="Choose Fly Speed" aria-label="choose-fly-speed" aria-describedby="fly-speed" id="fly"/>
+				<FloatingLabel controlId="climb-speed" label="Climb Speed">
+					<Form.Control type="number" required defaultValue={props.attribute.climb} placeholder="Choose Climb Speed" aria-labelledby="climb-speed"/>
+				</FloatingLabel>
+				<FloatingLabel controlId="fly-speed" label="Fly Speed">
+					<Form.Control type="number" required defaultValue={props.attribute.fly} placeholder="Choose Fly Speed"aria-labelledby="fly-speed"/>
+				</FloatingLabel>
 			</InputGroup>
 		</div>
 	)

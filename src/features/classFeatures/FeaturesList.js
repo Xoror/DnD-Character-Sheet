@@ -2,7 +2,6 @@ import React, { useState} from 'react';
 import { useDispatch } from "react-redux"
 
 import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';

@@ -25,22 +25,6 @@ export const ResourceBox = (props) => {
 		dispatch(deleteResource(props.resource.id))
 	}
 
-	const popoverCurrent = (
-		<Tooltip style={{opacity:"1"}} id="dice-popover">
-			<label id="resource-current-label"> Current {props.resource.name} </label>
-		</Tooltip>
-	)
-	const popoverDice = (
-		<Tooltip style={{opacity:"1"}} id="dice-popover">
-			<label id="resource-dice-box-label"> Dice: </label> Should have the format like "d20" or "d8" so the letter "d" and a number appended
-		</Tooltip>
-	)
-	const popoverMaximum = (
-		<Tooltip style={{opacity:"1"}} id="dice-popover">
-			<label id="resource-maximum-label"> Maximum {props.resource.name} </label>
-		</Tooltip>
-	)
-
 	return (
 		<div className="resource-list-item">
 			<div className="resource-box">
@@ -51,28 +35,25 @@ export const ResourceBox = (props) => {
 
 				<div aria-labelledby={`resource-${props.resource.name}-title`} className="resource-body">
 					<label id="resource-current-label" style={{gridArea:"current-label"}}>Current</label>
-					<OverlayTrigger trigger="focus" placement="top" overlay={popoverCurrent}>
-						<input 
-							aria-label={`current amount of resource ${props.resource.name}`} aria-labelledby="resource-current-label"
-							required='required' type='number' value={props.resource.current} name={props.resource.name} id="current" 
-							className= "resource-input current" onChange={changeResource}
-						></input>
-					</OverlayTrigger>
+					<input 
+						aria-label={`current amount of resource ${props.resource.name}`} aria-labelledby="resource-current-label"
+						required='required' type='number' value={props.resource.current} name={props.resource.name} id="current" 
+						className= "resource-input current" onChange={changeResource}
+					></input>
+
 					<label id="resource-dice-box-label" style={{gridArea:"dice-label"}}>Dice</label>
-					<OverlayTrigger trigger="focus" placement="top" overlay={popoverDice}>
-						<input 
-							aria-label={`dice associated with resource ${props.resource.name}`} aria-labelledby="resource-dice-box-label"
-							required='required' type='text' value={props.resource.dice} name={props.resource.name} id="dice" 
-							className= "resource-input dice" maxLength="4" onChange={changeResource}
-						></input>
-					</OverlayTrigger>
+					<input 
+						aria-label={`dice associated with resource ${props.resource.name}`} aria-labelledby="resource-dice-box-label"
+						required='required' type='text' value={props.resource.dice} name={props.resource.name} id="dice" 
+						className= "resource-input dice" maxLength="4" onChange={changeResource}
+					></input>
+					
 					<label id="resource-maximum-label" style={{gridArea:"max-label"}}>Maximum</label>
-					<OverlayTrigger trigger="focus" placement="top" overlay={popoverMaximum}>
-						<input 
-							aria-label={`maximum amount of resource ${props.resource.name}`} aria-labelledby="resource-maximum-label" 
-							required='required' type='number' value={props.resource.maximum} name={props.resource.name} id="maximum" 
-							className= "resource-input max" onChange={changeResource}></input>
-					</OverlayTrigger>
+					<input 
+						aria-label={`maximum amount of resource ${props.resource.name}`} aria-labelledby="resource-maximum-label" 
+						required='required' type='number' value={props.resource.maximum} name={props.resource.name} id="maximum" 
+						className= "resource-input max" onChange={changeResource}
+					></input>
 				</div>
 			</div>
 		</div>

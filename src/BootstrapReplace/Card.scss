@@ -1,0 +1,26 @@
+.sg-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 0.375em;
+}
+.sg-card-body {
+    flex: 1 1 auto;
+    padding: 1em;
+}
+.sg-card-header {
+    margin-bottom: 0;
+    padding: 0.5em 1em;
+}
+.sg-card-header:first-child {
+    border-radius: 0.375em 0.375em 0 0;
+}
+.sg-card-footer {
+    padding: 0.5em 1em;
+}
+.sg-card-footer:last-child {
+    border-radius: 0 0 0.375em 0.375em;
+}
+
+.sg-card-text:last-child {
+    margin-bottom: 0;
+}

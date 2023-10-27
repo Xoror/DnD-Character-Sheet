@@ -1,7 +1,8 @@
 import React, { useEffect, useState} from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
-import Card from 'react-bootstrap/Card'
+//import Card from 'react-bootstrap/Card'
+import Card from '../../BootstrapReplace/Card';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Table from 'react-bootstrap/Table';
@@ -132,7 +133,7 @@ export default function InventoryBox(props) {
 	}
 	const currencies_shortnames = {platinum:"pt", electrum:"ep", gold:"gp", silver:"sp", copper:"cp"}
 	return (
-		<Card bg="secondary" id="Inventory">
+		<Card>
 			<div>
 				<MoneyPouch moneyPouch={currency} currenciesShortnames={currencies_shortnames} colors={["#E5E4E2", "#FFD700", "#F2E279", "#C0C0C0", "#B87333"]} handleCounter={handleCounter}/>
 			</div>

@@ -1,7 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
-import Card from 'react-bootstrap/Card';
+//import Card from 'react-bootstrap/Card';
+import Card from '../../BootstrapReplace/Card';
 import Form from 'react-bootstrap/Form';
 import Table from 'react-bootstrap/Table';
 

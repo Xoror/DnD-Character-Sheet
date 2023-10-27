@@ -1,7 +1,6 @@
 import React, { useState} from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
-import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 
 import { changeDetails, deleteLanguage } from './CharDetailsSlice';

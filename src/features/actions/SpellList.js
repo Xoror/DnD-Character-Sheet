@@ -20,11 +20,12 @@ export const SpellList = (props) => {
 
 	const sortedSpellList= useSelector(state => state.actions.sortedSpellList)
 	const [show, setShow] = useState(false);
-	const [spellCardID, setSpellCardID] = useState("0")
+	const [filters, setFilters] = useState({spellslots: [], schools: [], ritual: [], classes: []})
+	const [searchField, setSearchField] = useState("")
 
 	const handleClose = () => {
 		setShow(false)
-		dispatch(filterSpells([{spellslots: [], schools: [], ritual: [], classes: []}, ""]))
+		setFilters({spellslots: [], schools: [], ritual: [], classes: []})
 		setInheritShow(!inheritShow)
 	}
 	const handleShow = () => {
@@ -36,20 +37,17 @@ export const SpellList = (props) => {
 		}
 	}, [inheritShow])
 	
-	const [filters, setFilters] = useState({spellslots: [], schools: [], ritual: [], classes: []})
-	const [searchField, setSearchField] = useState("")
 	const filterKeys = Object.keys(filters)
 	const handleDelete = (event, index, type) => {
 		let copy = structuredClone(filters)
 		copy[type] = copy[type].slice(0,index).concat(copy[type].slice(index+1))
 		setFilters(copy)
-		dispatch(filterSpells([copy, searchField]))
 	}
 	
 	let headers = ["Cantrip","1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th"]
 	return(
 		<>
-			<Offcanvas border="dark" style={{color:"white", backgroundColor:"#6c757d", width:"478px", marginTop:"3em"}} show={show} onHide={handleClose} placement="start" scroll="true">
+			<Offcanvas border="dark" show={show} onHide={handleClose} placement="start" scroll="true">
 				<Offcanvas.Header closeButton onClick={handleClose}>
 					<Offcanvas.Title>Spell List</Offcanvas.Title>
 				</Offcanvas.Header>
@@ -65,8 +63,6 @@ export const SpellList = (props) => {
 					</Container>
 					{headers.map((header, index) => (
 						<ActionsTable 
-							cardID={spellCardID}
-							setCardID={setSpellCardID} 
 							offCanvas={true} 
 							id={props.id} 
 							key={`action-table-${header}`} 

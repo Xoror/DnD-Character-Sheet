@@ -154,7 +154,7 @@ export const InventoryAdd = (props) => {
     let rarities = ["Mundane", "Common", "Uncommon", "Rare", "Very Rare", "Legendary", "Artifact", "Unknown"]
     return (
         <>
-            <div aria-labelledby={`${editing ? "edit":"quick-add-new"}-item`} style={{color:"black"}} className={props.showQuickAddItem ? null: "visually-hidden"}>
+            <div aria-labelledby={`${editing ? "edit":"quick-add-new"}-item`} className={props.showQuickAddItem ? null: "visually-hidden"}>
                 <InputGroup>
                     <InputGroup.Text as="label" id={`${editing ? "edit":"quick-add-new"}-item`} className="top-left-group top-right-group" style={{flexGrow:"2"}}> {editing ? ("Currently editing: " + defaultValues.name) : "Add New Item" } </InputGroup.Text> 
                     {editing ? <Button className="top-right-group" onClick={() => (setEditing(false), setDefaultValues(itemTemplate))}>Cancel</Button> : ""}
@@ -171,7 +171,7 @@ export const InventoryAdd = (props) => {
 					</Modal.Title>
 				</Modal.Header>
 
-                <Form aria-labelledby="add-new-item" style={{color:"black"}} onSubmit={(event) => (handleClick(event))}>
+                <Form aria-labelledby="add-new-item" onSubmit={(event) => (handleClick(event))}>
                     {addItemForm(true)}
                 </Form>
             </Modal>

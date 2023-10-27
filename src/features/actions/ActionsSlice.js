@@ -8,6 +8,7 @@ const database = new sqlite3.Database("../../public/data.db", sqlite3.OPEN_READW
   })
 */
 import {spellList} from "../../data/spellsSRD.js";
+import { parseSpellAPIResponse } from "../../utils/ParseResponseFunctions.js";
 
 
 export const getAPISPelllist = createAsyncThunk('actions/fetchAPISpelllist', async () => {
@@ -219,63 +220,13 @@ const ActionsSlice = createSlice({
         },
         buildSpelllist(state, action) {
             if(state.sortedSpellList.length === 0) {
-				const listSlots = ["cantrip", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th"]
-				const returnSpellslot = (number) => {
-					if(number === 0) {
-						return "Cantrip"
-					}
-					else {
-						return listSlots[parseInt(number)]
-					}
-				}
+				
                 let spellLiistUnformatted = []
                 let spellLiistFormatted
 
-                const prepareDescription = (desc, higher_level) => {
-                    if(higher_level.length === 0) {
-                        if( desc[desc.length - 1].includes("5th level") ) {
-                            return [desc.slice(0, desc.length-1), desc[desc.length - 1]]
-                        }
-                        else {
-                            return [desc, "-"]
-                        }
-                    }
-                    else {
-                        return [desc, higher_level]
-                    }
-                }
-
 				spellList.forEach((spell, index) => (
 					spellLiistUnformatted.push(
-                        {
-                            showCard:false,
-                            filtered:true, 
-                            id: nanoid(), 
-                            name: spell.name, 
-                            range: spell.range, 
-                            damage: spell.damage === undefined ? 
-                                (spell.heal_at_slot_level === undefined ? "None" : spell.heal_at_slot_level[spell.level+1]) 
-                                    : 
-                                (spell.level === 0 ? spell.damage.damage_at_character_level[spell.level+1] : spell.damage.damage_at_slot_level[spell.level]), 
-                            damageAtHigherLevel: spell.damage === undefined ? 
-                                (spell.heal_at_slot_level === undefined ? "None" : spell.heal_at_slot_level) 
-                                    : 
-                                (spell.level === 0 ? spell.damage.damage_at_character_level : spell.damage.damage_at_slot_level),
-                            type: returnSpellslot(spell.level), 
-                            scaling: action.payload[1] === "" || action.payload[1] === undefined ? "None": action.payload[1], 
-                            isPrepared: false, 
-                            damageType: spell.damage === undefined ? 
-                                (spell.heal_at_slot_level === undefined ? "None" : "Heal") 
-                                    : 
-                                (spell.damage.damage_type === undefined ? "None": spell.damage.damage_type.name), 
-                            description: prepareDescription(spell.desc, spell.higher_level),
-                            school: spell.school.name, 
-                            ritual: spell.ritual, 
-                            classes: spell.classes, 
-                            components: spell.components,
-                            duration: [spell.duration, spell.concentration], 
-                            castingTime: spell.casting_time
-                        }
+                        parseSpellAPIResponse(spell, action.payload[1], nanoid())
                     )
                     //window.api.addRow(["update spells set data = ? where id = ?", [JSON.stringify(spellLiistUnformatted[index], null), index + 1]])
 				))
@@ -301,86 +252,6 @@ const ActionsSlice = createSlice({
             state.sortedSpellList.forEach(spell => (
                 spell.scaling = action.payload
             ))
-        },
-        updateSpellCardShow(state, action) {
-            state.spells.forEach(spell => (
-                spell.showCard = spell.id === action.payload[0] ? !spell.showCard : false
-            ))
-        },
-        filterSpells(state, action) {
-            let filters = action.payload[0]
-            let search = action.payload[1]
-            
-            let test1
-			let test2
-			let test3
-			let test4
-            let test5
-            let count = 0
-            for(let i=0; i<state.sortedSpellList.length; i++) {
-                test4 = false
-                let body = state.sortedSpellList[i]
-                // Testing spell tier and school
-                if(filters.spellslots.length != 0 && filters.schools.length != 0) {
-                    test1 = filters.spellslots.find(spellslot => (spellslot === body.type)) ? true : false
-                    test2 = filters.schools.find(school => (school === body.school)) ? true : false
-                }
-                else if(filters.spellslots.length === 0 && filters.schools.length != 0) {
-                    test1 = true
-                    test2 = filters.schools.find(school => (school === body.school)) ? true : false
-                }
-                else if(filters.spellslots.length != 0 && filters.schools.length === 0) {
-                    test1 = filters.spellslots.find(spellslot => (spellslot === body.type)) ? true : false
-                    test2 = true
-                }
-                else if(filters.spellslots.length === 0 && filters.schools.length === 0) {
-                    test1 = true
-                    test2 = true
-                }
-
-                // testing search
-                if(search != "") {
-                    test3 = body.name.toLowerCase().includes(search.toLowerCase())
-                }
-                else {
-                    test3 = true
-                }
-
-                // testing class
-                if(filters.classes.length != 0) {
-                    for(let j=0; j<filters.classes.length;j++) {
-                        for(let k=0; k<body.classes.length;k++) {
-                            if(filters.classes[j] === body.classes[k].name) {
-                                test4 = true
-                            }
-                        }
-                    }
-                } else {
-                    test4 = true
-                }
-                
-                //testing ritual
-                if(filters.ritual.length != 0) {
-                    if(filters.ritual.length == 1) {
-                        let test
-                        if(body.ritual) {
-                            test = "ritual"
-                        }
-                        else {
-                            test="not ritual"
-                        }
-                        test5 = filters.ritual.find(ritual => (ritual === test)) ? true:false
-                    }
-                    else if (filters.ritual.length == 2) {
-                        test5 = false
-                    }
-                }
-                else {
-                    test5 = true
-                }
-                
-                state.sortedSpellList[i].filtered = test1 && test2 && test3 && test4 && test5
-            }
         },
         importActions(state, action) {
             let keys1 = Object.keys(state)

@@ -2,12 +2,12 @@ import React, { useState} from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
 import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
+//import Card from 'react-bootstrap/Card';
+import Card from '../../BootstrapReplace/Card';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Modal from 'react-bootstrap/Modal';
-import Container from 'react-bootstrap/Container';
 import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
 import Tab from 'react-bootstrap/Tab';
@@ -71,7 +71,6 @@ export const ResourcesMiscProficiencies = () => {
 	}
 	const handleAddMiscProficiency = (event) => {
 		event.preventDefault();
-		console.log([event.target[0].value, event.target[1].value, event.target[2].value, event.target[3].value])
 		let isSameName = skills.find(skill => skill.name === event.target[0].value) ? true : false
 		if(isSameName) {
 			setShow("miscProf")
@@ -79,7 +78,7 @@ export const ResourcesMiscProficiencies = () => {
 		}
 		else {
 			dispatch(addMiscProficiency(
-				[defaultMiscProfValues.name, defaultMiscProfValues.type, defaultMiscProfValues.isProficient, defaultMiscProfValues.hasExpertise]
+				[defaultMiscProfValues.name, defaultMiscProfValues.type, defaultMiscProfValues.isProficient === "true", defaultMiscProfValues.hasExpertise === "true"]
 			))
 			handleCloseAddMiscProf()
 			setDefaultMiscProfValues({name:"", type:"", isProficient:"", hasExpertise:""})
@@ -105,7 +104,7 @@ export const ResourcesMiscProficiencies = () => {
 				<Modal.Header>
 					<Modal.Title> Add Resource </Modal.Title>
 				</Modal.Header>
-				<Modal.Body style={{color:"black"}}>
+				<Modal.Body>
 					<InputGroup>
 						<FloatingLabel controlId="resource-name" label="Name">
 							<Overlay target={inputRef.current} show={show === "resource"} placement="top">
@@ -156,9 +155,9 @@ export const ResourcesMiscProficiencies = () => {
 				<Modal.Header>
 					<Modal.Title> Add Misc Proficiency </Modal.Title>
 				</Modal.Header>
-				<Modal.Body style={{color:"black"}}>
+				<Modal.Body>
 					<InputGroup >
-						<FloatingLabel controlId="misc-prof-name" label="Type">
+						<FloatingLabel controlId="misc-prof-name" label="Name">
 							<Overlay target={inputRef.current} show={show === "miscProf"} placement="top">
 								<Tooltip id="overlay-example">
 									Please enter unique Name.

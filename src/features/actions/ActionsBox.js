@@ -1,7 +1,8 @@
 import React, { useState, useRef} from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
-import Card from 'react-bootstrap/Card';
+//import Card from 'react-bootstrap/Card';
+import Card from '../../BootstrapReplace/Card';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
@@ -138,7 +139,7 @@ export default function ActionsBox(props) {
 				<Button onClick={(event) => (setShowQuickAddAction(!showQuickAddAction))}>Quick Add {props.id === "Spells" ? "Spell" : "Action"}</Button>
 				{props.id === "Spells" ? <Button onClick={(event) => (setShowSpellList(!showSpellList))}>Browse Spell List</Button> : null}
 			</ButtonGroup>
-			{props.id === "Spells" ? <SpellList inheritShow={showSpellList} setInheritShow={setShowSpellList} /> : "" }
+			{props.id === "Spells" ? <SpellList inheritShow={showSpellList} setInheritShow={setShowSpellList} /> : null }
 			<ActionsAdd 
 				show={show}
 				setShow={setShow}

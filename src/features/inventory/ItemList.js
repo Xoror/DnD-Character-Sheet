@@ -11,7 +11,7 @@ import Table from 'react-bootstrap/Table';
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
 import { InventoryTable } from './InventoryTable';
-import { useFocus } from '../../components/CustomHooks';
+import { useFocus } from '../../components/CustomHooks'; 
 
 export const ItemList = (props) => {
 	const dispatch = useDispatch()
@@ -43,24 +43,74 @@ export const ItemList = (props) => {
             return response.json()
         }
     }
+	const [itemListDetailed, setItemListDetailed] = useState([])
+
+	const importItemsFile = async (id) => {
+		if(id === "mundane") {
+			const { mundaneItems} = await import('../../data/itemsSRD')
+			mundaneItems.forEach(item => item["id"] = nanoid())
+			setItemList(mundaneItems)
+			console.log("mundane")
+		}
+		else {
+			const { magicItems } = await import('../../data/itemsSRD')
+			magicItems.forEach(item => item["id"] = nanoid())
+			setMagicItemList(magicItems)
+			console.log("magical")
+		}
+	}
+
 	useEffect(() => {
+		importItemsFile("mundane")
+		importItemsFile("magical")
+		/*
 		fetchItems()
 			.then((res) => {
-                res.results.forEach(item => item["id"] = nanoid())
+				res.results.forEach(item => item["id"] = nanoid())
 				setItemList(res.results)
 			})
 			.catch((e) => {
 				console.log(e.message)
 			})
-        fetchMagicItems()
+		fetchMagicItems()
 			.then((res) => {
-                res.results.forEach(item => item["id"] = nanoid())
+				res.results.forEach(item => item["id"] = nanoid())
 				setMagicItemList(res.results)
 			})
 			.catch((e) => {
 				console.log(e.message)
 			})
+		*/
 	}, [])
+
+	const fetchDetail = async (item) => {
+		const response =  await fetch('https://www.dnd5eapi.co' + item.url)
+		if (!response.ok) {
+            console.log('Data coud not be fetched!')
+        } else {
+            return response.json()
+        }
+	}
+
+	useEffect(() => {
+		if(itemList.length === 237 && itemListDetailed.length === 0) {
+			console.log("bla")
+			
+			let test = []
+			itemList.forEach((item )=> {
+				fetchDetail(item)
+					.then((res) => {
+						test.push(res)
+						if(test.length === 237) {
+							console.log(test)
+							setItemListDetailed(test)
+						}
+					})
+			})
+
+		}
+	}, [itemList])
+
     useEffect(() => {}, [setItemList])
 
 	const handleClose = () => {
@@ -91,20 +141,20 @@ export const ItemList = (props) => {
     let bodies = [itemList, magicItemList]
 	return(
 		<>
-			<Offcanvas border="dark" style={{color:"white", backgroundColor:"#6c757d", width:"478px", marginTop:"3em"}} show={show} onHide={handleClose} placement="start" scroll="true">
+			<Offcanvas border="dark" show={show} onHide={handleClose} placement="start" scroll="true">
 				<Offcanvas.Header closeButton onClick={handleClose}>
 					<Offcanvas.Title>Item List</Offcanvas.Title>
 				</Offcanvas.Header>
 				<Offcanvas.Body>
-				<InputGroup className="mb-3 mt-1">
-					<InputGroup.Text id="container-to-add-to">Container to add Item to</InputGroup.Text>
-					<Form.Select ref={containerFocus} value={selectedContainer} placeholder="Container" aria-describedby="container-to-add-to" onChange={event => setSelectedContainer(event.target.value)}>
-						<option value="">Choose container...</option>
-						{containers.map((container, index) => (
-							<option key={`container-label-${container.label}`} value={container.id}>{container.label}</option>
-						))}
-					</Form.Select>
-				</InputGroup>
+					<InputGroup className="mb-3 mt-1">
+						<InputGroup.Text id="container-to-add-to">Container to add Item to</InputGroup.Text>
+						<Form.Select ref={containerFocus} value={selectedContainer} placeholder="Container" aria-describedby="container-to-add-to" onChange={event => setSelectedContainer(event.target.value)}>
+							<option value="">Choose container...</option>
+							{containers.map((container, index) => (
+								<option key={`container-label-${container.label}`} value={container.id}>{container.label}</option>
+							))}
+						</Form.Select>
+					</InputGroup>
 					<FilterSelection filters={filters} searchField={searchField} setFilters={setFilters} setSearchField={setSearchField}/>
 					{false ? <Container fluid className="filter-container">
 						<span>Filters: </span>

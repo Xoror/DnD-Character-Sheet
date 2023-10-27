@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
 
-import Card from 'react-bootstrap/Card';
+//import Card from 'react-bootstrap/Card';
+import Card from '../../BootstrapReplace/Card';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
@@ -72,9 +73,9 @@ export const SpellBox = () => {
 							</button>
 						</OverlayTrigger>
 					</InputGroup.Text>
-					<FloatingLabel controlId="caster-type" label="Caster Type">
+					<FloatingLabel controlId="casterType" label="Caster Type">
 						<Form.Select
-							value={casting.type} id="CasterType" placeholder=""
+							value={casting.type} id="CasterType" placeholder="" aria-label="caster type select"
 							onChange={handleCasterTypeChange} style={{paddingRight:"0em", textOverflow:"fade"}}
 						> 
 							<option value=""> Choose Caster Type </option>

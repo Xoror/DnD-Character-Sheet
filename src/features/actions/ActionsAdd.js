@@ -114,7 +114,7 @@ export const ActionsAdd = (props) => {
     }
     const addActionForm = useCallback((modal, defaultValues) => {
         return (
-            <Form id="action-add-form" aria-label={`${editing ? "edit":"add-new"}-${ariaLabel}-form`} onSubmit={preValidate} style={{color:"black"}}>
+            <Form id="action-add-form" aria-label={`${editing ? "edit":"add-new"}-${ariaLabel}-form`} onSubmit={preValidate}>
                 <Modal.Body>
                     <InputGroup>
                         <FloatingLabel ref={inputNameRef} controlId={`${ariaLabel}-name-${modal? "modal":"quick"}`} label="Name">

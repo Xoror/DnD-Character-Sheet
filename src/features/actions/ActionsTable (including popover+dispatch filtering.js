@@ -21,7 +21,6 @@ export const ActionsTable = (props) => {
 	const spellCastingAttribute = useSelector(state => state.attributes.casting.spellAttribute)
 	const proficiency = useSelector(state => state.attributes.proficiency)
 	const charLevel = useSelector(state => state.charDetails.charLevel)
-
 	const scalingBonus = (scale) => {
 		if(scale === "None" || scale === "") {
 			return ""
@@ -51,19 +50,50 @@ export const ActionsTable = (props) => {
 		props.inputRef.current.scrollIntoView()
 	}
 	let place = props.offCanvas ? "left" : "right"
+	let cardID = props.cardID
 	const [showDetails, setShowDetails] = useState([false, "bla"])
-
+	const [showPopover, setShowPopover] = useState([false,cardID])
+	useEffect(() => {
+		if(showPopover[1] != cardID) {
+			setShowPopover([showPopover[0], cardID])
+		}
+	}, [showPopover, cardID])
 	const handleRowClick = (event, id) => {
 		setCurrentBody(props.bodies.find((body, index) => (body.id === id)))
-
+		let test
+		cardID = props.cardID
+		test = `${props.offCanvas}-action-table-row-id-${id}`
+		setReferenceElement(document.getElementById(test))
+		props.setCardID(id)
+		cardID = id
 		if(showDetails[0] && showDetails[1] === id) {
 			setShowDetails([false, "bla"])
 		}
 		else {
 			setShowDetails([true, id])
 		}
+		
+		if(showPopover[1] === id) {
+			setShowPopover([!showPopover[0], id])
+		}
+		else {
+			if(showPopover[0]) {
+				setShowPopover([showPopover[0], id])
+				props.setCardID(id)
+			}
+			else {
+				setShowPopover([!showPopover[0], id])
+			}
+		}
 	}
-
+	const [referenceElement, setReferenceElement] = useState(null);
+	const [popperElement, setPopperElement] = useState(null);
+	const [arrowElement, setArrowElement] = useState(null);
+	const { styles, attributes } = usePopper(referenceElement, popperElement, {
+		placement: place,
+    	modifiers: [{ name: 'arrow', options: { element: arrowElement } },
+					{ name: "offset", options: { offset: [ 0,10]} }],
+  	});
 	//const ref = useOutsideClick(handleRowClick)
 	const convertTemplate =(damageAtHigherLevel, id, damage) => {
 		let keys
@@ -106,6 +136,20 @@ export const ActionsTable = (props) => {
 	
 	return (
 		<div  key={props.index} style={{marginLeft:"0.5em", marginRight:"0.5em"}}>
+			{ false && showPopover[0] && showPopover[1] === currentBody.id && cardID === currentBody.id ?
+				<div className="popover-test" ref={setPopperElement} style={styles.popper} {...attributes.popper}>
+					{props.spells ? 
+						<SpellCard id={`spellcard-${currentBody.id}`} offCanvas={props.offCanvas} data={currentBody}/> :
+						<ActionCard id ={`actioncard-${currentBody.id}`} data={currentBody}/>
+					}
+					<span
+						ref={setArrowElement}
+						style={styles.arrow}
+						{...attributes.arrow}
+						className={`arrow arrow-${place}`}
+					/>
+				</div> : null
+			}
 			<h5> {props.header} {props.spells ? (props.header === "Cantrip" ? "": "Level") :""} </h5>
 			<Table size="sm" style={{color:"white", border:"black"}} >
 				<thead>
@@ -120,9 +164,9 @@ export const ActionsTable = (props) => {
 				</thead>
 				<tbody>
 					{props.bodies.map( (body, index) => (
-						(props.offCanvas ? filterFunction(body, props.filters, props.searchField) : true) ?
+						(props.offCanvas ? filterFunction(body, props.filters, props.searchField)/*body.filtered*/ : true) ?
 							<React.Fragment key={`${props.offCanvas}-action-table-row-id-${body.id}`}>
-								<tr className="action-table" id={`${props.offCanvas}-action-table-row-id-${body.id}`} onClick={(event) => handleRowClick(event, body.id)} >
+								<tr className="action-table" id={`${props.offCanvas}-action-table-row-id-${body.id}`} onBlur={event => setShowPopover([false, body.id])} onClick={(event) => handleRowClick(event, body.id)} >
 									{props.spells ? 
 										<td  style={{height:"1.5em", width:"1.5em", zIndex:"2"}}>
 											<div className={`checkbox-wrapper`}>
@@ -184,7 +228,7 @@ export const ActionsTable = (props) => {
 									</tr> : null
 								}
 							</React.Fragment>
-						: null ))
+						: "" ))
 					}
 				</tbody>
 			</Table>

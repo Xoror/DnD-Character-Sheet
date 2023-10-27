@@ -1,6 +1,4 @@
 import React from 'react';
-import { useSelector } from "react-redux"
-
 
 import { ResourceBox } from './ResourceBox';
 import { PaginationControl } from '../../components/PaginationControl';

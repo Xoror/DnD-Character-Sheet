@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
-import Card from 'react-bootstrap/Card'
+//import Card from 'react-bootstrap/Card'
+import Card from '../../BootstrapReplace/Card';
 import Container from 'react-bootstrap/Container'
 import FloatingLabel from 'react-bootstrap/FloatingLabel'
 import Form from 'react-bootstrap/Form'
@@ -102,15 +103,13 @@ export const LandingPage = () => {
                     <Card className="landing-page-card">
                         <Card.Header as="h5" style={{backgroundColor:"var(--secondary-element-color)"}}>Quick-Start</Card.Header>
 						<Card.Body>
-                            <>
-                                <p>
-                                    Coming Soon!
-                                </p>
-                                <form onSubmit={handleSubmit}>
-                                    <input></input>
-                                    <button type="submit">Roll</button>
-                                </form>
-                            </>
+                            <p>
+                                Coming Soon!
+                            </p>
+                            <form onSubmit={handleSubmit}>
+                                <input></input>
+                                <button type="submit">Roll</button>
+                            </form>
 						</Card.Body>
 						{false ? <Card.Footer style={{backgroundColor:"var(--secondary-element-color)"}}>
 							<small>Last updated: {todosUpdated}</small>

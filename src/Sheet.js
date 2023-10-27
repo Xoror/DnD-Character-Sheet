@@ -25,7 +25,7 @@ export const Sheet = () => {
         <>
             <DiceLog />
             <Container fluid className="main-style">
-                <Row className="justify-content-md-center" style={{paddingBottom:"0.5em", paddingRight:"1.25em", paddingLeft:"0.75em"}}>
+                <Row className="justify-content-md-center" style={{paddingBottom:"0.5em", paddingRight:"0.75em", paddingLeft:"0.75em"}}>
                     <Col lg={{order:1, span:3}} md={{order:1, span:6}} sm={{order:1, span:6}} className="left-box">
                         <CharacterName/>
                     </Col>
@@ -36,10 +36,10 @@ export const Sheet = () => {
                         <CharacterClass />
                     </Col>
                 </Row>
-                <Row lg={4} md={2} sm={1} xs={1} style={{paddingBottom:"0.5em", paddingRight:"1.25em", paddingLeft:"0.75em"}}>
+                <Row lg={4} md={2} sm={1} xs={1} style={{paddingBottom:"0.5em", paddingRight:"0.75em", paddingLeft:"0.75em"}}>
                     <MiscBar/>
                 </Row>
-                <Row style={{paddingBottom:"0.5em", paddingRight:"1.25em", paddingLeft:"0.75em"}}>
+                <Row style={{paddingBottom:"0.5em", paddingRight:"0.75em", paddingLeft:"0.75em"}}>
                     <Col xl="auto" lg={6} md className="left-column">
                         <Attributes/>
                     </Col>
