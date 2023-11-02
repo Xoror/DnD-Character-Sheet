@@ -1,7 +1,8 @@
 import React, { useState} from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
-import Col from 'react-bootstrap/Col';
+//import Col from 'react-bootstrap/Col'
+import Col from '../../BootstrapReplace/Col';
 
 import { changeDetails, deleteLanguage } from './CharDetailsSlice';
 import { FilterBox } from '../../components/FilterBox';

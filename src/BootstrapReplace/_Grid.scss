@@ -1,0 +1,180 @@
+@use 'sass:math';
+
+$grid-columns: 12 !default;
+$grid-gutter-width: 1.5rem !default;
+$grid-row-columns: 6 !default;
+$container-padding-x: $grid-gutter-width !default;
+
+
+@function breakpoint-infix($name, $breakpoints: $grid-breakpoints) {
+    @return if(breakpoint-min($name, $breakpoints) == null, "", "-#{$name}");
+  }
+@function breakpoint-min($name, $breakpoints: $grid-breakpoints) {
+    $min: map-get($breakpoints, $name);
+    @return if($min != 0, $min, null);
+}
+
+@mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
+    $min: breakpoint-min($name, $breakpoints);
+    @if $min {
+        @media (min-width: $min) {
+            @content;
+        }
+    } @else {
+        @content;
+    }
+}
+@mixin row-cols($count) {
+    > * {
+      flex: 0 0 auto;
+      width: math.div(100%, $count);
+    }
+}
+@mixin make-col-auto() {
+    flex: 0 0 auto;
+    width: auto;
+}
+@mixin make-col($size: false, $columns: $grid-columns) {
+    @if $size {
+      flex: 0 0 auto;
+      width: percentage(math.div($size, $columns));
+  
+    } @else {
+      flex: 1 1 0;
+      max-width: 100%;
+    }
+}
+@mixin make-col-offset($size, $columns: $grid-columns) {
+  $num: math.div($size, $columns);
+  margin-left: if($num == 0, 0, percentage($num));
+}
+
+@mixin make-grid-columns($columns: $grid-columns, $gutter: $grid-gutter-width, $breakpoints: $grid-breakpoints) {
+  @each $breakpoint in map-keys($breakpoints) {
+    $infix: breakpoint-infix($breakpoint, $breakpoints);
+
+    @include media-breakpoint-up($breakpoint, $breakpoints) {
+      // Provide basic `.col-{bp}` classes for equal-width flexbox columns
+      .sg-col#{$infix} {
+        flex: 1 0 0%; // Flexbugs #4: https://github.com/philipwalton/flexbugs#flexbug-4
+      }
+
+      .sg-row-cols#{$infix}-auto > * {
+        @include make-col-auto();
+      }
+
+      @if $grid-row-columns > 0 {
+        @for $i from 1 through $grid-row-columns {
+          .sg-row-cols#{$infix}-#{$i} {
+            @include row-cols($i);
+          }
+        }
+      }
+
+      .sg-col#{$infix}-auto {
+        @include make-col-auto();
+      }
+      
+      @if $columns > 0 {
+        @for $i from 1 through $columns {
+          .sg-col#{$infix}-#{$i} {
+            @include make-col($i, $columns);
+          }
+        }
+        
+        
+        // `$columns - 1` because offsetting by the width of an entire row isn't possible
+        @for $i from 0 through ($columns - 1) {
+          @if not ($infix == "" and $i == 0) { // Avoid emitting useless .offset-0
+            .sg-offset#{$infix}-#{$i} {
+              @include make-col-offset($i, $columns);
+            }
+          }
+        }
+      }
+      
+    }
+  }
+}
+@mixin make-row($gutter: $grid-gutter-width) {
+    --sg-gutter-x: #{$gutter};
+    --sg-gutter-y: 0;
+    display: flex;
+    flex-wrap: wrap;
+    // TODO: Revisit calc order after https://github.com/react-bootstrap/react-bootstrap/issues/6039 is fixed
+    margin-top: calc(-1 * var(--sg-gutter-y)); // stylelint-disable-line function-disallowed-list
+    margin-right: calc(-.5 * var(--sg-gutter-x)); // stylelint-disable-line function-disallowed-list
+    margin-left: calc(-.5 * var(--sg-gutter-x)); // stylelint-disable-line function-disallowed-list
+}
+  
+@mixin make-col-ready() {
+    // Add box sizing if only the grid is loaded
+    box-sizing: if(variable-exists(include-column-box-sizing) and $include-column-box-sizing, border-box, null);
+    // Prevent columns from becoming too narrow when at smaller grid tiers by
+    // always setting `width: 100%;`. This works because we set the width
+    // later on to override this initial width.
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 100%; // Prevent `.col-auto`, `.col` (& responsive variants) from breaking out the grid
+    padding-right: calc(var(--sg-gutter-x) * .5); // stylelint-disable-line function-disallowed-list
+    padding-left: calc(var(--sg-gutter-x) * .5); // stylelint-disable-line function-disallowed-list
+    margin-top: var(--sg-gutter-y);
+}
+
+
+
+.sg-row {
+    @include make-row();
+
+    > * {
+      @include make-col-ready();
+    }
+}
+
+@include make-grid-columns();
+
+
+/* Containers */
+
+@mixin make-container($gutter: $container-padding-x) {
+  --sg-gutter-x: #{$gutter};
+  --sg-gutter-y: 0;
+  width: 100%;
+  padding-right: calc(var(--sg-gutter-x) * .5); // stylelint-disable-line function-disallowed-list
+  padding-left: calc(var(--sg-gutter-x) * .5); // stylelint-disable-line function-disallowed-list
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.sg-container,             // Single container class with breakpoint max-widths
+.sg-container-fluid {      // 100% wide container at all breakpoints
+  @include make-container();
+}
+// Responsive containers that are 100% wide until a breakpoint
+@each $breakpoint, $container-max-width in $container-max-widths {
+  .sg-container-#{$breakpoint} {
+    @extend .sg-container-fluid;
+  }
+
+  @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+    %responsive-sg-container-#{$breakpoint} {
+      max-width: $container-max-width;
+    }
+
+    // Extend each breakpoint which is smaller or equal to the current breakpoint
+    $extend-breakpoint: true;
+
+    @each $name, $width in $grid-breakpoints {
+      @if ($extend-breakpoint) {
+        .sg-container#{breakpoint-infix($name, $grid-breakpoints)} {
+          @extend %responsive-sg-container-#{$breakpoint};
+        }
+
+        // Once the current breakpoint is reached, stop extending
+        @if ($breakpoint == $name) {
+          $extend-breakpoint: false;
+        }
+      }
+    }
+  }
+}

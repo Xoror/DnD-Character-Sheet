@@ -3,10 +3,8 @@ import { useDispatch } from "react-redux"
 
 import { AiFillCloseSquare } from "react-icons/ai";
 
-import Button from 'react-bootstrap/Button';
-import InputGroup from 'react-bootstrap/InputGroup';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
+//import Button from 'react-bootstrap/Button';
+import Button from '../../BootstrapReplace/CustomButton';
 
 
 import { editResource, deleteResource } from './ResourcesSlice';

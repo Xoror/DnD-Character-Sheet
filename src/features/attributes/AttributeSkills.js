@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from "react-redux"
 
-import Row from 'react-bootstrap/Row';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
 
 import { AiFillCloseSquare } from "react-icons/ai";
 

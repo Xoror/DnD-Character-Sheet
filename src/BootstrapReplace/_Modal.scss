@@ -1,0 +1,239 @@
+@use "sass:color";
+@use "mixins";
+
+$sg-modal-margin: 0.5em;
+$sg-modal-background-color: #2e3236;
+$sg-modal-text-color: white;
+$sg-modal-radius: 0.5em;
+$sg-modal-transition: transform .3s ease-out;
+
+.sg-modal-open {
+  overflow: hidden;
+  padding-right: 29px;
+}
+
+.sg-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: $zindex-modal-backdrop;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+
+  // Fade for backdrop
+  &.fadeIn {
+    animation-name: fadeInBackdrop;
+    animation-duration: .3s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+  }
+  &.fadeOut {
+    animation-name: fadeOutBackdrop;
+    animation-duration: .3s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+  }
+}
+@keyframes fadeInBackdrop {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+@keyframes fadeOutBackdrop {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.sg-modal { //scroll ocntainer
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: $zindex-modal;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  // Prevent Chrome on Windows from adding a focus outline. For details, see
+  // https://github.com/twbs/bootstrap/pull/10951.
+  outline: 0;
+  // We deliberately don't use `-webkit-overflow-scrolling: touch;` due to a
+  // gnarly iOS Safari bug: https://bugs.webkit.org/show_bug.cgi?id=158342
+  // See also https://github.com/twbs/bootstrap/issues/17695
+}
+
+.sg-modal-dialog { //shell to position modal with bottom-padding
+  z-index: calc($zindex-modal + 1);
+  position: relative;
+  width: auto;
+  margin: calc(4 * $sg-modal-margin);
+  // allow clicks to pass through for custom click handling to close modal
+  pointer-events: none;
+
+  // slide down animation
+  .sg-modal.fadeIn & {
+    animation-name: fadeIn;
+    animation-duration: .3s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+    //transition: $sg-modal-transition;
+    //transform: translate(0, -50px);
+  }
+  .sg-modal.fadeOut & {
+    animation-name: fadeOut;
+    animation-duration: .3s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+    //transition: $sg-modal-transition;
+    //transform: translate(0, -50px);
+  }
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      top: -50px;
+    }
+    100% {
+      opacity: 1;
+      top: 0px;
+    }
+  }
+  
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+      top: 0px;
+    }
+    100% {
+      opacity: 0;
+      top: -50px;
+    }
+  }
+
+  // make modal flash onBlur if static backdrop
+  .sg-modal.sg-modal-static & {
+    transition: $sg-modal-transition;
+    transform: scale(1.02);
+  }
+}
+
+.sg-modal-dialog-scrollable {
+  height: calc(100% - $sg-modal-margin * 2);
+
+  .sg-modal-content {
+    max-height: 100%;
+    overflow: hidden;
+  }
+
+  .sg-modal-body {
+    overflow-y: auto;
+  }
+}
+.sg-modal-dialog-centered {
+  display: flex;
+  align-items: center;
+  min-height: calc(100% - $sg-modal-margin * 2);
+}
+
+.sg-modal-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%; // Ensure `.modal-content` extends the full width of the parent `.modal-dialog`
+  // counteract the pointer-events: none; in the .modal-dialog
+  color: $sg-modal-text-color;
+  pointer-events: auto;
+  background-color: $sg-modal-background-color;
+  background-clip: padding-box;
+  border: 1px solid $sg-modal-text-color;
+  border-radius: $sg-modal-radius;
+  // Remove focus outline from opened modal
+  outline: 0;
+}
+
+.sg-modal-header {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between; // Put modal header elements (title and dismiss) on opposite ends
+  padding: 1em;
+  border-bottom: 1px solid $sg-modal-text-color;
+  @include border-top-radius($sg-modal-radius);
+
+  .sg-button-close {
+    padding: 0.5em 0.5em;
+    margin: calc(-.5 * $sg-modal-margin) calc(-.5 * $sg-modal-margin) calc(-.5 * $sg-modal-margin) auto;
+  }
+}
+.sg-modal-title {
+  margin-bottom: 0;
+}
+
+.sg-modal-body {
+  position: relative;
+  flex: 1 1 auto;
+  padding: 1em;
+  background-color: color.mix(white,$sg-modal-background-color, 10%);
+}
+.sg-modal-footer {
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0.75em;
+  background-color: $sg-modal-background-color;
+  border-top: 1px solid $sg-modal-text-color;
+  @include border-bottom-radius($sg-modal-radius);
+
+  gap: 0.5em;
+}
+
+$modal-lg: 800px !default;
+$modal-xl: 1140px !default;
+
+$container-max-widths: ( sm: 540px, md: 720px, lg: 960px, xl: 1140px, xxl: 1320px ) !default;
+$grid-breakpoints: (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px, xxl: 1400px ) !default;
+
+@each $breakpoint, $value in $grid-breakpoints {
+  @if $breakpoint == "xs" {
+    @media (max-width: 575px) {
+      .sg-modal-dialog {
+        margin: 0.5em;
+      }
+    }
+  }
+  @if $breakpoint == "sm" {
+    @media (min-width: 576px) {
+      .sg-modal-dialog {
+        max-width: 500px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+      .sg-modal-sm {
+        max-width: 300px
+      }
+    }
+  }
+  @else if $breakpoint == "lg" {
+    @media (min-width: 992px) {
+      .modal-lg, .modal-xl {
+        max-width: 800px;
+      }
+    }
+  }
+  @else if $breakpoint == "xl" {
+    @media (min-width: 1200px) {
+      .modal-xl {
+        max-width: 1140px;
+      }
+    }
+  }
+}

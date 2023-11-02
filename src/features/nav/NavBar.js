@@ -10,10 +10,13 @@ import { AiFillTwitterCircle, AiOutlineGithub } from "react-icons/ai"
 import { FaReact } from "react-icons/fa";
 import { GiDiceTwentyFacesOne } from "react-icons/gi";
 
-import Container from 'react-bootstrap/Container';
+//import Container from 'react-bootstrap/Container'
+import Container from '../../BootstrapReplace/Container';
 import Navbar from 'react-bootstrap/Navbar';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
+//import Button from 'react-bootstrap/Button';
+import Button from '../../BootstrapReplace/CustomButton';
+//import Modal from 'react-bootstrap/Modal';
+import Modal from '../../BootstrapReplace/Modal';
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 import Form from 'react-bootstrap/Form';
@@ -274,7 +277,7 @@ export const NavBar = () => {
 							<Toast.Body>Autosave complete!</Toast.Body>
 						</Toast>
 					</ToastContainer>
-					<Modal contentClassName="modal-custom" show={showSafetyBox} onHide={() => setShowSafetyBox(false)}>
+					<Modal backdrop="static" show={showSafetyBox} onHide={() => setShowSafetyBox(false)}>
 						{modalType === "safety" ? 
 							<>
 								<Modal.Header closeButton>
@@ -319,7 +322,7 @@ export const NavBar = () => {
 							}
 					</Modal>
 				</> : 
-					<Modal contentClassName="modal-custom" show={showSafetyBox} onHide={() => setShowSafetyBox(false)}>
+					<Modal backdrop="static" show={showSafetyBox} onHide={() => setShowSafetyBox(false)}>
 						<Modal.Header closeButton>
 							<Modal.Title>Are you sure you want to start a new character?</Modal.Title>
 						</Modal.Header>

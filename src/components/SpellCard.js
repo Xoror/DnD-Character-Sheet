@@ -2,9 +2,12 @@ import React from "react";
 
 import "./SpellCard.scss"
 
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import CloseButton from 'react-bootstrap/CloseButton';
+//import Row from 'react-bootstrap/Row'
+import Row from '../BootstrapReplace/Row';
+//import Col from 'react-bootstrap/Col'
+import Col from '../BootstrapReplace/Col';
+//import CloseButton from 'react-bootstrap/CloseButton';
+import CloseButton from '../BootstrapReplace/CloseButton';
 
 /*
     Required Inputs: 
@@ -70,7 +73,7 @@ export const SpellCard = (props) => {
     }
     return(
         <div key={props.id} className={`${props.show} spellcard`}>
-            <h4>{data.name}{false ? <CloseButton variant="white" style={{float:"right", width:"0.5em", height:"0.5em", margin:"0.25em"}}/>:null}</h4>
+            <h4>{data.name}{true ? <CloseButton variant="white" style={{float:"right", width:"0.5em", height:"0.5em", margin:"0.25em"}}/>:null}</h4>
             {props.offCanvas ? <h6> Classes: {classes} </h6> : null}
             <Row className="spellcard-row">
                 <Col>

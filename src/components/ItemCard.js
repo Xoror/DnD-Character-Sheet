@@ -2,8 +2,10 @@ import React from "react";
 
 import "./ItemCard.scss"
 
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
+//import Row from 'react-bootstrap/Row'
+import Row from '../BootstrapReplace/Row';
+//import Col from 'react-bootstrap/Col'
+import Col from '../BootstrapReplace/Col';
 
 /*
     Required Inputs: 

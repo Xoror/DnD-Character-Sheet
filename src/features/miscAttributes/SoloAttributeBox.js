@@ -1,11 +1,13 @@
 import React, { useState} from 'react';
 import { useDispatch } from "react-redux"
 
-import Button from 'react-bootstrap/Button';
+//import Button from 'react-bootstrap/Button';
+import Button from '../../BootstrapReplace/CustomButton';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import Modal from 'react-bootstrap/Modal';
+//import Modal from 'react-bootstrap/Modal';
+import Modal from '../../BootstrapReplace/Modal';
 
 import { RiFileEditFill } from "react-icons/ri";
 
@@ -53,7 +55,7 @@ export const AttributeBox = (props) => {
 	}
 	return (
 		<div className="AttributeBox2">
-			<Modal contentClassName="modal-custom" size="lg" show={show} onHide={handleClose}>
+			<Modal backdrop="static" size="lg" show={show} onHide={handleClose}>
 				<Modal.Header closeButton>
 					<Modal.Title> Edit {props.name} </Modal.Title>
 				</Modal.Header>
@@ -72,7 +74,7 @@ export const AttributeBox = (props) => {
 					</Modal.Body>
 
 					<Modal.Footer>
-						<Button variant="danger" onClick={handleClose}>
+						<Button variant="danger" type="button" onClick={handleClose}>
 							Close
 						</Button>
 						<Button type="submit" variant="primary" onClick={handleClose}>

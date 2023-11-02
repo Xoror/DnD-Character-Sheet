@@ -1,8 +1,7 @@
-import React from "react";
+import React, { forwardRef } from "react"
 
-import "./Card.scss"
 
-const Card = ({children, className, ...restProps}) => {
+const Card = ({children, className, ...restProps}, ref) => {
     let subComponentList = Object.keys(Card);
 
    let subComponents = []
@@ -25,7 +24,7 @@ const Card = ({children, className, ...restProps}) => {
     )
 }
 
-const Header = ({as, className, children, ...restProps}) => {
+const Header = ({as, className, children, ...restProps}, ref) => {
     let validAs = ["div", "span", "h1", "h2", "h3", "h4", "h5", "h6"]
     let Component = validAs.find(valid => valid === as) ? as : "div"
     return (
@@ -36,7 +35,7 @@ const Header = ({as, className, children, ...restProps}) => {
 }
 Card.Header = Header;
 
-const Body = ({children, className, ...restProps}) => {
+const Body = ({children, className, ...restProps}, ref) => {
     children = children.length ? children.filter(child => child != null && child != "") : children
     let subComponents = []
     React.Children.forEach(children, (child) => {
@@ -50,7 +49,7 @@ const Body = ({children, className, ...restProps}) => {
 }
 Card.Body = Body;
 
-const Title = ({as, className, children, ...restProps}) => {
+const Title = ({as, className, children, ...restProps}, ref) => {
     let validAs = ["h1", "h2", "h3", "h4", "h5", "h6"]
     let Component = validAs.find(valid => valid === as) ? as : "h5"
     return (
@@ -61,7 +60,7 @@ const Title = ({as, className, children, ...restProps}) => {
 }
 Card.Title = Title;
 
-const Text = ({children, className, ...restProps}) => {
+const Text = ({children, className, ...restProps}, ref) => {
     return (
         <p className={`sg-card-text ${className}`} {...restProps}>
             {children}
@@ -70,7 +69,7 @@ const Text = ({children, className, ...restProps}) => {
 }
 Card.Text = Text;
 
-const Footer = ({children, className, ...restProps}) => {
+const Footer = ({children, className, ...restProps}, ref) => {
     return (
         <div className={`sg-card-footer ${className}`} {...restProps}>
             {children}

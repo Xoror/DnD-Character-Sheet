@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from "react-redux"
 
 //import Card from 'react-bootstrap/Card'
 import Card from '../../BootstrapReplace/Card';
-import Button from 'react-bootstrap/Button';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
+//import Button from 'react-bootstrap/Button';
+import Button from '../../BootstrapReplace/CustomButton';
+//import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import ButtonGroup from '../../BootstrapReplace/ButtonGroup';
 import Table from 'react-bootstrap/Table';
 
 import { InventoryTable } from './InventoryTable'

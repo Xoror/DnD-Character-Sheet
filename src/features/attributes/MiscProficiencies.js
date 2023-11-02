@@ -1,7 +1,5 @@
 import React from 'react';
 
-import Container from 'react-bootstrap/Container'
-
 import { MiscProficienciesList } from './MiscProficienciesList';
 
 export const MiscProficiencies = (props) => {

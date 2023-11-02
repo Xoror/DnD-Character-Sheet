@@ -1,13 +1,16 @@
 import React, { useState} from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
-import Button from 'react-bootstrap/Button';
+//import Button from 'react-bootstrap/Button';
+import Button from '../../BootstrapReplace/CustomButton';
+import ButtonGroup from '../../BootstrapReplace/ButtonGroup';
 //import Card from 'react-bootstrap/Card';
 import Card from '../../BootstrapReplace/Card';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import Modal from 'react-bootstrap/Modal';
+//import Modal from 'react-bootstrap/Modal';
+import Modal from '../../BootstrapReplace/Modal';
 import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
 import Tab from 'react-bootstrap/Tab';
@@ -99,7 +102,7 @@ export const ResourcesMiscProficiencies = () => {
 
 	return (
 	<>
-		<Modal contentClassName="modal-custom" show={showAddResource}>
+		<Modal backdrop="static" size="lg" show={showAddResource} onHide={handleCloseAddResource}>
 			<Form onSubmit={handleAddResource}>
 				<Modal.Header>
 					<Modal.Title> Add Resource </Modal.Title>
@@ -140,7 +143,7 @@ export const ResourcesMiscProficiencies = () => {
 					</InputGroup>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button variant="danger" onClick={handleCloseAddResource}>
+					<Button variant="danger" type="button" onClick={handleCloseAddResource}>
 						Close
 					</Button>
 					<Button variant="success" type="submit">
@@ -150,7 +153,7 @@ export const ResourcesMiscProficiencies = () => {
 			</Form>
 		</Modal>
 		
-		<Modal contentClassName="modal-custom" show={showAddMiscProf}>
+		<Modal backdrop="static" size="lg" show={showAddMiscProf} onHide={handleCloseAddMiscProf}>
 			<Form onSubmit={(event) => handleAddMiscProficiency(event)} >
 				<Modal.Header>
 					<Modal.Title> Add Misc Proficiency </Modal.Title>
@@ -204,7 +207,7 @@ export const ResourcesMiscProficiencies = () => {
 					</InputGroup>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button variant="danger" onClick={handleCloseAddMiscProf}>
+					<Button variant="danger" type="button" onClick={handleCloseAddMiscProf}>
 						Close
 					</Button>
 					<Button variant="primary" type="submit">
@@ -227,8 +230,10 @@ export const ResourcesMiscProficiencies = () => {
 					</Tab.Pane>
 					<Tab.Pane eventKey="miscProfs">
 						<MiscProficiencies proficienciesTypes={proficienciesTypes} skills={skills} editing={editing} setEditing={setEditing}/>
-							<Button variant="primary" onClick={handleShowAddMiscProf} style={{width:"50%",borderRadius:"0 0 0 0.375em"}}> Add </Button>
-							<Button variant={editing ? "danger":"success"} onClick ={startEditing} style={{width:"50%",borderRadius:"0 0 0.375em 0"}}>{editing ? "Cancel" : "Edit"}</Button>
+						<ButtonGroup style={{width:"100%"}}>
+							<Button variant="primary" onClick={handleShowAddMiscProf} style={{borderTopLeftRadius:"0"}}> Add </Button>
+							<Button variant={editing ? "danger":"success"} onClick ={startEditing} style={{borderTopRightRadius:"0"}}>{editing ? "Cancel" : "Edit"}</Button>
+						</ButtonGroup>
 					</Tab.Pane>
 				</Tab.Content>
 			</Tab.Container>

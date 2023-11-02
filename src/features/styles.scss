@@ -1,5 +1,7 @@
 @use "sass:color";
 
+@use "../BootstrapReplace/BootstrapReplace.scss";
+
 $background-color: #2e3236;
 $main-element-color: #5b656d;/*#6c757d*/
 $secondary-element-color: color.scale(#5b656d, $lightness: -20%);
@@ -802,7 +804,7 @@ body {
     user-select: none;
 }
 
-.button {
+.window-button {
     display: inline-block;
 	border: 1px solid var(--nav-color);
 	border-radius: 0.375em;
@@ -812,18 +814,18 @@ body {
 	color: var(--nav-hover-border);
 }
 
-.button.close { 
+.window-button.close { 
 	&:hover { 
 		background: var(--bs-danger); 
 		border: 1px solid var(--nav-hover-border);
 	}
 }
-.button.minimize { 
+.window-button.minimize { 
 	&:hover { 
 		border: 1px solid var(--nav-hover-border);
 	}
 }
-.button.maximize { 
+.window-button.maximize { 
 	&:hover { 
 		border: 1px solid var(--nav-hover-border);
 	}
@@ -1276,9 +1278,6 @@ body {
 	background-color: var(--main-element-color);
 }
 
-.feature-card .btn-group {
-	width: 100%;
-}
 
 [id="features-list"] .feature-card:nth-child(even) {
 	background-color: var(--secondary-element-color);

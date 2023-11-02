@@ -28,10 +28,10 @@ $primary-color:#0d6efd;
 	color: black;
 }
 .create-add-button {
-	line-height: 1.5;
+	line-height: 1.4;
 	width: max-content;
 	border-radius: 0 0.25em 0.25em 0;
-	padding: 0.125em 0.375em 0.125em 0.375em;
+	padding: 0em 0.25em 0em 0.25em;
 	margin: 0.0625em 0.125em 0.0625em 0;
 
 	background-color: $primary-color;
@@ -48,7 +48,6 @@ $primary-color:#0d6efd;
 	&:focus-visible {
 		box-shadow: 0 0 0 3px white;
 		outline: 2px solid $primary-color;
-		color: black;
 		border-color: black;
 	}
 	

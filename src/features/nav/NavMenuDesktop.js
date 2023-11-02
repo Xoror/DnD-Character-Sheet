@@ -169,13 +169,13 @@ export const NavMenuDesktop = (props) => {
             }
             {!props.webServer ? <div className="not-draggable" style={{marginLeft:"auto"}}>
                 <button style={{margin: "0 0.25em", backgroundColor:"var(--nav-color)"}} className="react-icons-button" onClick={() => window.api.buttonInteraction("min")} aria-label="minimize window button">
-                    <VscChromeMinimize className="button minimize"/>
+                    <VscChromeMinimize className="window-button minimize"/>
                 </button>
                 <button style={{margin: "0 0.25em", backgroundColor:"var(--nav-color)"}} className="react-icons-button" onClick={() => window.api.buttonInteraction("max")} aria-label="maximize window button">
-                    <VscChromeMaximize className="button maximize"/>
+                    <VscChromeMaximize className="window-button maximize"/>
                 </button>
                 <button style={{margin: "0 0 0 0.25em", backgroundColor:"var(--nav-color)"}} className="react-icons-button" onClick={() => window.api.buttonInteraction("close")} aria-label="minimize window button">
-                    <VscChromeClose className="button close"/>
+                    <VscChromeClose className="window-button close"/>
                 </button>
             </div> : (loginStatus != "fulfilled" ?
                     <div style={{marginLeft:"auto", marginTop:"auto", marginBottom:"auto"}}>

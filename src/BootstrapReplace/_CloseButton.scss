@@ -1,0 +1,55 @@
+@use "functions";
+
+$sg-button-close-bg: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='#{black}'><path d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/></svg>") !default;
+
+.sg-button-close {
+    box-sizing: content-box;
+    width: 1em;
+    height: 1em;
+    padding: 0.25em 0.25em;
+    color: black;
+    background: transparent $sg-button-close-bg center / 1em auto no-repeat; // include transparent for button elements
+    border: 0; // for button elements
+    border-radius: 0.125em;
+    opacity: 0.5;
+  
+    // Override <a>'s hover style
+    &:hover {
+      color: black;
+      text-decoration: none;
+      opacity: 0.75;
+    }
+    &:focus-visible {
+        box-shadow: 0 0 0 3px black;
+        outline: 2px solid white;
+        opacity: 1;
+    }
+    &:focus:not(:focus-visible) {
+        box-shadow: 0 0 0 3px black;
+        outline: 2px solid white;
+        opacity: 1;
+    }
+
+    &:disabled,
+    &.disabled {
+      pointer-events: none;
+      user-select: none;
+      opacity:0.25;
+    }
+  }
+  
+  .sg-button-close-white {
+    filter: invert(1) grayscale(100%) brightness(200%);
+  }
+
+.sg-close-visually-hidden-label {
+	position: absolute !important;
+	width: 1px !important;
+	height: 1px !important;
+	padding: 0 !important;
+	margin: -1px !important;
+	overflow: hidden !important;
+	clip: rect(0,0,0,0) !important;
+	white-space: nowrap !important;
+	border: 0 !important;
+}

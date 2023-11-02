@@ -1,12 +1,14 @@
 import React, { useCallback, useEffect, useReducer, useRef, useState } from "react";
 
-import Button from 'react-bootstrap/Button';
+//import Button from 'react-bootstrap/Button';
+import Button from '../../BootstrapReplace/CustomButton';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
-import Modal from "react-bootstrap/Modal";
+//import Modal from "react-bootstrap/Modal";
+import Modal from '../../BootstrapReplace/Modal';
 import { useFocus } from "../../components/CustomHooks";
 
 export const ActionsAdd = (props) => {
@@ -240,7 +242,7 @@ export const ActionsAdd = (props) => {
                     }
                 </Modal.Body>
                 {modal ? <Modal.Footer>
-                    <Button variant="danger" onClick={() => props.setShowAddAction(false)}>
+                    <Button variant="danger" type="button" onClick={() => props.setShowAddAction(false)}>
                         Close
                     </Button>
                     <Button variant="primary" type="submit">
@@ -365,7 +367,7 @@ export const ActionsAdd = (props) => {
                 </InputGroup>
                 {addActionForm(false, defaultValues)}
             </div>
-            <Modal backdrop="static" aria-labelledby={`add-new-${ariaLabel}-dialog`} contentClassName="modal-custom" size="lg" show={props.showAddAction} onHide={() => props.setShowAddAction(false)}>
+            <Modal backdrop="static" aria-labelledby={`add-new-${ariaLabel}-dialog`} size="lg" show={props.showAddAction} onHide={() => props.setShowAddAction(false)}>
                 <Modal.Header closeButton>
 					<Modal.Title as="label" id={`add-new-${ariaLabel}-dialog`}>
 						Adding a new {spells ? "Spell":"Action"}

@@ -2,8 +2,10 @@ import React from "react";
 
 import "./ActionCard.scss"
 
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
+//import Row from 'react-bootstrap/Row'
+import Row from '../BootstrapReplace/Row';
+//import Col from 'react-bootstrap/Col'
+import Col from '../BootstrapReplace/Col';
 //import Card from 'react-bootstrap/Card'
 import Card from '../BootstrapReplace/Card';
 

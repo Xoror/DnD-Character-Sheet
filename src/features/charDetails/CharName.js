@@ -23,6 +23,7 @@ export const CharacterName = () => {
 	const handleChecked = (event) => {
 		dispatch(changeIsCaster(event.target.checked))
 	}
+	console.log(width)
 	return (
 		<div id="CharacterName" /*className='alert alert-secondary'*/>
 			<label id="character-name-label">Character Name: {width} </label>

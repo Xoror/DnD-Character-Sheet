@@ -1,8 +1,10 @@
 import React, { useState} from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
-import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button'
+//import Col from 'react-bootstrap/Col'
+import Col from '../../BootstrapReplace/Col';
+//import Button from 'react-bootstrap/Button'
+import Button from '../../BootstrapReplace/CustomButton';
 
 import { MdUnfoldMoreDouble, MdUnfoldLessDouble } from "react-icons/md"
 

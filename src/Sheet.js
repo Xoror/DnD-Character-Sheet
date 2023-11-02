@@ -2,9 +2,12 @@ import React from 'react'
 import { useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
+//import Container from 'react-bootstrap/Container'
+import Container from './BootstrapReplace/Container';
+//import Row from 'react-bootstrap/Row'
+import Row from './BootstrapReplace/Row';
+//import Col from 'react-bootstrap/Col'
+import Col from './BootstrapReplace/Col';
 
 // Add code to import the components
 import { MiscInfo } from './features/charDetails/CharMisc'

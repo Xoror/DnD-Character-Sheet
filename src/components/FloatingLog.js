@@ -5,7 +5,8 @@ import "./FloatingLog.scss"
 import { GoLog } from "react-icons/go";
 
 
-import Button from 'react-bootstrap/Button'
+//import Button from 'react-bootstrap/Button'
+import Button from '../BootstrapReplace/CustomButton';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 
 export const FloatingLog = (props) => {

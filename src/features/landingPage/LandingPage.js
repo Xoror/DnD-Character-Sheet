@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import Col from 'react-bootstrap/Col'
-import Row from 'react-bootstrap/Row'
 //import Card from 'react-bootstrap/Card'
 import Card from '../../BootstrapReplace/Card';
-import Container from 'react-bootstrap/Container'
+//import Container from 'react-bootstrap/Container'
+import Container from '../../BootstrapReplace/Container';
+//import Row from 'react-bootstrap/Row'
+import Row from '../../BootstrapReplace/Row';
+//import Col from 'react-bootstrap/Col'
+import Col from '../../BootstrapReplace/Col';
 import FloatingLabel from 'react-bootstrap/FloatingLabel'
 import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
+//import Button from 'react-bootstrap/Button'
+import Button from '../../BootstrapReplace/CustomButton';
 
 import { IoReloadOutline } from "react-icons/io5"
 

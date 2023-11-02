@@ -1,0 +1,107 @@
+@use "sass:string";
+@use "sass:color";
+@use "sass:list";
+
+//$colors: ("red": #FD8A8A, "yellow": #F1F7B5, "green": #A8D1D1, "blue": #9EA1D4);
+//$colors: ("red": #eb3333, "yellow": #f8d613, "green": #0c860c, "blue": #145ec0);
+$colors: ("red": #E15554, "green": #3BB273, "yellow": #E1BC29, "blue": #4D9DE0, "purple": #7768AE);
+$hover-colors: (color.mix(#000000, #eb3333, 15%), color.mix(#000000, #f8d613, 15%), color.mix(#000000, #0c860c, 15%) ,color.mix(#000000, #145ec0, 15%));
+$active-colors: (color.mix(#000000, #eb3333, 20%), color.mix(#000000, #f8d613, 20%), color.mix(#000000, #0c860c, 20%) ,color.mix(#000000, #145ec0, 20%));
+
+$colors: ("primary": #0d6efd, "secondary": #6c757d, "success": #198754, "info": #0dcaf0, "warning": #ffc107, "danger": #dc3545, "light": #f8f9fa, "dark": #212529);
+
+
+@each $name, $color in $colors {
+    $text-color: color-contrast($color);
+    $hover-background: if($text-color == $color-contrast-light, color.mix(black, $color, 15%), color.mix(white, $color, 15%));
+    $active-background: if($text-color == $color-contrast-light, color.mix(black, $color, 20%), color.mix(white, $color, 20%));
+    .sg-button-#{$name} {
+        background-color: $color;
+        border: 1px solid /*inset*/ $color;
+        border-radius: 0.375em;
+        color: $text-color;
+        min-width: fit-content;
+        padding: 0.375em 0.75em;
+        display: inline-block;
+        &:hover{
+            background-color: $hover-background;
+            border-color: $hover-background;
+        }
+        &:active{
+            background-color: $active-background;
+            border-color: $active-background;
+        }
+        &:focus-visible {
+            box-shadow: 0 0 0 3px $text-color;
+            border: 1px solid $text-color;
+            outline: 2px solid $color;
+        }
+    }
+    .sg-button-group > .btn-#{$name} {
+        position: relative;
+        flex: 1 1 auto;
+    }
+}
+
+.sg-button-group, .sg-button-group-vertical {
+    position: relative;
+    display: inline-flex;
+    vertical-align: middle;
+    border-radius: 0.375em;
+    //width: 100%;
+    > .sg-button {
+        position: relative;
+        flex: 1 1 auto;
+    }
+}
+.sg-button-group {
+    // Prevent double borders when buttons are next to each other
+    > :not(.sg-button-check:first-child) + .sg-button, > .sg-button-group:not(:first-child) {
+        margin-left: -1px;
+    }
+
+    // Reset rounded corners
+    > .sg-button:not(:last-child), > .sg-button-group:not(:last-child) > .sg-button {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    // The left radius should be 0 if the button is:
+    // - the "third or more" child
+    // - the second child and the previous element isn't `.btn-check` (making it the first child visually)
+    // - part of a btn-group which isn't the first child
+    > .sg-button:nth-child(n + 3), > :not(.sg-button-check) + .sg-button, > .sg-button-group:not(:first-child) > .sg-button {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+}
+
+.sg-button-group-vertical {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  
+    > .sg-button,
+    > .sg-button-group {
+      width: 100%;
+    }
+  
+    > .sg-button:not(:first-child),
+    > .sg-button-group:not(:first-child) {
+      margin-top: -1px;
+    }
+  
+    // Reset rounded corners
+    > .sg-button:not(:last-child):not(.dropdown-toggle),
+    > .sg-button-group:not(:last-child) > .sg-button {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+  
+    > .sg-button ~ .sg-button,
+    > .sg-button-group:not(:first-child) > .sg-button {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+  }
+

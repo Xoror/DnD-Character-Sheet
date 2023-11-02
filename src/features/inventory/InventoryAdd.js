@@ -1,12 +1,14 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux"
 
-import Button from 'react-bootstrap/Button'
+//import Button from 'react-bootstrap/Button'
+import Button from '../../BootstrapReplace/CustomButton';
 import Form from 'react-bootstrap/Form'
 import FloatingLabel from 'react-bootstrap/FloatingLabel'
 import InputGroup from 'react-bootstrap/InputGroup'
 import CreatableSelect from 'react-select/creatable'
-import Modal from "react-bootstrap/Modal"
+//import Modal from "react-bootstrap/Modal"
+import Modal from '../../BootstrapReplace/Modal';
 
 import { addContainer } from "./InventorySlice"
 
@@ -139,7 +141,7 @@ export const InventoryAdd = (props) => {
                     </FloatingLabel>
                 </Modal.Body>
                 {modal ? <Modal.Footer>
-                    <Button variant="danger" onClick={() => props.setShowAddItem(false)}>
+                    <Button variant="danger" type="button" onClick={() => props.setShowAddItem(false)}>
                         Close
                     </Button>
                     <Button variant="primary" type="submit">
@@ -164,7 +166,7 @@ export const InventoryAdd = (props) => {
                 </Form>
             </div>
 
-            <Modal backdrop="static" aria-labelledby="add-new-item-dialog" contentClassName="modal-custom" size="lg" show={props.showAddItem} onHide={() => props.setShowAddItem(false)}>
+            <Modal backdrop="static" aria-labelledby="add-new-item-dialog" size="lg" show={props.showAddItem} onHide={() => props.setShowAddItem(false)}>
                 <Modal.Header closeButton>
 					<Modal.Title as="label" id="add-new-item-dialog">
 						Adding a new Item

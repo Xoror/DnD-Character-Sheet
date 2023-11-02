@@ -1,10 +1,12 @@
 import React, { useState} from 'react';
 import { useDispatch } from "react-redux"
 
-import Button from 'react-bootstrap/Button';
+//import Button from 'react-bootstrap/Button';
+import Button from '../../BootstrapReplace/CustomButton';
+//import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import ButtonGroup from '../../BootstrapReplace/ButtonGroup';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import { Container } from 'react-bootstrap';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';

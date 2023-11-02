@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./MoneyPouch.scss"
 
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
+//import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import ButtonGroup from '../BootstrapReplace/ButtonGroup'
 import InputGroup from 'react-bootstrap/InputGroup';
 
 /*
@@ -74,12 +75,15 @@ export const MoneyPouch = (props) => {
                             key={currency} 
                             className={styleFunction(index, currencies) + " money-edit-button"} 
                             style={{backgroundColor: colors[index]}} onClick={(event) => {handleShow(event, index)}}
-                        >{moneyPouch[currency]} {currencies_shortnames[currency]}</button>
+                        >
+                            {moneyPouch[currency]} {currencies_shortnames[currency]}
+                        </button>
                         :
                         <ButtonGroup  
                             key={currency} 
                             id="currency" 
-                            vertical style={{zIndex:"5"}} 
+                            vertical 
+                            style={{zIndex:"5"}} 
                             aria-label={`adjust amount of ${currency} you have`
                         }>
                             <button 

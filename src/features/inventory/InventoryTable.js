@@ -3,8 +3,11 @@ import { useDispatch } from "react-redux"
 
 import { usePopper } from 'react-popper';
 
-import Button from 'react-bootstrap/Button';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
+//import Button from 'react-bootstrap/Button';
+import Button from '../../BootstrapReplace/CustomButton';
+//import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import ButtonGroup from '../../BootstrapReplace/ButtonGroup';
+
 
 import { AiFillCloseSquare } from "react-icons/ai";
 import { RiFileEditFill } from "react-icons/ri";

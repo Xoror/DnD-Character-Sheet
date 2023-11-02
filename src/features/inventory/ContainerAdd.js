@@ -1,11 +1,13 @@
 import React from "react";
 import { useDispatch} from "react-redux"
 
-import Button from 'react-bootstrap/Button'
+//import Button from 'react-bootstrap/Button'
+import Button from '../../BootstrapReplace/CustomButton';
 import Form from 'react-bootstrap/Form'
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import InputGroup from 'react-bootstrap/InputGroup'
-import Modal from "react-bootstrap/Modal"
+//import Modal from "react-bootstrap/Modal"
+import Modal from '../../BootstrapReplace/Modal';
 
 export const ContainerAdd = (props) => {
     const dispatch = useDispatch()
@@ -27,7 +29,7 @@ export const ContainerAdd = (props) => {
     
 
     return (
-        <Modal backdrop="static" aria-labelledby="add-new-container-dialog" contentClassName="modal-custom" size="lg" show={showAddContainer} onHide={() => (setShowAddContainer(false), setContainerEditing(false), setDefaultContainerValues(containerTemplate))}>
+        <Modal backdrop="static" aria-labelledby="add-new-container-dialog" size="lg" show={showAddContainer} onHide={() => (setShowAddContainer(false), setContainerEditing(false), setDefaultContainerValues(containerTemplate))}>
             <Modal.Header closeButton>
                 <Modal.Title as="label" id="add-new-container-dialog">
                     Add/Edit a new Container
@@ -76,7 +78,7 @@ export const ContainerAdd = (props) => {
                     </FloatingLabel>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="danger" onClick={() => (setShowAddContainer(false), setContainerEditing(false), setDefaultContainerValues(containerTemplate))}>
+                    <Button variant="danger" type="button" onClick={() => (setShowAddContainer(false), setContainerEditing(false), setDefaultContainerValues(containerTemplate))}>
                         Close
                     </Button>
                     <Button variant="primary" type="submit">

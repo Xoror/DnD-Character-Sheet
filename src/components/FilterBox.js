@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useDeferredValue, useState } from "react";
 
-import Container from 'react-bootstrap/Container';
+//import Container from 'react-bootstrap/Container'
+import Container from '../BootstrapReplace/Container';
 import Form from "react-bootstrap/Form";
 
 import { AiOutlineCloseCircle } from "react-icons/ai";
@@ -41,6 +42,7 @@ import "./FilterBox.scss"
 
 export const FilterBox = (props) => {
     const [defaultInput, setDefaultInput] = useState("")
+    const deferrdDefaultInput = useDeferredValue(defaultInput)
 
     let header = props.header
     let data = props.data
@@ -66,7 +68,6 @@ export const FilterBox = (props) => {
             setDefaultInput("")
         }
     }
-
     const notCollapsedElement= () => {
         return (
             <>
@@ -75,7 +76,7 @@ export const FilterBox = (props) => {
                         <label id="createable-label" style={{paddingRight:"0.125em"}}>{header}: </label>
                         <Form aria-labelledby="createable-label" onSubmit={(event) => (createSubmit(event))}>
                             <div style={{display:"flex"}}>
-                                <input value={defaultInput} onChange={(e) => setDefaultInput(e.target.value)} aria-label={`input-create-${header}`} className="create-input" placeholder={`Add ${header}`}></input>
+                                <input value={deferrdDefaultInput} onChange={(e) => setDefaultInput(e.target.value)} aria-label={`input create ${header}`} className="create-input" placeholder={`Add ${header}`}></input>
                                 <button className="create-add-button"  type="submit">Add</button>
                             </div>
                         </Form>
