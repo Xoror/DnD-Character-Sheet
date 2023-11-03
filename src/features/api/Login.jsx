@@ -11,6 +11,7 @@ import Spinner from 'react-bootstrap/Spinner';
 
 import { loginThunk, userVerificationThunk } from "./Api"
 import { ResponseInfoBox } from "../../components/ResponseInfoBox"
+import { FancyNav } from "../../components/FancyNav";
 
 export const Login = (props) => {
     const dispatch = useDispatch()
@@ -56,33 +57,37 @@ export const Login = (props) => {
     }, [loginStatus, navigate, verification])
 
     return (
-        <Card className="main-element-card login-card">
-            <Card.Body>
-                <Card.Title as="h2" className="mb-4">Login</Card.Title>
-                {loginResponseThunk === "rejected" ? <ResponseInfoBox status={loginResponseThunk === "rejected" ? "error":"success"} response={verification ? userVerificationResponse : loginResponse }/> : null}
-                <Form onSubmit={handleSubmit}>
-                    <Form.Group className="mb-3" controlId="formBasicUsername">
-                        <Form.Label>Username</Form.Label>
-                        <Form.Control required value={loginData.name} type="text" placeholder="Enter username" onChange={event => handleChange(event, "name")}/>
-                    </Form.Group>
+        false ? 
+            <Card className="main-element-card login-card">
+                <Card.Body>
+                    <Card.Title as="h2" className="mb-4">Login</Card.Title>
+                    {loginResponseThunk === "rejected" ? <ResponseInfoBox status={loginResponseThunk === "rejected" ? "error":"success"} response={verification ? userVerificationResponse : loginResponse }/> : null}
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Group className="mb-3" controlId="formBasicUsername">
+                            <Form.Label>Username</Form.Label>
+                            <Form.Control required value={loginData.name} type="text" placeholder="Enter username" onChange={event => handleChange(event, "name")}/>
+                        </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="formBasicPassword">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control required value={loginData.password} type="password" placeholder="Enter password" onChange={event => handleChange(event, "password")}/>
-                    </Form.Group>
+                        <Form.Group className="mb-3" controlId="formBasicPassword">
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control required value={loginData.password} type="password" placeholder="Enter password" onChange={event => handleChange(event, "password")}/>
+                        </Form.Group>
 
-                    <Form.Check className="mb-3" type="checkbox" id="remember me checkbox" label="Remember me" onChange={event => handleChange(event, "remember")}/>
+                        <Form.Check className="mb-3" type="checkbox" id="remember me checkbox" label="Remember me" onChange={event => handleChange(event, "remember")}/>
 
-                    <Button variant="primary" type="submit" disabled={loginStatus === "pending" || userVerificationStatus === "pending"} aria-disabled={loginStatus === "pending" || userVerificationStatus === "pending"}>
-                        Submit 
-                        {loginStatus === "pending" || userVerificationStatus === "pending" ? 
-                            <Spinner style={{marginLeft:"0.5em"}} size="sm" animation="border" role="status">
-                                <span className="visually-hidden">Loading...</span>
-                            </Spinner>: null
-                        }
-                    </Button>
-                </Form>
-            </Card.Body>
-        </Card>
+                        <Button variant="primary" type="submit" disabled={loginStatus === "pending" || userVerificationStatus === "pending"} aria-disabled={loginStatus === "pending" || userVerificationStatus === "pending"}>
+                            Submit 
+                            {loginStatus === "pending" || userVerificationStatus === "pending" ? 
+                                <Spinner style={{marginLeft:"0.5em"}} size="sm" animation="border" role="status">
+                                    <span className="visually-hidden">Loading...</span>
+                                </Spinner>: null
+                            }
+                        </Button>
+                    </Form>
+                </Card.Body>
+            </Card>
+        :
+            <FancyNav />
+        
     )
 }

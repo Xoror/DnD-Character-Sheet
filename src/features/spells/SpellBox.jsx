@@ -3,24 +3,24 @@ import { useDispatch, useSelector } from "react-redux"
 
 
 //import Card from 'react-bootstrap/Card';
-import Card from '../../BootstrapReplace/Card';
+import Card from '../../BootstrapReplace/Card.jsx';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 //import Container from 'react-bootstrap/Container'
-import Container from '../../BootstrapReplace/Container';
+import Container from '../../BootstrapReplace/Container.jsx';
 //import Row from 'react-bootstrap/Row'
-import Row from '../../BootstrapReplace/Row';
+import Row from '../../BootstrapReplace/Row.jsx';
 //import Col from 'react-bootstrap/Col'
-import Col from '../../BootstrapReplace/Col';
+import Col from '../../BootstrapReplace/Col.jsx';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import CloseButton from 'react-bootstrap/CloseButton'
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 
 import { HiOutlineInformationCircle } from "react-icons/hi";
-import { changeCasterType, changeCastingAttribute, computeHitDC } from '../attributes/AttributesSlice';
-import { SpellSlotTable } from "./SpellSlotTable.js"
-import { updateSpellListScaling } from '../actions/ActionsSlice';
+import { changeCasterType, changeCastingAttribute, computeHitDC } from '../attributes/AttributesSlice.js';
+import { SpellSlotTable } from "./SpellSlotTable.jsx"
+import { updateSpellListScaling } from '../actions/ActionsSlice.js';
 
 export const SpellBox = () => {
 	const dispatch = useDispatch()

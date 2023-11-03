@@ -6,16 +6,17 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import "./App.css"
 import "./features/styles.scss"
 
-// Add code to import the components
-import { ScrollBar } from './features/scrollbar/ScrollBar'
-import { NavBar } from "./features/nav/NavBar"
-import { Sheet } from './Sheet'
-import { LandingPage } from './features/landingPage/LandingPage';
-import { Login } from './features/api/Login';
-import { Register } from './features/api/Register';
 import { isDesktop, webServer } from "./config.js"
-import { SettingsPage } from './features/settings/SettingsPage';
-import { SettingsHome } from './features/settings/SettingsHome';
+
+// Add code to import the components
+import { ScrollBar } from './features/scrollbar/ScrollBar.jsx'
+import { NavBar } from "./features/nav/NavBar.jsx"
+import { Sheet } from './Sheet.jsx'
+import { LandingPage } from './features/landingPage/LandingPage.jsx';
+import { Login } from './features/api/Login.jsx';
+import { Register } from './features/api/Register.jsx';
+import { SettingsPage } from './features/settings/SettingsPage.jsx';
+import { SettingsHome } from './features/settings/SettingsHome.jsx';
 
 // These exist because different routers are used depending on whether the build is run on a server or on a static host.
 // Electron is a static host so when building the app for it, we need a hash router, whereas GitHub pages is a server so

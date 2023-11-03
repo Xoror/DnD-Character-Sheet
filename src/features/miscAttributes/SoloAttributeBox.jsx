@@ -2,16 +2,16 @@ import React, { useState} from 'react';
 import { useDispatch } from "react-redux"
 
 //import Button from 'react-bootstrap/Button';
-import Button from '../../BootstrapReplace/CustomButton';
+import Button from '../../BootstrapReplace/CustomButton.jsx';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 //import Modal from 'react-bootstrap/Modal';
-import Modal from '../../BootstrapReplace/Modal';
+import Modal from '../../BootstrapReplace/Modal.jsx';
 
 import { RiFileEditFill } from "react-icons/ri";
 
-import { changeMiscAttribute } from './MiscAttributesSlice';
+import { changeMiscAttribute } from './MiscAttributesSlice.js';
 import { changeAC, computeAC, changeInitiative, computeInitiative } from "../attributes/AttributesSlice.js"
 
 export const AttributeBox = (props) => {

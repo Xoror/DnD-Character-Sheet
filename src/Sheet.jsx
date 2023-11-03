@@ -3,24 +3,24 @@ import { useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 //import Container from 'react-bootstrap/Container'
-import Container from './BootstrapReplace/Container';
+import Container from './BootstrapReplace/Container.jsx';
 //import Row from 'react-bootstrap/Row'
-import Row from './BootstrapReplace/Row';
+import Row from './BootstrapReplace/Row.jsx';
 //import Col from 'react-bootstrap/Col'
-import Col from './BootstrapReplace/Col';
+import Col from './BootstrapReplace/Col.jsx';
 
 // Add code to import the components
-import { MiscInfo } from './features/charDetails/CharMisc'
-import { CharacterClass } from "./features/charDetails/CharClass"
-import { CharacterName } from "./features/charDetails/CharName"
-import { Attributes } from './features/attributes/AttributeBox'
-import { MiscAttributes } from "./features/miscAttributes/MiscAttributes"
-import { ResourcesMiscProficiencies } from './features/resources/ResourcesMiscProficiencies'
-import { SpellBox } from "./features/spells/SpellBox.js"
-import { ThirdColumn } from './features/classFeatures/3rdColumn'
-import { ResistancesBox } from './features/charDetails/ResistancesBox'
-import { MiscBar } from './features/conditions/MiscBar'
-import { DiceLog } from './features/settings/DiceLog';
+import { MiscInfo } from './features/charDetails/CharMisc.jsx'
+import { CharacterClass } from "./features/charDetails/CharClass.jsx"
+import { CharacterName } from "./features/charDetails/CharName.jsx"
+import { Attributes } from './features/attributes/AttributeBox.jsx'
+import { MiscAttributes } from "./features/miscAttributes/MiscAttributes.jsx"
+import { ResourcesMiscProficiencies } from './features/resources/ResourcesMiscProficiencies.jsx'
+import { SpellBox } from "./features/spells/SpellBox.jsx"
+import { ThirdColumn } from './features/classFeatures/3rdColumn.jsx'
+import { ResistancesBox } from './features/charDetails/ResistancesBox.jsx'
+import { MiscBar } from './features/conditions/MiscBar.jsx'
+import { DiceLog } from './features/settings/DiceLog.jsx';
 
 
 export const Sheet = () => {

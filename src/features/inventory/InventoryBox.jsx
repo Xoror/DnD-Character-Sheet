@@ -17,7 +17,7 @@ import { ItemList } from './ItemList';
 import { MoneyPouch } from '../../components/MoneyPouch';
 import { useFocus } from '../../components/CustomHooks';
 
-const _ = require('lodash')
+import { isEqual } from "lodash"
 
 export default function InventoryBox(props) {
     const dispatch = useDispatch()
@@ -92,7 +92,7 @@ export default function InventoryBox(props) {
 		let data = defaultValues
 		//data["container"] = selectedType.value
 		if(editing) {
-			if (!_.isEqual(data, oldData)) {
+			if (!isEqual(data, oldData)) {
 				data.id = oldData.id
 				dispatch(editItem(data))
 				setEditing(false)

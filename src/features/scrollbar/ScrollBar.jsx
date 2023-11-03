@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useRef, useEffect, useMemo } from "react";
-import debounce from 'lodash.debounce'
+import { debounce } from "lodash"
+
 import "./ScrollBar.css";
 import { useLocation } from "react-router-dom";
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
 import {fullCaster, halfCaster, thirdCaster, pactCaster, halfPactCaster} from "../../data/spellSlots.js";
-import { changeSpellslot } from './SpellSlice';
+import { changeSpellslot } from './SpellSlice.js';
 
 export const SpellSlotTable = (props) => {
 	const dispatch = useDispatch()

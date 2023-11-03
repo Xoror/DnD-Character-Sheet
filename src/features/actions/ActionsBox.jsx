@@ -14,7 +14,7 @@ import { ActionsAdd } from './ActionsAdd';
 import { SpellList } from './SpellList';
 import { useFocus } from '../../components/CustomHooks';
 
-const _ = require('lodash')
+import { isEqual } from "lodash"
 
 export default function ActionsBox(props) {
 	const dispatch = useDispatch()
@@ -69,7 +69,7 @@ export default function ActionsBox(props) {
 		let data = defaultValues
 		let sameName = false
 		if(editing) {
-			if (!_.isEqual(data, oldData)) {
+			if (!isEqual(data, oldData)) {
 				data.id = oldData.id
 				dispatch(editAction(data, props.id, oldData.name))
 				setEditing(false)

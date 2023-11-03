@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useMemo } from "react"
-import debounce from 'lodash.debounce'
+import { debounce } from "lodash"
 
 export const useFocus = () => {
     const htmlElRef = useRef(null)

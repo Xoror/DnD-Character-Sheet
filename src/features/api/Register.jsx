@@ -13,7 +13,7 @@ import { registerThunk } from "./Api"
 import { ResponseInfoBox } from "../../components/ResponseInfoBox"
 import { usernameValidator, passwordValidator, confirmPasswordValidator } from "../../utils/UserInfoValidation"
 
-const _ = require("lodash")
+import { debounce } from "lodash"
 
 export const Register = () => {
     const dispatch = useDispatch()

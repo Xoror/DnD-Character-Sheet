@@ -40,7 +40,7 @@ import { importCharacterNames, addCharacterToDatabase,
 	importCharacter, changeCharacterIndDB, importNavBar } from './NavBarSlice';
 import { importSettings } from '../settings/SettingsSlice';
 
-let _ = require('lodash')
+import { isEqual, reduce } from "lodash"
 
 export const importState = createAction(
 	"import/state2",
@@ -121,9 +121,9 @@ export const NavBar = () => {
 			if( (navBarSlice.currentlyEditing.id != 0) ) {
 				//let compareState = (importCharacterReadOnly([navBarSlice.currentlyEditing.id, navBarSlice.currentlyEditing.name]))
 				let compareState = navBarSlice.compareState
-				let statesSame = _.isEqual(currentState, compareState)
-				let test = _.reduce(currentState, function(result, value, key) {
-					return _.isEqual(value, compareState[key]) ?
+				let statesSame = isEqual(currentState, compareState)
+				let test = reduce(currentState, function(result, value, key) {
+					return isEqual(value, compareState[key]) ?
 						result : result.concat(key);
 				}, []);
 				//console.log(test, statesSame)
