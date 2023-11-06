@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux"
 
 //import Card from 'react-bootstrap/Card';
 import Card from '../../BootstrapReplace/Card';
-import Form from 'react-bootstrap/Form';
+//import Form from 'react-bootstrap/Form';
+import Form from '../../BootstrapReplace/Form';
 import Table from 'react-bootstrap/Table';
 
 import { Attribute } from './AttributeSolo';

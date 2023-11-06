@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom"
 
 //import Button from 'react-bootstrap/Button'
 import Button from '../../BootstrapReplace/CustomButton';
-import Form from 'react-bootstrap/Form'
+//import Form from 'react-bootstrap/Form'
+import Form from '../../BootstrapReplace/Form';
 //import Card from "react-bootstrap/Card"
 import Card from '../../BootstrapReplace/Card';
 import Spinner from 'react-bootstrap/Spinner';
@@ -52,7 +53,7 @@ export const Register = () => {
         let thunkResponse = await dispatch(registerThunk(registerData))
         setRegisterThunkStatus(thunkResponse.meta.requestStatus)
     }
-    const handleChange = _.debounce((event, id) => {
+    const handleChange = debounce((event, id) => {
         let copy = structuredClone(registerData)
         if(id === "remember") {
             copy[id] = event.target.checked

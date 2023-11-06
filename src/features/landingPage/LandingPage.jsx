@@ -9,8 +9,10 @@ import Container from '../../BootstrapReplace/Container';
 import Row from '../../BootstrapReplace/Row';
 //import Col from 'react-bootstrap/Col'
 import Col from '../../BootstrapReplace/Col';
-import FloatingLabel from 'react-bootstrap/FloatingLabel'
-import Form from 'react-bootstrap/Form'
+//import FloatingLabel from 'react-bootstrap/FloatingLabel'
+import FloatingLabel from '../../BootstrapReplace/FloatingLabel';
+//import Form from 'react-bootstrap/Form'
+import Form from '../../BootstrapReplace/Form';
 //import Button from 'react-bootstrap/Button'
 import Button from '../../BootstrapReplace/CustomButton';
 

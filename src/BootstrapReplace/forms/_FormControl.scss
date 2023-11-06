@@ -1,0 +1,104 @@
+@use "sass:color";
+
+.sg-form-control {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: $input-padding-x $input-padding-y;
+  color: $input-text-color;
+  background-color: $input-background-color;
+  background-clip: padding-box;
+  border: $input-border-width solid $input-border-color;
+  appearance: none;
+  border-radius: $input-border-radius;
+
+  transition: border-color .15s ease-in-out;
+
+  &[type="file"] {
+    overflow: hidden; // prevent pseudo element button overlap
+
+    &:not(:disabled):not([readonly]) {
+      cursor: pointer;
+    }
+  }
+
+  &:focus-visible {
+    @include sg-focus-visible()
+  }
+
+  &::-webkit-date-and-time-value {
+    height: $input-line-height;
+  }
+
+  &::placeholder {
+    color: $input-placeholder-color;
+    opacity: 1;
+  }
+
+  &:disabled {
+    color: null;
+    background-color: $input-disabled-color;
+    border-color: null;
+    opacity: 1;
+  }
+
+  // File input buttons theming
+  &::file-selector-button {
+    padding: $input-padding-x $input-padding-y;
+    margin: (-$input-padding-x) (-$input-padding-y);
+    margin-inline-end:$input-padding-x;
+    pointer-events: none;
+    border-color: inherit;
+    border-style: solid;
+    border-width: 0;
+    border-inline-end-width: $input-border-width;
+    border-radius: 0; // stylelint-disable-line property-disallowed-list
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
+  }
+
+  &:hover:not(:disabled):not([readonly])::file-selector-button {
+    background-color: color.mix(black, $input-text-color , 5%);
+  }
+}
+
+.sg-form-control-plaintext {
+  display: block;
+  width: 100%;
+  padding: $input-padding-x 0;
+  margin-bottom: 0; // match inputs if this class comes on inputs with default margins
+  color: $input-text-color;
+  background-color: transparent;
+  border: solid transparent;
+  border-width: $input-border-width 0;
+
+  &:focus-visible {
+    outline: 0;
+  }
+}
+
+textarea {
+  &.sg-form-control {
+    min-height: $input-height;
+  }
+}
+  // stylelint-enable selector-no-qualifying-type
+  
+.sg-form-control-color {
+  width: 3em;
+  height: $input-height;
+  padding: $input-padding-x;
+
+  &:not(:disabled):not([readonly]) {
+    cursor: pointer;
+  }
+
+  &::-moz-color-swatch {
+    border: 0 !important; // stylelint-disable-line declaration-no-important
+    border-radius: $input-border-radius;
+  }
+
+  &::-webkit-color-swatch {
+    border-radius: $input-border-radius;
+  }
+}
+  

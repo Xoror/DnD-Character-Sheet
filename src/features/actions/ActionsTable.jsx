@@ -72,6 +72,7 @@ export const ActionsTable = (props) => {
 		if(id === "dmgHigherLevel") {
 			if(damageAtHigherLevel === "None") {
 				object.push({value: damage, label:"1"})
+				console.log(object)
 				return object
 			}
 			else {

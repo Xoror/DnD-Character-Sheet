@@ -3,9 +3,12 @@ import { useDispatch} from "react-redux"
 
 //import Button from 'react-bootstrap/Button'
 import Button from '../../BootstrapReplace/CustomButton';
-import Form from 'react-bootstrap/Form'
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import InputGroup from 'react-bootstrap/InputGroup'
+//import Form from 'react-bootstrap/Form'
+import Form from "../../BootstrapReplace/Form";
+//import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import FloatingLabel from "../../BootstrapReplace/FloatingLabel";
+//import InputGroup from 'react-bootstrap/InputGroup'
+import InputGroup from "../../BootstrapReplace/InputGroup";
 //import Modal from "react-bootstrap/Modal"
 import Modal from '../../BootstrapReplace/Modal';
 
@@ -48,7 +51,6 @@ export const ContainerAdd = (props) => {
                             value={defaultContainerValues.label} 
                             required 
                             placeholder="Name" 
-                            aria-labelledby="container-label" 
                             onChange={event => handleContainerSelectValues(event, "label")}
                         />
                     </FloatingLabel>
@@ -58,7 +60,6 @@ export const ContainerAdd = (props) => {
                             value={defaultContainerValues.weight} 
                             required 
                             placeholder="Weight (lbs)" 
-                            aria-labelledby="container-weight"
                             type="number" 
                             min="0" 
                             onChange={event => handleContainerSelectValues(event, "weight")}
@@ -70,7 +71,6 @@ export const ContainerAdd = (props) => {
                             value={defaultContainerValues.maxWeightIn} 
                             required 
                             placeholder="Weight (lbs)" 
-                            aria-labelledby="container-maximum-weight-allowed-in"
                             type="number" 
                             min="0" 
                             onChange={event => handleContainerSelectValues(event, "maxWeightIn")}

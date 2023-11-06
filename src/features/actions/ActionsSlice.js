@@ -7,7 +7,7 @@ const database = new sqlite3.Database("../../public/data.db", sqlite3.OPEN_READW
     else console.log("Connected to database")
   })
 */
-import {spellList} from "../../data/spellsSRD.js";
+import { spellList } from "../../data/spellsSRD.js";
 import { parseSpellAPIResponse } from "../../utils/ParseResponseFunctions.js";
 
 
@@ -68,8 +68,8 @@ const ActionsSlice = createSlice({
                     if(test1 > test2) { 
                         state.highestSpellSlot = action.payload[0].type
                     }
-                    if(action.payload[0].damageAtHigherLevel.length === 0) {
-                        action.payload[0].damageAtHigherLevel[action.payload[0].level] = action.payload[0].damage
+                    if(action.payload[0].damageAtHigherLevel === "None") {
+                        action.payload[0].damageAtHigherLevel = {"1":action.payload[0].damage}
                     }
                     state.spells.push(action.payload[0])
                 }
@@ -152,7 +152,6 @@ const ActionsSlice = createSlice({
                 }
             },
             prepare(action_id, id){
-                console.log([action_id, id] )
                 return {
                     payload: [action_id, id] 
                 }

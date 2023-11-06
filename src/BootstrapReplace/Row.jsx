@@ -20,7 +20,7 @@ const Row = ({children, className = "", as = "div", ...restProps}, ref) => {
         }
       })
     return (
-    <Component className={`sg-row ${className}${classes}`} {...restProps}>
+    <Component ref={ref} className={`sg-row ${className}${classes}`} {...restProps}>
         {children}
     </Component>
     )

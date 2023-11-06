@@ -34,7 +34,7 @@ const Col = ({children, as = "div", className = "", ...restProps}, ref) => {
     let finalClasses = className + classes + spans
     finalClasses += !spansArray.length ? " sg-col" : ""
     return (
-        <Component className={finalClasses} {...restProps}>
+        <Component ref={ref} className={finalClasses} {...restProps}>
             {children}
         </Component>
     )

@@ -1,0 +1,49 @@
+.sg-loading-animation-box {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sg-loading-animation-container {
+    width: 200px;
+    height: 200px;
+    background-color: var(--nav-color);
+    display: flex;
+    gap: 5px;
+    clip-path: circle(50%);
+}
+
+.sg-loading-animation-bar {
+    width: 36px;
+    height: 100%;
+    background-color: #2082AA;
+    //animation-fill-mode: forwards;
+    animation-name: loading;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    transform-origin: center;
+
+    @for $i from 1 through 10 {
+        &.bar#{$i} {
+            animation-delay: $i*0.1s;
+        }
+    }
+}
+
+@keyframes loading {
+    0% {
+        transform: scaleY(100%);
+        background: #2082AA;
+    }
+    50% {
+        transform: scaleY(10%);
+        background-color: rgb(225, 0, 255);
+    }
+    100% {
+        transform: scaleY(100%);
+        background: #2082AA;
+    }
+}

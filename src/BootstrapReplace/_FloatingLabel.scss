@@ -1,0 +1,59 @@
+.sg-form-floating {
+    position: relative;
+    --sg-form-floating-height: calc(3.5em + 2px);
+    > .sg-form-control, > .sg-form-control-plaintext, > .sg-form-select {
+        height: var(--sg-form-floating-height);
+    }
+
+    > .sg-form-control, > .sg-form-control-plaintext {
+        padding-inline: 1em;
+        &::placeholder {
+            color: transparent;
+        }
+        &:focus, &:not(:placeholder-shown) {
+            padding-top: 1.5em;
+        }
+        // Duplicated because `:-webkit-autofill` invalidates other selectors when grouped
+        &:-webkit-autofill {
+            padding-top: 1.5em;
+        }
+    }
+
+    > .sg-form-floating-label {
+        position: absolute;
+        //height: var(--sg-form-floating-height);
+        //color: #212529;
+        top: 0;
+        left: 0;
+        color: #212529;
+        //line-height: var(--sg-form-floating-height);
+        width: 100%;
+        height: 100%; // allow textareas
+        padding-inline: 1em;
+        padding-block: 1em;
+        border-radius: 50%;
+        pointer-events: none;
+        transition: 0.1s ease-in-out;
+        transform-origin: 0 0;
+        z-index: 5;
+
+        //overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    > .sg-form-select {
+        padding-inline: 1em;
+        padding-block: 1.5em 0.5em;
+      }
+
+    > .sg-form-control:focus, 
+    > .sg-form-control:not(:placeholder-shown), 
+    > .sg-form-control-plaintext, 
+    > .sg-form-select {
+        ~ .sg-form-floating-label {
+            padding: 0.5em 0.75em;
+            transform: translate(0, -0.25em);
+            opacity: 0.75;
+        }
+    }
+}

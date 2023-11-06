@@ -31,7 +31,7 @@ export default function ActionsBox(props) {
 			scaling: "", 
 			isPrepared: false, 
 			damageType: "", 
-			description: ["",""], 
+			description: [[""],""], 
 			school: "", 
 			ritual: "", 
 			classes: "", 
@@ -52,19 +52,27 @@ export default function ActionsBox(props) {
 		}
 	const actions = useSelector(state => state.actions.actions)
 	const sortedSpellList = useSelector(state => state.actions.sortedSpellList)
+	const actionNames = actions.map(action => {
+		return action.name
+	})
+	const spellNames = sortedSpellList.map(spell => {
+		return spell.name
+	})
 
 	const [showSpellList, setShowSpellList] = useState(false)
 	const [showAddAction, setShowAddAction] = useState(false)
 	const [showQuickAddAction, setShowQuickAddAction] = useState(false)
+
 	const [defaultValues, setDefaultValues] = useState(actionTemplate)
 	const [oldData, setOldData] = useState({})
+
 	const [editing, setEditing] = useState(false)
-	const [show, setShow] = useState(false);
-	const [cardID, setCardID] = useState("0")
+	
 	const [inputRef, setInputFocus] = useFocus()
+	const [inputModalRef, setInputModalFocus] = useFocus()
 
 	//could maybe be more efficient?
-	const handleSubmit = (event) => {
+	const handleSubmit = (event, modal) => {
 		event.preventDefault()
 		let data = defaultValues
 		let sameName = false
@@ -81,7 +89,11 @@ export default function ActionsBox(props) {
 		else {
 			if(actions.filter(action => {return action.name === event.target[0].value}).length != 0 || sortedSpellList.filter(action => {return action.name === event.target[0].value}).length != 0) {
 				event.stopPropagation()
-				setInputFocus()
+				if(modal) {
+					setInputModalRef()
+				} else {
+					setInputFocus()
+				}
 				sameName = true
 			}
 			else {
@@ -93,16 +105,11 @@ export default function ActionsBox(props) {
 			setShowAddAction(false)
 		}
 	}
-	const handleSelectValues = (event, id) => {
+	const handleFormValueChange = (event, id) => {
 		let copy = structuredClone(defaultValues)
-		if(event.target != undefined) {
-			copy[id] = event.target.value
-		}
-		if(id === "damage") {
-			copy[id] = event
-		}
 		if(id === "description_0") {
-			copy.description = [event.target.value, copy.description[1]]
+			let descFormat = event.target.value.split("\n").filter(value => value != "")
+			copy.description = [descFormat, copy.description[1]]
 		}
 		else if(id === "description_1") {
 			copy.description = [copy.description[0], event.target.value]
@@ -113,6 +120,9 @@ export default function ActionsBox(props) {
 		else if(id === "duration_1") {
 			copy.duration = [copy.duration[0], event.target.value]
 		}
+		else if(event.target != undefined) {
+			copy[id] = event.target.value
+		}
 		setDefaultValues(copy)
 	}
 	//<FloatingLabel label="Name" style={{color:"black"}}>
@@ -120,8 +130,6 @@ export default function ActionsBox(props) {
 		<Card className="main-element-sub-card" id="ActionsPart">
 			{props.headers.map((header, index) => (
 				<ActionsTable 
-					cardID={cardID}
-					setCardID={setCardID}
 					setOldData={setOldData} 
 					setEditing={setEditing}
 					setShowQuickAddAction={setShowQuickAddAction}
@@ -143,17 +151,23 @@ export default function ActionsBox(props) {
 			</ButtonGroup>
 			{props.id === "Spells" ? <SpellList inheritShow={showSpellList} setInheritShow={setShowSpellList} /> : null }
 			<ActionsAdd 
-				show={show}
-				setShow={setShow}
 				editing={editing} 
 				setEditing={setEditing} 
 				defaultValues={defaultValues} 
 				setDefaultValues={setDefaultValues} 
-				inputRef={inputRef} 
+
+				inputRef={inputRef}
+				setInputFocus={setInputFocus}
+				inputModalRef={inputModalRef}
+				setInputModalFocus={setInputModalFocus}
+
+				actionNames={actionNames}
+				spellNames={spellNames}
+
 				spells={props.spells} 
 				actionTemplate={actionTemplate} 
 				handleSubmit={handleSubmit} 
-				handleSelectValues={handleSelectValues} 
+				handleFormValueChange={handleFormValueChange} 
 				options={props.options}
 
 				showAddAction={showAddAction}

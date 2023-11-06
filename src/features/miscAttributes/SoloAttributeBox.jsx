@@ -3,9 +3,12 @@ import { useDispatch } from "react-redux"
 
 //import Button from 'react-bootstrap/Button';
 import Button from '../../BootstrapReplace/CustomButton.jsx';
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
+//import Form from 'react-bootstrap/Form';
+import Form from '../../BootstrapReplace/Form';
+//import InputGroup from 'react-bootstrap/InputGroup';
+import InputGroup from '../../BootstrapReplace/InputGroup.jsx';
+//import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import FloatingLabel from '../../BootstrapReplace/FloatingLabel.jsx';
 //import Modal from 'react-bootstrap/Modal';
 import Modal from '../../BootstrapReplace/Modal.jsx';
 
@@ -205,7 +208,7 @@ const SpeedModal = (props) => {
 	return(
 		<div>
 			<FloatingLabel controlId="displayed-speed" label="Displayed Speed">
-				<Form.Select required aria-label="choose-displayed-speed" aria-labelledby="primary-displayed-speed">
+				<Form.Select required className="top-right-group top-left-group">
 					<option value={props.attribute.displayed}>{props.attribute.displayed}</option>
 					{["Ground", "Swim", "Climb", "Fly"].map((attribute, index) => (
 						attribute != props.attribute.displayed ? <option key={`displayed-speed-option-${attribute}`} value={attribute}> {attribute} </option> : ""
@@ -214,18 +217,18 @@ const SpeedModal = (props) => {
 			</FloatingLabel>
 			<InputGroup>
 				<FloatingLabel controlId="ground-speed" label="Ground Speed">
-					<Form.Control type="number" required defaultValue={props.attribute.ground} placeholder="Choose Ground Speed" aria-labelledby="ground-speed"/>
+					<Form.Control className="middle-left-group" type="number" required defaultValue={props.attribute.ground} placeholder="Choose Ground Speed" aria-labelledby="ground-speed"/>
 				</FloatingLabel>
 				<FloatingLabel controlId="swim-speed" label="Swim Speed">
-					<Form.Control type="number" required defaultValue={props.attribute.swim} placeholder="Choose Swim Speed" aria-labelledby="swim-speed"/>
+					<Form.Control className="middle-right-group" type="number" required defaultValue={props.attribute.swim} placeholder="Choose Swim Speed" aria-labelledby="swim-speed"/>
 				</FloatingLabel>
 			</InputGroup>
 			<InputGroup>
 				<FloatingLabel controlId="climb-speed" label="Climb Speed">
-					<Form.Control type="number" required defaultValue={props.attribute.climb} placeholder="Choose Climb Speed" aria-labelledby="climb-speed"/>
+					<Form.Control className="bottom-left-group" type="number" required defaultValue={props.attribute.climb} placeholder="Choose Climb Speed" aria-labelledby="climb-speed"/>
 				</FloatingLabel>
 				<FloatingLabel controlId="fly-speed" label="Fly Speed">
-					<Form.Control type="number" required defaultValue={props.attribute.fly} placeholder="Choose Fly Speed"aria-labelledby="fly-speed"/>
+					<Form.Control className="bottom-right-group" type="number" required defaultValue={props.attribute.fly} placeholder="Choose Fly Speed"aria-labelledby="fly-speed"/>
 				</FloatingLabel>
 			</InputGroup>
 		</div>

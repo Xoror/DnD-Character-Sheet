@@ -1,7 +1,8 @@
 import React, {useMemo, useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
-import Form from 'react-bootstrap/Form';
+//import Form from 'react-bootstrap/Form';
+import Form from '../../BootstrapReplace/Form';
 
 import { changeDetails } from './CharDetailsSlice';
 import { changeIsCaster } from '../attributes/AttributesSlice';

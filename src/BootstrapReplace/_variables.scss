@@ -1,6 +1,12 @@
+@use "sass:color";
+
+$body-line-height: 1.4em !default;
+
+/* Grid variables */
 $grid-breakpoints: (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px, xxl: 1400px ) !default;
 $container-max-widths: ( sm: 540px, md: 720px, lg: 960px, xl: 1140px, xxl: 1320px ) !default;
 
+/* z indices */
 $zindex-dropdown:                   1000 !default;
 $zindex-sticky:                     1010 !default;
 $zindex-fixed:                      1020 !default;
@@ -11,3 +17,25 @@ $zindex-modal:                      1060 !default;
 $zindex-popover:                    1070 !default;
 $zindex-tooltip:                    1080 !default;
 $zindex-toast:                      1090 !default;
+
+/* Input and forms */
+$input-text-color: #212529;
+
+$input-line-height: $body-line-height;
+
+$input-padding-x: 0.375em;
+$input-padding-y: 0.5em;
+
+$input-border-width: 1px;
+$input-border-radius: 0.375em;
+$input-border-color: #ced4da;
+
+$input-background-color: white;
+$input-disabled-color: #e9ecef;
+$input-placeholder-color: #6c757d;
+
+$input-group-text-background-color: #e9ecef;
+$input-group-text-border-color: color.mix(black, $input-group-text-background-color, 5%);// #ced4da;
+
+$input-height: calc($input-line-height + $input-padding-x * 2 + 2*$input-border-width);
+

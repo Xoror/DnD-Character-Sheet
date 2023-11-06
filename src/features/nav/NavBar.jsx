@@ -19,7 +19,8 @@ import Button from '../../BootstrapReplace/CustomButton';
 import Modal from '../../BootstrapReplace/Modal';
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
-import Form from 'react-bootstrap/Form';
+//import Form from 'react-bootstrap/Form';
+import Form from '../../BootstrapReplace/Form';
 
 import { isDesktop, webServer, isDev } from "../../config"
 

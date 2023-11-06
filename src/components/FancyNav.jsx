@@ -2,41 +2,42 @@ import { useEffect, useState } from "react";
 import "./FancyNav.scss"
 
 import { MdHome, MdFirstPage, MdLastPage, MdOutlineNavigateBefore, MdOutlineNavigateNext } from "react-icons/md";
-import { createPortal } from "react-dom";
 
 export const FancyNav = (props) => {
     const [ activeElement, setActiveElement ] = useState()
 
     useEffect(() => {
-        setActiveElement(document.getElementById("fancy-home"))
+        setActiveElement(document.getElementById("default-fancy-list-item"))
     }, [])
 
     const handleOnClick = (event) => {
         let element = event.target
-        if(element.id === "") {
-            let condition = true
-            while(condition) {
+
+        
+
+        let condition = true
+        while(condition) {
+            if(element.tagName != "LI") {
                 element = element.parentElement
-                console.log(element.id)
-                if(element.id != "") {
-                    condition = false
-                }
+            }
+            else {
+                condition = false
             }
         }
-        else {
-            element = document.getElementById(event.target.id)
+
+        if(element.classList[0] === "active") {
+            return
         }
-        console.log(element)
-        element.parentElement.classList.add("active")
-        activeElement.parentElement.classList.remove("active")
-        console.log(activeElement.parentElement)
+        element.classList.add("active")
+        activeElement.classList.remove("active")
+        console.log(activeElement)
 
         setActiveElement(element)
     }
     return (
         <div className="fancy-nav-container">
             <ul className="fancy-nav">
-                <li className="active">
+                <li id="default-fancy-list-item" className="active">
                     <a href="#" id="fancy-home" onClick={handleOnClick}>
                         <label>Home</label>
                         <span className="icon"><MdHome size="2em" /></span>

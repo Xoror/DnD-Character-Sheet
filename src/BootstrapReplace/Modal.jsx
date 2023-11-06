@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useMemo, useState } from "react"
+import React, { createContext, useContext, useEffect, useMemo, useState, forwardRef } from "react"
 import { createPortal } from "react-dom"
 
 import CloseButton from "./CloseButton"
@@ -10,11 +10,9 @@ import maintainHidden from "ally.js/src/maintain/hidden"
 import whenKey from "ally.js/src/when/key"
 import queryFirstTabbable from "ally.js/src/query/first-tabbable"
 
-import { PropTypes } from "prop-types";
-
 const ModalContext = createContext(false)
 
-export const Modal = ({
+const Modal = forwardRef(({
         children, 
         size = "md", 
         show, 
@@ -24,7 +22,7 @@ export const Modal = ({
         dialogClassName = "",
         contentClassName= "",
         ...restProps 
-    },ref) => {
+    }, ref) => {
     const [showModal, setShowModal] = useState(false)
     const [disabledHandle, setDisabledHandle] = useState(undefined)
     const [tabFocusHandle, setTabFocusHandle] = useState(undefined)
@@ -150,14 +148,14 @@ export const Modal = ({
                     {...restProps}
                 >
                     <div id="sg-modal-dialog" className={`sg-modal-dialog modal-${size}${dialogClassName === "" ? "": " " + dialogClassName}`}>
-                        <div className={`sg-modal-content${contentClassName === "" ? "": " " + contentClassName}`}>
+                        <div ref={ref} className={`sg-modal-content${contentClassName === "" ? "": " " + contentClassName}`}>
                             <ModalContext.Provider value={onHideMemo}>
                                 {!typeCheck ?
                                     children :
                                     <>
                                         <Modal.Header closeButton>
                                             <Modal.Title>
-                                            An Error ocurred!
+                                                An Error ocurred!
                                             </Modal.Title>
                                         </Modal.Header>
                                         <Modal.Body>
@@ -181,10 +179,10 @@ export const Modal = ({
             , document.body)
         : null
     )
-}
+})
 
 
-const Header = ({as, className = "", children, closeButton = false, onClick = "none", ...restProps}, ref) => {
+const Header = forwardRef(({as, className = "", children, closeButton = false, onClick = "none", ...restProps}, ref) => {
     let validAs = ["div", "span", "h1", "h2", "h3", "h4", "h5", "h6"]
     let Component = validAs.find(valid => valid === as) ? as : "div"
     const onHide = useContext(ModalContext).onHide
@@ -198,39 +196,39 @@ const Header = ({as, className = "", children, closeButton = false, onClick = "n
     }
 
     return (
-        <Component className={`sg-modal-header ${className}`} {...restProps}>
+        <Component ref={ref} className={`sg-modal-header ${className}`} {...restProps}>
             {children}
             {closeButton ? <CloseButton variant onClick={onCloseButtonClick}/> : null}
         </Component>
     )
-}
+})
 Modal.Header = Header;
 
 const Body = ({children, className, ...restProps}, ref) => {
     return (
-        <div className={`sg-modal-body ${className}`} {...restProps}>
+        <div ref={ref} className={`sg-modal-body ${className}`} {...restProps}>
             {children}
         </div>
     )
 }
-Modal.Body = Body;
+Modal.Body = forwardRef(Body);
 
 const Footer = ({children, className, ...restProps}, ref) => {
     return (
-        <div className={`sg-modal-footer ${className}`} {...restProps}>
+        <div ref={ref} className={`sg-modal-footer ${className}`} {...restProps}>
             {children}
         </div>
     )
 }
-Modal.Footer = Footer;
+Modal.Footer = forwardRef(Footer);
 
 const Title = ({children, className, ...restProps}, ref) => {
     return (
-        <h4 className={`sg-modal-title ${className}`} {...restProps}>
+        <h4 ref={ref} className={`sg-modal-title ${className}`} {...restProps}>
             {children}
         </h4>
     )
 }
-Modal.Title = Title;
+Modal.Title = forwardRef(Title);
 
 export default Modal

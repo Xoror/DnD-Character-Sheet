@@ -5,8 +5,10 @@ import { nanoid } from '@reduxjs/toolkit';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 //import Container from 'react-bootstrap/Container'
 import Container from '../../BootstrapReplace/Container';
-import InputGroup from 'react-bootstrap/InputGroup';
-import Form from 'react-bootstrap/Form';
+//import InputGroup from 'react-bootstrap/InputGroup';
+import InputGroup from '../../BootstrapReplace/InputGroup';
+//import Form from 'react-bootstrap/Form';
+import Form from '../../BootstrapReplace/Form';
 import Table from 'react-bootstrap/Table';
 
 import { AiOutlineCloseCircle } from "react-icons/ai";

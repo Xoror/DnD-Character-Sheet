@@ -5,9 +5,12 @@ import { useDispatch, useSelector } from "react-redux"
 import Button from '../../BootstrapReplace/CustomButton';
 //import Modal from 'react-bootstrap/Modal';
 import Modal from '../../BootstrapReplace/Modal';
-import Form from 'react-bootstrap/Form';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import InputGroup from 'react-bootstrap/InputGroup';
+//import Form from 'react-bootstrap/Form';
+import Form from '../../BootstrapReplace/Form';
+//import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import FloatingLabel from '../../BootstrapReplace/FloatingLabel';
+//import InputGroup from 'react-bootstrap/InputGroup';
+import InputGroup from '../../BootstrapReplace/InputGroup';
 
 
 import { FeatureList } from "./FeaturesList";
@@ -48,29 +51,29 @@ export default function FeaturesBox() {
 				
 				<Form onSubmit={handleSubmit}>
 					<Modal.Body>
-						{false ? 
+						{true ? 
 							<>
 								<InputGroup>
 									<InputGroup.Text className="top-left-group" id="FeatureName">Feature: </InputGroup.Text>
-									<Form.Control placeholder="Feature" aria-label="Feature Name" aria-describedby="feature-name"/>
+									<Form.Control required placeholder="Feature" aria-label="Feature Name" aria-describedby="feature-name"/>
 
 									<InputGroup.Text id="FeatureLevel">Level: </InputGroup.Text>
-									<Form.Control className="top-right-group" placeholder="Level" aria-label="Feature Level" aria-describedby="feature-level"/>
+									<Form.Control required className="top-right-group" placeholder="Level" aria-label="Feature Level" aria-describedby="feature-level"/>
 								</InputGroup>
 								<InputGroup>
 									<InputGroup.Text className="middle-left-group" id="FeatureClass">Class: </InputGroup.Text>
-									<Form.Control placeholder="Class" aria-label="Feature Class" aria-describedby="feature-class"/>
+									<Form.Control required placeholder="Class" aria-label="Feature Class" aria-describedby="feature-class"/>
 
 									<InputGroup.Text id="FeatureSubclass">Sub Class: </InputGroup.Text>
-									<Form.Control className="middle-right-group" placeholder="Subclass" aria-label="Feature Subclass" aria-describedby="feature-subclass"/>
+									<Form.Control required className="middle-right-group" placeholder="Subclass" aria-label="Feature Subclass" aria-describedby="feature-subclass"/>
 								</InputGroup>
 								<InputGroup>
 									<InputGroup.Text className="bottom-left-group">Feature Description: </InputGroup.Text>
-									<Form.Control className="bottom-right-group" as="textarea" aria-label="feature-description" />
+									<Form.Control required className="bottom-right-group" as="textarea" aria-label="feature-description" />
 								</InputGroup>
 							</> :
 							<FloatingLabel controlId="test-floating-label"  label="Name">
-								<Form.Control placeholder=""/>
+								<MyForm.Control required placeholder=""/>
 							</FloatingLabel>
 						}
 					</Modal.Body>

@@ -4,8 +4,14 @@ import { useDispatch, useSelector } from "react-redux"
 
 //import Card from 'react-bootstrap/Card';
 import Card from '../../BootstrapReplace/Card.jsx';
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
+//import Form from 'react-bootstrap/Form';
+import Form from '../../BootstrapReplace/Form';
+//import InputGroup from 'react-bootstrap/InputGroup';
+import InputGroup from '../../BootstrapReplace/InputGroup.jsx';
+//import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import FloatingLabel from '../../BootstrapReplace/FloatingLabel';
+//import CloseButton from 'react-bootstrap/CloseButton'
+import CloseButton from '../../BootstrapReplace/CloseButton.jsx'
 //import Container from 'react-bootstrap/Container'
 import Container from '../../BootstrapReplace/Container.jsx';
 //import Row from 'react-bootstrap/Row'
@@ -14,8 +20,7 @@ import Row from '../../BootstrapReplace/Row.jsx';
 import Col from '../../BootstrapReplace/Col.jsx';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
-import CloseButton from 'react-bootstrap/CloseButton'
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
+
 
 import { HiOutlineInformationCircle } from "react-icons/hi";
 import { changeCasterType, changeCastingAttribute, computeHitDC } from '../attributes/AttributesSlice.js';

@@ -4,14 +4,15 @@ import { useNavigate } from "react-router-dom"
 
 //import Button from 'react-bootstrap/Button'
 import Button from '../../BootstrapReplace/CustomButton';
-import Form from 'react-bootstrap/Form'
+//import Form from 'react-bootstrap/Form'
+import Form from '../../BootstrapReplace/Form';
 //import Card from "react-bootstrap/Card"
 import Card from '../../BootstrapReplace/Card';
 import Spinner from 'react-bootstrap/Spinner';
 
 import { loginThunk, userVerificationThunk } from "./Api"
 import { ResponseInfoBox } from "../../components/ResponseInfoBox"
-import { FancyNav } from "../../components/FancyNav";
+import { LoadingAnimation } from "../../components/LoadingAnimation";
 
 export const Login = (props) => {
     const dispatch = useDispatch()
@@ -57,7 +58,7 @@ export const Login = (props) => {
     }, [loginStatus, navigate, verification])
 
     return (
-        false ? 
+        true ? 
             <Card className="main-element-card login-card">
                 <Card.Body>
                     <Card.Title as="h2" className="mb-4">Login</Card.Title>
@@ -73,7 +74,7 @@ export const Login = (props) => {
                             <Form.Control required value={loginData.password} type="password" placeholder="Enter password" onChange={event => handleChange(event, "password")}/>
                         </Form.Group>
 
-                        <Form.Check className="mb-3" type="checkbox" id="remember me checkbox" label="Remember me" onChange={event => handleChange(event, "remember")}/>
+                        <Form.Check classNameContainer="mb-3" type="checkbox" controlId="login-remember-me-checkbox" label="Remember me" onChange={event => handleChange(event, "remember")}/>
 
                         <Button variant="primary" type="submit" disabled={loginStatus === "pending" || userVerificationStatus === "pending"} aria-disabled={loginStatus === "pending" || userVerificationStatus === "pending"}>
                             Submit 
@@ -87,7 +88,7 @@ export const Login = (props) => {
                 </Card.Body>
             </Card>
         :
-            <FancyNav />
+            <LoadingAnimation />
         
     )
 }

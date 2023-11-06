@@ -5,11 +5,13 @@ import { useDispatch } from "react-redux"
 import Button from '../../BootstrapReplace/CustomButton';
 //import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ButtonGroup from '../../BootstrapReplace/ButtonGroup';
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
-import { Container } from 'react-bootstrap';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+//import Form from 'react-bootstrap/Form';
+import Form from '../../BootstrapReplace/Form';
+//import InputGroup from 'react-bootstrap/InputGroup';
+import InputGroup from '../../BootstrapReplace/InputGroup';
+import Container from '../../BootstrapReplace/Container';
+import Row from '../../BootstrapReplace/Row';
+import Col from '../../BootstrapReplace/Col';
 
 
 import { AiFillCloseSquare } from "react-icons/ai";

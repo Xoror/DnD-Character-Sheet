@@ -1,0 +1,13 @@
+.sg-form-validation-info-box {
+    padding: 1em;
+    border: 1px solid transparent;
+    border-radius: 0.375em;
+    margin-bottom: 0.5em;
+
+    &.success {
+        border: 1px solid #198754
+    }
+    &.danger {
+        border: 1px solid #dc3545;
+    }
+}

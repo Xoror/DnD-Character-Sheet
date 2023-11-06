@@ -69,60 +69,9 @@ body {
 	/*border: 2px solid #0d6efd;*/
 	box-shadow: 0 0 0 3px var(--focus-box-shadow);
 	outline: 2px solid var(--focus-outline);
+	z-index: 5;
 }
 
-.btn-primary {
-	&:focus-visible {
-		/*border: 2px solid #0d6efd;*/
-		box-shadow: 0 0 0 3px var(--focus-outline);
-		outline: 1.5px solid var(--focus-box-shadow);
-	}
-}
-.btn-success {
-	&:focus-visible {
-		/*border: 2px solid #0d6efd;*/
-		box-shadow: 0 0 0 3px var(--edit-primary-color);
-		outline: 1.5px solid var(--focus-box-shadow);
-	}
-}
-.btn-danger {
-	&:focus-visible {
-		/*border: 2px solid #0d6efd;*/
-		box-shadow: 0 0 0 3px var(--delete-primary-color);
-		outline: 1.5px solid var(--focus-box-shadow);
-	}
-}
-
-.form-select {
-	&:focus-visible {
-		/*border: 2px solid #0d6efd;*/
-		box-shadow: 0 0 0 3px var(--focus-box-shadow);
-		outline: 2px solid var(--focus-outline);
-	}
-	&:focus {
-		/*border: 2px solid #0d6efd;*/
-		box-shadow: 0 0 0 3px var(--focus-box-shadow);
-		outline: 2px solid var(--focus-outline);
-	}
-}
-.form-floating .form-select {
-	padding-bottom: 0.25em;
-}
-.form-floating {
-	color: black;
-}
-.form-control {
-	&:focus-visible {
-		/*border: 2px solid #0d6efd;*/
-		box-shadow: 0 0 0 3px var(--focus-box-shadow);
-		outline: 2px solid var(--focus-outline);
-	}
-	&:focus {
-		/*border: 2px solid #0d6efd;*/
-		box-shadow: 0 0 0 3px var(--focus-box-shadow);
-		outline: 2px solid var(--focus-outline);
-	}
-}
 
 .visually-hidden {
 	position: absolute !important;
@@ -597,7 +546,7 @@ body {
 	font-size: 0.8em;
 	color: var(--text-color);
 	position: absolute;
-	right: 0.35em;
+	right: 0.3em;
 	top: -0.15em;
 }
 .letter-e:checked::before {

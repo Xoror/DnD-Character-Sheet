@@ -5,7 +5,8 @@ import { Link, useLocation } from "react-router-dom";
 
 //import Button from 'react-bootstrap/Button'
 import Button from '../../BootstrapReplace/CustomButton';
-import Form from 'react-bootstrap/Form'
+//import Form from 'react-bootstrap/Form'
+import Form from '../../BootstrapReplace/Form';
 //import Card from "react-bootstrap/Card"
 import Card from '../../BootstrapReplace/Card';
 import Spinner from 'react-bootstrap/Spinner';

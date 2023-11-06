@@ -61,7 +61,6 @@ const InventorySlice = createSlice({
         addItem(state, action) {
             action.payload["id"] = nanoid()
             if(action.payload.container === "equipment") {
-                console.log("bla")
                 action.payload["container"] = state.containers.find(container => container.value === action.payload.container).id
             }
             state.containers.find(container => container.id === action.payload.container).containsWeight += parseFloat(action.payload.qty)*parseFloat(action.payload.weight)

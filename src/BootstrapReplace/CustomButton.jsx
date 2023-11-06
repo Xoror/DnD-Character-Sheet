@@ -5,7 +5,7 @@ const Button = (props, ref) => {
     let variants = ["primary", "secondary", "success", "info", "warning", "danger", "dark", "light"] //["red", "blue", "yellow", "green", "purple"]
     let variantTest = variants.find(variantTest => variantTest === variant) ? variant : "primary"
     return(
-        <button className={`sg-button sg-button-${variantTest}${className == undefined ? "" : " "+className}`} {...rest}>
+        <button ref={ref} className={`sg-button sg-button-${variantTest}${className == undefined ? "" : " "+className}`} {...rest}>
             {children}
         </button>
     )

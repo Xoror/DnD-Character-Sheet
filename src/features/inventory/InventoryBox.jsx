@@ -120,7 +120,8 @@ export default function InventoryBox(props) {
 			testValue = false
 		}
 		if(id==="description") {
-			testValue = [testValue]
+			let descFormat = testValue.split("\n").filter(value => value != "")
+			testValue = descFormat
 		}
 		copy[id] = testValue
 		setDefaultValues(copy)

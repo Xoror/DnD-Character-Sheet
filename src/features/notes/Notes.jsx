@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from "react-redux"
 
 //import Card from 'react-bootstrap/Card';
 import Card from '../../BootstrapReplace/Card';
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
+//import Form from 'react-bootstrap/Form';
+import Form from '../../BootstrapReplace/Form';
+//import InputGroup from 'react-bootstrap/InputGroup';
+import FloatingLabel from '../../BootstrapReplace/FloatingLabel';
 
 import { changeNotes } from './NotesSlice';
 
@@ -18,10 +20,10 @@ export default function Notes () {
 	return (
 		<Card bg="secondary">
 			<Card.Header> Any Notes </Card.Header>
-			<Card.Body>
-				 <InputGroup>
+			<Card.Body style={{padding:"0.5em"}}>
+				 <FloatingLabel controlId="notes-textarea" label="Notes">
 					<Form.Control as="textarea" value={notes} aria-label="With textarea" onChange={handleNotesChange}/>
-				</InputGroup>
+				</FloatingLabel>
 			</Card.Body>
 		</Card>
 	)

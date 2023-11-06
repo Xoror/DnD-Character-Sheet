@@ -3,10 +3,12 @@ import { useDispatch, useSelector } from "react-redux"
 
 //import Button from 'react-bootstrap/Button'
 import Button from '../../BootstrapReplace/CustomButton';
-import Form from 'react-bootstrap/Form'
-import FloatingLabel from 'react-bootstrap/FloatingLabel'
-import InputGroup from 'react-bootstrap/InputGroup'
-import CreatableSelect from 'react-select/creatable'
+//import Form from 'react-bootstrap/Form'
+import Form from "../../BootstrapReplace/Form";
+//import FloatingLabel from 'react-bootstrap/FloatingLabel'
+import FloatingLabel from "../../BootstrapReplace/FloatingLabel";
+//import InputGroup from 'react-bootstrap/InputGroup'
+import InputGroup from "../../BootstrapReplace/InputGroup";
 //import Modal from "react-bootstrap/Modal"
 import Modal from '../../BootstrapReplace/Modal';
 
@@ -52,10 +54,10 @@ export const InventoryAdd = (props) => {
             <>
                 <Modal.Body>
                     <InputGroup>
-                        <FloatingLabel controlId="item-name" label="Name">
+                        <FloatingLabel controlId={`item-name-${modal? "modal":"quick"}`} label="Name">
                             <Form.Control ref={props.inputRef} className={`${modal ? "top" : "middle"}-left-group`} value={defaultValues.name} required placeholder="" onChange={event => handleSelectValues(event, "name")}/>
                         </FloatingLabel>
-                        <FloatingLabel controlId="item-category" label="Category">
+                        <FloatingLabel controlId={`item-category-${modal? "modal":"quick"}`} label="Category">
                             <Form.Select 
                             aria-labelledby="item-category" 
                             value={defaultValues.category} 
@@ -67,7 +69,7 @@ export const InventoryAdd = (props) => {
                                 ))}
                             </Form.Select>
                         </FloatingLabel>
-                        <FloatingLabel controlId="item-container" label="Container">
+                        <FloatingLabel controlId={`item-container-${modal? "modal":"quick"}`} label="Container">
                             <Form.Select  aria-labelledby="item-container" 
                                 className={`${modal ? "top" : "middle"}-right-group`}
                                 value={defaultValues.container}
@@ -83,25 +85,25 @@ export const InventoryAdd = (props) => {
                         </FloatingLabel>
                     </InputGroup>
                     <InputGroup>
-                        <FloatingLabel controlId="item-quantity" label="Quantity">
+                        <FloatingLabel controlId={`item-quantity-${modal? "modal":"quick"}`} label="Quantity">
                             <Form.Control aria-labelledby="item-quantity" className="middle-left-group" value={defaultValues.qty} onChange={event => handleSelectValues(event, "qty")} required type="number" min="0" placeholder=""/>
                         </FloatingLabel>
-                        <FloatingLabel controlId="item-worth" label="Worth (1, gp)">
+                        <FloatingLabel controlId={`item-worth-${modal? "modal":"quick"}`} label="Worth (1, gp)">
                             <Form.Control aria-labelledby="item-worth" value={defaultValues.worth} onChange={event => handleSelectValues(event, "worth")} required placeholder="" type="number" min="0" step="0.01"/>
                         </FloatingLabel>
-                        <FloatingLabel controlId="item-weight" label="Weight (1, lbs)">
+                        <FloatingLabel controlId={`item-weight-${modal? "modal":"quick"}`} label="Weight (1, lbs)">
                             <Form.Control aria-labelledby="item-weight" className="middle-right-group" value={defaultValues.weight} onChange={event => handleSelectValues(event, "weight")} required placeholder="" type="number" min="0" step="0.01"/>
                         </FloatingLabel>
                     </InputGroup>
                     <InputGroup>
-                        <FloatingLabel controlId="item-is-wearing" label="Is wearing?">
+                        <FloatingLabel controlId={`item-is-wearing-${modal? "modal":"quick"}`} label="Is wearing?">
                             <Form.Select aria-labelledby="item-is-wearing" className="middle-left-group" type="boolean" value={defaultValues.isEquipped} required onChange={event => handleSelectValues(event, "isEquipped")}>
                                 <option value="">Choose if wearing</option>
                                 <option value="true">Yes</option>
                                 <option value="false">No</option>
                             </Form.Select>
                         </FloatingLabel>
-                        <FloatingLabel controlId="item-rarity" label="Rarity">
+                        <FloatingLabel controlId={`item-rarity-${modal? "modal":"quick"}`} label="Rarity">
                             <Form.Select aria-labelledby="item-rarity" className="middle-right-group" type="text" value={defaultValues.rarity} required onChange={event => handleSelectValues(event, "rarity")}>
                                 <option value="">Choose Rarity</option>
                                 {rarities.map((rarity, index) => (
@@ -111,7 +113,7 @@ export const InventoryAdd = (props) => {
                         </FloatingLabel>
                     </InputGroup>
                     <InputGroup>
-                        <FloatingLabel controlId="item-is-attunable" label="Is attunable?">
+                        <FloatingLabel controlId={`item-is-attunable-${modal? "modal":"quick"}`} label="Is attunable?">
                             <Form.Select aria-labelledby="item-is-attunable" className="middle-left-group" type="boolean" value={defaultValues.attunable} required onChange={event => handleSelectValues(event, "attunable")}>
                                 <option value="">Chose if attunable</option>
                                 <option value="true">Yes</option>
@@ -119,7 +121,7 @@ export const InventoryAdd = (props) => {
                             </Form.Select>
                         </FloatingLabel>
                         {defaultValues.attunable === true ?
-                            <FloatingLabel controlId="item-is-attuned" label="Is attuned?">
+                            <FloatingLabel controlId={`item-is-attuned-${modal? "modal":"quick"}`} label="Is attuned?">
                                 <Form.Select aria-labelledby="item-is-attuned" type="boolean" value={defaultValues.attuned} required onChange={event => handleSelectValues(event, "attuned")}>
                                     <option value="">Choose if attuned</option>
                                     <option value="true">Yes</option>
@@ -131,12 +133,12 @@ export const InventoryAdd = (props) => {
                         {!modal ? <Button className="middle-right-group" variant="success" aria-label="submit" type="submit">Submit</Button>:null}
                     </InputGroup>
                     {defaultValues.attunable ? 
-                        <FloatingLabel controlId="item-attune-requirement" label="Attunement Requirement (e.g. 'requires attunement by a druid')">
+                        <FloatingLabel controlId={`item-attune-requirement-${modal? "modal":"quick"}`} label="Attunement Requirement (e.g. 'requires attunement by a druid')">
                             <Form.Control as="textarea" aria-labelledby="item-attune-requirement" className="middle-right-group middle-left-group" style={{height:"6em"}} placeholder="" value={defaultValues.attuneRequirement} onChange={event => handleSelectValues(event, "attuneRequirement")}/>
                         </FloatingLabel>
                          : null
                     }
-                    <FloatingLabel controlId="item-description" label="Description">
+                    <FloatingLabel controlId={`item-description-${modal? "modal":"quick"}`} label="Description">
                         <Form.Control aria-labelledby="item-description" style={{height:"8em"}} required className="bottom-left-group bottom-right-group" as="textarea" placeholder="" value={defaultValues.description} onChange={event => handleSelectValues(event, "description")}/>
                     </FloatingLabel>
                 </Modal.Body>

@@ -1,0 +1,129 @@
+$line-height: 1.4em;
+$primary-bg-color: #0d6efd;
+$primary-text-color: white;
+
+$form-switch-width: 2em;
+$form-switch-color: rgba(black, .25);
+
+.sg-form-check {
+    display: block;
+    min-height: $line-height;
+    padding-left: $line-height;
+    margin-bottom: 0.125em;
+
+    .sg-form-check-input {
+        float: left;
+        margin-left: $line-height* -1;
+    }
+}
+.sg-form-check-reverse {
+    display: block;
+    min-height: $line-height;
+    padding-right: $line-height;
+    margin-bottom: 0.125em;
+    text-align: right;
+  
+    .sg-form-check-input {
+      float: right;
+      margin-right: $line-height * -1;
+      margin-left: 0;
+    }
+  }
+
+.sg-form-check-input {
+    width: 1em;
+    height: 1em;
+    margin-top: ($line-height - 1em) * .5; // line-height minus check height
+    vertical-align: top;
+    background-color: white;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    border: 1px;
+    appearance: none;
+    print-color-adjust: exact; // Keep themed appearance for print
+  
+    &[type="checkbox"] {
+        border-radius: 0.25em;
+    }
+  
+    &[type="radio"] {
+      // stylelint-disable-next-line property-disallowed-list
+      border-radius: 50%;
+    }
+  
+    &:active {
+      filter: brightness(90%);
+    }
+  
+    &:focus-visible {
+        @include sg-focus-visible();
+        border: 1px solid $primary-text-color;
+    }
+  
+    &:checked {
+      background-color: $primary-bg-color;
+      border-color: $primary-bg-color;
+  
+      &[type="checkbox"] {
+        background-image: url("data:image/svg+xml, <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 20 20'><path fill='none' stroke='#{$primary-text-color}' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/></svg>");
+      }
+  
+      &[type="radio"] {
+        background-image: url("data:image/svg+xml, <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='-4 -4 8 8'><circle r='2' fill='#{$primary-text-color}' /></svg>");
+      }
+      &:focus-visible {
+        border: 1px solid $primary-text-color;
+    }
+    }
+  
+    &[type="checkbox"]:indeterminate {
+        background-color: $primary-bg-color;
+        border-color: $primary-bg-color;
+  
+        background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path fill='none' stroke='#{$primary-text-color}' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10h8'/></svg>");
+       
+    }
+  
+    &:disabled {
+      pointer-events: none;
+      filter: none;
+      opacity: 0.5;
+    }
+  
+    // Use disabled attribute in addition of :disabled pseudo-class
+    // See: https://github.com/twbs/bootstrap/issues/28247
+    &[disabled],
+    &:disabled {
+      ~ .form-check-label {
+        cursor: default;
+        opacity: 0.5;
+      }
+    }
+}
+
+.sg-form-check-label {
+    cursor: null;
+}
+
+.sg-form-switch {
+    padding-left: $form-switch-width + 0.5em;
+  
+    .sg-form-check-input {
+        width: $form-switch-width;
+        margin-left: ($form-switch-width + 0.5em) * -1;
+        background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='#{$form-switch-color}'/></svg>");
+        background-position: left center;
+        border-radius: $form-switch-width;
+        transition: background-position .15s ease-in-out;
+  
+        &:focus-visible {
+            @include sg-focus-visible()
+        }
+  
+        &:checked {
+            background-position: right center;
+            background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='#{$primary-text-color}'/></svg>");
+        }
+    }
+}
