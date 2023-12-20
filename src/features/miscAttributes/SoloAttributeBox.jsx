@@ -1,15 +1,10 @@
 import React, { useState} from 'react';
 import { useDispatch } from "react-redux"
 
-//import Button from 'react-bootstrap/Button';
 import Button from '../../BootstrapReplace/CustomButton.jsx';
-//import Form from 'react-bootstrap/Form';
 import Form from '../../BootstrapReplace/Form';
-//import InputGroup from 'react-bootstrap/InputGroup';
 import InputGroup from '../../BootstrapReplace/InputGroup.jsx';
-//import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import FloatingLabel from '../../BootstrapReplace/FloatingLabel.jsx';
-//import Modal from 'react-bootstrap/Modal';
 import Modal from '../../BootstrapReplace/Modal.jsx';
 
 import { RiFileEditFill } from "react-icons/ri";

@@ -2,24 +2,15 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
 
-//import Card from 'react-bootstrap/Card';
 import Card from '../../BootstrapReplace/Card.jsx';
-//import Form from 'react-bootstrap/Form';
 import Form from '../../BootstrapReplace/Form';
-//import InputGroup from 'react-bootstrap/InputGroup';
 import InputGroup from '../../BootstrapReplace/InputGroup.jsx';
-//import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import FloatingLabel from '../../BootstrapReplace/FloatingLabel';
-//import CloseButton from 'react-bootstrap/CloseButton'
 import CloseButton from '../../BootstrapReplace/CloseButton.jsx'
-//import Container from 'react-bootstrap/Container'
-import Container from '../../BootstrapReplace/Container.jsx';
-//import Row from 'react-bootstrap/Row'
 import Row from '../../BootstrapReplace/Row.jsx';
-//import Col from 'react-bootstrap/Col'
 import Col from '../../BootstrapReplace/Col.jsx';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Popover from 'react-bootstrap/Popover';
+import OverlayTrigger from '../../BootstrapReplace/OverlayTrigger.jsx';
+import Container from '../../BootstrapReplace/Container.jsx'
 
 
 import { HiOutlineInformationCircle } from "react-icons/hi";
@@ -49,14 +40,15 @@ export const SpellBox = () => {
 			setPopoverShow(false)
 		}
 	}
-	
 	const popover = (
-		<Popover className="popover-container" id="popover-caster-type" onClick={event => event.stopPropagation()}>
-			<Popover.Header className="popover-header" as="h3">
+		<Card style={{width:"400px"}} className="popover-container sg-card-overlay">
+			<Card.Header className="popover-header">
+				<Card.Title>
 				Caster Type Legend
 				<CloseButton onClick={event => popoverShowTest(event, "close")} style={{float:"right"}} aria-label="close caster type legend" variant="white"/>
-			</Popover.Header>
-			<Popover.Body className="popover-body">
+				</Card.Title>
+			</Card.Header>
+			<Card.Body className="popover-body">
 				<span> <b>Full Caster:</b> Casters like Wizards, Sorcerers, Bards that get spellslots up to 9th level.</span>
 				<br></br>
 				<span> <b>Half Caster:</b> Casters like Rangers, Paladins that get spellslots up to 5th level</span>
@@ -66,8 +58,8 @@ export const SpellBox = () => {
 				<span> <b>Pact Caster:</b>  Casters that have Pact Spellcasting like Warlocks</span>
 				<br></br>
 				<span> <b>Half Pact Caster:</b> Casters that have Pact Spellcasting from a subclass like Blood Hunter: Order of the Profane Soul </span>
-			</Popover.Body>
-		</Popover>
+			</Card.Body>
+		</Card>
 	)
 
 	return (
@@ -75,15 +67,18 @@ export const SpellBox = () => {
 			<Card className="main-element-card">
 				<InputGroup style={{color:"black", marginBottom:"0.5em"}}>
 					<InputGroup.Text style={{padding:"0"}}>
-						<OverlayTrigger defaultShow={false} show={popoverShow} onToggle={event => popoverShowTest(event, "show")} trigger="click" placement="auto" overlay={popover}>
+						<OverlayTrigger 
+							overlay={popover} show={popoverShow} onToggle={event => popoverShowTest(event, "show")} 
+							trigger={["click"]} position="auto"
+						>
 							<button className="react-icons-button" style={{borderRadius:"100%", height:"1.5em"}}>
-								 <HiOutlineInformationCircle size="1.5em" style={{position:"relative", bottom:"2px"}}/>
+								<HiOutlineInformationCircle size="1.5em" style={{position:"relative", bottom:"2px"}}/>
 							</button>
 						</OverlayTrigger>
 					</InputGroup.Text>
 					<FloatingLabel controlId="casterType" label="Caster Type">
 						<Form.Select
-							value={casting.type} id="CasterType" placeholder="" aria-label="caster type select"
+							value={casting.type} placeholder=""
 							onChange={handleCasterTypeChange} style={{paddingRight:"0em", textOverflow:"fade"}}
 						> 
 							<option value=""> Choose Caster Type </option>
@@ -107,8 +102,12 @@ export const SpellBox = () => {
 					<Col md="auto" className="spellbox-column left">
 						<div className="spellCard">
 							<Row>
-								<Col style={{paddingRight:"0", textAlign:"center"}}> <label id="spellHitLabel">Spell Hit</label></Col>
-								<Col style={{paddingLeft:"0", textAlign:"center"}}> <label id="spellDCLabel">Spell DC</label></Col>
+								<Col style={{paddingRight:"0", textAlign:"center"}}> 
+									<label id="spellHitLabel">Spell Hit</label>
+								</Col>
+								<Col style={{paddingLeft:"0", textAlign:"center"}}> 
+									<label id="spellDCLabel">Spell DC</label>
+								</Col>
 							</Row>
 							<Row>
 								<Col style={{paddingRight:"0"}}>

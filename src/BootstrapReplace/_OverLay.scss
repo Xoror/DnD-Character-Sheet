@@ -1,0 +1,26 @@
+.sg-overlay-arrow {
+    $sg-arrow-border: black;
+    $sg-arrow-fill: black;
+    //points="1,6 1,16, 13,15.5, 13,20, 29,10, 13,1 13,6" 
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20"> <polygon points="1,1 1,19, 14,10" fill="#{$sg-arrow-fill}" stroke-width="1.5" stroke="#{$sg-arrow-border}" /> </svg>');
+    background-repeat: no-repeat no-repeat;
+    background-position: center center;
+    background-size: cover;
+    height: 20px;
+    width: 15px;
+    z-index: $zindex-popover;
+    &.overlay-position-right {
+        transform: rotate(180deg);
+    }
+    &.overlay-position-left {
+        transform: rotate(0deg);
+    }
+    &.overlay-position-top {
+        transform: rotate(90deg);
+    }
+    &.overlay-position-bottom {
+        transform: rotate(270deg);
+    }
+}
+
+//<svg width="40" height="24" xmlns="http://www.w3.org/2000/svg"> <defs> <marker id="arrowhead" markerWidth="2" markerHeight="4" refX="0" refY="2" orient="auto"><polygon points="0 1, 1.8 2, 0 3" /></marker></defs> <line x1="0" y1="12" x2="25" y2="12" style="fill:rgb(0,0,255);stroke-width:8;stroke:rgb(0,0,0)" marker-end="url(#arrowhead)"/> </svg>

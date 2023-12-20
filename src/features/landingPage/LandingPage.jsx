@@ -1,19 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-//import Card from 'react-bootstrap/Card'
 import Card from '../../BootstrapReplace/Card';
-//import Container from 'react-bootstrap/Container'
 import Container from '../../BootstrapReplace/Container';
-//import Row from 'react-bootstrap/Row'
 import Row from '../../BootstrapReplace/Row';
-//import Col from 'react-bootstrap/Col'
 import Col from '../../BootstrapReplace/Col';
-//import FloatingLabel from 'react-bootstrap/FloatingLabel'
 import FloatingLabel from '../../BootstrapReplace/FloatingLabel';
-//import Form from 'react-bootstrap/Form'
 import Form from '../../BootstrapReplace/Form';
-//import Button from 'react-bootstrap/Button'
 import Button from '../../BootstrapReplace/CustomButton';
 
 import { IoReloadOutline } from "react-icons/io5"
@@ -48,7 +41,7 @@ export const LandingPage = () => {
 
     return (
 		<Container fluid className="main-style">
-			<Row style={{paddingTop: "1em", paddingBottom:"0.5em", paddingRight:"1.25em", paddingLeft:"0.75em"}}>
+			<Row style={{paddingTop: "1em", paddingBottom:"0.5em", paddingInline:"0.75em"}}>
 				<Col md>
 					<Card className="landing-page-card">
                         <Card.Header as="h5" style={{backgroundColor:"var(--secondary-element-color)"}}>News & Updates</Card.Header>
@@ -104,7 +97,7 @@ export const LandingPage = () => {
 					</Card>
 				</Col>
 			</Row>
-            <Row style={{paddingBottom:"0.5em", paddingRight:"1.25em", paddingLeft:"0.75em"}}>
+            <Row style={{paddingBottom:"0.5em", paddingInline:"0.75em"}}>
                 <Col>
                     <Card className="landing-page-card">
                         <Card.Header as="h5" style={{backgroundColor:"var(--secondary-element-color)"}}>Quick-Start</Card.Header>

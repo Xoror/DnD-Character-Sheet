@@ -15,8 +15,14 @@ export const ScrollBar = ({children, className, ...restProps}) => {
     const [lastScrollThumbPosition, setLastScrollThumbPosition] = useState(0)
     const [isDragging, setDragging] = useState(false)
 
-    function getEmSize() {
-        return Number(getComputedStyle(document.body, "").fontSize.match(/(\d+)px/)[1]);
+    function getBodyPadding() {
+        let bodyPadding = window.getComputedStyle(document.body).padding
+        let bodyPaddingArray = bodyPadding.split(" ")
+        bodyPaddingArray = bodyPaddingArray.map(padding => {
+            return parseFloat(padding.replace("px",""))
+        })
+        return bodyPaddingArray
+        //return Number(getComputedStyle(document.body, "").fontSize.match(/(\d+)px/)[1]);
     }
     const handleDocumentMouseUp = useCallback(event => {
         if(isDragging) {
@@ -30,7 +36,7 @@ export const ScrollBar = ({children, className, ...restProps}) => {
             event.stopPropagation()
             const scrollHostElement = scrollHostRef.current
             const { scrollHeight } = scrollHostElement
-            const clientHeight = window.innerHeight - 3*getEmSize()
+            const clientHeight = window.innerHeight - getBodyPadding()[0]
             let deltaY = event.clientY - lastScrollThumbPosition
             let percentage = deltaY*(scrollHeight/clientHeight)
             setLastScrollThumbPosition(event.clientY)
@@ -54,7 +60,7 @@ export const ScrollBar = ({children, className, ...restProps}) => {
         event.preventDefault()
         event.stopPropagation()
         let pointerY = event.clientY
-        let scrolling = window.innerHeight-3*getEmSize()
+        let scrolling = window.innerHeight - getBodyPadding()[0]
         if(pointerY < scrollBoxTop) {
             window.scrollBy({top: -scrolling, left: 0, behavior: "smooth"})
         }
@@ -68,7 +74,7 @@ export const ScrollBar = ({children, className, ...restProps}) => {
         }
         const scrollHostElement = scrollHostRef.current
         const { scrollHeight } = scrollHostElement
-        const clientHeight = window.innerHeight - 3*getEmSize()
+        const clientHeight = window.innerHeight - getBodyPadding()[0]
         const scrollTop = window.scrollY
         if(scrollBoxTop === 0) {
             const scrollBoxPercentage = clientHeight/scrollHeight
@@ -90,8 +96,9 @@ export const ScrollBar = ({children, className, ...restProps}) => {
 	, [handleScroll])
 
     useEffect(() => {
+        console.log(getBodyPadding()[0])
         const scrollHostElement = scrollHostRef.current
-        const clientHeight = window.innerHeight - 3*getEmSize()
+        const clientHeight = window.innerHeight - getBodyPadding()[0]
         const { scrollHeight } = scrollHostElement
         const scrollBoxPercentage = clientHeight/scrollHeight
         const scrollbarHeight = Math.max((clientHeight)*scrollBoxPercentage, SCROLL_BOX_MIN_HEIGHT)
@@ -100,7 +107,7 @@ export const ScrollBar = ({children, className, ...restProps}) => {
 
     useEffect(() => {
         const scrollHostElement = scrollHostRef.current
-        const clientHeight = window.innerHeight - 3*getEmSize()
+        const clientHeight = window.innerHeight - getBodyPadding()[0]
         const { scrollHeight } = scrollHostElement
         const scrollBoxPercentage = clientHeight/scrollHeight
         const scrollbarHeight = Math.max((clientHeight)*scrollBoxPercentage, SCROLL_BOX_MIN_HEIGHT)
@@ -127,7 +134,7 @@ export const ScrollBar = ({children, className, ...restProps}) => {
       }, [handleDocumentMouseMove, handleDocumentMouseUp]);
     const scrollHostRef = useRef()
     return(
-        <div className={"scrollhost-container"}>
+        <div id="scrollhost-container" className={"scrollhost-container"}>
             <div ref={scrollHostRef} className={`scrollhost ${className}`} {...restProps}>
                 {children}
                 <div
@@ -135,7 +142,7 @@ export const ScrollBar = ({children, className, ...restProps}) => {
                     onMouseOver={handleMouseOver} 
                     onMouseOut={handleMouseOut} 
                     className={"scroll-bar"} 
-                    style={{backgroundColor: "#1a1e21", opacity: hovering ? 1 : 0.5, height: (window.innerHeight - 3*getEmSize()),
+                    style={{backgroundColor: "#1a1e21", opacity: hovering ? 1 : 0.5, height: (window.innerHeight - getBodyPadding()[0]),
                             zIndex: "99", position: "fixed", top:"3em"
                         }}
                 >

@@ -3,13 +3,9 @@ import { useDispatch, useSelector } from "react-redux"
 
 import { MdUnfoldMoreDouble, MdUnfoldLessDouble } from "react-icons/md";
 
-//import Container from 'react-bootstrap/Container'
 import Container from '../../BootstrapReplace/Container';
-//import Row from 'react-bootstrap/Row'
 import Row from '../../BootstrapReplace/Row';
-//import Col from 'react-bootstrap/Col'
 import Col from '../../BootstrapReplace/Col';
-//import Button from 'react-bootstrap/Button';
 import Button from '../../BootstrapReplace/CustomButton';
 
 import { FilterBox } from '../../components/FilterBox';

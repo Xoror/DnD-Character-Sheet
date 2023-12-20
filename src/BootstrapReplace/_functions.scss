@@ -92,3 +92,43 @@ $_luminance-list: .0008 .001 .0011 .0013 .0015 .0017 .002 .0022 .0025 .0027 .003
   @return $string;
 }
   
+
+@function hsb($h, $s, $b, $a: 1) {
+  $h-int: $h;//math.div($h, if(math.unit($h) == "", 1, 1*math.unit($h)) );
+  $s-int: math.div($s, if(math.unit($s) == "", 1, $s * 0 + 1 ) );
+  $b-int: math.div($b, if(math.unit($b) == "", 1, $b * 0 + 1 ) );
+  @if $b-int == 0 {
+    @return hsla(0, 0 * 1%, 0 * 1%, $a)
+  } @else {
+    $l-hsl: calc( ($b-int/2) * (2 - ($s-int /(100))) );
+    $s-hsl: math.div( ($b-int * $s-int), if($l-hsl < 50, $l-hsl * 2, 200 - $l-hsl * 2) );
+    @return hsla($h-int, calc($s-hsl * 1%), calc($l-hsl * 1%), $a);
+  }
+}
+@function shade-creator($color) {
+  $h-int: color.hue($color);
+
+  $s-int: color.saturation($color);
+  $s-max: calc(100 * 1%);
+  $s-min: calc(7 * 1%);
+  $s-step-light: calc(($s-int - 7 * 1%)/4);
+  $s-step-dark: calc((100 * 1% - $s-int)/4);
+
+  $b-int: calc( (2 * color.lightness($color) / (2 - ($s-int/(100 * 1%)))) );
+  $b-max: calc(100 * 1%);
+  $b-min: calc(20 * 1%);
+  $b-step-light: calc(($b-int - 20 * 1%)/4);
+  $b-step-dark: calc((100 * 1% - $b-int)/4);
+
+  @return (
+    "100": hsb($h-int, $s-min, $b-max), 
+    "200": hsb($h-int, $s-min + $s-step-light, $b-max - $b-step-dark), 
+    "300": hsb($h-int, $s-min + 2*$s-step-light, $b-max - 2*$b-step-dark), 
+    "400": hsb($h-int, $s-min + 3*$s-step-light, $b-max - 3*$b-step-dark), 
+    "500": hsb($h-int, $s-int, $b-int), 
+    "600": hsb($h-int, $s-max - 3*$s-step-dark, $b-min + 3*$b-step-light), 
+    "700": hsb($h-int, $s-max - 2*$s-step-dark, $b-min + 2*$b-step-light), 
+    "800": hsb($h-int, $s-max - $s-step-dark, $b-min + $b-step-light), 
+    "900": hsb($h-int, $s-max, $b-min), 
+  );
+}

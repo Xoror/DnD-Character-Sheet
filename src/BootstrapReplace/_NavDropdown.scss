@@ -1,0 +1,26 @@
+.sg-nav-dropdown-toggle {
+    background-color: transparent;//#4c5055;
+    display: block;
+    padding: 0.25rem 0.5rem;
+    color: white;
+    text-decoration: none;
+    border-radius: 0.375rem;
+    border: 1px solid transparent;
+    //transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
+  
+    &:hover,
+    &:focus {
+        border-color: white;
+        background-color: transparent;//color.mix(black, #4c5055, 15%);
+    }
+    &:active {
+        background-color: transparent;//color.mix(black, #4c5055, 20%);
+    }
+  
+    // Disabled state lightens text
+    &.disabled {
+        color: rgba(0, 0, 0, 0.24);
+        pointer-events: none;
+        cursor: default;
+    }
+}

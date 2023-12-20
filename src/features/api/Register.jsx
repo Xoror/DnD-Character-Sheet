@@ -2,13 +2,10 @@ import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
-//import Button from 'react-bootstrap/Button'
 import Button from '../../BootstrapReplace/CustomButton';
-//import Form from 'react-bootstrap/Form'
 import Form from '../../BootstrapReplace/Form';
-//import Card from "react-bootstrap/Card"
 import Card from '../../BootstrapReplace/Card';
-import Spinner from 'react-bootstrap/Spinner';
+import Spinner from "../../BootstrapReplace/Spinner";
 
 import { registerThunk } from "./Api"
 import { ResponseInfoBox } from "../../components/ResponseInfoBox"
@@ -122,9 +119,7 @@ export const Register = () => {
                     <Button variant="primary" type="submit" disabled={!isSubmitDisabled()} aria-disabled={!isSubmitDisabled()}>
                         Submit 
                         {registerStatus === "pending" ? 
-                            <Spinner style={{marginLeft:"0.5em"}} size="sm" animation="border" role="status">
-                                <span className="visually-hidden">Loading...</span>
-                            </Spinner>: null
+                            <Spinner style={{marginLeft:"0.5em"}} label="Loading..." controlId="waiting-for-register-response" />: null
                         }
                     </Button>
                 </Form>

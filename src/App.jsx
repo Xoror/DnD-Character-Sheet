@@ -97,10 +97,7 @@ const routerWeb = createBrowserRouter([
 const App = () => {
 	let router = isDesktop ? (webServer ? routerWeb : routerDesktop ) : routerStatic
 	return (
-		<>
-			
-				<RouterProvider router={router} loading={<NavBar/>} />
-		</>
+		<RouterProvider router={router} loading={<NavBar/>} />
     )
 }
 

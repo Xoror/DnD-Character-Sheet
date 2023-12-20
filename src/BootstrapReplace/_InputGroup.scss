@@ -1,5 +1,6 @@
 .sg-input-group {
     display: flex;
+    flex-wrap: wrap;
     align-items: stretch;
     width: 100%;
     > .sg-form-control,

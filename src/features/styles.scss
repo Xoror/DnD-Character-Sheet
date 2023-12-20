@@ -1,6 +1,7 @@
 @use "sass:color";
+@use "sass:map";
 
-@use "../BootstrapReplace/BootstrapReplace.scss";
+@import "../BootstrapReplace/BootstrapReplace.scss";
 
 $background-color: #2e3236;
 $main-element-color: #5b656d;/*#6c757d*/
@@ -23,8 +24,6 @@ $focus-box-shadow: white;
 $table-hover: #4c5055;
 $nav-color: #212529;
 $nav-hover-border: white;
-
-
 
 :root {
 	--background-color: #{$background-color};
@@ -51,6 +50,14 @@ $nav-hover-border: white;
 }
 
 body {
+	margin: 0;
+	padding: 0;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+		'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+		sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	
 	color: var(--text-color);
 	background-color: var(--background-color);
 	//font-size: 16px;
@@ -71,7 +78,6 @@ body {
 	outline: 2px solid var(--focus-outline);
 	z-index: 5;
 }
-
 
 .visually-hidden {
 	position: absolute !important;
@@ -596,7 +602,7 @@ body {
 	padding: 0em;
 	border: none;
 	border-radius: 0.375em;
-	
+	background-color: transparent;
 }
 .react-icons-button.edit {
 	&:focus-visible {
@@ -682,7 +688,6 @@ body {
 
 /* table styling */
 .action-table:hover {
-	cursor: pointer;
 	background-color: var(--table-hover);
 }
 
@@ -731,7 +736,7 @@ body {
 .titlebar {
 	background-color: var(--nav-color);
 	padding: 0;
-	z-index: 100;
+	z-index: 1020;
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -813,12 +818,14 @@ body {
 
 .character-menu {
 	margin-right: 0.25em;
+	/*
 	border: 1px solid var(--nav-color);
 	&:hover {
 		background-color: #30363b;
 		border-radius: 0.375em;
 		border: 1px solid var(--text-color)
 	}
+	*/
 }
 .dropdown-menu-dark {
 	border-color: white;
@@ -1237,9 +1244,7 @@ body {
 }
 
 /* Off Canvas */
-.offcanvas {
+.sg-offCanvas-content {
 	color: white;
-	background-color: var(--main-element-color);
-	width: 478px !important;
 	margin-top: 3em;
 }

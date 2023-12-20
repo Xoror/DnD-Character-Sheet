@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux"
 
 import { isDesktop, webServer } from "../../config"
 
-//import Card from 'react-bootstrap/Card';
 import Card from '../../BootstrapReplace/Card';
 import Tab from 'react-bootstrap/Tab';
 import Nav from 'react-bootstrap/Nav';
@@ -49,40 +48,38 @@ export const ThirdColumn = () => {
 	*/
 	
 	return (
-		<>
-			<Card className="main-element-card" > 
-				<Tab.Container transition={false} id="third-column-nav" defaultActiveKey="features" activeKey={activePane} onSelect={event => setActivePane(event)}> 
-					<>
-						<Nav id="third-column-nav" fill variant="tabs" defaultActiveKey="/home">
-								<Nav.Link eventKey="features">Features</Nav.Link>
-								<Nav.Link eventKey="actions">Actions</Nav.Link>
-								<Nav.Link eventKey="spells">Spells</Nav.Link>
-								<Nav.Link eventKey="inventory">Inventory</Nav.Link>
-								<Nav.Link eventKey="notes">Notes</Nav.Link>
-						</Nav>
-						<Tab.Content>
-							<Suspense>
-								<Tab.Pane eventKey="features">
-									<FeaturesBox/>
-								</Tab.Pane>
-								<Tab.Pane eventKey="actions">
-									<ActionsBox offCanvas={false} actions={actions} id="Actions" options={headersActions} headers={headersActions}/>
-								</Tab.Pane>
-								<Tab.Pane eventKey="spells">
-									<ActionsBox offCanvas={false} actions={spells} id="Spells" options={listSlots} headers={headersSpells} spells={true}/>
-								</Tab.Pane>
-								<Tab.Pane eventKey="inventory">
-									<InventoryBox/>
-								</Tab.Pane>
-								<Tab.Pane eventKey="notes">
-									<Notes/>
-								</Tab.Pane>
-							</Suspense>
-						</Tab.Content>
-					</>
-				</Tab.Container>
-			</Card>
-		</>
+		<Card className="main-element-card" > 
+			<Tab.Container transition={false} id="third-column-nav" defaultActiveKey="features" activeKey={activePane} onSelect={event => setActivePane(event)}> 
+				<>
+					<Nav id="third-column-nav" fill variant="tabs" defaultActiveKey="/home">
+							<Nav.Link eventKey="features">Features</Nav.Link>
+							<Nav.Link eventKey="actions">Actions</Nav.Link>
+							<Nav.Link eventKey="spells">Spells</Nav.Link>
+							<Nav.Link eventKey="inventory">Inventory</Nav.Link>
+							<Nav.Link eventKey="notes">Notes</Nav.Link>
+					</Nav>
+					<Tab.Content>
+						<Suspense>
+							<Tab.Pane eventKey="features">
+								<FeaturesBox/>
+							</Tab.Pane>
+							<Tab.Pane eventKey="actions">
+								<ActionsBox offCanvas={false} actions={actions} id="Actions" options={headersActions} headers={headersActions}/>
+							</Tab.Pane>
+							<Tab.Pane eventKey="spells">
+								<ActionsBox offCanvas={false} actions={spells} id="Spells" options={listSlots} headers={headersSpells} spells={true}/>
+							</Tab.Pane>
+							<Tab.Pane eventKey="inventory">
+								<InventoryBox/>
+							</Tab.Pane>
+							<Tab.Pane eventKey="notes">
+								<Notes/>
+							</Tab.Pane>
+						</Suspense>
+					</Tab.Content>
+				</>
+			</Tab.Container>
+		</Card>
 	)
 }
 /*

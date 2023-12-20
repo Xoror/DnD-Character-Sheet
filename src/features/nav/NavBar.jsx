@@ -10,17 +10,14 @@ import { AiFillTwitterCircle, AiOutlineGithub } from "react-icons/ai"
 import { FaReact } from "react-icons/fa";
 import { GiDiceTwentyFacesOne } from "react-icons/gi";
 
-//import Container from 'react-bootstrap/Container'
 import Container from '../../BootstrapReplace/Container';
-import Navbar from 'react-bootstrap/Navbar';
-//import Button from 'react-bootstrap/Button';
+import Navbar from '../../BootstrapReplace/NavBar';
 import Button from '../../BootstrapReplace/CustomButton';
-//import Modal from 'react-bootstrap/Modal';
 import Modal from '../../BootstrapReplace/Modal';
+import Form from '../../BootstrapReplace/Form';
+
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
-//import Form from 'react-bootstrap/Form';
-import Form from '../../BootstrapReplace/Form';
 
 import { isDesktop, webServer, isDev } from "../../config"
 
@@ -278,11 +275,11 @@ export const NavBar = () => {
 							<Toast.Body>Autosave complete!</Toast.Body>
 						</Toast>
 					</ToastContainer>
-					<Modal backdrop="static" show={showSafetyBox} onHide={() => setShowSafetyBox(false)}>
+					<Modal backdrop="static" aria-labelledby={modalType === "safety" ? "import-character-confirmation-dialog":"save-character-dialog"} show={showSafetyBox} onHide={() => setShowSafetyBox(false)}>
 						{modalType === "safety" ? 
 							<>
 								<Modal.Header closeButton>
-									<Modal.Title>Are you sure you want to import a different character?</Modal.Title>
+									<Modal.Title id="import-character-confirmation-dialog">Are you sure you want to import a different character?</Modal.Title>
 								</Modal.Header>
 								<Modal.Body>
 									<p>
@@ -302,7 +299,7 @@ export const NavBar = () => {
 							<>
 								<Form onSubmit={(event) => handleSaveAs(event)}>
 									<Modal.Header closeButton>
-										<Modal.Title>Save Character as: </Modal.Title>
+										<Modal.Title id="save-character-dialog">Save Character as: </Modal.Title>
 									</Modal.Header>
 									<Modal.Body>
 										<Form.Group className="mb-3">
@@ -320,16 +317,16 @@ export const NavBar = () => {
 									</Modal.Footer>
 								</Form>
 							</>
-							}
+						}
 					</Modal>
 				</> : 
-					<Modal backdrop="static" show={showSafetyBox} onHide={() => setShowSafetyBox(false)}>
+					<Modal backdrop="static" aria-labelledby="new-character-confirmation-dialog" show={showSafetyBox} onHide={() => setShowSafetyBox(false)}>
 						<Modal.Header closeButton>
-							<Modal.Title>Are you sure you want to start a new character?</Modal.Title>
+							<Modal.Title id="new-character-confirmation-dialog">Are you sure you want to start a new character?</Modal.Title>
 						</Modal.Header>
 						<Modal.Body>
 							<p>
-								You're about to import a different character. THIS WILL ERASE YOUR CURRENT CHARACTER UNLESS IT WAS SAVED!
+								You're about to start a new character. THIS WILL ERASE YOUR CURRENT CHARACTER UNLESS IT WAS SAVED!
 								Make sure to save progress if you want to before clicking yes!
 							</p>
 						</Modal.Body>

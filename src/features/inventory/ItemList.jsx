@@ -2,14 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from '@reduxjs/toolkit';
 
-import Offcanvas from 'react-bootstrap/Offcanvas';
-//import Container from 'react-bootstrap/Container'
+import Offcanvas from '../../BootstrapReplace/OffCanvas';
 import Container from '../../BootstrapReplace/Container';
-//import InputGroup from 'react-bootstrap/InputGroup';
 import InputGroup from '../../BootstrapReplace/InputGroup';
-//import Form from 'react-bootstrap/Form';
 import Form from '../../BootstrapReplace/Form';
-import Table from 'react-bootstrap/Table';
+import Table from '../../BootstrapReplace/Table';
 
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
@@ -143,52 +140,50 @@ export const ItemList = (props) => {
 	let headers = ["Mundane Items", "Wondrous Items"]
     let bodies = [itemList, magicItemList]
 	return(
-		<>
-			<Offcanvas border="dark" show={show} onHide={handleClose} placement="start" scroll="true">
-				<Offcanvas.Header closeButton onClick={handleClose}>
-					<Offcanvas.Title>Item List</Offcanvas.Title>
-				</Offcanvas.Header>
-				<Offcanvas.Body>
-					<InputGroup className="mb-3 mt-1">
-						<InputGroup.Text id="container-to-add-to">Container to add Item to</InputGroup.Text>
-						<Form.Select ref={containerFocus} value={selectedContainer} placeholder="Container" aria-describedby="container-to-add-to" onChange={event => setSelectedContainer(event.target.value)}>
-							<option value="">Choose container...</option>
-							{containers.map((container, index) => (
-								<option key={`container-label-${container.label}`} value={container.id}>{container.label}</option>
-							))}
-						</Form.Select>
-					</InputGroup>
-					<FilterSelection filters={filters} searchField={searchField} setFilters={setFilters} setSearchField={setSearchField}/>
-					{false ? <Container fluid className="filter-container">
-						<span>Filters: </span>
-						{filterKeys.map(key => (
-							filters[key].map((filter, index) => (
-								<FilterItem key={`filter-item-${filter}`} index={index} type={key} name={filter} handleDelete={handleDelete}/>
-							))
+		<Offcanvas show={show} onHide={handleClose} placement="start">
+			<Offcanvas.Header closeButton onClick={handleClose}>
+				<Offcanvas.Title>Item List</Offcanvas.Title>
+			</Offcanvas.Header>
+			<Offcanvas.Body>
+				<InputGroup className="mb-3 mt-1">
+					<InputGroup.Text id="container-to-add-to">Container to add Item to</InputGroup.Text>
+					<Form.Select ref={containerFocus} value={selectedContainer} placeholder="Container" aria-describedby="container-to-add-to" onChange={event => setSelectedContainer(event.target.value)}>
+						<option value="">Choose container...</option>
+						{containers.map((container, index) => (
+							<option key={`container-label-${container.label}`} value={container.id}>{container.label}</option>
 						))}
-					</Container> : null}
-					<div key={props.index} style={{marginLeft:"0.5em", marginRight:"0.5em"}}>
-						<Table size="sm" style={{color:"white", border:"black"}}>
-							{headers.map((header, index) => (
-								<InventoryTable
-									key={`table-to-add-${header}`}
-									cardID={cardID}
-									setCardID={setCardID}
-									header={header}
-									bodies={bodies[index].filter(item => {return item.name.toLowerCase().includes(searchField.toLowerCase()) === true})}
-									offCanvas={true} 
-									searchField={searchField} 
-									filters={filters}
-									selectedContainer={selectedContainer}
-									containerFocus={containerFocus}
-									setContainerFocus={setContainerFocus}
-								/>
-							))}
-						</Table>
-					</div>
-				</Offcanvas.Body>
-			</Offcanvas>
-		</>
+					</Form.Select>
+				</InputGroup>
+				<FilterSelection filters={filters} searchField={searchField} setFilters={setFilters} setSearchField={setSearchField}/>
+				{false ? <Container fluid className="filter-container">
+					<span>Filters: </span>
+					{filterKeys.map(key => (
+						filters[key].map((filter, index) => (
+							<FilterItem key={`filter-item-${filter}`} index={index} type={key} name={filter} handleDelete={handleDelete}/>
+						))
+					))}
+				</Container> : null}
+				<div key={props.index} style={{marginLeft:"0.5em", marginRight:"0.5em"}}>
+					<Table size="sm" style={{color:"white", border:"black"}}>
+						{headers.map((header, index) => (
+							<InventoryTable
+								key={`table-to-add-${header}`}
+								cardID={cardID}
+								setCardID={setCardID}
+								header={header}
+								bodies={bodies[index].filter(item => {return item.name.toLowerCase().includes(searchField.toLowerCase()) === true})}
+								offCanvas={true} 
+								searchField={searchField} 
+								filters={filters}
+								selectedContainer={selectedContainer}
+								containerFocus={containerFocus}
+								setContainerFocus={setContainerFocus}
+							/>
+						))}
+					</Table>
+				</div>
+			</Offcanvas.Body>
+		</Offcanvas>
 	)
 }
 /*

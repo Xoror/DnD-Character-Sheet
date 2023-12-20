@@ -21,6 +21,7 @@ const Modal = forwardRef(({
         backdropClassName = "",
         dialogClassName = "",
         contentClassName= "",
+        id,
         ...restProps 
     }, ref) => {
     const [showModal, setShowModal] = useState(false)
@@ -101,10 +102,16 @@ const Modal = forwardRef(({
         }
     }, [showModal])
 
+    const showTest = useRef(show)
+    useEffect(() => {
+        if(showTest.current != show) {
+            showTest.current = show
+        }
+    }, [show])
     useEffect(() => {
         document.addEventListener("animationend", (event) => {
             if(event.animationName === "fadeOut") {
-                if(!show) {
+                if(!showTest.current) {
                     setShowModal(false)
                     document.body.classList.remove("sg-modal-open")
                 }
@@ -140,14 +147,8 @@ const Modal = forwardRef(({
          createPortal(
             <>
                 <div id="sg-modal-backdrop" className={`fadeIn sg-modal-backdrop${backdropClassName === "" ? "": " " + backdropClassName}`}></div>
-                <div 
-                    id="sg-modal"
-                    className={`fadeIn sg-modal`} role="dialog" 
-                    aria-modal="true" tabIndex="-1" aria-label="modal"
-                    
-                    {...restProps}
-                >
-                    <div id="sg-modal-dialog" className={`sg-modal-dialog modal-${size}${dialogClassName === "" ? "": " " + dialogClassName}`}>
+                <div id="sg-modal" className={`fadeIn sg-modal`} tabIndex="-1">
+                    <div role="dialog" className={`sg-modal-dialog modal-${size}${dialogClassName === "" ? "": " " + dialogClassName}`} {...restProps} >
                         <div ref={ref} className={`sg-modal-content${contentClassName === "" ? "": " " + contentClassName}`}>
                             <ModalContext.Provider value={onHideMemo}>
                                 {!typeCheck ?

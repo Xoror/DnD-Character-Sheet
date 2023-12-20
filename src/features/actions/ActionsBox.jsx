@@ -1,11 +1,8 @@
 import React, { useState, useRef} from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
-//import Card from 'react-bootstrap/Card';
 import Card from '../../BootstrapReplace/Card';
-//import Button from 'react-bootstrap/Button';
 import Button from '../../BootstrapReplace/CustomButton';
-//import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ButtonGroup from '../../BootstrapReplace/ButtonGroup';
 
 import { ActionsTable } from "./ActionsTable"
@@ -16,7 +13,7 @@ import { useFocus } from '../../components/CustomHooks';
 
 import { isEqual } from "lodash"
 
-export default function ActionsBox(props) {
+const ActionsBox = (props) => {
 	const dispatch = useDispatch()
 	let actionTemplate = props.id === "Spells" ? 
 		{
@@ -90,7 +87,7 @@ export default function ActionsBox(props) {
 			if(actions.filter(action => {return action.name === event.target[0].value}).length != 0 || sortedSpellList.filter(action => {return action.name === event.target[0].value}).length != 0) {
 				event.stopPropagation()
 				if(modal) {
-					setInputModalRef()
+					setInputModalFocus()
 				} else {
 					setInputFocus()
 				}
@@ -178,3 +175,5 @@ export default function ActionsBox(props) {
 		</Card>
 	)
 }
+
+export default ActionsBox

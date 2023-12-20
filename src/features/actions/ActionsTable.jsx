@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
-import Table from 'react-bootstrap/Table';
-import { usePopper } from 'react-popper';
+import Table from '../../BootstrapReplace/Table';
 
 import { AiFillCloseSquare } from "react-icons/ai";
 import { RiFileEditFill } from "react-icons/ri";
@@ -16,11 +15,13 @@ import { addRoll } from '../settings/SettingsSlice';
 
 export const ActionsTable = (props) => {
 	const dispatch = useDispatch()
-	const [currentBody, setCurrentBody] = useState("")
 	const charAttributes = useSelector(state => state.attributes.charAttributes)
 	const spellCastingAttribute = useSelector(state => state.attributes.casting.spellAttribute)
 	const proficiency = useSelector(state => state.attributes.proficiency)
 	const charLevel = useSelector(state => state.charDetails.charLevel)
+
+	const [currentBody, setCurrentBody] = useState("")
+	const [showDetails, setShowDetails] = useState([false, "bla"])
 
 	const scalingBonus = (scale) => {
 		if(scale === "None" || scale === "") {
@@ -50,8 +51,6 @@ export const ActionsTable = (props) => {
 		props.setInputFocus()
 		props.inputRef.current.scrollIntoView()
 	}
-	let place = props.offCanvas ? "left" : "right"
-	const [showDetails, setShowDetails] = useState([false, "bla"])
 
 	const handleRowClick = (event, id) => {
 		setCurrentBody(props.bodies.find((body, index) => (body.id === id)))
@@ -64,7 +63,6 @@ export const ActionsTable = (props) => {
 		}
 	}
 
-	//const ref = useOutsideClick(handleRowClick)
 	const convertTemplate =(damageAtHigherLevel, id, damage) => {
 		let keys
 		let object = []
@@ -106,7 +104,7 @@ export const ActionsTable = (props) => {
 	}
 	
 	return (
-		<div  key={props.index} style={{marginLeft:"0.5em", marginRight:"0.5em"}}>
+		<div key={props.index} style={{marginLeft:"0.5em", marginRight:"0.5em"}}>
 			<h5> {props.header} {props.spells ? (props.header === "Cantrip" ? "": "Level") :""} </h5>
 			<Table size="sm" style={{color:"white", border:"black"}} >
 				<thead>
@@ -123,7 +121,7 @@ export const ActionsTable = (props) => {
 					{props.bodies.map( (body, index) => (
 						(props.offCanvas ? filterFunction(body, props.filters, props.searchField) : true) ?
 							<React.Fragment key={`${props.offCanvas}-action-table-row-id-${body.id}`}>
-								<tr className="action-table" id={`${props.offCanvas}-action-table-row-id-${body.id}`} onClick={(event) => handleRowClick(event, body.id)} >
+								<tr className="action-table" id={`${props.offCanvas}-action-table-row-id-${body.id}`} /*onClick={(event) => handleRowClick(event, body.id)}*/ >
 									{props.spells ? 
 										<td  style={{height:"1.5em", width:"1.5em", zIndex:"2"}}>
 											<div className={`checkbox-wrapper`}>
@@ -137,17 +135,17 @@ export const ActionsTable = (props) => {
 										<td> 
 											{ !(props.header === "Cantrip") ?
 												<div style={{display:"flex", flexWrap:"wrap"}}> {body.damage != "None" ?  
-													<DiceRollButton passData={handleRoll} name={`${body.name}`} options={convertTemplate(body.damageAtHigherLevel, "dmgHigherLevel", body.damage)} spellBonus={scalingBonus(spellCastingAttribute)} /> : body.damage} {body.damageType != "None" ? "(" + body.damageType + ")" : ""} 
+													<DiceRollButton controlID={body.name} passData={handleRoll} name={`${body.name}`} options={convertTemplate(body.damageAtHigherLevel, "dmgHigherLevel", body.damage)} spellBonus={scalingBonus(spellCastingAttribute)} /> : body.damage} {body.damageType != "None" ? "(" + body.damageType + ")" : ""} 
 												</div> :
 												<div style={{display:"flex", flexWrap:"wrap"}}> {body.damage != "None" ?  
-													<DiceRollButton passData={handleRoll} name={`${body.name}`}  noDice={true} noOptions={true} singleValue={convertTemplate(body.damageAtHigherLevel, "cantrip")}/> : body.damage}
+													<DiceRollButton controlID={body.name} passData={handleRoll} name={`${body.name}`}  noDice={true} noOptions={true} singleValue={convertTemplate(body.damageAtHigherLevel, "cantrip")}/> : body.damage}
 												{body.damageType != "None" ? "(" + body.damageType + ")" : ""} 
 											</div> 
 											}
 										</td> : 
 										<td> 
 											<div style={{display:"flex", flexWrap:"wrap"}}> 
-												<DiceRollButton passData={handleRoll} name={`${body.name}`} noDice={true} noOptions={true} singleValue={body.damage} bonus={scalingBonus(body.scaling)}/>
+												<DiceRollButton controlID={body.name} passData={handleRoll} name={`${body.name}`} noDice={true} noOptions={true} singleValue={body.damage} bonus={scalingBonus(body.scaling)}/>
 												({body.damageType}) 
 											</div> 
 										</td>)

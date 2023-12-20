@@ -67,7 +67,7 @@ export const FancyNav = (props) => {
                         <span className="icon"><MdLastPage size="2em" /></span>
                     </a>
                 </li>
-                <div className="indicator"></div>
+                <div aria-hidden className="indicator"></div>
             </ul>
         </div>
     )

@@ -1,11 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
-//import Card from 'react-bootstrap/Card';
 import Card from '../../BootstrapReplace/Card';
-//import Form from 'react-bootstrap/Form';
 import Form from '../../BootstrapReplace/Form';
-import Table from 'react-bootstrap/Table';
+import Table from '../../BootstrapReplace/Table';
 
 import { Attribute } from './AttributeSolo';
 import { changeJackOfAllTrades, updateProficiencies } from './AttributesSlice';
@@ -17,6 +15,7 @@ export const Attributes = () => {
     const charAttributes = useSelector(state => state.attributes.charAttributes)
 	const skills = useSelector(state => state.attributes.skills)
     const jackOfAllTrades = useSelector(state => state.attributes.jackOfAllTrades)
+	//console.log(skills)
 
 	const handleChecked = (event) => {
 		dispatch(changeJackOfAllTrades(event.target.checked))
@@ -25,7 +24,7 @@ export const Attributes = () => {
 	return (
 	<Card className="main-element-card">
 		<Form.Check style={{paddingLeft:"2em", paddingTop:"0.3em"}} type="checkbox" checked={jackOfAllTrades} id="jack-of-all-trades-check" label="Jack of All Trades" onChange={handleChecked}></Form.Check>
-		<Table style={{color: '#ffffff', border:"black"}}>
+		<Table style={{color: '#ffffff', border:"black", verticalAlign:"top"}}>
 			<thead>
 				<tr>
 				  <th scope="col">Attributes</th>

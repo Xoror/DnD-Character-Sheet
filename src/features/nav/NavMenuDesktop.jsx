@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { Link } from "react-router-dom";
 
-import Nav from 'react-bootstrap/Nav'
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+import Nav from "../../BootstrapReplace/Nav";
+import Navbar from "../../BootstrapReplace/NavBar";
+import NavDropdown from "../../BootstrapReplace/NavDropdown";
+
 
 import { VscChromeMinimize, VscChromeMaximize, VscChromeClose } from "react-icons/vsc";
 import { MdHome, MdMenu } from "react-icons/md";
@@ -40,7 +41,7 @@ export const NavMenuDesktop = (props) => {
         if(webServer) {
             return (
                 <>
-                    <NavDropdown style={{marginLeft:"0.5em"}} className="character-menu" id="character-choice-menu" title={"Menu" + (width < 900 ? (props.star ? "*" : "") : "")} menuVariant="dark" >
+                    <NavDropdown style={{marginLeft:"0.5em"}} className="character-menu" controlID="main-menu" id="character-choice-menu" title={"Menu" + (width < 900 ? (props.star ? "*" : "") : "")} >
                         {width < 900 && loginStatus === "fulfilled"?
                             <>
                                 <span style={{padding:"0.25em 1em", display:"block", width:"100%", whiteSpace:"nowrap"}}>Last saved{props.star ? "*" : null}: {props.navBarSlice.lastSaved}</span>
@@ -50,28 +51,28 @@ export const NavMenuDesktop = (props) => {
                         }
                         {loginStatus === "fulfilled" ?
                             <>
-                                <NavDropdown.Item role="menuitem" onClick={handleLogoutClick}>Logout</NavDropdown.Item>
-                                <NavDropdown.Item role="menuitem" onClick={(event) => exportToJson(event, props.charName, props.currentState)}>Export to file</NavDropdown.Item>
-                                <NavDropdown.Item role="menuitem" onClick={handleInputClick}>Import from file</NavDropdown.Item>
+                                <NavDropdown.Item onClick={handleLogoutClick}>Logout</NavDropdown.Item>
+                                <NavDropdown.Item onClick={(event) => exportToJson(event, props.charName, props.currentState)}>Export to file</NavDropdown.Item>
+                                <NavDropdown.Item onClick={handleInputClick}>Import from file</NavDropdown.Item>
                                 <NavDropdown.Item ref={inputRef} className="custom-upload" id="file-upload" as="input" type="file" onChange={(event)=>dispatchFunction(event)}></NavDropdown.Item>
-                                <NavDropdown.Item role="menuitem" onClick={(event) => props.handleNavDropdownClick(event, "new", "new")}>New</NavDropdown.Item>
+                                <NavDropdown.Item onClick={(event) => props.handleNavDropdownClick(event, "new", "new")}>New</NavDropdown.Item>
                             </>
                             :
                             <>
-                                <NavDropdown.Item role="menuitem" as={Link} to="/login">Login</NavDropdown.Item>
-                                <NavDropdown.Item role="menuitem" as={Link} to="/register">Register</NavDropdown.Item>
-                                <NavDropdown.Item role="menuitem" onClick={(event) => exportToJson(event, props.charName, props.currentState)}>Export to file</NavDropdown.Item>
-                                <NavDropdown.Item role="menuitem" onClick={handleInputClick}>Import from file</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/login">Login</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/register">Register</NavDropdown.Item>
+                                <NavDropdown.Item onClick={(event) => exportToJson(event, props.charName, props.currentState)}>Export to file</NavDropdown.Item>
+                                <NavDropdown.Item onClick={handleInputClick}>Import from file</NavDropdown.Item>
                                 <NavDropdown.Item ref={inputRef} className="custom-upload" id="file-upload" as="input" type="file" onChange={(event)=>dispatchFunction(event)}></NavDropdown.Item>
-                                <NavDropdown.Item role="menuitem" onClick={(event) => props.handleNavDropdownClick(event, "new", "new")}>New</NavDropdown.Item>
+                                <NavDropdown.Item onClick={(event) => props.handleNavDropdownClick(event, "new", "new")}>New</NavDropdown.Item>
                             </>
                         }
                         {loginStatus === "fulfilled" ?
                             <>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item role="menuitem" onClick={(event) => props.handleSave(event)}>Save</NavDropdown.Item>
-                                <NavDropdown.Item role="menuitem" onClick={(event) => (props.setModalType("save-as"), props.setShowSafetyBox(true))}>Save As</NavDropdown.Item>
-                                <NavDropdown.Item role="menuitem" onClick={props.getCharacterNames}>Sync Characters</NavDropdown.Item>
+                                <NavDropdown.Item onClick={(event) => props.handleSave(event)}>Save</NavDropdown.Item>
+                                <NavDropdown.Item onClick={(event) => (props.setModalType("save-as"), props.setShowSafetyBox(true))}>Save As</NavDropdown.Item>
+                                <NavDropdown.Item onClick={props.getCharacterNames}>Sync Characters</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <span style={{padding:"0.25em 1em", display:"block", width:"100%", whiteSpace:"nowrap"}}>Your Characters:</span>
                             </> : null
@@ -104,7 +105,7 @@ export const NavMenuDesktop = (props) => {
         else {
             return (
                 <>
-                    <NavDropdown className="character-menu" id="character-choice-menu" title={"Menu" + (width < 900 ? (props.star ? "*" : "") : "")} menuVariant="dark" >
+                    <NavDropdown className="character-menu" controlID="main-menu" id="character-choice-menu" title={"Menu" + (width < 900 ? (props.star ? "*" : "") : "")} >
                         {width < 900?
                             <>
                                 <span style={{padding:"0.25em 1em", display:"block", width:"100%", whiteSpace:"nowrap"}}>Last saved{props.star ? "*" : null}: {props.navBarSlice.lastSaved}</span>
@@ -112,14 +113,14 @@ export const NavMenuDesktop = (props) => {
                             </>
                             : null
                         }
-                        <NavDropdown.Item role="menuitem" onClick={(event) => exportToJson(event, props.charName, props.currentState)}>Export to file</NavDropdown.Item>
-                        <NavDropdown.Item role="menuitem" onClick={handleInputClick}>Import from file</NavDropdown.Item>
+                        <NavDropdown.Item onClick={(event) => exportToJson(event, props.charName, props.currentState)}>Export to file</NavDropdown.Item>
+                        <NavDropdown.Item onClick={handleInputClick}>Import from file</NavDropdown.Item>
                         <NavDropdown.Item ref={inputRef} className="custom-upload" id="file-upload" as="input" type="file" onChange={(event)=>dispatchFunction(event)}></NavDropdown.Item>
                         <NavDropdown.Divider />
-                        <NavDropdown.Item role="menuitem" onClick={(event) => props.handleNavDropdownClick(event, "new", "new")}>New</NavDropdown.Item>
-                        <NavDropdown.Item role="menuitem" onClick={(event) => props.handleSave(event)}>Save</NavDropdown.Item>
-                        <NavDropdown.Item role="menuitem" onClick={(event) => (props.setModalType("save-as"), props.setShowSafetyBox(true))}>Save As</NavDropdown.Item>
-                        <NavDropdown.Item role="menuitem" onClick={props.getCharacterNames}>Sync Characters</NavDropdown.Item>
+                        <NavDropdown.Item onClick={(event) => props.handleNavDropdownClick(event, "new", "new")}>New</NavDropdown.Item>
+                        <NavDropdown.Item onClick={(event) => props.handleSave(event)}>Save</NavDropdown.Item>
+                        <NavDropdown.Item onClick={(event) => (props.setModalType("save-as"), props.setShowSafetyBox(true))}>Save As</NavDropdown.Item>
+                        <NavDropdown.Item onClick={props.getCharacterNames}>Sync Characters</NavDropdown.Item>
                         <NavDropdown.Divider />
                         <span style={{padding:"0.25em 1em", display:"block", width:"100%", whiteSpace:"nowrap"}}>Your Characters:</span>
                         {
@@ -183,9 +184,7 @@ export const NavMenuDesktop = (props) => {
                             style={{marginRight:"0"}}
                             id="login-page-link" 
                             as={Link} to="/login" 
-                            className="sheet-button not-draggable"
-                            aria-label="link that leads to the login page"
-                        >
+                            className="sheet-button not-draggable"                        >
                             Login
                         </Navbar.Brand>
                         <Navbar.Brand 
@@ -193,30 +192,25 @@ export const NavMenuDesktop = (props) => {
                             id="register-page-link" 
                             as={Link} to="/register" 
                             className="sheet-button not-draggable"
-                            aria-label="link that leads to the register page"
                         >
                             Register
                         </Navbar.Brand>
                     </div>
                     :
                     <Nav id="logout-settings-menu" style={{marginLeft:"auto"}} className="not-draggable">
-                        <NavDropdown className="character-menu" id="profile-menu" title={`User: ${loggedInUser}`} menuVariant="dark" aria-label="menu to logout and access settings">
+                        <NavDropdown className="character-menu" controlID="profile" id="profile-menu" title={`User: ${loggedInUser}`} >
                             <NavDropdown.Item
                                 style={{marginRight:"0"}}
-                                role="menuitem" 
                                 as={Link} to="/settings"
                                 id="logout-button" 
-                                aria-label="logout button"
                             >
                                 Profile
                             </NavDropdown.Item>
                             <NavDropdown.Item
                                 style={{marginRight:"0"}}
-                                role="menuitem"
                                 onClick={handleLogoutClick}
                                 id="logout-button" 
                                 as="button"
-                                aria-label="logout button"
                             >
                                 Logout
                             </NavDropdown.Item>

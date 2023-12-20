@@ -3,13 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { Link, useLocation } from "react-router-dom";
 
-//import Button from 'react-bootstrap/Button'
 import Button from '../../BootstrapReplace/CustomButton';
-//import Form from 'react-bootstrap/Form'
 import Form from '../../BootstrapReplace/Form';
-//import Card from "react-bootstrap/Card"
 import Card from '../../BootstrapReplace/Card';
-import Spinner from 'react-bootstrap/Spinner';
+import Spinner from "../../BootstrapReplace/Spinner";
 import ListGroup from 'react-bootstrap/ListGroup';
 import Tab from 'react-bootstrap/Tab';
 
@@ -17,7 +14,6 @@ import { Login } from "../api/Login";
 import { userUpdateThunk, resetUserUpdate } from "../api/Api";
 import { ResponseInfoBox } from "../../components/ResponseInfoBox";
 import { usernameValidator, passwordValidator, confirmUsernameValidator, confirmPasswordValidator } from "../../utils/UserInfoValidation";
-import { isDev } from "../../config";
 
 export const SettingsPage = () => {
     const dispatch = useDispatch()

@@ -23,7 +23,9 @@ $colors: ("primary": #0d6efd, "secondary": #6c757d, "success": #198754, "info": 
         min-width: fit-content;
         padding: 0.375em 0.75em;
         display: inline-block;
-        &:hover{
+        text-align: center;
+        vertical-align: middle;
+        &:hover, &:focus {
             background-color: $hover-background;
             border-color: $hover-background;
         }
@@ -48,7 +50,7 @@ $colors: ("primary": #0d6efd, "secondary": #6c757d, "success": #198754, "info": 
     position: relative;
     display: inline-flex;
     vertical-align: middle;
-    width: 100%;
+    //width: 100%;
     border-radius: 0.375em;
     //width: 100%;
     > .sg-button {
@@ -83,10 +85,12 @@ $colors: ("primary": #0d6efd, "secondary": #6c757d, "success": #198754, "info": 
     align-items: flex-start;
     justify-content: center;
   
+    
     > .sg-button,
     > .sg-button-group {
       width: 100%;
     }
+    
   
     > .sg-button:not(:first-child),
     > .sg-button-group:not(:first-child) {

@@ -1,22 +1,16 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
-//import Button from 'react-bootstrap/Button';
 import Button from '../../BootstrapReplace/CustomButton';
-//import Modal from 'react-bootstrap/Modal';
 import Modal from '../../BootstrapReplace/Modal';
-//import Form from 'react-bootstrap/Form';
 import Form from '../../BootstrapReplace/Form';
-//import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import FloatingLabel from '../../BootstrapReplace/FloatingLabel';
-//import InputGroup from 'react-bootstrap/InputGroup';
 import InputGroup from '../../BootstrapReplace/InputGroup';
-
 
 import { FeatureList } from "./FeaturesList";
 import { addFeature } from './FeaturesSlice';
 
-export default function FeaturesBox() {
+const FeaturesBox = () => {
 	const dispatch = useDispatch();
     const features = useSelector(state => state.features.data)
 
@@ -42,9 +36,9 @@ export default function FeaturesBox() {
 	
 	return (
 		<>
-			<Modal backdrop size="lg" show={show} onHide={handleClose}>
+			<Modal backdrop aria-labelledby="add-class-feature" size="lg" show={show} onHide={handleClose}>
 				<Modal.Header closeButton>
-					<Modal.Title>
+					<Modal.Title id="add-class-feature">
 						Adding a Class feature
 					</Modal.Title>
 				</Modal.Header>
@@ -73,7 +67,7 @@ export default function FeaturesBox() {
 								</InputGroup>
 							</> :
 							<FloatingLabel controlId="test-floating-label"  label="Name">
-								<MyForm.Control required placeholder=""/>
+								<Form.Control required placeholder=""/>
 							</FloatingLabel>
 						}
 					</Modal.Body>
@@ -102,3 +96,5 @@ export default function FeaturesBox() {
 		</>
 	)
 }
+
+export default FeaturesBox

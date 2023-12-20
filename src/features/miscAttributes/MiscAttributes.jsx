@@ -1,9 +1,7 @@
 import React from 'react';
 import { useSelector } from "react-redux"
 
-//import Card from 'react-bootstrap/Card';
 import Card from '../../BootstrapReplace/Card';
-//import Container from 'react-bootstrap/Container'
 import Container from '../../BootstrapReplace/Container';
 
 

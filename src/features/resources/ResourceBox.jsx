@@ -1,11 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useDispatch } from "react-redux"
 
-import { AiFillCloseSquare } from "react-icons/ai";
-
-//import Button from 'react-bootstrap/Button';
 import Button from '../../BootstrapReplace/CustomButton';
-
 
 import { editResource, deleteResource } from './ResourcesSlice';
 

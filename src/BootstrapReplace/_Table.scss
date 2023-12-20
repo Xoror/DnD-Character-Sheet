@@ -1,0 +1,34 @@
+.sg-table {
+    --sg-table-padding: $sg-table-padding;
+    width: 100%;
+    margin-bottom: 1rem;
+    color: black;
+    vertical-align: top;
+    border-color: black;
+
+    > :not(caption) > * > * {
+        padding: $sg-table-padding $sg-table-padding;
+        background-color: transparent;
+        border-bottom-width: 1px;
+        box-shadow: inset 0 0 0 9999px transparent;
+    }
+
+    > tbody {
+    vertical-align: inherit;
+    }
+
+    > thead {
+    vertical-align: bottom;
+    }
+}
+
+.sg-caption-top {
+    caption-side: top;
+}
+
+.sg-table-sm {
+    // stylelint-disable-next-line selector-max-universal
+    > :not(caption) > * > * {
+      padding: $sg-table-padding-sm $sg-table-padding-sm;
+    }
+}

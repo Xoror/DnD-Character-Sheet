@@ -1,0 +1,31 @@
+.sg-nav {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+  }
+  
+.sg-nav-link {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: white;
+    text-decoration: none;
+    //transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
+  
+    &:hover,
+    &:focus {
+      color: rgba(255, 255, 255, 0.5)
+    }
+  
+    // Disabled state lightens text
+    &.disabled {
+      color: rgba(0, 0, 0, 0.24);
+      pointer-events: none;
+      cursor: default;
+    }
+}
+
+.sg-nav-item {
+  margin-block: auto;
+}

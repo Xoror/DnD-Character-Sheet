@@ -1,19 +1,14 @@
 import React, { useState} from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
-//import Button from 'react-bootstrap/Button';
 import Button from '../../BootstrapReplace/CustomButton';
 import ButtonGroup from '../../BootstrapReplace/ButtonGroup';
-//import Card from 'react-bootstrap/Card';
 import Card from '../../BootstrapReplace/Card';
-//import Form from 'react-bootstrap/Form';
 import Form from '../../BootstrapReplace/Form';
-//import InputGroup from 'react-bootstrap/InputGroup';
 import InputGroup from '../../BootstrapReplace/InputGroup';
-//import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import FloatingLabel from '../../BootstrapReplace/FloatingLabel';
-//import Modal from 'react-bootstrap/Modal';
 import Modal from '../../BootstrapReplace/Modal';
+
 import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
 import Tab from 'react-bootstrap/Tab';

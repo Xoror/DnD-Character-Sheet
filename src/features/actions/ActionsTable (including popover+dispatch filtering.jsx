@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
-import Table from 'react-bootstrap/Table';
+import Table from '../../BootstrapReplace/Table';
 import { usePopper } from 'react-popper';
 
 import { AiFillCloseSquare } from "react-icons/ai";

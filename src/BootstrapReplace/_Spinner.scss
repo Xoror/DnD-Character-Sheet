@@ -1,0 +1,19 @@
+.sg-spinner {
+    display: inline-block;
+    border-radius: 50%;
+    width: 1em;
+    height: 1em;
+    border: 0.2em solid white;
+    border-right-color: transparent;
+    margin: auto;
+    animation-name: spinny;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+@keyframes spinny {
+    100% {
+        transform: rotate(360deg);
+    }
+}

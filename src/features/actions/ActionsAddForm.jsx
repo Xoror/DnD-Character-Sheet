@@ -1,14 +1,9 @@
 import React, { useCallback, useEffect, useReducer, useRef, useState } from "react";
 
-//import Button from 'react-bootstrap/Button';
 import Button from '../../BootstrapReplace/CustomButton';
-//import Form from 'react-bootstrap/Form';
 import Form from "../../BootstrapReplace/Form";
-//import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import FloatingLabel from "../../BootstrapReplace/FloatingLabel";
-//import InputGroup from 'react-bootstrap/InputGroup';
 import InputGroup from "../../BootstrapReplace/InputGroup";
-
 import Modal from '../../BootstrapReplace/Modal';
 
 import { FormValidationInfo } from "../../components/FormValidationInfo";

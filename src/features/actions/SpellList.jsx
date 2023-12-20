@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import Offcanvas from 'react-bootstrap/Offcanvas';
-//import Container from 'react-bootstrap/Container'
+import Offcanvas from '../../BootstrapReplace/OffCanvas';
+
 import Container from '../../BootstrapReplace/Container';
-//import InputGroup from 'react-bootstrap/InputGroup';
 import InputGroup from '../../BootstrapReplace/InputGroup';
-//import Form from 'react-bootstrap/Form';
 import Form from '../../BootstrapReplace/Form';
 
 
@@ -49,36 +47,34 @@ export const SpellList = (props) => {
 	
 	let headers = ["Cantrip","1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th"]
 	return(
-		<>
-			<Offcanvas border="dark" show={show} onHide={handleClose} placement="start" scroll="true">
-				<Offcanvas.Header closeButton onClick={handleClose}>
-					<Offcanvas.Title>Spell List</Offcanvas.Title>
-				</Offcanvas.Header>
-				<Offcanvas.Body>
-					<FilterSelection filters={filters} searchField={searchField} setFilters={setFilters} setSearchField={setSearchField}/>
-					<Container fluid className="filter-container">
-						<span>Filters: </span>
-						{filterKeys.map(key => (
-							filters[key].map((filter, index) => (
-								<FilterItem key={`filter-item-${filter}`} index={index} type={key} name={filter} handleDelete={handleDelete}/>
-							))
-						))}
-					</Container>
-					{headers.map((header, index) => (
-						<ActionsTable 
-							offCanvas={true} 
-							id={props.id} 
-							key={`action-table-${header}`} 
-							header={header} 
-							searchField={searchField} 
-							filters={filters} 
-							bodies={sortedSpellList.filter((action) => {return action.type === header})} 
-							spells="true"
-						/>
+		<Offcanvas show={show} onHide={handleClose} placement="start">
+			<Offcanvas.Header closeButton onClick={handleClose}>
+				<Offcanvas.Title>Spell List</Offcanvas.Title>
+			</Offcanvas.Header>
+			<Offcanvas.Body>
+				<FilterSelection filters={filters} searchField={searchField} setFilters={setFilters} setSearchField={setSearchField}/>
+				<Container fluid className="filter-container">
+					<span>Filters: </span>
+					{filterKeys.map(key => (
+						filters[key].map((filter, index) => (
+							<FilterItem key={`filter-item-${filter}`} index={index} type={key} name={filter} handleDelete={handleDelete}/>
+						))
 					))}
-				</Offcanvas.Body>
-			</Offcanvas>
-		</>
+				</Container>
+				{headers.map((header, index) => (
+					<ActionsTable 
+						offCanvas={true} 
+						id={props.id} 
+						key={`action-table-${header}`} 
+						header={header} 
+						searchField={searchField} 
+						filters={filters} 
+						bodies={sortedSpellList.filter((action) => {return action.type === header})} 
+						spells="true"
+					/>
+				))}
+			</Offcanvas.Body>
+		</Offcanvas>
 	)
 }
 /*
@@ -126,7 +122,7 @@ const FilterSelection = (props) => {
 		else if(type === "search") {
 			search = event.target.value
 		}
-		dispatch(filterSpells([copy, search]))
+		//dispatch(filterSpells([copy, search]))
 	}
 	const slotList = ["Cantrip","1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th"]
 	const classList = ["Bard", "Cleric", "Druid", "Paladin", "Ranger", "Sorcerer", "Warlock", "Wizard"]

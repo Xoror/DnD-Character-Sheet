@@ -68,7 +68,7 @@ Form.Label = forwardRef(Label)
 const Check = ({ 
         classNameContainer, containerRef, containerId, style,
         classNameLabel, labelRef, label, labelId,
-        className, type, id, controlId, reverse=false, ...restProps 
+        className, type, id, controlId, reverse=false, checkStyle, ...restProps 
     } , ref) => {
     
     let elementId = controlId ? controlId : id
@@ -83,7 +83,7 @@ const Check = ({
                 </> :
                 <>
                     <label ref={labelRef} id={labelId} htmlFor={elementId}className={`sg-form-check-label${classNameLabel ? " "+classNameLabel : ""}`}>{label}</label>
-                    <input ref={ref} type={typeComputed} id={elementId} className={`sg-form-check-input${className ? " "+className : ""}`} {...restProps} />
+                    <input ref={ref} type={typeComputed} id={elementId} className={`sg-form-check-input${className ? " "+className : ""}`} style={checkStyle} {...restProps} />
                 </>
             }
         </div>

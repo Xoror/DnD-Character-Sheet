@@ -7,8 +7,6 @@ import store from './app/store'
 import { Provider } from 'react-redux'
 import { debounce } from 'lodash';
 
-import { configureStoreAsync } from './app/store';
-import { isDesktop, webServer } from './config';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 

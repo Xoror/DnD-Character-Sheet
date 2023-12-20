@@ -2,11 +2,8 @@ import React from "react";
 
 import "./SpellCard.scss"
 
-//import Row from 'react-bootstrap/Row'
 import Row from '../BootstrapReplace/Row';
-//import Col from 'react-bootstrap/Col'
 import Col from '../BootstrapReplace/Col';
-//import CloseButton from 'react-bootstrap/CloseButton';
 import CloseButton from '../BootstrapReplace/CloseButton';
 
 /*

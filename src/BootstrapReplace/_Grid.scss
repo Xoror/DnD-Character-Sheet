@@ -101,7 +101,6 @@ $container-padding-x: $grid-gutter-width !default;
     --sg-gutter-y: 0;
     display: flex;
     flex-wrap: wrap;
-    // TODO: Revisit calc order after https://github.com/react-bootstrap/react-bootstrap/issues/6039 is fixed
     margin-top: calc(-1 * var(--sg-gutter-y)); // stylelint-disable-line function-disallowed-list
     margin-right: calc(-.5 * var(--sg-gutter-x)); // stylelint-disable-line function-disallowed-list
     margin-left: calc(-.5 * var(--sg-gutter-x)); // stylelint-disable-line function-disallowed-list
@@ -109,7 +108,6 @@ $container-padding-x: $grid-gutter-width !default;
   
 @mixin make-col-ready() {
     // Add box sizing if only the grid is loaded
-    box-sizing: if(variable-exists(include-column-box-sizing) and $include-column-box-sizing, border-box, null);
     // Prevent columns from becoming too narrow when at smaller grid tiers by
     // always setting `width: 100%;`. This works because we set the width
     // later on to override this initial width.

@@ -1,9 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import Container from '../../BootstrapReplace/Container'
+import Row from '../../BootstrapReplace/Row'
+import Col from '../../BootstrapReplace/Col'
+
 import { changeDetails } from './CharDetailsSlice'
 import { updateProficiency, updateProficiencies, computeHitDC } from '../attributes/AttributesSlice';
 

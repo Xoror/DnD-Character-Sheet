@@ -1,8 +1,6 @@
 import React, { useDeferredValue, useState } from "react";
 
-//import Container from 'react-bootstrap/Container'
 import Container from '../BootstrapReplace/Container';
-//import Form from "react-bootstrap/Form";
 import Form from "../BootstrapReplace/Form";
 
 import { AiOutlineCloseCircle } from "react-icons/ai";

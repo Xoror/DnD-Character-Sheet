@@ -1,15 +1,10 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux"
 
-//import Button from 'react-bootstrap/Button'
 import Button from '../../BootstrapReplace/CustomButton';
-//import Form from 'react-bootstrap/Form'
 import Form from "../../BootstrapReplace/Form";
-//import FloatingLabel from 'react-bootstrap/FloatingLabel'
 import FloatingLabel from "../../BootstrapReplace/FloatingLabel";
-//import InputGroup from 'react-bootstrap/InputGroup'
 import InputGroup from "../../BootstrapReplace/InputGroup";
-//import Modal from "react-bootstrap/Modal"
 import Modal from '../../BootstrapReplace/Modal';
 
 import { addContainer } from "./InventorySlice"
@@ -163,7 +158,7 @@ export const InventoryAdd = (props) => {
                     <InputGroup.Text as="label" id={`${editing ? "edit":"quick-add-new"}-item`} className="top-left-group top-right-group" style={{flexGrow:"2"}}> {editing ? ("Currently editing: " + defaultValues.name) : "Add New Item" } </InputGroup.Text> 
                     {editing ? <Button className="top-right-group" onClick={() => (setEditing(false), setDefaultValues(itemTemplate))}>Cancel</Button> : ""}
                 </InputGroup>
-                <Form aria-label="quick-add-new-item-form" onSubmit={(event) => handleClick(event)}>
+                <Form aria-label="quick add new item" onSubmit={(event) => handleClick(event)}>
                     {addItemForm(false)}
                 </Form>
             </div>
@@ -175,7 +170,7 @@ export const InventoryAdd = (props) => {
 					</Modal.Title>
 				</Modal.Header>
 
-                <Form aria-labelledby="add-new-item" onSubmit={(event) => (handleClick(event))}>
+                <Form aria-label="add new item" onSubmit={(event) => (handleClick(event))}>
                     {addItemForm(true)}
                 </Form>
             </Modal>

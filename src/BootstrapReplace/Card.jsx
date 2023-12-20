@@ -3,11 +3,10 @@ import React, { forwardRef } from "react"
 
 const Card = forwardRef(({children, className, ...restProps}, ref) => {
     let subComponentList = Object.keys(Card);
-
-   let subComponents = []
-   let childs = children.length === undefined ? children :  children.filter(child => child != null && child != "")
+    let subComponents = []
+    let childs = children.length === undefined ? children :  children.filter(child => child != null && child != "")
    
-   subComponentList.forEach((key) => {
+    subComponentList.forEach((key) => {
         React.Children.forEach(childs, (child) => (
             child.type.name === key ? subComponents.push(child) : null
         ))

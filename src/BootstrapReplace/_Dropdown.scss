@@ -1,0 +1,94 @@
+$sg-dropdown-list-bg: #343a40;
+
+.dropup,
+.dropend,
+.dropdown,
+.dropstart,
+.dropup-center,
+.dropdown-center {
+  position: relative;
+}
+
+.sg-dropdown-list {
+    position: absolute;
+    z-index: $zindex-dropdown;
+    display: none; // none by default, but block on "open" of the menu
+    min-width: 10rem;
+    padding: 0.5rem 0rem;
+    margin: 0; // Override default margin of ul
+    text-align: left; // Ensures proper alignment if parent has it changed (e.g., modal footer)
+    list-style: none;
+    background-color: $sg-dropdown-list-bg;
+    color: white;
+    background-clip: padding-box;
+    border: 1px solid white;
+    border-radius: 0.375rem;
+  
+    &[data-bs-popper] {
+      top: 100%;
+      left: 0;
+      margin-top: 0.125rem;
+    }
+}
+.sg-dropdown-list.show {
+    display: block;
+  }
+
+.sg-dropdown-toggle {
+    white-space: nowrap;
+    &::after {
+        display: inline-block;
+        margin-left: calc(0.3em * 0.85);
+        vertical-align: calc(0.3em * 0.85);
+        content: "";
+        border-top: 0.3em solid;
+        border-right: 0.3em solid transparent;
+        border-bottom: 0;
+        border-left: 0.3em solid transparent;
+    }
+}
+
+.sg-dropdown-divider {
+  --line-color: rgba(0, 0, 0, 0.175);
+  height: 0;
+  margin: 0.5rem 0;
+  overflow: hidden;
+  border-top: 1px solid var(--line-color);
+  opacity: 1; // Revisit in v6 to de-dupe styles that conflict with <hr> element
+}
+  
+  // Links, buttons, and more within the dropdown menu
+  //
+  // `<button>`-specific styles are denoted with `// For <button>s`
+.sg-dropdown-item {
+  display: block;
+  width: 100%; // For `<button>`s
+  padding: 0.25rem 1rem;
+  clear: both;
+  text-align: inherit; // For `<button>`s
+  white-space: nowrap; // prevent links from randomly breaking onto new lines
+  background-color: transparent; // For `<button>`s
+  color: inherit;
+  border: 1px solid transparent; // For `<button>`s
+
+  &:hover {
+      background-color: color.mix(black, $sg-dropdown-list-bg, 15%);
+  }
+
+  &.active,
+  &:active {
+      background-color: color.mix(black, $sg-dropdown-list-bg, 20%);
+  }
+
+  &.disabled,
+  &:disabled {
+      background-color: color.mix(white, $sg-dropdown-list-bg, 15%);
+      opacity: 0.5;
+  }
+  &.sg-dropdown-item-visual-focus {
+    background-color: color.mix(black, $sg-dropdown-list-bg, 15%);
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+    //@include sg-focus-visible();
+  }
+}

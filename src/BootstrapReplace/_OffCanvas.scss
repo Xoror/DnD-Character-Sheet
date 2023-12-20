@@ -1,0 +1,260 @@
+@use "sass:color";
+@use "mixins";
+
+$sg-offCanvas-margin: 0.5em;
+$sg-offCanvas-background-color: #2e3236;
+$sg-offCanvas-text-color: white;
+$sg-offCanvas-radius: 0.5em;
+$sg-offCanvas-transition: transform .3s ease-out;
+
+.sg-offCanvas-open {
+  overflow: hidden;
+}
+
+.sg-offCanvas-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: $zindex-modal-backdrop;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+
+  // Fade for backdrop
+  &.fadeIn {
+    animation-name: fadeInBackdrop;
+    animation-duration: .3s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+  }
+  &.fadeOut {
+    animation-name: fadeOutBackdrop;
+    animation-duration: .3s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+  }
+}
+@keyframes fadeInBackdrop {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+@keyframes fadeOutBackdrop {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.sg-offCanvas { //scroll ocntainer
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: $zindex-modal;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  // Prevent Chrome on Windows from adding a focus outline. For details, see
+  // https://github.com/twbs/bootstrap/pull/10951.
+  outline: 0;
+  // We deliberately don't use `-webkit-overflow-scrolling: touch;` due to a
+  // gnarly iOS Safari bug: https://bugs.webkit.org/show_bug.cgi?id=158342
+  // See also https://github.com/twbs/bootstrap/issues/17695
+}
+
+.sg-offCanvas-dialog { //shell to position offCanvas with bottom-padding
+  z-index: calc($zindex-modal + 1);
+  position: relative;
+  width: auto;
+  max-height: 100vh;
+  // allow clicks to pass through for custom click handling to close offCanvas
+  pointer-events: none;
+
+  // slide down animation
+  .sg-offCanvas.fadeIn & {
+    animation-name: fadeIn;
+    animation-duration: .6s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+    //transition: $sg-offCanvas-transition;
+    //transform: translate(0, -50px);
+  }
+  .sg-offCanvas.fadeOut & {
+    animation-name: fadeOut;
+    animation-duration: .3s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+    //transition: $sg-offCanvas-transition;
+    //transform: translate(0, -50px);
+  }
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  // make offCanvas flash onBlur if static backdrop
+}
+
+.sg-offCanvas-content {
+    --sg-offcanvas-size: 478px;
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    max-width: 100%; // Ensure `.offCanvas-content` extends the full width of the parent `.offCanvas-dialog`
+    max-height: 100%;
+    // counteract the pointer-events: none; in the .offCanvas-dialog
+    color: $sg-offCanvas-text-color;
+    pointer-events: auto;
+    background-color: $sg-offCanvas-background-color;
+    background-clip: padding-box;
+    // Remove focus outline from opened offCanvas
+    outline: 0;
+    //visibility: hidden;
+    transition: transform 0.3s ease-in-out;
+
+    &.sg-offcanvas-start {
+        top: 0;
+        left: 0;
+        width: var(--sg-offcanvas-size);
+        border-right: 1px solid $sg-offCanvas-background-color;
+        transform: translateX(-100%);
+    }
+
+    &.sg-offcanvas-end {
+        top: 0;
+        right: 0;
+        width: var(--sg-offcanvas-size);
+        border-left: 1px solid $sg-offCanvas-background-color;
+        transform: translateX(100%);
+    }
+
+    &.sg-offcanvas-top {
+        top: 0;
+        right: 0;
+        left: 0;
+        height: var(--sg-offcanvas-size);
+        max-height: 100%;
+        border-bottom: 1px solid $sg-offCanvas-background-color;
+        transform: translateY(-100%);
+    }
+
+    &.sg-offcanvas-bottom {
+        right: 0;
+        left: 0;
+        height: var(--sg-offcanvas-size);
+        max-height: 100%;
+        border-top: 1px solid $sg-offCanvas-background-color;
+        transform: translateY(100%);
+    }
+    &.sg-slide-in {
+        transform: none;
+    }
+    &.sg-offCanvas-static {
+        transition: $sg-offCanvas-transition;
+        transform: scaleX(1.02);
+    }
+
+
+    .sg-offCanvas-header {
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: space-between; // Put offCanvas header elements (title and dismiss) on opposite ends
+        padding: 1em;
+        //border-bottom: 1px solid $sg-offCanvas-text-color;  
+        .sg-button-close {
+        padding: 0.5em 0.5em;
+        margin: calc(-.5 * $sg-offCanvas-margin) calc(-.5 * $sg-offCanvas-margin) calc(-.5 * $sg-offCanvas-margin) auto;
+        }
+    }
+    .sg-offCanvas-title {
+        margin-bottom: 0;
+    }
+    .sg-offCanvas-body {
+        position: relative;
+        flex: 1 1 auto;
+        padding: 1em;
+        background-color: color.mix(white,$sg-offCanvas-background-color, 10%);
+        overflow: auto;
+    }
+    /*
+    &.sg-offCanvas-footer {
+        display: flex;
+        flex-shrink: 0;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 0.75em;
+        background-color: $sg-offCanvas-background-color;
+        border-top: 1px solid $sg-offCanvas-text-color;
+        @include border-bottom-radius($sg-offCanvas-radius);
+    
+        gap: 0.5em;
+    }
+    */
+}
+
+/*
+$offCanvas-lg: 800px !default;
+$offCanvas-xl: 1140px !default;
+
+$container-max-widths: ( sm: 540px, md: 720px, lg: 960px, xl: 1140px, xxl: 1320px ) !default;
+$grid-breakpoints: (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px, xxl: 1400px ) !default;
+
+@each $breakpoint, $value in $grid-breakpoints {
+  @if $breakpoint == "xs" {
+    @media (max-width: 575px) {
+      .sg-offCanvas-dialog {
+        margin: 0.5em;
+      }
+    }
+  }
+  @if $breakpoint == "sm" {
+    @media (min-width: 576px) {
+      .sg-offCanvas-dialog {
+        max-width: 500px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+      .sg-offCanvas-sm {
+        max-width: 300px
+      }
+    }
+  }
+  @else if $breakpoint == "lg" {
+    @media (min-width: 992px) {
+      .offCanvas-lg, .offCanvas-xl {
+        max-width: 800px;
+      }
+    }
+  }
+  @else if $breakpoint == "xl" {
+    @media (min-width: 1200px) {
+      .offCanvas-xl {
+        max-width: 1140px;
+      }
+    }
+  }
+}
+*/

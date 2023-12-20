@@ -8,15 +8,19 @@ $container-max-widths: ( sm: 540px, md: 720px, lg: 960px, xl: 1140px, xxl: 1320p
 
 /* z indices */
 $zindex-dropdown:                   1000 !default;
-$zindex-sticky:                     1010 !default;
+$zindex-popover:                    1010 !default;
+$zindex-sticky:                     1020 !default;
 $zindex-fixed:                      1020 !default;
 $zindex-offcanvas-backdrop:         1030 !default;
 $zindex-offcanvas:                  1040 !default;
 $zindex-modal-backdrop:             1050 !default;
 $zindex-modal:                      1060 !default;
-$zindex-popover:                    1070 !default;
 $zindex-tooltip:                    1080 !default;
 $zindex-toast:                      1090 !default;
+
+/* Button */
+//$colors: ("red": #E15554, "green": #3BB273, "yellow": #E1BC29, "blue": #4D9DE0, "purple": #7768AE);
+$colors: ("primary": #0d6efd, "secondary": #6c757d, "success": #198754, "info": #0dcaf0, "warning": #ffc107, "danger": #dc3545, "light": #f8f9fa, "dark": #212529);
 
 /* Input and forms */
 $input-text-color: #212529;
@@ -39,3 +43,31 @@ $input-group-text-border-color: color.mix(black, $input-group-text-background-co
 
 $input-height: calc($input-line-height + $input-padding-x * 2 + 2*$input-border-width);
 
+
+/* Card */
+
+$card-bg-color: #2e3236 !default;
+$card-text-color: white !default;
+$card-border-color: white !default;
+
+$card-header-bg-color: #212529 !default;
+
+
+.popover-header {
+	background-color: var(--nav-color);
+	color: white;
+}
+.popover-body {
+	background-color: var(--background-color);
+	color: var(--text-color);
+	border-bottom-right-radius: 0.5em;
+	border-bottom-left-radius: 0.5em;
+    max-height: 30em;
+    overflow: auto;
+}
+
+/* Table */
+$sg-table-padding: 0.5rem;
+$sg-table-padding-sm: 0.25rem;
+
+/* Dropdown */

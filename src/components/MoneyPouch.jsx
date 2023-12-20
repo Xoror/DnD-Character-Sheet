@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import "./MoneyPouch.scss"
 
-//import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ButtonGroup from '../BootstrapReplace/ButtonGroup'
-import InputGroup from 'react-bootstrap/InputGroup';
+import InputGroup from "../BootstrapReplace/InputGroup";
 
 /*
     This componen displays a general money pouch. The required inputs are:

@@ -3,9 +3,7 @@ import { useDispatch } from "react-redux"
 
 import { usePopper } from 'react-popper';
 
-//import Button from 'react-bootstrap/Button';
 import Button from '../../BootstrapReplace/CustomButton';
-//import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ButtonGroup from '../../BootstrapReplace/ButtonGroup';
 
 
@@ -251,7 +249,7 @@ export const InventoryTable = (props) => {
 										<td> {body.qty} </td>
 										<td> {body.qty*body.weight} </td>
 										<td> {body.qty*parseFloat(body.worth)} </td>
-										<td style={{paddingRight:"0",paddingLeft:"0", zIndex:"2", width:"4.5em"}}>
+										<td style={{paddingRight:"0", paddingLeft:"0", zIndex:"2", width:"4.5em"}}>
 											<div style={{paddingRight:"0",paddingLeft:"0", height:"1.5em", zIndex:"2" }}>
 												<button className="react-icons-button edit" onClick={(event) => startEdit(event, body)} aria-label="edit item button">
 													<RiFileEditFill size="1.5em" className="edit-button" /> 

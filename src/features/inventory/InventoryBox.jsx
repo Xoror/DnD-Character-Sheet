@@ -1,13 +1,10 @@
 import React, { useEffect, useState} from 'react';
 import { useDispatch, useSelector } from "react-redux"
 
-//import Card from 'react-bootstrap/Card'
 import Card from '../../BootstrapReplace/Card';
-//import Button from 'react-bootstrap/Button';
 import Button from '../../BootstrapReplace/CustomButton';
-//import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ButtonGroup from '../../BootstrapReplace/ButtonGroup';
-import Table from 'react-bootstrap/Table';
+import Table from '../../BootstrapReplace/Table';
 
 import { InventoryTable } from './InventoryTable'
 import { addItem, editItem, updateMoney, getClassStartingItems, editContainer, addContainer } from './InventorySlice';
@@ -19,7 +16,7 @@ import { useFocus } from '../../components/CustomHooks';
 
 import { isEqual } from "lodash"
 
-export default function InventoryBox(props) {
+const InventoryBox = (props) => {
     const dispatch = useDispatch()
     const inventory = useSelector(state => state.inventory.inventory)
 	const currency = useSelector(state => state.inventory.currency)
@@ -203,3 +200,5 @@ export default function InventoryBox(props) {
 		</Card>
 	)
 }
+
+export default InventoryBox

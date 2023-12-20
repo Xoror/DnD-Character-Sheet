@@ -16,7 +16,6 @@ import settingsReducer from "../features/settings/SettingsSlice"
 import landingPageReducer from "../features/landingPage/LandingPageSlice"
 import apiReducer from "../features/api/Api"
 
-import { isDesktop } from '../config';
 
 const appReducer = combineReducers({
 	actions: actionsReducer,
@@ -69,25 +68,25 @@ function loadState ()  {
 	*/
   }
 
-  export const configureStoreAsync = () => {
+export const configureStoreAsync = () => {	
 	return new Promise((resolve, reject) => {
 		let preloadedStateLocal = loadState()
 		console.log(preloadedStateLocal)
 		let store = configureStore({reducer: rootReducer, preloadedState: preloadedStateLocal})
 		resolve(store)
 	})
-  }
-  const saveStateAsync = (state, url) => {
-	return new Promise((resolve, reject) => {
-		fetch(url, {
-			method: "POST",
-			headers: { "Content-Type":"application/json"},
-			body: JSON.stringify(state)
-		})
-		.then(r => r.json())
-		.then(res => resolve(res))
+}
+const saveStateAsync = (state, url) => {
+return new Promise((resolve, reject) => {
+	fetch(url, {
+		method: "POST",
+		headers: { "Content-Type":"application/json"},
+		body: JSON.stringify(state)
 	})
-  }
+	.then(r => r.json())
+	.then(res => resolve(res))
+})
+}
 
 const store = configureStore(
     loadState()

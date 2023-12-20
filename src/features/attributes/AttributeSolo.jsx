@@ -1,7 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from "react-redux"
-
-import ListGroup from 'react-bootstrap/ListGroup';
+import { useDispatch } from "react-redux"
 
 import { SkillItem } from './AttributeSkills'
 import { attributeChange } from './AttributesSlice'
