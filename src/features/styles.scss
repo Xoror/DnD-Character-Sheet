@@ -291,6 +291,7 @@ body {
 	  	padding-right: 0.25em;
 	}
 }*/
+/*
 @media (min-width:1200px) {
 	.resource-body {
 		display: grid;
@@ -302,7 +303,8 @@ body {
 		place-items: center;
 	}
 }
-@media (max-width:1199px) and (min-width:992px) {
+*/
+@media (min-width:992px) {
 	.resource-list {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
@@ -517,7 +519,7 @@ body {
 	&:checked {
 		background-color: var(--edit-primary-color);
 	}
-	&:checked::before {
+	&:checked::after {
 		content: "A";
 		font-size: 0.8em;
 		color: var(--text-color);
@@ -1231,13 +1233,13 @@ body {
 /* features */
 
 .feature-card {
-	background-color: var(--main-element-color);
+	background-color: var(--secondary-element-color);
 }
-
-
+/*
 [id="features-list"] .feature-card:nth-child(even) {
 	background-color: var(--secondary-element-color);
 }
+*/
 
 .feature-card .input-group:nth-child(1) {
 	border-radius: 0.375em 0 0 0.375em;

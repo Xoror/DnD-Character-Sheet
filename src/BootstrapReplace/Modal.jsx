@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useMemo, useState, forwardRef } from "react"
+import React, { createContext, useContext, useEffect, useMemo, useRef, useState, forwardRef } from "react"
 import { createPortal } from "react-dom"
 
 import CloseButton from "./CloseButton"

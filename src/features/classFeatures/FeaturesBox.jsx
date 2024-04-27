@@ -84,7 +84,7 @@ const FeaturesBox = () => {
 				</Form>
 			</Modal>
 
-			<div id="features-list">
+			<div className="features-list" id="features-list">
 				{features.map((feature, index) => (
 					<FeatureList feature={feature} id={index} key={`features-list-feature-${feature.name}-${index}`}/>
 				))}

@@ -6,7 +6,7 @@ import { Link, useLocation } from "react-router-dom";
 import Button from '../../BootstrapReplace/CustomButton';
 import Form from '../../BootstrapReplace/Form';
 import Card from '../../BootstrapReplace/Card';
-import Spinner from "../../BootstrapReplace/Spinner";
+import Spinner from "stargazer-ui/Spinner"
 import ListGroup from 'react-bootstrap/ListGroup';
 import Tab from 'react-bootstrap/Tab';
 

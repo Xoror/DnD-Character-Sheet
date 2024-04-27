@@ -48,7 +48,7 @@ export const Sheet = () => {
                         <SpellBox/>
                         <ResourcesMiscProficiencies/>
                     </Col>
-                    <Col xl md={12} className="right-column">
+                    <Col xl lg={12} md={12} className="right-column">
                         <ResistancesBox/>
                         <ThirdColumn/>
                     </Col>
